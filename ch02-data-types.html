@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>2&nbsp; Data Analysis – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./part-describing-data.html" rel="next">
+<link href="./ch01-measurement.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-measurement.html">Part I: Foundation</a></li><li class="breadcrumb-item"><a href="./ch02-data-types.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">2.1</span> Chapter roadmap</a></li>
+  <li><a href="#what-a-dataset-represents-in-movement-science" id="toc-what-a-dataset-represents-in-movement-science" class="nav-link" data-scroll-target="#what-a-dataset-represents-in-movement-science"><span class="header-section-number">2.2</span> What a dataset represents in Movement Science</a>
+  <ul class="collapse">
+  <li><a href="#unit-of-measurement-vs-unit-of-analysis" id="toc-unit-of-measurement-vs-unit-of-analysis" class="nav-link" data-scroll-target="#unit-of-measurement-vs-unit-of-analysis"><span class="header-section-number">2.2.1</span> Unit of measurement vs unit of analysis</a></li>
+  <li><a href="#a-common-movement-science-scenario" id="toc-a-common-movement-science-scenario" class="nav-link" data-scroll-target="#a-common-movement-science-scenario"><span class="header-section-number">2.2.2</span> A common Movement Science scenario</a></li>
+  </ul></li>
+  <li><a href="#types-of-variables-in-movement-science-research" id="toc-types-of-variables-in-movement-science-research" class="nav-link" data-scroll-target="#types-of-variables-in-movement-science-research"><span class="header-section-number">2.3</span> Types of variables in Movement Science research</a>
+  <ul class="collapse">
+  <li><a href="#the-practical-variable-types" id="toc-the-practical-variable-types" class="nav-link" data-scroll-target="#the-practical-variable-types"><span class="header-section-number">2.3.1</span> The practical variable types</a></li>
+  <li><a href="#special-variables-you-will-see-often" id="toc-special-variables-you-will-see-often" class="nav-link" data-scroll-target="#special-variables-you-will-see-often"><span class="header-section-number">2.3.2</span> Special variables you will see often</a></li>
+  </ul></li>
+  <li><a href="#scales-of-measurement-and-interpretation" id="toc-scales-of-measurement-and-interpretation" class="nav-link" data-scroll-target="#scales-of-measurement-and-interpretation"><span class="header-section-number">2.4</span> Scales of measurement and interpretation</a>
+  <ul class="collapse">
+  <li><a href="#the-ordinal-dilemma-in-applied-work" id="toc-the-ordinal-dilemma-in-applied-work" class="nav-link" data-scroll-target="#the-ordinal-dilemma-in-applied-work"><span class="header-section-number">2.4.1</span> The ordinal dilemma in applied work</a></li>
+  </ul></li>
+  <li><a href="#the-structure-of-data-rows-columns-and-identifiers" id="toc-the-structure-of-data-rows-columns-and-identifiers" class="nav-link" data-scroll-target="#the-structure-of-data-rows-columns-and-identifiers"><span class="header-section-number">2.5</span> The structure of data: rows, columns, and identifiers</a>
+  <ul class="collapse">
+  <li><a href="#identifiers-are-not-optional" id="toc-identifiers-are-not-optional" class="nav-link" data-scroll-target="#identifiers-are-not-optional"><span class="header-section-number">2.5.1</span> Identifiers are not optional</a></li>
+  <li><a href="#wide-vs-long-the-conceptual-difference" id="toc-wide-vs-long-the-conceptual-difference" class="nav-link" data-scroll-target="#wide-vs-long-the-conceptual-difference"><span class="header-section-number">2.5.2</span> Wide vs long: the conceptual difference</a></li>
+  <li><a href="#example-wide-vs-long-mini-illustration" id="toc-example-wide-vs-long-mini-illustration" class="nav-link" data-scroll-target="#example-wide-vs-long-mini-illustration"><span class="header-section-number">2.5.3</span> Example: wide vs long (mini illustration)</a></li>
+  </ul></li>
+  <li><a href="#data-coding-principles-names-units-and-missing-data" id="toc-data-coding-principles-names-units-and-missing-data" class="nav-link" data-scroll-target="#data-coding-principles-names-units-and-missing-data"><span class="header-section-number">2.6</span> Data coding principles: names, units, and missing data</a>
+  <ul class="collapse">
+  <li><a href="#variable-naming-and-units" id="toc-variable-naming-and-units" class="nav-link" data-scroll-target="#variable-naming-and-units"><span class="header-section-number">2.6.1</span> Variable naming and units</a></li>
+  <li><a href="#missing-data-is-information" id="toc-missing-data-is-information" class="nav-link" data-scroll-target="#missing-data-is-information"><span class="header-section-number">2.6.2</span> Missing data is information</a></li>
+  </ul></li>
+  <li><a href="#organizing-data-with-tables" id="toc-organizing-data-with-tables" class="nav-link" data-scroll-target="#organizing-data-with-tables"><span class="header-section-number">2.7</span> Organizing data with tables</a>
+  <ul class="collapse">
+  <li><a href="#frequency-tables" id="toc-frequency-tables" class="nav-link" data-scroll-target="#frequency-tables"><span class="header-section-number">2.7.1</span> Frequency tables</a></li>
+  <li><a href="#two-way-tables-cross-tabulations" id="toc-two-way-tables-cross-tabulations" class="nav-link" data-scroll-target="#two-way-tables-cross-tabulations"><span class="header-section-number">2.7.2</span> Two-way tables (cross-tabulations)</a></li>
+  </ul></li>
+  <li><a href="#summarizing-continuous-variables-responsibly" id="toc-summarizing-continuous-variables-responsibly" class="nav-link" data-scroll-target="#summarizing-continuous-variables-responsibly"><span class="header-section-number">2.8</span> Summarizing continuous variables responsibly</a>
+  <ul class="collapse">
+  <li><a href="#two-common-summary-pairs" id="toc-two-common-summary-pairs" class="nav-link" data-scroll-target="#two-common-summary-pairs"><span class="header-section-number">2.8.1</span> Two common summary pairs</a></li>
+  </ul></li>
+  <li><a href="#data-screening-before-analysis" id="toc-data-screening-before-analysis" class="nav-link" data-scroll-target="#data-screening-before-analysis"><span class="header-section-number">2.9</span> Data screening before analysis</a>
+  <ul class="collapse">
+  <li><a href="#range-and-logic-checks" id="toc-range-and-logic-checks" class="nav-link" data-scroll-target="#range-and-logic-checks"><span class="header-section-number">2.9.1</span> Range and logic checks</a></li>
+  <li><a href="#duplicates-and-id-integrity" id="toc-duplicates-and-id-integrity" class="nav-link" data-scroll-target="#duplicates-and-id-integrity"><span class="header-section-number">2.9.2</span> Duplicates and ID integrity</a></li>
+  <li><a href="#outliers-errors-vs-real-extremes" id="toc-outliers-errors-vs-real-extremes" class="nav-link" data-scroll-target="#outliers-errors-vs-real-extremes"><span class="header-section-number">2.9.3</span> Outliers: errors vs real extremes</a></li>
+  <li><a href="#missingness-patterns" id="toc-missingness-patterns" class="nav-link" data-scroll-target="#missingness-patterns"><span class="header-section-number">2.9.4</span> Missingness patterns</a></li>
+  </ul></li>
+  <li><a href="#trials-and-aggregation-decisions" id="toc-trials-and-aggregation-decisions" class="nav-link" data-scroll-target="#trials-and-aggregation-decisions"><span class="header-section-number">2.10</span> Trials and aggregation decisions</a>
+  <ul class="collapse">
+  <li><a href="#what-gets-lost-when-you-aggregate" id="toc-what-gets-lost-when-you-aggregate" class="nav-link" data-scroll-target="#what-gets-lost-when-you-aggregate"><span class="header-section-number">2.10.1</span> What gets lost when you aggregate</a></li>
+  </ul></li>
+  <li><a href="#common-data-organization-mistakes-in-movement-science" id="toc-common-data-organization-mistakes-in-movement-science" class="nav-link" data-scroll-target="#common-data-organization-mistakes-in-movement-science"><span class="header-section-number">2.11</span> Common data organization mistakes in Movement Science</a>
+  <ul class="collapse">
+  <li><a href="#frequent-mistakes-and-why-they-matter" id="toc-frequent-mistakes-and-why-they-matter" class="nav-link" data-scroll-target="#frequent-mistakes-and-why-they-matter"><span class="header-section-number">2.11.1</span> Frequent mistakes and why they matter</a></li>
+  </ul></li>
+  <li><a href="#mini-case-study-from-protocol-to-analysis-ready-dataset" id="toc-mini-case-study-from-protocol-to-analysis-ready-dataset" class="nav-link" data-scroll-target="#mini-case-study-from-protocol-to-analysis-ready-dataset"><span class="header-section-number">2.12</span> Mini case study: from protocol to analysis-ready dataset</a>
+  <ul class="collapse">
+  <li><a href="#a-basic-organization-plan-the-same-plan-you-can-reuse" id="toc-a-basic-organization-plan-the-same-plan-you-can-reuse" class="nav-link" data-scroll-target="#a-basic-organization-plan-the-same-plan-you-can-reuse"><span class="header-section-number">2.12.1</span> A basic organization plan (the same plan you can reuse)</a></li>
+  </ul></li>
+  <li><a href="#chapter-toolkit" id="toc-chapter-toolkit" class="nav-link" data-scroll-target="#chapter-toolkit"><span class="header-section-number">2.13</span> Chapter toolkit</a>
+  <ul class="collapse">
+  <li><a href="#data-readiness-checklist-reusable" id="toc-data-readiness-checklist-reusable" class="nav-link" data-scroll-target="#data-readiness-checklist-reusable"><span class="header-section-number">2.13.1</span> Data readiness checklist (reusable)</a></li>
+  <li><a href="#codebook-template-reusable" id="toc-codebook-template-reusable" class="nav-link" data-scroll-target="#codebook-template-reusable"><span class="header-section-number">2.13.2</span> Codebook template (reusable)</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">2.14</span> Chapter summary</a></li>
+  <li><a href="#key-terms-study-list" id="toc-key-terms-study-list" class="nav-link" data-scroll-target="#key-terms-study-list"><span class="header-section-number">2.15</span> Key terms (study list)</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">2.16</span> Practice: quick checks</a></li>
+  <li><a href="#read-further-optional" id="toc-read-further-optional" class="nav-link" data-scroll-target="#read-further-optional"><span class="header-section-number">2.17</span> Read further (optional)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-measurement.html">Part I: Foundation</a></li><li class="breadcrumb-item"><a href="./ch02-data-types.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></h1>
+<p class="subtitle lead">Data structures, variable types, and screening</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="chapter-roadmap" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">2.1</span> Chapter roadmap</h2>
+<p>Before you can compute a mean, run a t test, or build a regression model, you need data that <em>mean what you think they mean</em>. In Movement Science, data are often messy because we measure people across trials, sessions, limbs, and conditions, sometimes with multiple devices and multiple testers. Chapter 2 focuses on how to classify variables, choose sensible structures, and organize observations so later analyses are valid and interpretable.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Classify variables by type and measurement scale using Movement Science examples.</li>
+<li>Explain the difference between the unit of measurement and the unit of analysis.</li>
+<li>Organize data into analysis-ready tables and summaries.</li>
+<li>Screen data for common problems before running statistical tests.</li>
+<li>Make defensible decisions about trials, aggregation, and repeated observations.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The mindset for Chapter 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Statistical methods assume your dataset is a faithful record of what happened. If your data structure is wrong, you can compute impressive statistics that answer the wrong question. This chapter helps you avoid that outcome.</p>
+</div>
+</div>
+</section>
+<section id="what-a-dataset-represents-in-movement-science" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="what-a-dataset-represents-in-movement-science"><span class="header-section-number">2.2</span> What a dataset represents in Movement Science</h2>
+<p>A dataset is a structured record of observations. Each observation is created by a process: who was measured, under what conditions, using what protocol, and when. In Movement Science research, observations are rarely “one and done.” A single participant might produce multiple trials, multiple sessions, and multiple outcome measures. This is powerful because repeated observations increase information. It is also risky because repeated observations can be mistakenly treated as independent when they are not.</p>
+<section id="unit-of-measurement-vs-unit-of-analysis" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="unit-of-measurement-vs-unit-of-analysis"><span class="header-section-number">2.2.1</span> Unit of measurement vs unit of analysis</h3>
+<p>Two phrases that sound similar but often create confusion are the <strong>unit of measurement</strong> and the <strong>unit of analysis</strong>.</p>
+<ul>
+<li>The <strong>unit of measurement</strong> is what you directly measured. For example, a <em>single CMJ trial</em>.</li>
+<li>The <strong>unit of analysis</strong> is what your statistical method treats as the main observational unit. For example, the <em>participant</em>.</li>
+</ul>
+<p>You can measure at one level and analyze at another, but you must be explicit.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Why this matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you treat 3 trials from each participant as 3 independent cases, you inflate your sample size and can make results look more certain than they truly are. This issue is often called <strong>pseudo-replication</strong>.</p>
+</div>
+</div>
+</section>
+<section id="a-common-movement-science-scenario" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="a-common-movement-science-scenario"><span class="header-section-number">2.2.2</span> A common Movement Science scenario</h3>
+<p>Suppose you measure 20 participants, each performing 5 trials in two conditions. You now have 20 × 5 × 2 = 200 trial rows available. That does not automatically mean you have 200 independent observations. In many designs, your true independent units are still the 20 participants because trials are nested within participants.</p>
+<div id="fig-nesting" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-nesting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ch02/fig-nesting.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;2.1: Data structure: trials nested within conditions and sessions"><img src="images/ch02/fig-nesting.svg" class="img-fluid figure-img" style="width:50.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-nesting-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Data structure: trials nested within conditions and sessions
+</figcaption>
+</figure>
+</div>
+<div class="cell" data-eval="false" data-out-width="50%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="types-of-variables-in-movement-science-research" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="types-of-variables-in-movement-science-research"><span class="header-section-number">2.3</span> Types of variables in Movement Science research</h2>
+<p>A <strong>variable</strong> is any characteristic that can vary across people, time, conditions, or trials. Some variables represent outcomes (what you care about), while others represent predictors, grouping factors, or design information (time, condition, session).</p>
+<section id="the-practical-variable-types" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="the-practical-variable-types"><span class="header-section-number">2.3.1</span> The practical variable types</h3>
+<p>The categories below are more useful than memorizing definitions because they map directly to how you summarize and model data.</p>
+<p><strong>Continuous variables</strong> can take on many possible values along a continuum. Many Movement Science outcomes are continuous.</p>
+<p>Examples: jump height (cm), peak force (N), reaction time (ms), joint angle (degrees), VO₂ (mL·kg⁻¹·min⁻¹).</p>
+<p><strong>Discrete variables</strong> take on separated values, often counts.</p>
+<p>Examples: number of errors, number of falls, number of repetitions completed, number of injuries.</p>
+<p><strong>Binary variables</strong> have two categories.</p>
+<p>Examples: injury yes or no, success or failure, left vs right limb (if coded as two levels).</p>
+<p><strong>Categorical variables</strong> have multiple categories, often representing groups or conditions.</p>
+<p>Examples: intervention group (strength, plyometric, control), sport (soccer, basketball, track), task condition (eyes open, eyes closed).</p>
+</section>
+<section id="special-variables-you-will-see-often" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="special-variables-you-will-see-often"><span class="header-section-number">2.3.2</span> Special variables you will see often</h3>
+<p><strong>Counts, rates, and proportions.</strong> Counts are totals, rates incorporate a denominator (exposures, time), and proportions are bounded between 0 and 1 (or 0% to 100%). These behave differently than typical continuous variables.</p>
+<ul>
+<li>Count: number of injuries in a season</li>
+<li>Rate: injuries per 1000 athlete-exposures</li>
+<li>Proportion: successful free throws out of attempts, balance task success rate</li>
+</ul>
+<p><strong>Composite scores and indices.</strong> Many clinical and performance measures are composites (sums or weighted combinations). Composites can be useful, but you must know what the score represents and whether it is treated as ordinal or approximately continuous.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example box: “time” is not always simple
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Time is often treated as continuous, but the meaning depends on context. Reaction time is typically continuous. Time-to-event (like return-to-play time) is also time, but it has different statistical behavior because many participants may not experience the event during the study window.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="scales-of-measurement-and-interpretation" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="scales-of-measurement-and-interpretation"><span class="header-section-number">2.4</span> Scales of measurement and interpretation</h2>
+<p>Measurement scales describe what the values <em>mean</em> and what operations are logically valid. The scale does not merely describe the data, it constrains how you can summarize and compare.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 35%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scale</th>
+<th>What values represent</th>
+<th>Movement Science example</th>
+<th>What is meaningful</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nominal</td>
+<td>categories, no order</td>
+<td>sport, injury type, group</td>
+<td>equal vs not equal; counts, proportions</td>
+</tr>
+<tr class="even">
+<td>Ordinal</td>
+<td>ordered categories</td>
+<td>Likert items, pain categories, rank</td>
+<td>order; medians; comparisons by ranks</td>
+</tr>
+<tr class="odd">
+<td>Interval</td>
+<td>equal intervals, no true zero</td>
+<td>temperature (°C), some standardized scores</td>
+<td>differences; means and SD are common</td>
+</tr>
+<tr class="even">
+<td>Ratio</td>
+<td>equal intervals plus true zero</td>
+<td>force, time, distance, mass, VO₂</td>
+<td>differences and ratios; most statistics</td>
+</tr>
+</tbody>
+</table>
+<section id="the-ordinal-dilemma-in-applied-work" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="the-ordinal-dilemma-in-applied-work"><span class="header-section-number">2.4.1</span> The ordinal dilemma in applied work</h3>
+<p>In Movement Science, ordinal variables are common: pain scales, ratings of perceived exertion, readiness ratings, and many survey items. In applied research, ordinal scores are sometimes summarized with means, especially when they have many response options and behave approximately like a continuous variable.</p>
+<p>A practical guideline is to ask: does the scale behave like equal steps? If the difference between 2 and 3 is not comparable to the difference between 7 and 8, treating the variable as continuous can be misleading. Later chapters will revisit this idea when discussing nonparametric methods and model choices.</p>
+</section>
+</section>
+<section id="the-structure-of-data-rows-columns-and-identifiers" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="the-structure-of-data-rows-columns-and-identifiers"><span class="header-section-number">2.5</span> The structure of data: rows, columns, and identifiers</h2>
+<p>A dataset is easiest to analyze when:</p>
+<ul>
+<li>each row is one observation,</li>
+<li>each column is one variable,</li>
+<li>each cell contains a single value.</li>
+</ul>
+<p>This is sometimes called <em>tidy data</em>.</p>
+<section id="identifiers-are-not-optional" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="identifiers-are-not-optional"><span class="header-section-number">2.5.1</span> Identifiers are not optional</h3>
+<p>Movement Science datasets usually require identifiers so you can track nesting and repeated measures:</p>
+<ul>
+<li>participant ID</li>
+<li>session ID</li>
+<li>condition</li>
+<li>trial number</li>
+<li>limb side (if relevant)</li>
+</ul>
+<p>Without identifiers, you can still compute numbers, but you cannot defend your analysis.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Minimum viable dataset
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For repeated-measures or trial-based data, you should almost always be able to answer: <em>Which participant? Which session? Which condition? Which trial?</em></p>
+</div>
+</div>
+</section>
+<section id="wide-vs-long-the-conceptual-difference" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="wide-vs-long-the-conceptual-difference"><span class="header-section-number">2.5.2</span> Wide vs long: the conceptual difference</h3>
+<p><strong>Wide format</strong> stores repeated measures as separate columns. This can be convenient for certain comparisons, but it becomes unwieldy when you have many time points or conditions.</p>
+<p><strong>Long format</strong> stores repeated measures as separate rows, with a column that indicates the condition or time point. Long format is often more flexible and makes grouped summaries easier.</p>
+<div id="fig-wide-long" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wide-long-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/ch02/fig-wide-long.svg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2.2: Wide vs Long data structure choices"><img src="images/ch02/fig-wide-long.svg" class="img-fluid figure-img" style="width:40.0%"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wide-long-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Wide vs Long data structure choices
+</figcaption>
+</figure>
+</div>
+<div class="cell" data-eval="false" data-out-width="50%" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="example-wide-vs-long-mini-illustration" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="example-wide-vs-long-mini-illustration"><span class="header-section-number">2.5.3</span> Example: wide vs long (mini illustration)</h3>
+<p><strong>Wide (one row per participant):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th style="text-align: right;">pre_cmj</th>
+<th style="text-align: right;">post_cmj</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01</td>
+<td style="text-align: right;">32.4</td>
+<td style="text-align: right;">35.1</td>
+</tr>
+<tr class="even">
+<td>02</td>
+<td style="text-align: right;">28.9</td>
+<td style="text-align: right;">29.8</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Long (multiple rows per participant):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>id</th>
+<th>time</th>
+<th style="text-align: right;">cmj</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>01</td>
+<td>pre</td>
+<td style="text-align: right;">32.4</td>
+</tr>
+<tr class="even">
+<td>01</td>
+<td>post</td>
+<td style="text-align: right;">35.1</td>
+</tr>
+<tr class="odd">
+<td>02</td>
+<td>pre</td>
+<td style="text-align: right;">28.9</td>
+</tr>
+<tr class="even">
+<td>02</td>
+<td>post</td>
+<td style="text-align: right;">29.8</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="data-coding-principles-names-units-and-missing-data" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="data-coding-principles-names-units-and-missing-data"><span class="header-section-number">2.6</span> Data coding principles: names, units, and missing data</h2>
+<p>Good coding practices are boring in the moment and lifesaving later. They reduce confusion, prevent silent errors, and make your analysis reproducible.</p>
+<section id="variable-naming-and-units" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="variable-naming-and-units"><span class="header-section-number">2.6.1</span> Variable naming and units</h3>
+<p>A variable name should be short and stable. A label or description can be more human-friendly. Units should be recorded somewhere consistently, either in a codebook or in variable labels.</p>
+<p>Common unit mistakes in Movement Science include mixing cm and m, ms and s, N and kgf, or degrees and radians. These mistakes are avoidable if units are explicit from the beginning.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A simple naming convention
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use lowercase with underscores, avoid spaces, and keep units out of the name if you maintain a codebook. Example: <code>cmj_height</code> with units recorded as cm in the codebook.</p>
+</div>
+</div>
+</section>
+<section id="missing-data-is-information" class="level3" data-number="2.6.2">
+<h3 data-number="2.6.2" class="anchored" data-anchor-id="missing-data-is-information"><span class="header-section-number">2.6.2</span> Missing data is information</h3>
+<p>Missingness is not just an inconvenience. It often has a reason: equipment failure, participant fatigue, pain, dropout, or protocol deviations. The pattern of missingness can influence your conclusions.</p>
+<p>At this stage, your goal is not to master missing data theory. Your goal is to:</p>
+<ol type="1">
+<li>identify what is missing,</li>
+<li>document why it is missing when possible,</li>
+<li>avoid creating missingness accidentally through coding errors.</li>
+</ol>
+</section>
+</section>
+<section id="organizing-data-with-tables" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="organizing-data-with-tables"><span class="header-section-number">2.7</span> Organizing data with tables</h2>
+<p>Tables are not only for final results. In early analysis, tables act as audits. They show whether your sample looks like what you think you collected and whether categories are coded consistently.</p>
+<section id="frequency-tables" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="frequency-tables"><span class="header-section-number">2.7.1</span> Frequency tables</h3>
+<p>Frequency tables summarize categorical variables.</p>
+<p>Example questions:</p>
+<ul>
+<li>How many participants are in each group?</li>
+<li>Are there unexpected categories?</li>
+<li>Are labels consistent?</li>
+</ul>
+<p>A frequency table should be one of the first things you generate for key categorical variables.</p>
+</section>
+<section id="two-way-tables-cross-tabulations" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="two-way-tables-cross-tabulations"><span class="header-section-number">2.7.2</span> Two-way tables (cross-tabulations)</h3>
+<p>Cross-tabulations summarize two categorical variables at once.</p>
+<p>Example questions:</p>
+<ul>
+<li>Is sex distribution similar across intervention groups?</li>
+<li>Are dropouts concentrated in one condition?</li>
+</ul>
+<p>Even before inferential testing, these tables help you detect imbalance or data entry issues.</p>
+</section>
+</section>
+<section id="summarizing-continuous-variables-responsibly" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="summarizing-continuous-variables-responsibly"><span class="header-section-number">2.8</span> Summarizing continuous variables responsibly</h2>
+<p>Continuous variables are often summarized with a measure of center and a measure of spread. The choice should match the distribution and the research context.</p>
+<section id="two-common-summary-pairs" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="two-common-summary-pairs"><span class="header-section-number">2.8.1</span> Two common summary pairs</h3>
+<ul>
+<li><strong>Mean and standard deviation</strong>: useful when distributions are roughly symmetric and outliers are not extreme.</li>
+<li><strong>Median and interquartile range</strong>: useful when distributions are skewed, bounded, or contain outliers.</li>
+</ul>
+<p>In Movement Science, reaction time and time-to-completion variables can be skewed. Pain or disability scores can be bounded. Force and power measures can be influenced by rare extreme performances. Summaries should reflect these realities.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 27%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Recommended summaries</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>roughly symmetric distribution</td>
+<td>mean and SD</td>
+<td>center and variability are well represented</td>
+</tr>
+<tr class="even">
+<td>skewed distribution or outliers</td>
+<td>median and IQR</td>
+<td>robust to extreme values</td>
+</tr>
+<tr class="odd">
+<td>bounded scales</td>
+<td>median and IQR often helpful</td>
+<td>avoids misleading averages near limits</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="data-screening-before-analysis" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="data-screening-before-analysis"><span class="header-section-number">2.9</span> Data screening before analysis</h2>
+<p>Data screening is a short, structured check to make sure your dataset is plausible. It does not require advanced statistics. It requires attention.</p>
+<section id="range-and-logic-checks" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="range-and-logic-checks"><span class="header-section-number">2.9.1</span> Range and logic checks</h3>
+<p>Ask whether values are possible.</p>
+<ul>
+<li>negative times are impossible</li>
+<li>joint angles outside physiological ranges are suspicious</li>
+<li>VO₂ values far outside realistic ranges may indicate unit problems or entry errors</li>
+</ul>
+</section>
+<section id="duplicates-and-id-integrity" class="level3" data-number="2.9.2">
+<h3 data-number="2.9.2" class="anchored" data-anchor-id="duplicates-and-id-integrity"><span class="header-section-number">2.9.2</span> Duplicates and ID integrity</h3>
+<p>Duplicates can be true repeats (multiple trials) or accidental duplication (copy-paste errors). IDs should match the design: if you expect 20 participants and see 21 unique IDs, investigate.</p>
+</section>
+<section id="outliers-errors-vs-real-extremes" class="level3" data-number="2.9.3">
+<h3 data-number="2.9.3" class="anchored" data-anchor-id="outliers-errors-vs-real-extremes"><span class="header-section-number">2.9.3</span> Outliers: errors vs real extremes</h3>
+<p>Outliers are not automatically bad. Elite performance can be a real outlier. But if an outlier is created by a unit conversion mistake or a decimal error, it should be corrected.</p>
+<p>A useful habit is to classify outliers as:</p>
+<ul>
+<li>likely data error (wrong unit, typo, device glitch)</li>
+<li>plausible but extreme (real performance)</li>
+<li>unknown (requires checking notes)</li>
+</ul>
+</section>
+<section id="missingness-patterns" class="level3" data-number="2.9.4">
+<h3 data-number="2.9.4" class="anchored" data-anchor-id="missingness-patterns"><span class="header-section-number">2.9.4</span> Missingness patterns</h3>
+<p>Look for whether missingness is clustered:</p>
+<ul>
+<li>do missing values occur mostly in one session?</li>
+<li>mostly in one group?</li>
+<li>mostly at post-test?</li>
+</ul>
+<p>These patterns often reveal protocol or fatigue issues.</p>
+<div id="fig-screening" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-screening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div style="text-align: center;">
+<p><strong>Data screening workflow:</strong></p>
+<ul>
+<li><strong>Range and logic checks</strong></li>
+<li><strong>Category and label checks</strong></li>
+<li><strong>Duplicates and IDs</strong></li>
+<li><strong>Outliers: error or extreme?</strong></li>
+<li><strong>Missingness patterns</strong>
+<ul>
+<li>→ Document reasons when possible</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-screening-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Data screening workflow
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="trials-and-aggregation-decisions" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="trials-and-aggregation-decisions"><span class="header-section-number">2.10</span> Trials and aggregation decisions</h2>
+<p>Movement Science protocols frequently collect multiple trials per condition. This raises a practical question: what should become the analysis variable?</p>
+<p>Common choices:</p>
+<ul>
+<li>mean of trials</li>
+<li>best trial</li>
+<li>median of trials</li>
+<li>model trial-to-trial variability explicitly</li>
+</ul>
+<section id="what-gets-lost-when-you-aggregate" class="level3" data-number="2.10.1">
+<h3 data-number="2.10.1" class="anchored" data-anchor-id="what-gets-lost-when-you-aggregate"><span class="header-section-number">2.10.1</span> What gets lost when you aggregate</h3>
+<p>Aggregation simplifies the dataset and can reduce random noise, but it can also hide meaningful patterns.</p>
+<ul>
+<li>In motor learning, variability across trials can be part of the phenomenon.</li>
+<li>In fatigue research, performance might systematically decline across trials.</li>
+<li>In skill assessment, best performance might reflect capacity, while average reflects typical performance.</li>
+</ul>
+<p>A defensible choice depends on the question. You should write your aggregation rule before analyzing and apply it consistently.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>A simple decision rule
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If your question is about <strong>capacity</strong>, best trial may be defensible. If your question is about <strong>typical performance</strong>, mean or median is usually more defensible. If your question is about <strong>change across attempts</strong>, do not aggregate away the pattern.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="common-data-organization-mistakes-in-movement-science" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="common-data-organization-mistakes-in-movement-science"><span class="header-section-number">2.11</span> Common data organization mistakes in Movement Science</h2>
+<p>Many problems are not mathematical. They are organizational.</p>
+<section id="frequent-mistakes-and-why-they-matter" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="frequent-mistakes-and-why-they-matter"><span class="header-section-number">2.11.1</span> Frequent mistakes and why they matter</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 31%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Mistake</th>
+<th>What it looks like</th>
+<th>Why it is harmful</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mixed units</td>
+<td>some heights in cm, others in m</td>
+<td>creates fake differences and outliers</td>
+</tr>
+<tr class="even">
+<td>Inconsistent labels</td>
+<td>control, Control, CON</td>
+<td>breaks grouping and tables</td>
+</tr>
+<tr class="odd">
+<td>Missing stored as text</td>
+<td>“NA” or “.” as values</td>
+<td>prevents numeric summaries</td>
+</tr>
+<tr class="even">
+<td>Protocol changes undocumented</td>
+<td>different warm-ups across sessions</td>
+<td>confounds interpretation</td>
+</tr>
+<tr class="odd">
+<td>Losing raw trials</td>
+<td>only saving averages</td>
+<td>prevents checking reliability and variability</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The silent failure mode
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The most dangerous errors are the ones that do not trigger an obvious warning. A dataset can look clean and still encode a wrong structure or wrong units.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="mini-case-study-from-protocol-to-analysis-ready-dataset" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="mini-case-study-from-protocol-to-analysis-ready-dataset"><span class="header-section-number">2.12</span> Mini case study: from protocol to analysis-ready dataset</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example box: CMJ trials, pre/post, two groups
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Study idea:</strong> Two groups complete different 6-week programs (plyometric vs control). CMJ height is measured pre and post. Each testing day includes 3 trials.</p>
+<p><strong>Design questions you must answer early:</strong></p>
+<ul>
+<li>Is the unit of analysis the participant or the trial?</li>
+<li>Will you analyze the mean of 3 trials, best of 3, or keep trial-level data?</li>
+<li>How will you label time (pre/post) and group (plyo/control)?</li>
+<li>What identifiers do you need to ensure you do not mix participants or sessions?</li>
+</ul>
+<p><strong>Analysis-ready structure:</strong> a long format dataset with columns: <code>id</code>, <code>group</code>, <code>time</code>, <code>trial</code>, <code>cmj_height</code>, and optional notes for anomalies.</p>
+<p>This structure allows you to compute trial summaries, visualize distributions, and later perform inferential analyses without rebuilding the dataset.</p>
+</div>
+</div>
+<section id="a-basic-organization-plan-the-same-plan-you-can-reuse" class="level3" data-number="2.12.1">
+<h3 data-number="2.12.1" class="anchored" data-anchor-id="a-basic-organization-plan-the-same-plan-you-can-reuse"><span class="header-section-number">2.12.1</span> A basic organization plan (the same plan you can reuse)</h3>
+<ol type="1">
+<li>Define identifiers (id, session, condition/time, trial)</li>
+<li>Define variable names and units</li>
+<li>Enter or import raw data</li>
+<li>Run screening checks (ranges, categories, missingness)</li>
+<li>Create summary tables (group and time)</li>
+<li>Decide on aggregation rules, then create derived summary variables</li>
+</ol>
+</section>
+</section>
+<section id="chapter-toolkit" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="chapter-toolkit"><span class="header-section-number">2.13</span> Chapter toolkit</h2>
+<section id="data-readiness-checklist-reusable" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="data-readiness-checklist-reusable"><span class="header-section-number">2.13.1</span> Data readiness checklist (reusable)</h3>
+<p>Before any statistical test, confirm:</p>
+<ul>
+<li>I can identify every observation by participant, condition/time, and trial/session.</li>
+<li>Units are consistent and documented.</li>
+<li>Categories are coded consistently with no unexpected labels.</li>
+<li>Missing values are clearly represented and not stored as text in numeric columns.</li>
+<li>I have checked ranges, duplicates, and outliers.</li>
+<li>I know whether I am analyzing trials or participants, and why.</li>
+</ul>
+</section>
+<section id="codebook-template-reusable" class="level3" data-number="2.13.2">
+<h3 data-number="2.13.2" class="anchored" data-anchor-id="codebook-template-reusable"><span class="header-section-number">2.13.2</span> Codebook template (reusable)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 29%">
+<col style="width: 5%">
+<col style="width: 10%">
+<col style="width: 24%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable name</th>
+<th>Description</th>
+<th>Units</th>
+<th>Type</th>
+<th>Allowed values / range</th>
+<th>Missing code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>id</td>
+<td>participant identifier</td>
+<td>none</td>
+<td>nominal</td>
+<td>unique</td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td>group</td>
+<td>intervention group</td>
+<td>none</td>
+<td>nominal</td>
+<td>plyo, control</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>time</td>
+<td>measurement time point</td>
+<td>none</td>
+<td>nominal</td>
+<td>pre, post</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>trial</td>
+<td>trial number</td>
+<td>none</td>
+<td>discrete</td>
+<td>1–3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td>cmj_height</td>
+<td>countermovement jump height</td>
+<td>cm</td>
+<td>continuous</td>
+<td>plausible range</td>
+<td>system missing</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">2.14</span> Chapter summary</h2>
+<p>This chapter introduced the language and structure needed to organize Movement Science data. You learned how variable types and measurement scales constrain what summaries make sense, why identifiers and the unit of analysis matter, how data structure (wide vs long) affects what you can do later, and how to screen datasets before analysis. These steps prevent common mistakes that can undermine later statistical inference.</p>
+</section>
+<section id="key-terms-study-list" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="key-terms-study-list"><span class="header-section-number">2.15</span> Key terms (study list)</h2>
+<ul>
+<li>variable type</li>
+<li>measurement scale</li>
+<li>unit of measurement</li>
+<li>unit of analysis</li>
+<li>repeated measures</li>
+<li>identifiers</li>
+<li>wide format</li>
+<li>long format</li>
+<li>frequency table</li>
+<li>cross-tabulation</li>
+<li>outlier</li>
+<li>missing data</li>
+<li>aggregation</li>
+</ul>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="2.16">
+<h2 data-number="2.16" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">2.16</span> Practice: quick checks</h2>
+<ol type="1">
+<li>A study measures 12 participants, each performing 5 trials in two conditions. What is the unit of measurement? What is the unit of analysis if you plan to compare conditions using each participant’s mean performance?</li>
+<li>Provide one example of a variable that is nominal, one that is ordinal, and one that is ratio scale in Movement Science.</li>
+<li>You discover that half of the participants have jump height recorded in meters while the rest are recorded in centimeters. Describe a safe plan to detect and fix the issue.</li>
+<li>Why might analyzing “best trial” lead to different conclusions than analyzing “mean of trials”?</li>
+</ol>
+</section>
+<section id="read-further-optional" class="level2" data-number="2.17">
+<h2 data-number="2.17" class="anchored" data-anchor-id="read-further-optional"><span class="header-section-number">2.17</span> Read further (optional)</h2>
+<p>Look for practical resources on research data management, tidy data principles, and applied measurement practices in Movement Science. The goal is not software expertise. The goal is building datasets that support defensible scientific conclusions.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chapter 3 introduces percentiles and performance ranking tools, which are widely used in testing, screening, and clinical interpretation.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch01-measurement.html" class="pagination-link" aria-label="Measurement">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./part-describing-data.html" class="pagination-link" aria-label="Part II: Describing Data">
+        <span class="nav-page-text">Part II: Describing Data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

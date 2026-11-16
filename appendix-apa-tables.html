@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix G — APA-Style Tables: Converting SPSS Output – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appendix-apa-reporting.html" rel="next">
+<link href="./appendix-factorial-anova-decision-tool.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-statistical-calculators.html">Statistical Tools</a></li><li class="breadcrumb-item"><a href="./appendix-apa-tables.html"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-apa-rules" id="toc-sec-apa-rules" class="nav-link active" data-scroll-target="#sec-apa-rules"><span class="header-section-number">G.1</span> Quick APA Table Formatting Rules</a></li>
+  <li><a href="#sec-ai-tools" id="toc-sec-ai-tools" class="nav-link" data-scroll-target="#sec-ai-tools"><span class="header-section-number">G.2</span> Using AI Tools for Conversion</a></li>
+  <li><a href="#sec-word-formatting" id="toc-sec-word-formatting" class="nav-link" data-scroll-target="#sec-word-formatting"><span class="header-section-number">G.3</span> Formatting Tables in Microsoft Word</a>
+  <ul class="collapse">
+  <li><a href="#fixing-table-borders-in-word" id="toc-fixing-table-borders-in-word" class="nav-link" data-scroll-target="#fixing-table-borders-in-word"><span class="header-section-number">G.3.1</span> Fixing Table Borders in Word</a></li>
+  <li><a href="#sec-alignment-rules" id="toc-sec-alignment-rules" class="nav-link" data-scroll-target="#sec-alignment-rules"><span class="header-section-number">G.3.2</span> Alignment Best Practices</a></li>
+  </ul></li>
+  <li><a href="#sec-t-test-indep" id="toc-sec-t-test-indep" class="nav-link" data-scroll-target="#sec-t-test-indep"><span class="header-section-number">G.4</span> Independent Samples <em>t</em>-Test</a>
+  <ul class="collapse">
+  <li><a href="#spss-output-example" id="toc-spss-output-example" class="nav-link" data-scroll-target="#spss-output-example"><span class="header-section-number">G.4.1</span> SPSS Output Example</a></li>
+  <li><a href="#apa-formatted-table" id="toc-apa-formatted-table" class="nav-link" data-scroll-target="#apa-formatted-table"><span class="header-section-number">G.4.2</span> APA-Formatted Table</a></li>
+  <li><a href="#html-version-for-wordgoogle-docs" id="toc-html-version-for-wordgoogle-docs" class="nav-link" data-scroll-target="#html-version-for-wordgoogle-docs"><span class="header-section-number">G.4.3</span> HTML Version for Word/Google Docs</a></li>
+  <li><a href="#template-copy-modify" id="toc-template-copy-modify" class="nav-link" data-scroll-target="#template-copy-modify"><span class="header-section-number">G.4.4</span> Template (Copy &amp; Modify)</a></li>
+  </ul></li>
+  <li><a href="#sec-t-test-paired" id="toc-sec-t-test-paired" class="nav-link" data-scroll-target="#sec-t-test-paired"><span class="header-section-number">G.5</span> Paired Samples <em>t</em>-Test</a>
+  <ul class="collapse">
+  <li><a href="#spss-output-example-1" id="toc-spss-output-example-1" class="nav-link" data-scroll-target="#spss-output-example-1"><span class="header-section-number">G.5.1</span> SPSS Output Example</a></li>
+  <li><a href="#apa-formatted-table-1" id="toc-apa-formatted-table-1" class="nav-link" data-scroll-target="#apa-formatted-table-1"><span class="header-section-number">G.5.2</span> APA-Formatted Table</a></li>
+  <li><a href="#html-version-for-wordgoogle-docs-1" id="toc-html-version-for-wordgoogle-docs-1" class="nav-link" data-scroll-target="#html-version-for-wordgoogle-docs-1"><span class="header-section-number">G.5.3</span> HTML Version for Word/Google Docs</a></li>
+  <li><a href="#template-copy-modify-1" id="toc-template-copy-modify-1" class="nav-link" data-scroll-target="#template-copy-modify-1"><span class="header-section-number">G.5.4</span> Template (Copy &amp; Modify)</a></li>
+  </ul></li>
+  <li><a href="#sec-anova" id="toc-sec-anova" class="nav-link" data-scroll-target="#sec-anova"><span class="header-section-number">G.6</span> One-Way ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#spss-output-example-2" id="toc-spss-output-example-2" class="nav-link" data-scroll-target="#spss-output-example-2"><span class="header-section-number">G.6.1</span> SPSS Output Example</a></li>
+  <li><a href="#apa-formatted-table-2" id="toc-apa-formatted-table-2" class="nav-link" data-scroll-target="#apa-formatted-table-2"><span class="header-section-number">G.6.2</span> APA-Formatted Table</a></li>
+  <li><a href="#html-version-for-wordgoogle-docs-2" id="toc-html-version-for-wordgoogle-docs-2" class="nav-link" data-scroll-target="#html-version-for-wordgoogle-docs-2"><span class="header-section-number">G.6.3</span> HTML Version for Word/Google Docs</a></li>
+  <li><a href="#template-copy-modify-2" id="toc-template-copy-modify-2" class="nav-link" data-scroll-target="#template-copy-modify-2"><span class="header-section-number">G.6.4</span> Template (Copy &amp; Modify)</a></li>
+  </ul></li>
+  <li><a href="#sec-correlation" id="toc-sec-correlation" class="nav-link" data-scroll-target="#sec-correlation"><span class="header-section-number">G.7</span> Correlation Matrix</a>
+  <ul class="collapse">
+  <li><a href="#spss-output-example-3" id="toc-spss-output-example-3" class="nav-link" data-scroll-target="#spss-output-example-3"><span class="header-section-number">G.7.1</span> SPSS Output Example</a></li>
+  <li><a href="#apa-formatted-table-3" id="toc-apa-formatted-table-3" class="nav-link" data-scroll-target="#apa-formatted-table-3"><span class="header-section-number">G.7.2</span> APA-Formatted Table</a></li>
+  <li><a href="#html-version-for-wordgoogle-docs-3" id="toc-html-version-for-wordgoogle-docs-3" class="nav-link" data-scroll-target="#html-version-for-wordgoogle-docs-3"><span class="header-section-number">G.7.3</span> HTML Version for Word/Google Docs</a></li>
+  <li><a href="#template-copy-modify-3" id="toc-template-copy-modify-3" class="nav-link" data-scroll-target="#template-copy-modify-3"><span class="header-section-number">G.7.4</span> Template (Copy &amp; Modify)</a></li>
+  </ul></li>
+  <li><a href="#sec-descriptives" id="toc-sec-descriptives" class="nav-link" data-scroll-target="#sec-descriptives"><span class="header-section-number">G.8</span> Descriptive Statistics</a>
+  <ul class="collapse">
+  <li><a href="#spss-output-example-4" id="toc-spss-output-example-4" class="nav-link" data-scroll-target="#spss-output-example-4"><span class="header-section-number">G.8.1</span> SPSS Output Example</a></li>
+  <li><a href="#apa-formatted-table-4" id="toc-apa-formatted-table-4" class="nav-link" data-scroll-target="#apa-formatted-table-4"><span class="header-section-number">G.8.2</span> APA-Formatted Table</a></li>
+  <li><a href="#html-version-for-wordgoogle-docs-4" id="toc-html-version-for-wordgoogle-docs-4" class="nav-link" data-scroll-target="#html-version-for-wordgoogle-docs-4"><span class="header-section-number">G.8.3</span> HTML Version for Word/Google Docs</a></li>
+  <li><a href="#template-copy-modify-4" id="toc-template-copy-modify-4" class="nav-link" data-scroll-target="#template-copy-modify-4"><span class="header-section-number">G.8.4</span> Template (Copy &amp; Modify)</a></li>
+  </ul></li>
+  <li><a href="#sec-conversion-steps" id="toc-sec-conversion-steps" class="nav-link" data-scroll-target="#sec-conversion-steps"><span class="header-section-number">G.9</span> Step-by-Step Conversion Guide</a>
+  <ul class="collapse">
+  <li><a href="#manual-conversion-process" id="toc-manual-conversion-process" class="nav-link" data-scroll-target="#manual-conversion-process"><span class="header-section-number">G.9.1</span> Manual Conversion Process</a></li>
+  <li><a href="#using-ai-to-speed-up-conversion" id="toc-using-ai-to-speed-up-conversion" class="nav-link" data-scroll-target="#using-ai-to-speed-up-conversion"><span class="header-section-number">G.9.2</span> Using AI to Speed Up Conversion</a></li>
+  </ul></li>
+  <li><a href="#sec-common-mistakes" id="toc-sec-common-mistakes" class="nav-link" data-scroll-target="#sec-common-mistakes"><span class="header-section-number">G.10</span> Common Formatting Mistakes to Avoid</a></li>
+  <li><a href="#sec-resources" id="toc-sec-resources" class="nav-link" data-scroll-target="#sec-resources"><span class="header-section-number">G.11</span> Additional Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-statistical-calculators.html">Statistical Tools</a></li><li class="breadcrumb-item"><a href="./appendix-apa-tables.html"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-apa-tables" class="quarto-section-identifier">Appendix G — APA-Style Tables: Converting SPSS Output</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This appendix provides guidance for converting SPSS output tables into APA-formatted tables suitable for academic papers and publications. While automated conversion isn’t available within this book, you’ll learn the formatting rules and find templates you can adapt.</p>
+<section id="sec-apa-rules" class="level2" data-number="G.1">
+<h2 data-number="G.1" class="anchored" data-anchor-id="sec-apa-rules"><span class="header-section-number">G.1</span> Quick APA Table Formatting Rules</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Essential APA Formatting Guidelines
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Numbers</strong>: Report to 2 decimal places (except <em>p</em>-values: 3 decimals)</li>
+<li><strong>Italics</strong>: Variable names, statistics symbols (<em>M</em>, <em>SD</em>, <em>t</em>, <em>F</em>, <em>p</em>, <em>r</em>, <em>df</em>)</li>
+<li><strong>Alignment</strong>: First column left-aligned; headers and numbers center-aligned for readability</li>
+<li><strong>Lines</strong>: Horizontal lines only (top, below header, bottom); no vertical lines</li>
+<li><strong>Title</strong>: Numbered (e.g., “Table 1”), brief but descriptive, above table</li>
+<li><strong>Note</strong>: Explanatory information below table (if needed)</li>
+<li><strong>Spacing</strong>: Double-space in manuscripts; single or 1.5 for readability in reports</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Copying Tables to Microsoft Word or Google Docs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Method 1: Copy from Rendered Book (Recommended)</strong></p>
+<ol type="1">
+<li>Open this book in your browser (the HTML version)</li>
+<li>Click and drag to select the entire table (including borders)</li>
+<li>Copy (Ctrl+C or Cmd+C)</li>
+<li>Paste into Word/Google Docs (Ctrl+V or Cmd+V)</li>
+<li>The table will maintain proper formatting with borders and alignment</li>
+</ol>
+<p><strong>Method 2: Use HTML Tables</strong></p>
+<ul>
+<li>Each example below includes an “HTML Version for Word” section</li>
+<li>Click and drag to select the table in your browser</li>
+<li>Copy and paste directly into Word/Google Docs</li>
+<li>Formatting will be preserved automatically</li>
+</ul>
+<p><strong>Method 3: Use Markdown in Word</strong></p>
+<ul>
+<li>If copying markdown code, paste it into Word first as plain text</li>
+<li>Then use a markdown plugin or convert manually to a table using Word’s Insert Table feature</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="sec-ai-tools" class="level2" data-number="G.2">
+<h2 data-number="G.2" class="anchored" data-anchor-id="sec-ai-tools"><span class="header-section-number">G.2</span> Using AI Tools for Conversion</h2>
+<p>For automated conversion, you can use these AI tools:</p>
+<ol type="1">
+<li><strong>ChatGPT or Claude</strong> (with vision)
+<ul>
+<li>Upload screenshot of SPSS table</li>
+<li>Prompt: “Convert this SPSS output to an APA-formatted table”</li>
+<li>Copy the generated markdown or HTML</li>
+</ul></li>
+<li><strong>Microsoft Copilot</strong> (in Word/Excel)
+<ul>
+<li>Paste SPSS output</li>
+<li>Ask: “Format this as an APA-style table”</li>
+</ul></li>
+<li><strong>Copy SPSS output as text</strong>, then paste into ChatGPT with: “Reformat this as APA 7th edition table”</li>
+</ol>
+</section>
+<section id="sec-word-formatting" class="level2" data-number="G.3">
+<h2 data-number="G.3" class="anchored" data-anchor-id="sec-word-formatting"><span class="header-section-number">G.3</span> Formatting Tables in Microsoft Word</h2>
+<p>After pasting HTML tables into Word or Google Docs, you may need to adjust borders and alignment to match APA style exactly.</p>
+<section id="fixing-table-borders-in-word" class="level3" data-number="G.3.1">
+<h3 data-number="G.3.1" class="anchored" data-anchor-id="fixing-table-borders-in-word"><span class="header-section-number">G.3.1</span> Fixing Table Borders in Word</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>APA Border Requirements
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>APA style requires <strong>only three horizontal lines</strong>:</p>
+<ol type="1">
+<li>Line at the <strong>top</strong> of the table (above column headers)</li>
+<li>Line <strong>below</strong> column headers (separating headers from data)</li>
+<li>Line at the <strong>bottom</strong> of the table (after last row)</li>
+</ol>
+<p><strong>No vertical lines</strong> should appear in APA tables.</p>
+</div>
+</div>
+<p><strong>Steps to fix borders in Microsoft Word:</strong></p>
+<ol type="1">
+<li><strong>Select the entire table</strong> (click the four-arrow icon in top-left corner of table)</li>
+<li>Go to <strong>Table Design</strong> tab (or <strong>Table Tools → Design</strong>)</li>
+<li>Click <strong>Borders</strong> dropdown button</li>
+<li>Select <strong>No Border</strong> to remove all borders</li>
+<li>With table still selected, click <strong>Borders</strong> dropdown again</li>
+<li>Select <strong>Top Border</strong> (adds line at top of table)</li>
+<li><strong>Select only the header row</strong> (first row with column labels)</li>
+<li>Click <strong>Borders</strong> dropdown → Select <strong>Bottom Border</strong> (adds line below headers)</li>
+<li><strong>Select only the last data row</strong></li>
+<li>Click <strong>Borders</strong> dropdown → Select <strong>Bottom Border</strong> (adds line at bottom)</li>
+</ol>
+<p>Your table should now have exactly 3 horizontal lines matching APA style.</p>
+</section>
+<section id="sec-alignment-rules" class="level3" data-number="G.3.2">
+<h3 data-number="G.3.2" class="anchored" data-anchor-id="sec-alignment-rules"><span class="header-section-number">G.3.2</span> Alignment Best Practices</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>APA Alignment Guidelines for Maximum Readability
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>First Column (Row Labels):</strong></p>
+<ul>
+<li><strong>Left-aligned</strong>: Variable names, group labels, condition names</li>
+<li>This allows easy scanning down the list</li>
+</ul>
+<p><strong>Column Headers:</strong></p>
+<ul>
+<li><strong>Center-aligned</strong>: This centers headers over their data columns</li>
+<li>Creates clear visual connection between header and data below</li>
+</ul>
+<p><strong>Numerical Data Columns:</strong></p>
+<ul>
+<li><strong>Center-aligned</strong> (RECOMMENDED): Best for readability across rows</li>
+<li>Makes it easy to trace values horizontally across the table</li>
+<li>Each number clearly corresponds to its row label</li>
+<li>Alternative: Right-aligned with decimal alignment if you prefer</li>
+</ul>
+<p><strong>Why center-align numbers?</strong></p>
+<p>When row labels are left-aligned and numbers are centered, your eye can easily trace horizontally across the row to see which values belong together. This is especially important when column widths vary.</p>
+<p><strong>Table Notes:</strong></p>
+<ul>
+<li>Left-aligned, placed below the table</li>
+</ul>
+</div>
+</div>
+<p><strong>Example alignment for a typical APA table:</strong></p>
+<pre><code>┌─────────────┬────────┬────────┬────────┬────────┐
+│ Group       │   n    │   M    │   SD   │   t    │  ← Headers: CENTERED
+├─────────────┼────────┼────────┼────────┼────────┤
+│ Control     │   30   │  85.50 │  12.45 │        │  ← Numbers: CENTERED
+│ Treatment   │   30   │  92.30 │  10.87 │ −2.31  │  ← Easy to read across
+└─────────────┴────────┴────────┴────────┴────────┘
+  ↑ Left-aligned</code></pre>
+<p><strong>To adjust alignment in Word:</strong></p>
+<ol type="1">
+<li><strong>For the first column (row labels):</strong>
+<ul>
+<li>Select the first column only</li>
+<li>Home tab → Click “Align Left” button</li>
+</ul></li>
+<li><strong>For column headers:</strong>
+<ul>
+<li>Select the first row (header row)</li>
+<li>Home tab → Click “Center” button</li>
+</ul></li>
+<li><strong>For numerical data columns:</strong>
+<ul>
+<li>Select all data cells (excluding first column)</li>
+<li>Home tab → Click “Center” button</li>
+<li>This centers all numbers, making rows easy to read</li>
+</ul></li>
+</ol>
+<p><strong>Alternative: Decimal-aligned numbers (more advanced):</strong></p>
+<ol type="1">
+<li>Select numerical columns</li>
+<li>Right-click → Paragraph → Tabs</li>
+<li>Set a Decimal tab stop at appropriate position</li>
+<li>Numbers will align on decimal points</li>
+</ol>
+</section>
+</section>
+<section id="sec-t-test-indep" class="level2" data-number="G.4">
+<h2 data-number="G.4" class="anchored" data-anchor-id="sec-t-test-indep"><span class="header-section-number">G.4</span> Independent Samples <em>t</em>-Test</h2>
+<section id="spss-output-example" class="level3" data-number="G.4.1">
+<h3 data-number="G.4.1" class="anchored" data-anchor-id="spss-output-example"><span class="header-section-number">G.4.1</span> SPSS Output Example</h3>
+<p>Typical SPSS output includes two tables: Group Statistics and Independent Samples Test.</p>
+<pre><code>Group Statistics
+                Group    N    Mean   Std. Deviation   Std. Error Mean
+Score           Control  30   85.50      12.45            2.27
+                Treatment 30   92.30      10.87            1.98
+
+Independent Samples Test
+                        Levene's Test    t-test for Equality of Means
+                        F      Sig.      t      df    Sig.(2-tailed)   Mean Diff
+Equal variances assumed 1.23   .271     -2.31   58      .024          -6.80</code></pre>
+</section>
+<section id="apa-formatted-table" class="level3" data-number="G.4.2">
+<h3 data-number="G.4.2" class="anchored" data-anchor-id="apa-formatted-table"><span class="header-section-number">G.4.2</span> APA-Formatted Table</h3>
+<p><strong>Table 1</strong></p>
+<p><em>Descriptive Statistics and Independent Samples t-Test Results</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: center;"><em>n</em></th>
+<th style="text-align: center;"><em>M</em></th>
+<th style="text-align: center;"><em>SD</em></th>
+<th style="text-align: center;"><em>t</em></th>
+<th style="text-align: center;"><em>df</em></th>
+<th style="text-align: center;"><em>p</em></th>
+<th style="text-align: center;">Cohen’s <em>d</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Control</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">85.50</td>
+<td style="text-align: center;">12.45</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Treatment</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">92.30</td>
+<td style="text-align: center;">10.87</td>
+<td style="text-align: center;">−2.31</td>
+<td style="text-align: center;">58</td>
+<td style="text-align: center;">.024</td>
+<td style="text-align: center;">0.58</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note</em>. Levene’s test indicated equal variances (<em>F</em> = 1.23, <em>p</em> = .271).</p>
+</section>
+<section id="html-version-for-wordgoogle-docs" class="level3" data-number="G.4.3">
+<h3 data-number="G.4.3" class="anchored" data-anchor-id="html-version-for-wordgoogle-docs"><span class="header-section-number">G.4.3</span> HTML Version for Word/Google Docs</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click to Expand HTML Table (Copy This into Word)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Copy the table below by clicking and dragging to select it, then paste into Word or Google Docs:</p>
+<div style="margin: 20px 0;">
+<p style="font-weight: bold; margin-bottom: 5px;">Table 1</p>
+<p style="font-style: italic; margin-bottom: 10px;">Descriptive Statistics and Independent Samples t-Test Results</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>n</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>M</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SD</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>t</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>df</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>p</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Cohen's <em>d</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Control</td>
+<td style="text-align: center; padding: 8px; border: none;">30</td>
+<td style="text-align: center; padding: 8px; border: none;">85.50</td>
+<td style="text-align: center; padding: 8px; border: none;">12.45</td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">Treatment</td>
+<td style="text-align: center; padding: 8px; border: none;">30</td>
+<td style="text-align: center; padding: 8px; border: none;">92.30</td>
+<td style="text-align: center; padding: 8px; border: none;">10.87</td>
+<td style="text-align: center; padding: 8px; border: none;">−2.31</td>
+<td style="text-align: center; padding: 8px; border: none;">58</td>
+<td style="text-align: center; padding: 8px; border: none;">.024</td>
+<td style="text-align: center; padding: 8px; border: none;">0.58</td>
+</tr>
+</tbody>
+</table>
+
+<p style="margin-top: 10px; font-style: italic;">Note. Levene's test indicated equal variances (<i>F</i> = 1.23, <i>p</i> = .271).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>After Pasting into Word: Verify Formatting
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Once you paste this table into Microsoft Word:</p>
+<ol type="1">
+<li><strong>Verify Borders</strong>:
+<ul>
+<li>The table should already have only 3 horizontal lines (top, below header, bottom)</li>
+<li><strong>No vertical lines</strong> should appear</li>
+<li>If you see extra borders, select the table and remove them (see <a href="#sec-word-formatting">Formatting Tables in Microsoft Word</a>)</li>
+</ul></li>
+<li><strong>Check Alignment</strong>:
+<ul>
+<li><strong>First column</strong> (Group/Variable names): Should be <strong>left-aligned</strong></li>
+<li><strong>Column headers</strong>: Should be <strong>center-aligned</strong></li>
+<li><strong>All number columns</strong> (<em>n</em>, <em>M</em>, <em>SD</em>, <em>t</em>, <em>df</em>, <em>p</em>, Cohen’s <em>d</em>): Should be <strong>center-aligned</strong></li>
+<li>This makes it easy to trace values horizontally across rows</li>
+</ul></li>
+<li><strong>Verify Italics</strong>:
+<ul>
+<li>Statistical symbols (<em>n</em>, <em>M</em>, <em>SD</em>, <em>t</em>, <em>df</em>, <em>p</em>, <em>d</em>) should remain italicized</li>
+<li>If italics are lost, manually reapply</li>
+</ul></li>
+</ol>
+<p>See <a href="#sec-alignment-rules">Alignment Best Practices</a> for detailed guidance.</p>
+</div>
+</div>
+</section>
+<section id="template-copy-modify" class="level3" data-number="G.4.4">
+<h3 data-number="G.4.4" class="anchored" data-anchor-id="template-copy-modify"><span class="header-section-number">G.4.4</span> Template (Copy &amp; Modify)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>**Table X**</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>*[Your descriptive title here]*</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Group     <span class="pp">|</span> *n* | *M*   | *SD*  | *t*   | *df* | *p*  | Cohen's *d* <span class="pp">|</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|:----------|:---:|:-----:|:-----:|:-----:|:----:|:----:|:-----------:|</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Group 1</span><span class="co">]</span> <span class="pp">|</span> XX  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span>       <span class="pp">|</span>      <span class="pp">|</span>      <span class="pp">|</span>             <span class="pp">|</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Group 2</span><span class="co">]</span> <span class="pp">|</span> XX  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> −X.XX <span class="pp">|</span> XX   <span class="pp">|</span> .XXX <span class="pp">|</span> X.XX        <span class="pp">|</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>*Note*. <span class="co">[</span><span class="ot">Add relevant notes about assumptions, tests, or interpretations</span><span class="co">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-t-test-paired" class="level2" data-number="G.5">
+<h2 data-number="G.5" class="anchored" data-anchor-id="sec-t-test-paired"><span class="header-section-number">G.5</span> Paired Samples <em>t</em>-Test</h2>
+<section id="spss-output-example-1" class="level3" data-number="G.5.1">
+<h3 data-number="G.5.1" class="anchored" data-anchor-id="spss-output-example-1"><span class="header-section-number">G.5.1</span> SPSS Output Example</h3>
+<pre><code>Paired Samples Statistics
+              Mean    N     Std. Deviation   Std. Error Mean
+Pair 1  Pre   78.40   25    11.23            2.25
+        Post  84.60   25    10.45            2.09
+
+Paired Samples Test
+                     Paired Differences                          t      df   Sig.(2-tailed)
+                     Mean    Std.Dev   Std.Error   95% CI
+                                        Mean        Lower  Upper
+Pair 1 Pre-Post     -6.20    8.45      1.69       -9.68  -2.72   -3.67   24      .001</code></pre>
+</section>
+<section id="apa-formatted-table-1" class="level3" data-number="G.5.2">
+<h3 data-number="G.5.2" class="anchored" data-anchor-id="apa-formatted-table-1"><span class="header-section-number">G.5.2</span> APA-Formatted Table</h3>
+<p><strong>Table 2</strong></p>
+<p><em>Paired Samples t-Test: Pre-test and Post-test Scores</em></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 22%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Measure</th>
+<th style="text-align: center;"><em>M</em></th>
+<th style="text-align: center;"><em>SD</em></th>
+<th style="text-align: center;"><em>t</em></th>
+<th style="text-align: center;"><em>df</em></th>
+<th style="text-align: center;"><em>p</em></th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">Cohen’s <em>d</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Pre</td>
+<td style="text-align: center;">78.40</td>
+<td style="text-align: center;">11.23</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Post</td>
+<td style="text-align: center;">84.60</td>
+<td style="text-align: center;">10.45</td>
+<td style="text-align: center;">−3.67</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">.001</td>
+<td style="text-align: center;">[−9.68, −2.72]</td>
+<td style="text-align: center;">0.73</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note</em>. <em>n</em> = 25. CI = confidence interval for mean difference.</p>
+</section>
+<section id="html-version-for-wordgoogle-docs-1" class="level3" data-number="G.5.3">
+<h3 data-number="G.5.3" class="anchored" data-anchor-id="html-version-for-wordgoogle-docs-1"><span class="header-section-number">G.5.3</span> HTML Version for Word/Google Docs</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click to Expand HTML Table (Copy This into Word)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Copy the table below by clicking and dragging to select it, then paste into Word or Google Docs:</p>
+<div style="margin: 20px 0;">
+<p style="font-weight: bold; margin-bottom: 5px;">Table 2</p>
+<p style="font-style: italic; margin-bottom: 10px;">Paired Samples t-Test: Pre-test and Post-test Scores</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Measure</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>M</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SD</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>t</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>df</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>p</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">95% CI</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Cohen's <em>d</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Pre</td>
+<td style="text-align: center; padding: 8px; border: none;">78.40</td>
+<td style="text-align: center; padding: 8px; border: none;">11.23</td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">Post</td>
+<td style="text-align: center; padding: 8px; border: none;">84.60</td>
+<td style="text-align: center; padding: 8px; border: none;">10.45</td>
+<td style="text-align: center; padding: 8px; border: none;">−3.67</td>
+<td style="text-align: center; padding: 8px; border: none;">24</td>
+<td style="text-align: center; padding: 8px; border: none;">.001</td>
+<td style="text-align: center; padding: 8px; border: none;">[−9.68, −2.72]</td>
+<td style="text-align: center; padding: 8px; border: none;">0.73</td>
+</tr>
+</tbody>
+</table>
+
+<p style="margin-top: 10px; font-style: italic;">Note. <i>n</i> = 25. CI = confidence interval for mean difference.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="template-copy-modify-1" class="level3" data-number="G.5.4">
+<h3 data-number="G.5.4" class="anchored" data-anchor-id="template-copy-modify-1"><span class="header-section-number">G.5.4</span> Template (Copy &amp; Modify)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>**Table X**</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>*[Your descriptive title with time points]*</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Measure   <span class="pp">|</span> *M*   | *SD*  | *t*   | *df* | *p*  | 95% CI         | Cohen's *d* <span class="pp">|</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|:----------|:-----:|:-----:|:-----:|:----:|:----:|:--------------:|:-----------:|</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Time 1</span><span class="co">]</span>  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span>       <span class="pp">|</span>      <span class="pp">|</span>      <span class="pp">|</span>                <span class="pp">|</span>             <span class="pp">|</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Time 2</span><span class="co">]</span>  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> −X.XX <span class="pp">|</span> XX   <span class="pp">|</span> .XXX <span class="pp">|</span> <span class="co">[</span><span class="ot">XX.XX, XX.XX</span><span class="co">]</span> <span class="pp">|</span> X.XX        <span class="pp">|</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>*Note*. *n* = XX. CI = confidence interval for mean difference.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-anova" class="level2" data-number="G.6">
+<h2 data-number="G.6" class="anchored" data-anchor-id="sec-anova"><span class="header-section-number">G.6</span> One-Way ANOVA</h2>
+<section id="spss-output-example-2" class="level3" data-number="G.6.1">
+<h3 data-number="G.6.1" class="anchored" data-anchor-id="spss-output-example-2"><span class="header-section-number">G.6.1</span> SPSS Output Example</h3>
+<pre><code>Descriptives
+            N    Mean    Std.Deviation
+Group 1     20   75.50   8.45
+Group 2     20   82.30   9.12
+Group 3     20   88.75   7.89
+
+ANOVA
+            Sum of Squares   df    Mean Square    F       Sig.
+Between     1534.50          2     767.25         10.56   .000
+Within      4145.25          57    72.72
+Total       5679.75          59</code></pre>
+</section>
+<section id="apa-formatted-table-2" class="level3" data-number="G.6.2">
+<h3 data-number="G.6.2" class="anchored" data-anchor-id="apa-formatted-table-2"><span class="header-section-number">G.6.2</span> APA-Formatted Table</h3>
+<p><strong>Table 3</strong></p>
+<p><em>One-Way ANOVA: Performance Scores by Group</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Source</th>
+<th style="text-align: center;"><em>SS</em></th>
+<th style="text-align: center;"><em>df</em></th>
+<th style="text-align: center;"><em>MS</em></th>
+<th style="text-align: center;"><em>F</em></th>
+<th style="text-align: center;"><em>p</em></th>
+<th style="text-align: center;">η² p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Between groups</td>
+<td style="text-align: center;">1534.50</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">767.25</td>
+<td style="text-align: center;">10.56</td>
+<td style="text-align: center;">&lt;.001</td>
+<td style="text-align: center;">.270</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Within groups</td>
+<td style="text-align: center;">4145.25</td>
+<td style="text-align: center;">57</td>
+<td style="text-align: center;">72.72</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Group Means</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Group</th>
+<th style="text-align: center;"><em>n</em></th>
+<th style="text-align: center;"><em>M</em></th>
+<th style="text-align: center;"><em>SD</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Group 1</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">75.50</td>
+<td style="text-align: center;">8.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group 2</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">82.30</td>
+<td style="text-align: center;">9.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group 3</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">88.75</td>
+<td style="text-align: center;">7.89</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note</em>. Post-hoc comparisons (Tukey HSD) showed Group 3 &gt; Group 1 (<em>p</em> &lt; .001) and Group 3 &gt; Group 2 (<em>p</em> = .012).</p>
+</section>
+<section id="html-version-for-wordgoogle-docs-2" class="level3" data-number="G.6.3">
+<h3 data-number="G.6.3" class="anchored" data-anchor-id="html-version-for-wordgoogle-docs-2"><span class="header-section-number">G.6.3</span> HTML Version for Word/Google Docs</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click to Expand HTML Tables (Copy These into Word)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Copy the tables below by clicking and dragging to select them, then paste into Word or Google Docs:</p>
+<div style="margin: 20px 0;">
+<p style="font-weight: bold; margin-bottom: 5px;">Table 3</p>
+<p style="font-style: italic; margin-bottom: 10px;">One-Way ANOVA: Performance Scores by Group</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Source</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SS</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>df</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>MS</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>F</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>p</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">η²<sub>p</sub></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Between groups</td>
+<td style="text-align: center; padding: 8px; border: none;">1534.50</td>
+<td style="text-align: center; padding: 8px; border: none;">2</td>
+<td style="text-align: center; padding: 8px; border: none;">767.25</td>
+<td style="text-align: center; padding: 8px; border: none;">10.56</td>
+<td style="text-align: center; padding: 8px; border: none;">&lt;.001</td>
+<td style="text-align: center; padding: 8px; border: none;">.270</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">Within groups</td>
+<td style="text-align: center; padding: 8px; border: none;">4145.25</td>
+<td style="text-align: center; padding: 8px; border: none;">57</td>
+<td style="text-align: center; padding: 8px; border: none;">72.72</td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+</tr>
+</tbody>
+</table>
+
+
+<p style="font-weight: bold; margin-bottom: 5px;">Group Means</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Group</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>n</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>M</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SD</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Group 1</td>
+<td style="text-align: center; padding: 8px; border: none;">20</td>
+<td style="text-align: center; padding: 8px; border: none;">75.50</td>
+<td style="text-align: center; padding: 8px; border: none;">8.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">Group 2</td>
+<td style="text-align: center; padding: 8px; border: none;">20</td>
+<td style="text-align: center; padding: 8px; border: none;">82.30</td>
+<td style="text-align: center; padding: 8px; border: none;">9.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Group 3</td>
+<td style="text-align: center; padding: 8px; border: none;">20</td>
+<td style="text-align: center; padding: 8px; border: none;">88.75</td>
+<td style="text-align: center; padding: 8px; border: none;">7.89</td>
+</tr>
+</tbody>
+</table>
+
+<p style="margin-top: 10px; font-style: italic;">Note. Post-hoc comparisons (Tukey HSD) showed Group 3 &gt; Group 1 (<i>p</i> &lt; .001) and Group 3 &gt; Group 2 (<i>p</i> = .012).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="template-copy-modify-2" class="level3" data-number="G.6.4">
+<h3 data-number="G.6.4" class="anchored" data-anchor-id="template-copy-modify-2"><span class="header-section-number">G.6.4</span> Template (Copy &amp; Modify)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>**Table X**</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>*[Your ANOVA title with DV and IV]*</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Source         <span class="pp">|</span> *SS*    | *df* | *MS*   | *F*   | *p*  <span class="pp">|</span> η² p <span class="pp">|</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|:---------------|:-------:|:----:|:------:|:-----:|:----:|:----:|</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Between groups <span class="pp">|</span> XXXX.XX <span class="pp">|</span>  X   <span class="pp">|</span> XXX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> .XXX <span class="pp">|</span> .XXX <span class="pp">|</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Within groups  <span class="pp">|</span> XXXX.XX <span class="pp">|</span> XX   <span class="pp">|</span> XX.XX  <span class="pp">|</span>       <span class="pp">|</span>      <span class="pp">|</span>      <span class="pp">|</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>**Group Means**</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Group     <span class="pp">|</span> *n* | *M*   | *SD*  <span class="pp">|</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|:----------|:---:|:-----:|:-----:|</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Group 1</span><span class="co">]</span> <span class="pp">|</span> XX  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Group 2</span><span class="co">]</span> <span class="pp">|</span> XX  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Group 3</span><span class="co">]</span> <span class="pp">|</span> XX  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>*Note*. <span class="co">[</span><span class="ot">Add post-hoc test results or other relevant information</span><span class="co">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-correlation" class="level2" data-number="G.7">
+<h2 data-number="G.7" class="anchored" data-anchor-id="sec-correlation"><span class="header-section-number">G.7</span> Correlation Matrix</h2>
+<section id="spss-output-example-3" class="level3" data-number="G.7.1">
+<h3 data-number="G.7.1" class="anchored" data-anchor-id="spss-output-example-3"><span class="header-section-number">G.7.1</span> SPSS Output Example</h3>
+<pre><code>Correlations
+                Variable 1   Variable 2   Variable 3
+Variable 1      1.000       .456**       .234
+Variable 2      .456**      1.000        .678**
+Variable 3      .234        .678**       1.000
+** Correlation is significant at the 0.01 level (2-tailed)</code></pre>
+</section>
+<section id="apa-formatted-table-3" class="level3" data-number="G.7.2">
+<h3 data-number="G.7.2" class="anchored" data-anchor-id="apa-formatted-table-3"><span class="header-section-number">G.7.2</span> APA-Formatted Table</h3>
+<p><strong>Table 4</strong></p>
+<p><em>Correlations Between Study Variables</em></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: center;">1</th>
+<th style="text-align: center;">2</th>
+<th style="text-align: center;">3</th>
+<th style="text-align: center;"><em>M</em></th>
+<th style="text-align: center;"><em>SD</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1. [Variable 1]</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">45.30</td>
+<td style="text-align: center;">8.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2. [Variable 2]</td>
+<td style="text-align: center;">.46**</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">52.10</td>
+<td style="text-align: center;">9.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3. [Variable 3]</td>
+<td style="text-align: center;">.23</td>
+<td style="text-align: center;">.68**</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">38.75</td>
+<td style="text-align: center;">6.89</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note</em>. <em>n</em> = 60. ** <em>p</em> &lt; .01.</p>
+</section>
+<section id="html-version-for-wordgoogle-docs-3" class="level3" data-number="G.7.3">
+<h3 data-number="G.7.3" class="anchored" data-anchor-id="html-version-for-wordgoogle-docs-3"><span class="header-section-number">G.7.3</span> HTML Version for Word/Google Docs</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click to Expand HTML Table (Copy This into Word)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Copy the table below by clicking and dragging to select it, then paste into Word or Google Docs:</p>
+<div style="margin: 20px 0;">
+<p style="font-weight: bold; margin-bottom: 5px;">Table 4</p>
+<p style="font-style: italic; margin-bottom: 10px;">Correlations Between Study Variables</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">1</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">2</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">3</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>M</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SD</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">1. [Variable 1]</td>
+<td style="text-align: center; padding: 8px; border: none;">—</td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;">45.30</td>
+<td style="text-align: center; padding: 8px; border: none;">8.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">2. [Variable 2]</td>
+<td style="text-align: center; padding: 8px; border: none;">.46**</td>
+<td style="text-align: center; padding: 8px; border: none;">—</td>
+<td style="text-align: center; padding: 8px; border: none;"></td>
+<td style="text-align: center; padding: 8px; border: none;">52.10</td>
+<td style="text-align: center; padding: 8px; border: none;">9.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">3. [Variable 3]</td>
+<td style="text-align: center; padding: 8px; border: none;">.23</td>
+<td style="text-align: center; padding: 8px; border: none;">.68**</td>
+<td style="text-align: center; padding: 8px; border: none;">—</td>
+<td style="text-align: center; padding: 8px; border: none;">38.75</td>
+<td style="text-align: center; padding: 8px; border: none;">6.89</td>
+</tr>
+</tbody>
+</table>
+
+<p style="margin-top: 10px; font-style: italic;">Note. <i>n</i> = 60. ** <i>p</i> &lt; .01.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="template-copy-modify-3" class="level3" data-number="G.7.4">
+<h3 data-number="G.7.4" class="anchored" data-anchor-id="template-copy-modify-3"><span class="header-section-number">G.7.4</span> Template (Copy &amp; Modify)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>**Table X**</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>*[Your correlation matrix title]*</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable          <span class="pp">|</span>   1   <span class="pp">|</span>   2   <span class="pp">|</span>  3  <span class="pp">|</span> *M*   | *SD*  <span class="pp">|</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|:------------------|:-----:|:-----:|:---:|:-----:|:-----:|</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 1. <span class="co">[</span><span class="ot">Variable name</span><span class="co">]</span> <span class="pp">|</span>   —   <span class="pp">|</span>       <span class="pp">|</span>     <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 2. <span class="co">[</span><span class="ot">Variable name</span><span class="co">]</span> <span class="pp">|</span> .XX*  <span class="pp">|</span>   —   <span class="pp">|</span>     <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 3. <span class="co">[</span><span class="ot">Variable name</span><span class="co">]</span> <span class="pp">|</span>  .XX  <span class="pp">|</span> .XX** <span class="pp">|</span>  —  <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>*Note*. *n* = XX. * *p* &lt; .05. ** *p* &lt; .01.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-descriptives" class="level2" data-number="G.8">
+<h2 data-number="G.8" class="anchored" data-anchor-id="sec-descriptives"><span class="header-section-number">G.8</span> Descriptive Statistics</h2>
+<section id="spss-output-example-4" class="level3" data-number="G.8.1">
+<h3 data-number="G.8.1" class="anchored" data-anchor-id="spss-output-example-4"><span class="header-section-number">G.8.1</span> SPSS Output Example</h3>
+<pre><code>Descriptive Statistics
+               N    Minimum   Maximum   Mean    Std.Deviation   Skewness   Kurtosis
+Age            100  18.00     65.00     32.45   12.34           0.45       -0.23
+Height (cm)    100  152.00    198.00    172.30  15.67           0.12       0.08
+Weight (kg)    100  45.00     110.00    71.52   18.90           0.67       0.45</code></pre>
+</section>
+<section id="apa-formatted-table-4" class="level3" data-number="G.8.2">
+<h3 data-number="G.8.2" class="anchored" data-anchor-id="apa-formatted-table-4"><span class="header-section-number">G.8.2</span> APA-Formatted Table</h3>
+<p><strong>Table 5</strong></p>
+<p><em>Descriptive Statistics for Participant Characteristics</em></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 7%">
+<col style="width: 12%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 9%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: center;"><em>n</em></th>
+<th style="text-align: center;"><em>M</em></th>
+<th style="text-align: center;"><em>SD</em></th>
+<th style="text-align: center;">Min</th>
+<th style="text-align: center;">Max</th>
+<th style="text-align: center;">Skew</th>
+<th style="text-align: center;">Kurt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Age (years)</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">32.45</td>
+<td style="text-align: center;">12.34</td>
+<td style="text-align: center;">18.00</td>
+<td style="text-align: center;">65.00</td>
+<td style="text-align: center;">0.45</td>
+<td style="text-align: center;">−0.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Height (cm)</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">172.30</td>
+<td style="text-align: center;">15.67</td>
+<td style="text-align: center;">152.00</td>
+<td style="text-align: center;">198.00</td>
+<td style="text-align: center;">0.12</td>
+<td style="text-align: center;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Weight (kg)</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">71.52</td>
+<td style="text-align: center;">18.90</td>
+<td style="text-align: center;">45.00</td>
+<td style="text-align: center;">110.00</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.45</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="html-version-for-wordgoogle-docs-4" class="level3" data-number="G.8.3">
+<h3 data-number="G.8.3" class="anchored" data-anchor-id="html-version-for-wordgoogle-docs-4"><span class="header-section-number">G.8.3</span> HTML Version for Word/Google Docs</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Click to Expand HTML Table (Copy This into Word)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Copy the table below by clicking and dragging to select it, then paste into Word or Google Docs:</p>
+<div style="margin: 20px 0;">
+<p style="font-weight: bold; margin-bottom: 5px;">Table 5</p>
+<p style="font-style: italic; margin-bottom: 10px;">Descriptive Statistics for Participant Characteristics</p>
+
+<table class="caption-top table">
+<thead>
+<tr class="header" style="border-bottom: 2px solid black;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 8px; border: none;">Variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>n</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>M</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;"><em>SD</em></th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Min</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Max</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Skew</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 8px; border: none;">Kurt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Age (years)</td>
+<td style="text-align: center; padding: 8px; border: none;">100</td>
+<td style="text-align: center; padding: 8px; border: none;">32.45</td>
+<td style="text-align: center; padding: 8px; border: none;">12.34</td>
+<td style="text-align: center; padding: 8px; border: none;">18.00</td>
+<td style="text-align: center; padding: 8px; border: none;">65.00</td>
+<td style="text-align: center; padding: 8px; border: none;">0.45</td>
+<td style="text-align: center; padding: 8px; border: none;">−0.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 8px; border: none;">Height (cm)</td>
+<td style="text-align: center; padding: 8px; border: none;">100</td>
+<td style="text-align: center; padding: 8px; border: none;">172.30</td>
+<td style="text-align: center; padding: 8px; border: none;">15.67</td>
+<td style="text-align: center; padding: 8px; border: none;">152.00</td>
+<td style="text-align: center; padding: 8px; border: none;">198.00</td>
+<td style="text-align: center; padding: 8px; border: none;">0.12</td>
+<td style="text-align: center; padding: 8px; border: none;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 8px; border: none;">Weight (kg)</td>
+<td style="text-align: center; padding: 8px; border: none;">100</td>
+<td style="text-align: center; padding: 8px; border: none;">71.52</td>
+<td style="text-align: center; padding: 8px; border: none;">18.90</td>
+<td style="text-align: center; padding: 8px; border: none;">45.00</td>
+<td style="text-align: center; padding: 8px; border: none;">110.00</td>
+<td style="text-align: center; padding: 8px; border: none;">0.67</td>
+<td style="text-align: center; padding: 8px; border: none;">0.45</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="template-copy-modify-4" class="level3" data-number="G.8.4">
+<h3 data-number="G.8.4" class="anchored" data-anchor-id="template-copy-modify-4"><span class="header-section-number">G.8.4</span> Template (Copy &amp; Modify)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>**Table X**</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>*[Your descriptive statistics title]*</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable     <span class="pp">|</span> *n* | *M*   | *SD*  <span class="pp">|</span>  Min  <span class="pp">|</span>  Max  <span class="pp">|</span> Skew <span class="pp">|</span> Kurt <span class="pp">|</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="pp">|:-------------|:---:|:-----:|:-----:|:-----:|:-----:|:----:|:----:|</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Variable 1</span><span class="co">]</span> <span class="pp">|</span> XXX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> X.XX <span class="pp">|</span> X.XX <span class="pp">|</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Variable 2</span><span class="co">]</span> <span class="pp">|</span> XXX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> XX.XX <span class="pp">|</span> X.XX <span class="pp">|</span> X.XX <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="sec-conversion-steps" class="level2" data-number="G.9">
+<h2 data-number="G.9" class="anchored" data-anchor-id="sec-conversion-steps"><span class="header-section-number">G.9</span> Step-by-Step Conversion Guide</h2>
+<section id="manual-conversion-process" class="level3" data-number="G.9.1">
+<h3 data-number="G.9.1" class="anchored" data-anchor-id="manual-conversion-process"><span class="header-section-number">G.9.1</span> Manual Conversion Process</h3>
+<ol type="1">
+<li><p><strong>Identify key statistics</strong> from SPSS output:</p>
+<ul>
+<li>Sample sizes (<em>n</em>)</li>
+<li>Means (<em>M</em>) and standard deviations (<em>SD</em>)</li>
+<li>Test statistics (<em>t</em>, <em>F</em>, <em>r</em>)</li>
+<li>Degrees of freedom (<em>df</em>)</li>
+<li><em>p</em>-values</li>
+<li>Effect sizes (calculate if not provided)</li>
+</ul></li>
+<li><p><strong>Choose appropriate template</strong> from sections above</p></li>
+<li><p><strong>Format numbers correctly</strong>:</p>
+<ul>
+<li>2 decimals for descriptive stats</li>
+<li>3 decimals for <em>p</em>-values</li>
+<li>Report <em>p</em> &lt; .001 (not exact value if very small)</li>
+<li>Use en-dash (–) for negative values in tables</li>
+</ul></li>
+<li><p><strong>Apply italics</strong> to all statistical symbols</p></li>
+<li><p><strong>Add table number and title</strong> above the table</p></li>
+<li><p><strong>Include note</strong> below table for:</p>
+<ul>
+<li>Sample size if not in table body</li>
+<li>Assumption test results</li>
+<li>Post-hoc test outcomes</li>
+<li>Abbreviations used</li>
+</ul></li>
+</ol>
+</section>
+<section id="using-ai-to-speed-up-conversion" class="level3" data-number="G.9.2">
+<h3 data-number="G.9.2" class="anchored" data-anchor-id="using-ai-to-speed-up-conversion"><span class="header-section-number">G.9.2</span> Using AI to Speed Up Conversion</h3>
+<p><strong>Recommended prompt for ChatGPT/Claude:</strong></p>
+<pre><code>Convert the following SPSS output to an APA 7th edition formatted table. 
+Use markdown format with proper italics for statistical symbols. Include:
+- Table number and descriptive title
+- Properly aligned columns
+- 2 decimal places for means/SDs, 3 for p-values
+- Relevant notes below the table
+
+[Paste your SPSS output here]</code></pre>
+</section>
+</section>
+<section id="sec-common-mistakes" class="level2" data-number="G.10">
+<h2 data-number="G.10" class="anchored" data-anchor-id="sec-common-mistakes"><span class="header-section-number">G.10</span> Common Formatting Mistakes to Avoid</h2>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Avoid These Errors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>❌ Reporting too many decimal places (e.g., <em>M</em> = 85.4567)</li>
+<li>❌ Using vertical lines in tables</li>
+<li>❌ Not italicizing statistical symbols</li>
+<li>❌ Inconsistent decimal alignment</li>
+<li>❌ Including SPSS-specific formatting (colors, gridlines)</li>
+<li>❌ Forgetting to report effect sizes</li>
+<li>❌ Writing <em>p</em> = .000 instead of <em>p</em> &lt; .001</li>
+<li>❌ Not explaining abbreviations in notes</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="sec-resources" class="level2" data-number="G.11">
+<h2 data-number="G.11" class="anchored" data-anchor-id="sec-resources"><span class="header-section-number">G.11</span> Additional Resources</h2>
+<p><strong>Official APA Guidelines:</strong></p>
+<ul>
+<li><a href="https://apastyle.apa.org/style-grammar-guidelines/tables-figures/tables">APA Style Tables Guidelines</a></li>
+<li>APA Publication Manual (7th ed.), Chapter 7</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Pro Tip: Create Your Own Template Library
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Save your formatted tables as templates in Word or a text file. When you need a similar table, copy your template and just update the numbers—much faster than reformatting from scratch each time!</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./appendix-factorial-anova-decision-tool.html" class="pagination-link" aria-label="Factorial ANOVA Decision Tool">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appendix-apa-reporting.html" class="pagination-link" aria-label="APA Style Results Reporting">
+        <span class="nav-page-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

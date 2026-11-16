@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>14&nbsp; Analysis of Variance – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch15-repeated-measures.html" rel="next">
+<link href="./ch13-comparing-two-means.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-comparing-means.html">Part V: Comparing Means</a></li><li class="breadcrumb-item"><a href="./ch14-anova.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">14.1</span> Chapter roadmap</a></li>
+  <li><a href="#workflow-for-one-way-anova" id="toc-workflow-for-one-way-anova" class="nav-link" data-scroll-target="#workflow-for-one-way-anova"><span class="header-section-number">14.2</span> Workflow for one-way ANOVA</a></li>
+  <li><a href="#why-anova-exists-the-multiple-comparisons-problem" id="toc-why-anova-exists-the-multiple-comparisons-problem" class="nav-link" data-scroll-target="#why-anova-exists-the-multiple-comparisons-problem"><span class="header-section-number">14.3</span> Why ANOVA exists: the multiple comparisons problem</a></li>
+  <li><a href="#the-logic-of-anova-partitioning-variance" id="toc-the-logic-of-anova-partitioning-variance" class="nav-link" data-scroll-target="#the-logic-of-anova-partitioning-variance"><span class="header-section-number">14.4</span> The logic of ANOVA: partitioning variance</a>
+  <ul class="collapse">
+  <li><a href="#sources-of-variance" id="toc-sources-of-variance" class="nav-link" data-scroll-target="#sources-of-variance"><span class="header-section-number">14.4.1</span> Sources of variance</a></li>
+  <li><a href="#the-anova-source-table" id="toc-the-anova-source-table" class="nav-link" data-scroll-target="#the-anova-source-table"><span class="header-section-number">14.4.2</span> The ANOVA source table</a></li>
+  <li><a href="#the-f-statistic" id="toc-the-f-statistic" class="nav-link" data-scroll-target="#the-f-statistic"><span class="header-section-number">14.4.3</span> The F-statistic</a></li>
+  </ul></li>
+  <li><a href="#one-way-anova-in-practice" id="toc-one-way-anova-in-practice" class="nav-link" data-scroll-target="#one-way-anova-in-practice"><span class="header-section-number">14.5</span> One-way ANOVA in practice</a>
+  <ul class="collapse">
+  <li><a href="#when-to-use-one-way-anova" id="toc-when-to-use-one-way-anova" class="nav-link" data-scroll-target="#when-to-use-one-way-anova"><span class="header-section-number">14.5.1</span> When to use one-way ANOVA</a></li>
+  <li><a href="#hypotheses" id="toc-hypotheses" class="nav-link" data-scroll-target="#hypotheses"><span class="header-section-number">14.5.2</span> Hypotheses</a></li>
+  <li><a href="#worked-example-one-way-anova" id="toc-worked-example-one-way-anova" class="nav-link" data-scroll-target="#worked-example-one-way-anova"><span class="header-section-number">14.5.3</span> Worked example: One-way ANOVA</a></li>
+  </ul></li>
+  <li><a href="#assumptions-of-one-way-anova" id="toc-assumptions-of-one-way-anova" class="nav-link" data-scroll-target="#assumptions-of-one-way-anova"><span class="header-section-number">14.6</span> Assumptions of one-way ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#checking-normality" id="toc-checking-normality" class="nav-link" data-scroll-target="#checking-normality"><span class="header-section-number">14.6.1</span> Checking normality</a></li>
+  <li><a href="#checking-homogeneity-of-variance" id="toc-checking-homogeneity-of-variance" class="nav-link" data-scroll-target="#checking-homogeneity-of-variance"><span class="header-section-number">14.6.2</span> Checking homogeneity of variance</a></li>
+  <li><a href="#when-assumptions-are-severely-violated" id="toc-when-assumptions-are-severely-violated" class="nav-link" data-scroll-target="#when-assumptions-are-severely-violated"><span class="header-section-number">14.6.3</span> When assumptions are severely violated</a></li>
+  </ul></li>
+  <li><a href="#post-hoc-tests" id="toc-post-hoc-tests" class="nav-link" data-scroll-target="#post-hoc-tests"><span class="header-section-number">14.7</span> Post hoc tests</a>
+  <ul class="collapse">
+  <li><a href="#choosing-a-post-hoc-test" id="toc-choosing-a-post-hoc-test" class="nav-link" data-scroll-target="#choosing-a-post-hoc-test"><span class="header-section-number">14.7.1</span> Choosing a post hoc test</a></li>
+  <li><a href="#interpreting-post-hoc-output" id="toc-interpreting-post-hoc-output" class="nav-link" data-scroll-target="#interpreting-post-hoc-output"><span class="header-section-number">14.7.2</span> Interpreting post hoc output</a></li>
+  </ul></li>
+  <li><a href="#effect-sizes-in-anova" id="toc-effect-sizes-in-anova" class="nav-link" data-scroll-target="#effect-sizes-in-anova"><span class="header-section-number">14.8</span> Effect sizes in ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#eta-squared-η²" id="toc-eta-squared-η²" class="nav-link" data-scroll-target="#eta-squared-η²"><span class="header-section-number">14.8.1</span> Eta-squared (η²)</a></li>
+  <li><a href="#omega-squared-ω²" id="toc-omega-squared-ω²" class="nav-link" data-scroll-target="#omega-squared-ω²"><span class="header-section-number">14.8.2</span> Omega-squared (ω²)</a></li>
+  <li><a href="#cohens-f" id="toc-cohens-f" class="nav-link" data-scroll-target="#cohens-f"><span class="header-section-number">14.8.3</span> Cohen’s <em>f</em></a></li>
+  <li><a href="#which-effect-size-to-report" id="toc-which-effect-size-to-report" class="nav-link" data-scroll-target="#which-effect-size-to-report"><span class="header-section-number">14.8.4</span> Which effect size to report?</a></li>
+  </ul></li>
+  <li><a href="#visualizing-anova-results" id="toc-visualizing-anova-results" class="nav-link" data-scroll-target="#visualizing-anova-results"><span class="header-section-number">14.9</span> Visualizing ANOVA results</a>
+  <ul class="collapse">
+  <li><a href="#box-plots-by-group" id="toc-box-plots-by-group" class="nav-link" data-scroll-target="#box-plots-by-group"><span class="header-section-number">14.9.1</span> Box plots by group</a></li>
+  <li><a href="#error-bar-plots-with-confidence-intervals" id="toc-error-bar-plots-with-confidence-intervals" class="nav-link" data-scroll-target="#error-bar-plots-with-confidence-intervals"><span class="header-section-number">14.9.2</span> Error bar plots with confidence intervals</a></li>
+  </ul></li>
+  <li><a href="#reporting-anova-results-in-apa-style" id="toc-reporting-anova-results-in-apa-style" class="nav-link" data-scroll-target="#reporting-anova-results-in-apa-style"><span class="header-section-number">14.10</span> Reporting ANOVA results in APA style</a>
+  <ul class="collapse">
+  <li><a href="#omnibus-f-test" id="toc-omnibus-f-test" class="nav-link" data-scroll-target="#omnibus-f-test"><span class="header-section-number">14.10.1</span> Omnibus F-test</a></li>
+  <li><a href="#post-hoc-comparisons" id="toc-post-hoc-comparisons" class="nav-link" data-scroll-target="#post-hoc-comparisons"><span class="header-section-number">14.10.2</span> Post hoc comparisons</a></li>
+  </ul></li>
+  <li><a href="#sample-size-and-power-for-anova" id="toc-sample-size-and-power-for-anova" class="nav-link" data-scroll-target="#sample-size-and-power-for-anova"><span class="header-section-number">14.11</span> Sample size and power for ANOVA</a></li>
+  <li><a href="#common-pitfalls-and-best-practices" id="toc-common-pitfalls-and-best-practices" class="nav-link" data-scroll-target="#common-pitfalls-and-best-practices"><span class="header-section-number">14.12</span> Common pitfalls and best practices</a>
+  <ul class="collapse">
+  <li><a href="#pitfall-1-running-multiple-t-tests-instead-of-anova" id="toc-pitfall-1-running-multiple-t-tests-instead-of-anova" class="nav-link" data-scroll-target="#pitfall-1-running-multiple-t-tests-instead-of-anova"><span class="header-section-number">14.12.1</span> Pitfall 1: Running multiple t-tests instead of ANOVA</a></li>
+  <li><a href="#pitfall-2-running-post-hoc-tests-without-a-significant-omnibus-f" id="toc-pitfall-2-running-post-hoc-tests-without-a-significant-omnibus-f" class="nav-link" data-scroll-target="#pitfall-2-running-post-hoc-tests-without-a-significant-omnibus-f"><span class="header-section-number">14.12.2</span> Pitfall 2: Running post hoc tests without a significant omnibus F</a></li>
+  <li><a href="#pitfall-3-reporting-η²-without-acknowledging-its-bias" id="toc-pitfall-3-reporting-η²-without-acknowledging-its-bias" class="nav-link" data-scroll-target="#pitfall-3-reporting-η²-without-acknowledging-its-bias"><span class="header-section-number">14.12.3</span> Pitfall 3: Reporting η² without acknowledging its bias</a></li>
+  <li><a href="#pitfall-4-treating-a-non-significant-f-as-proof-of-no-difference" id="toc-pitfall-4-treating-a-non-significant-f-as-proof-of-no-difference" class="nav-link" data-scroll-target="#pitfall-4-treating-a-non-significant-f-as-proof-of-no-difference"><span class="header-section-number">14.12.4</span> Pitfall 4: Treating a non-significant F as proof of no difference</a></li>
+  <li><a href="#pitfall-5-ignoring-unequal-group-sizes" id="toc-pitfall-5-ignoring-unequal-group-sizes" class="nav-link" data-scroll-target="#pitfall-5-ignoring-unequal-group-sizes"><span class="header-section-number">14.12.5</span> Pitfall 5: Ignoring unequal group sizes</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">14.13</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">14.14</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">14.15</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-comparing-means.html">Part V: Comparing Means</a></li><li class="breadcrumb-item"><a href="./ch14-anova.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></h1>
+<p class="subtitle lead">Comparing three or more group means in Movement Science</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 Analytical Software &amp; SPSS Tutorials
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>A Note on By-Hand Calculations:</strong> The purpose of this book is not to teach tedious by-hand statistical calculations. Modern researchers run these analyses using major software packages. While we provide the underlying equations for conceptual understanding, we strongly recommend relying on software for computation to avoid errors and save time.</p>
+<p>Please direct your attention to the <strong><a href="./appendix-spss-anova.html">SPSS Tutorial: One-Way ANOVA</a></strong> in the appendix for step-by-step instructions on running ANOVA, checking assumptions, conducting post hoc tests, computing effect sizes, and interpreting output!</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">14.1</span> Chapter roadmap</h2>
+<p>Movement Science researchers frequently need to compare performance or physiological outcomes across more than two groups simultaneously. A coach might ask whether athletes using three different training protocols differ in sprint speed. A clinician might ask whether balance performance varies across four age groups. A researcher might compare VO₂max among sedentary, recreationally active, and trained individuals. In each case, the temptation is to run multiple independent t-tests — one for each pair of groups. However, this approach inflates the probability of falsely rejecting at least one null hypothesis, a problem known as <strong>familywise error rate inflation</strong><span class="citation" data-cites="fisher1925 maxwell2008"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>,<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>. <strong>Analysis of Variance (ANOVA)</strong> solves this problem by testing whether any group means differ in a single, unified analysis that maintains the stated Type I error rate<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">3</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+<p>The logic of ANOVA rests on <strong>partitioning variance</strong>: the total variability in a dataset is divided into two components — variability <em>between</em> groups (reflecting differences in group means) and variability <em>within</em> groups (reflecting random individual-to-individual differences and measurement error)<span class="citation" data-cites="maxwell2008 vincent2005"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>]</sup></span>. The <strong>F-ratio</strong> is formed by dividing between-groups variability by within-groups variability. When the null hypothesis is true and all group means are equal, both components estimate the same population variance, and F ≈ 1. When group means truly differ, between-groups variance is inflated relative to within-groups variance, producing a large F that is unlikely under the null hypothesis<span class="citation" data-cites="fisher1925 moore_ips"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">3</a>]</sup></span>. This elegant signal-to-noise framework is why ANOVA has been a cornerstone of experimental design in Movement Science for decades<span class="citation" data-cites="thomas2015 portney2020"><sup>[<a href="references.html#ref-thomas2015" role="doc-biblioref">6</a>,<a href="references.html#ref-portney2020" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p>This chapter covers <strong>one-way between-subjects ANOVA</strong>, the simplest and most common form of ANOVA, in which a single independent variable (factor) with three or more levels is used to compare group means on a continuous dependent variable. You will learn when ANOVA is the appropriate choice, how to read and interpret an ANOVA source table, how to check the test’s assumptions, how to use post hoc tests to identify which specific groups differ, and how to quantify the magnitude of group differences using effect sizes. Building on the foundation established in Chapter 13, this chapter extends your ability to design and analyze comparative studies in Movement Science<span class="citation" data-cites="cohen1988 lakens2013"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>]</sup></span>.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Explain why ANOVA is preferred over multiple t-tests when comparing three or more groups.</li>
+<li>Describe how total variance is partitioned into between-groups and within-groups components.</li>
+<li>Interpret an ANOVA source table, the F-statistic, and its associated p-value.</li>
+<li>Check assumptions of one-way ANOVA and identify appropriate responses to violations.</li>
+<li>Select and apply post hoc tests to identify specific pairwise differences.</li>
+<li>Compute and interpret effect sizes (η², ω²) for ANOVA results.</li>
+<li>Report one-way ANOVA results in APA format.</li>
+</ul>
+</section>
+<section id="workflow-for-one-way-anova" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="workflow-for-one-way-anova"><span class="header-section-number">14.2</span> Workflow for one-way ANOVA</h2>
+<p>Use this sequence whenever you compare means across three or more independent groups:</p>
+<ol type="1">
+<li><strong>Identify the research design</strong> (one factor with 3+ levels, between-subjects).</li>
+<li><strong>State hypotheses</strong> (H₀: all population means equal; H₁: at least one mean differs).</li>
+<li><strong>Check assumptions</strong> (independence, normality within groups, homogeneity of variance).</li>
+<li><strong>Run the one-way ANOVA</strong> and examine the omnibus F-test.</li>
+<li><strong>If F is significant</strong>, run post hoc tests to identify which group pairs differ.</li>
+<li><strong>Calculate effect sizes</strong> (η² or ω²) and confidence intervals.</li>
+<li><strong>Interpret and report results</strong> in APA format, emphasizing practical significance.</li>
+</ol>
+</section>
+<section id="why-anova-exists-the-multiple-comparisons-problem" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="why-anova-exists-the-multiple-comparisons-problem"><span class="header-section-number">14.3</span> Why ANOVA exists: the multiple comparisons problem</h2>
+<p>Suppose a researcher wants to compare jump height across three training groups: plyometric, resistance, and control. To compare all pairs, three independent t-tests would be needed: plyometric vs.&nbsp;resistance, plyometric vs.&nbsp;control, and resistance vs.&nbsp;control. At α = .05, each test carries a 5% chance of a false positive. But with three tests, the probability of committing <em>at least one</em> Type I error rises above 5%<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>.</p>
+<p>More precisely, the <strong>familywise error rate</strong> for <em>c</em> independent comparisons is:</p>
+<p><span class="math display">\[
+\alpha_{\text{FW}} = 1 - (1 - \alpha)^c
+\]</span></p>
+<p>With three comparisons at α = .05, the familywise error rate is approximately .14 — nearly three times the intended 5%. With five groups requiring ten pairwise comparisons, it climbs to approximately .40: a 40% chance of at least one false-positive finding<span class="citation" data-cites="field_discovering maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. Running uncorrected multiple t-tests in place of ANOVA is therefore not merely a stylistic choice — it is a methodological error that produces misleading conclusions.</p>
+<p>ANOVA addresses this by testing a single <strong>omnibus null hypothesis</strong> — that all group means are equal — in one analysis that maintains the stated α level<span class="citation" data-cites="fisher1925"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>]</sup></span>. If the omnibus test is significant, post hoc procedures (covered below) then make pairwise comparisons while controlling the familywise error rate.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: Running multiple t-tests instead of ANOVA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When comparing three or more groups, running a separate t-test for each pair inflates Type I error far beyond the stated α level<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>. Always use ANOVA for the omnibus test, then apply appropriate post hoc procedures for pairwise comparisons.</p>
+</div>
+</div>
+</section>
+<section id="the-logic-of-anova-partitioning-variance" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="the-logic-of-anova-partitioning-variance"><span class="header-section-number">14.4</span> The logic of ANOVA: partitioning variance</h2>
+<section id="sources-of-variance" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="sources-of-variance"><span class="header-section-number">14.4.1</span> Sources of variance</h3>
+<p>The central insight of ANOVA is that total variability in the data can be <strong>decomposed</strong> into two meaningful components<span class="citation" data-cites="fisher1925 moore_ips"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">3</a>]</sup></span>:</p>
+<p><span class="math display">\[
+SS_{\text{total}} = SS_{\text{between}} + SS_{\text{within}}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><strong><span class="math inline">\(SS_{\text{total}}\)</span></strong> = total sum of squares; overall variability of all scores around the grand mean</li>
+<li><strong><span class="math inline">\(SS_{\text{between}}\)</span></strong> = between-groups sum of squares; variability of group means around the grand mean (reflects the effect of the independent variable)</li>
+<li><strong><span class="math inline">\(SS_{\text{within}}\)</span></strong> = within-groups sum of squares; variability of individual scores around their group mean (reflects random error and individual differences)</li>
+</ul>
+<p>Think of it this way: in a study comparing three training programs, some variability in fitness outcomes reflects genuine differences <em>between programs</em> (which program you were in), and some reflects differences <em>within programs</em> (individuals vary in how they respond to any given program). ANOVA quantifies both and compares them<span class="citation" data-cites="maxwell2008 field_discovering"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>An Example
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Imagine you assign people to one of three training programs (<code>A</code>, <code>B</code>, <code>C</code>) for 8 weeks and measure VO₂ max. ANOVA asks: do the outcome differences reflect the programs, or just random individual variation?</p>
+<p><strong>Two sources of variability:</strong></p>
+<ol type="1">
+<li><p><em>Between‑program</em> — variation explained by which program someone did. If programs differ systematically, group means will be spread apart (e.g., A&nbsp;=&nbsp;40, B&nbsp;=&nbsp;45, C&nbsp;=&nbsp;50). ANOVA calls this the between‑groups sum of squares.</p></li>
+<li><p><em>Within‑program</em> — variation among people in the <em>same</em> program. Even within Program A, individuals differ in fitness and adherence, so scores might range 32–48 around a mean of 40. ANOVA calls this the within‑groups (residual/error) sum of squares.</p></li>
+</ol>
+<p><strong>The F ratio</strong></p>
+<p>ANOVA compares these two components:</p>
+<p><span class="math display">\[\text{F} = \dfrac{\text{between-program variability}}{\text{within-program variability}}\]</span></p>
+<p>F is large when group means differ <em>more than</em> the noise within groups would predict — evidence the programs have different effects. F near&nbsp;1 means the group-mean differences are no larger than expected from chance alone.</p>
+<p><strong>Two scenarios:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Scenario 1 (F ≈ 1)</th>
+<th style="text-align: left;">Scenario 2 (F large)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Group means</td>
+<td style="text-align: left;">A&nbsp;=&nbsp;40, B&nbsp;=&nbsp;41, C&nbsp;=&nbsp;40.5</td>
+<td style="text-align: left;">A&nbsp;=&nbsp;35, B&nbsp;=&nbsp;45, C&nbsp;=&nbsp;55</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Within-group spread</td>
+<td style="text-align: left;">30–50 per group</td>
+<td style="text-align: left;">±2 around each mean</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Verdict</td>
+<td style="text-align: left;">Group means differ by ≤1 unit, but individuals within each group vary by ±10 — the between-group signal is tiny compared to the within-group noise → F ≈ 1, <em>p</em> &gt; .05</td>
+<td style="text-align: left;">Group means differ by 10 units, but individuals within each group vary by only ±2 — the signal far exceeds the noise → F is large, <em>p</em> &lt; .05</td>
+</tr>
+</tbody>
+</table>
+<p>ANOVA doesn’t simply ask “do the means differ?” — it asks whether the differences are large <em>relative to</em> how much individuals vary within each group.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-anova-source-table" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="the-anova-source-table"><span class="header-section-number">14.4.2</span> The ANOVA source table</h3>
+<p>Results are organized in a <strong>source table</strong> that displays the decomposition of variance and the test statistic:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>SS</th>
+<th>df</th>
+<th>MS</th>
+<th>F</th>
+<th>p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td><span class="math inline">\(SS_B\)</span></td>
+<td><span class="math inline">\(k - 1\)</span></td>
+<td><span class="math inline">\(MS_B = SS_B / df_B\)</span></td>
+<td><span class="math inline">\(MS_B / MS_W\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Within groups</td>
+<td><span class="math inline">\(SS_W\)</span></td>
+<td><span class="math inline">\(N - k\)</span></td>
+<td><span class="math inline">\(MS_W = SS_W / df_W\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td><span class="math inline">\(SS_T\)</span></td>
+<td><span class="math inline">\(N - 1\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Where <span class="math inline">\(k\)</span> = number of groups and <span class="math inline">\(N\)</span> = total sample size.</p>
+<p><strong>Mean squares (MS)</strong> are obtained by dividing each SS by its degrees of freedom — converting sums of squares into variance estimates that can be meaningfully compared regardless of sample size<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">3</a>]</sup></span>.</p>
+</section>
+<section id="the-f-statistic" class="level3" data-number="14.4.3">
+<h3 data-number="14.4.3" class="anchored" data-anchor-id="the-f-statistic"><span class="header-section-number">14.4.3</span> The F-statistic</h3>
+<p>The <strong>F-ratio</strong> is the heart of ANOVA:</p>
+<p><span class="math display">\[
+F = \frac{MS_{\text{between}}}{MS_{\text{within}}}
+\]</span></p>
+<ul>
+<li>When H₀ is true (all group means equal), both MS_between and MS_within estimate the same population variance → F ≈ 1</li>
+<li>When H₁ is true (at least one mean differs), MS_between is inflated by true group differences → F &gt; 1</li>
+<li>Larger F values provide stronger evidence against H₀</li>
+</ul>
+<p>The F-statistic follows an <strong>F-distribution</strong> with numerator degrees of freedom <span class="math inline">\(df_1 = k - 1\)</span> and denominator degrees of freedom <span class="math inline">\(df_2 = N - k\)</span>. The F-distribution is always positive and right-skewed, and its shape depends on both degrees of freedom<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Think of F as a signal-to-noise ratio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>MS_between captures the “signal” — how much group means differ from each other. MS_within captures the “noise” — how much individuals vary within their own groups. F = signal / noise. A large F means the signal clearly rises above the background noise, supporting rejection of H₀<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="one-way-anova-in-practice" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="one-way-anova-in-practice"><span class="header-section-number">14.5</span> One-way ANOVA in practice</h2>
+<section id="when-to-use-one-way-anova" class="level3" data-number="14.5.1">
+<h3 data-number="14.5.1" class="anchored" data-anchor-id="when-to-use-one-way-anova"><span class="header-section-number">14.5.1</span> When to use one-way ANOVA</h3>
+<p>One-way between-subjects ANOVA is appropriate whenever a researcher wants to compare group means across three or more groups that are defined by a single categorical independent variable, and where each participant belongs to one and only one group<span class="citation" data-cites="vincent2005 thomas2015 portney2020"><sup>[<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>–<a href="references.html#ref-portney2020" role="doc-biblioref">7</a>]</sup></span>. The “one-way” designation refers to the presence of a single factor — for example, training type (endurance, resistance, or control) or age category (young adult, middle-aged, older adult). The “between-subjects” designation means that different participants are in each group rather than the same participants being measured repeatedly; designs involving repeated measurements are addressed in Chapter 15.</p>
+<p>The dependent variable must be measured on a continuous scale — interval or ratio — because ANOVA operates on means and variances. Comparing gait speed across three fall-risk groups, jump height across four training protocols, or grip strength across three diagnostic categories would all qualify. If the outcome is ordinal or clearly non-normal with small samples, the nonparametric Kruskal-Wallis test (Chapter 19) is the appropriate alternative<span class="citation" data-cites="conover1999"><sup>[<a href="references.html#ref-conover1999" role="doc-biblioref">10</a>]</sup></span>.</p>
+<p>A common source of confusion is whether ANOVA or a t-test is appropriate when exactly three groups are involved. The answer is unambiguous: with three or more groups, ANOVA is required. The independent-samples t-test is restricted to two groups. Even with three groups, running pairwise t-tests instead of ANOVA inflates the familywise error rate as described earlier, making ANOVA not just an option but a methodological necessity<span class="citation" data-cites="maxwell2008 field_discovering"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Comparing VO₂max across training groups
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A researcher randomly assigns 60 university students to one of three 12-week training programs: endurance training (n = 20), resistance training (n = 20), or a no-exercise control group (n = 20). VO₂max (mL·kg⁻¹·min⁻¹) is measured at post-training. The researcher wants to know whether VO₂max differs across the three groups. With one factor (training group) at three levels and a continuous DV (VO₂max), one-way ANOVA is the appropriate test<span class="citation" data-cites="vincent2005"><sup>[<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="hypotheses" class="level3" data-number="14.5.2">
+<h3 data-number="14.5.2" class="anchored" data-anchor-id="hypotheses"><span class="header-section-number">14.5.2</span> Hypotheses</h3>
+<p><strong>Null hypothesis (H₀):</strong> <span class="math display">\[
+\mu_1 = \mu_2 = \mu_3 = \ldots = \mu_k
+\]</span></p>
+<p>All population means are equal — the independent variable has no effect on the dependent variable.</p>
+<p><strong>Alternative hypothesis (H₁):</strong></p>
+<p>At least one population mean differs from the others.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>H₁ does not specify which groups differ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A significant F-test only tells you that <em>somewhere</em> among the groups there is a difference — it does not identify <em>which</em> group pairs are responsible. Post hoc tests (see below) are required to answer that more specific question<span class="citation" data-cites="tukey1949 field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>,<a href="references.html#ref-tukey1949" role="doc-biblioref">11</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-one-way-anova" class="level3" data-number="14.5.3">
+<h3 data-number="14.5.3" class="anchored" data-anchor-id="worked-example-one-way-anova"><span class="header-section-number">14.5.3</span> Worked example: One-way ANOVA</h3>
+<p>Using the VO₂max training study described above, the steps to conduct a one-way ANOVA are:</p>
+<p><strong>Step 1: State hypotheses</strong></p>
+<ul>
+<li>H₀: μ_endurance = μ_resistance = μ_control (training group has no effect on VO₂max)</li>
+<li>H₁: At least one training group mean differs</li>
+<li>α = .05</li>
+</ul>
+<p><strong>Step 2: Check assumptions</strong></p>
+<p>Before running the ANOVA, verify that independence, normality, and homogeneity of variance are met (see the Assumptions section below and the SPSS tutorial).</p>
+<p><strong>Step 3: Run the ANOVA in SPSS</strong></p>
+<p><em>(See the <strong><a href="./appendix-spss-anova.html">SPSS Tutorial: One-Way ANOVA</a></strong> for a full walkthrough of the SPSS procedure, output tables, and interpretation steps.)</em></p>
+<p><strong>Step 4: Interpret the source table output</strong></p>
+<p>Suppose SPSS produces the following:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th>SS</th>
+<th>df</th>
+<th>MS</th>
+<th>F</th>
+<th>p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Between groups</td>
+<td>1,248.6</td>
+<td>2</td>
+<td>624.3</td>
+<td>14.87</td>
+<td>&lt; .001</td>
+</tr>
+<tr class="even">
+<td>Within groups</td>
+<td>2,391.4</td>
+<td>57</td>
+<td>41.95</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Total</td>
+<td>3,640.0</td>
+<td>59</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>With F(2, 57) = 14.87, p &lt; .001, we reject H₀ and conclude that VO₂max differs significantly across at least two of the three training groups. Post hoc tests are then needed to identify which specific pairs differ.</p>
+<p><strong>Step 5: Compute and report effect size</strong></p>
+<p><span class="math inline">\(\eta^2 = SS_{\text{between}} / SS_{\text{total}} = 1248.6 / 3640.0 = .343\)</span>, indicating a large effect — approximately 34% of the total variance in VO₂max is accounted for by training group assignment<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>]</sup></span>.</p>
+<p><strong>Interpretation</strong></p>
+<p>A one-way ANOVA revealed a significant effect of training group on VO₂max, F(2, 57) = 14.87, p &lt; .001, η² = .34. This indicates that at least one training group’s mean VO₂max differed meaningfully from the others. Post hoc comparisons are needed to identify the source of this difference.</p>
+</section>
+</section>
+<section id="assumptions-of-one-way-anova" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="assumptions-of-one-way-anova"><span class="header-section-number">14.6</span> Assumptions of one-way ANOVA</h2>
+<p>One-way ANOVA rests on three key assumptions<span class="citation" data-cites="moore_ips field_discovering maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>–<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>:</p>
+<ol type="1">
+<li><p><strong>Independence of observations:</strong> Scores from different participants are independent. This is ensured by research design (random assignment, no repeated measures). Violations produce serious errors that cannot be corrected statistically.</p></li>
+<li><p><strong>Normality:</strong> The dependent variable is approximately normally distributed within each group. With larger samples (n ≥ 30 per group), ANOVA is robust to moderate departures from normality due to the Central Limit Theorem<span class="citation" data-cites="blanca2013 lumley2002"><sup>[<a href="references.html#ref-blanca2013" role="doc-biblioref">12</a>,<a href="references.html#ref-lumley2002" role="doc-biblioref">13</a>]</sup></span>.</p></li>
+<li><p><strong>Homogeneity of variance:</strong> Population variances are approximately equal across all groups. This assumption can be tested formally and, when violated, robust alternatives exist.</p></li>
+</ol>
+<section id="checking-normality" class="level3" data-number="14.6.1">
+<h3 data-number="14.6.1" class="anchored" data-anchor-id="checking-normality"><span class="header-section-number">14.6.1</span> Checking normality</h3>
+<p>Normality should be evaluated within each group separately, not across the entire sample pooled together. The most informative initial step is visual inspection: histograms and normal Q-Q plots for each group reveal the shape of the distribution, the presence of extreme outliers, and any floor or ceiling effects that might indicate a non-normal distribution<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. Q-Q plots are especially useful because departures from normality appear as systematic deviations from a straight diagonal line, making moderate skewness or heavy tails easy to spot even with modest sample sizes.</p>
+<p>For a formal statistical test of normality, the Shapiro-Wilk test is the recommended choice because of its superior sensitivity to departures from normality across a wide range of distribution shapes<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. Modern implementations support samples ranging from as few as 3 to as many as 5,000 observations per group. A non-significant Shapiro-Wilk test (p &gt; .05) supports the normality assumption, though it should be interpreted alongside the visual plots rather than in isolation — with large samples even trivial non-normality will produce significant results, while with very small samples the test has little power to detect meaningful violations.</p>
+<p>Fortunately, one-way ANOVA is reasonably robust to moderate departures from normality, particularly when group sizes are approximately equal and sample sizes are at least 30 per group. Under these conditions, the Central Limit Theorem ensures that sampling distributions of group means are approximately normal even if raw scores are not<span class="citation" data-cites="blanca2013 lumley2002"><sup>[<a href="references.html#ref-blanca2013" role="doc-biblioref">12</a>,<a href="references.html#ref-lumley2002" role="doc-biblioref">13</a>]</sup></span>. Smaller samples with pronounced skewness or heavy tails warrant greater caution, and a data transformation or nonparametric alternative should be considered in those cases.</p>
+</section>
+<section id="checking-homogeneity-of-variance" class="level3" data-number="14.6.2">
+<h3 data-number="14.6.2" class="anchored" data-anchor-id="checking-homogeneity-of-variance"><span class="header-section-number">14.6.2</span> Checking homogeneity of variance</h3>
+<p>The homogeneity of variance assumption is formally evaluated using <strong>Levene’s test</strong>, which tests the null hypothesis that all population variances are equal: H₀: σ₁² = σ₂² = ⋯ = σₖ²<span class="citation" data-cites="levene1960"><sup>[<a href="references.html#ref-levene1960" role="doc-biblioref">14</a>]</sup></span>. A non-significant result (p &gt; .05) supports the assumption and licenses use of the standard F-test and Tukey HSD post hoc comparisons. A significant Levene’s test (p &lt; .05) indicates that group variances are sufficiently unequal to warrant a correction; in that case, Welch’s ANOVA or the Brown-Forsythe ANOVA should be used in place of the standard F-test (see the warning callout below). In SPSS, Levene’s test is produced automatically when you check the “Homogeneity of Variance” option under <em>Options</em> in the One-Way ANOVA dialog.</p>
+<p>A useful practical rule of thumb is to compare the standard deviations across groups: if the largest group SD is less than twice the smallest group SD, the equal-variance assumption is unlikely to cause meaningful problems in practice, even if Levene’s test is technically significant in large samples<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. This is because the F-test is moderately robust to mild heteroscedasticity when group sizes are equal or nearly equal. When group sizes are substantially unequal <em>and</em> variances differ, the robustness of the F-test breaks down more sharply, and the corrected tests become important<span class="citation" data-cites="tabachnick2019"><sup>[<a href="references.html#ref-tabachnick2019" role="doc-biblioref">15</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>What to do when Levene’s test is significant
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When Levene’s test indicates unequal variances (p &lt; .05), use <strong>Welch’s ANOVA</strong> (also called the Welch F-test) or the <strong>Brown-Forsythe ANOVA</strong>, both of which adjust for heterogeneous variances<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. In SPSS, these are available under <em>Analyze → Compare Means → One-Way ANOVA → Options → Welch and Brown-Forsythe</em>. For post hoc comparisons under unequal variances, use the <strong>Games-Howell</strong> procedure<span class="citation" data-cites="games1976"><sup>[<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="when-assumptions-are-severely-violated" class="level3" data-number="14.6.3">
+<h3 data-number="14.6.3" class="anchored" data-anchor-id="when-assumptions-are-severely-violated"><span class="header-section-number">14.6.3</span> When assumptions are severely violated</h3>
+<p>If normality is substantially violated (especially with small samples):</p>
+<ul>
+<li><strong>Data transformation:</strong> Log or square root transformations may normalize the distribution<span class="citation" data-cites="osborne2002"><sup>[<a href="references.html#ref-osborne2002" role="doc-biblioref">17</a>]</sup></span></li>
+<li><strong>Kruskal-Wallis test:</strong> The nonparametric alternative to one-way ANOVA; compares ranked scores rather than means (see Chapter 19)<span class="citation" data-cites="conover1999"><sup>[<a href="references.html#ref-conover1999" role="doc-biblioref">10</a>]</sup></span></li>
+</ul>
+</section>
+</section>
+<section id="post-hoc-tests" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="post-hoc-tests"><span class="header-section-number">14.7</span> Post hoc tests</h2>
+<p>A significant omnibus F-test establishes that <em>at least one</em> group mean differs, but does not identify <em>which</em> pairs of groups are responsible. <strong>Post hoc tests</strong> make all pairwise comparisons while controlling the familywise error rate<span class="citation" data-cites="tukey1949 maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-tukey1949" role="doc-biblioref">11</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Only run post hoc tests after a significant F
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Post hoc comparisons are only meaningful following a statistically significant omnibus F-test. Running post hoc tests on a non-significant ANOVA result — sometimes called “fishing” — inflates Type I error and produces unreliable conclusions<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+</div>
+</div>
+<section id="choosing-a-post-hoc-test" class="level3" data-number="14.7.1">
+<h3 data-number="14.7.1" class="anchored" data-anchor-id="choosing-a-post-hoc-test"><span class="header-section-number">14.7.1</span> Choosing a post hoc test</h3>
+<p>The appropriate post hoc procedure depends on whether the homogeneity of variance assumption is met and whether group sizes are equal<span class="citation" data-cites="field_discovering games1976"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>,<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>Equal variances?</th>
+<th>Equal n?</th>
+<th>Characteristics</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tukey HSD</strong></td>
+<td>Yes</td>
+<td>Preferred</td>
+<td>Most widely used; good balance of Type I/II error control</td>
+</tr>
+<tr class="even">
+<td><strong>Bonferroni</strong></td>
+<td>Yes</td>
+<td>Any</td>
+<td>Conservative; best when number of comparisons is small</td>
+</tr>
+<tr class="odd">
+<td><strong>Games-Howell</strong></td>
+<td>No</td>
+<td>Any</td>
+<td>Preferred when Levene’s test is significant</td>
+</tr>
+<tr class="even">
+<td><strong>Scheffé</strong></td>
+<td>Yes</td>
+<td>Any</td>
+<td>Very conservative; suited for complex (non-pairwise) comparisons</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommendation:</strong> Use <strong>Tukey HSD</strong> when assumptions are met. Switch to <strong>Games-Howell</strong> when Levene’s test is significant<span class="citation" data-cites="games1976 field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>,<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>.</p>
+</section>
+<section id="interpreting-post-hoc-output" class="level3" data-number="14.7.2">
+<h3 data-number="14.7.2" class="anchored" data-anchor-id="interpreting-post-hoc-output"><span class="header-section-number">14.7.2</span> Interpreting post hoc output</h3>
+<p>For the VO₂max example, Tukey HSD post hoc comparisons might reveal:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Mean Difference</th>
+<th>SE</th>
+<th>p (adjusted)</th>
+<th>95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Endurance − Resistance</td>
+<td>7.2</td>
+<td>2.05</td>
+<td>.003</td>
+<td>[2.1, 12.3]</td>
+</tr>
+<tr class="even">
+<td>Endurance − Control</td>
+<td>11.8</td>
+<td>2.05</td>
+<td>&lt; .001</td>
+<td>[6.7, 16.9]</td>
+</tr>
+<tr class="odd">
+<td>Resistance − Control</td>
+<td>4.6</td>
+<td>2.05</td>
+<td>.082</td>
+<td>[−0.5, 9.7]</td>
+</tr>
+</tbody>
+</table>
+<p>From this output: endurance training produced significantly higher VO₂max than both resistance training and the control group; resistance training did not significantly differ from the control group at α = .05. The 95% CIs confirm the direction and magnitude of each difference.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Post hoc comparisons in training research
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In a study comparing three resistance training protocols (high volume, high intensity, and moderate), a one-way ANOVA found a significant overall effect on 1-RM squat strength, F(2, 45) = 8.34, p &lt; .001. Tukey HSD post hoc tests revealed that high-volume training produced significantly greater strength gains than the moderate protocol (p = .008), but did not significantly differ from high-intensity training (p = .12). Such nuanced comparisons are only possible through proper post hoc procedures following a significant omnibus F<span class="citation" data-cites="vincent2005 hopkins2009"><sup>[<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">18</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="effect-sizes-in-anova" class="level2" data-number="14.8">
+<h2 data-number="14.8" class="anchored" data-anchor-id="effect-sizes-in-anova"><span class="header-section-number">14.8</span> Effect sizes in ANOVA</h2>
+<p>A significant F-test answers whether groups differ, but not <em>how much</em> they differ. Effect sizes are essential for interpreting practical significance and for planning future studies<span class="citation" data-cites="cohen1988 lakens2013 cumming2014"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">19</a>]</sup></span>.</p>
+<section id="eta-squared-η²" class="level3" data-number="14.8.1">
+<h3 data-number="14.8.1" class="anchored" data-anchor-id="eta-squared-η²"><span class="header-section-number">14.8.1</span> Eta-squared (η²)</h3>
+<p><strong>Eta-squared</strong> is the most commonly reported effect size in ANOVA<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>:</p>
+<p><span class="math display">\[
+\eta^2 = \frac{SS_{\text{between}}}{SS_{\text{total}}}
+\]</span></p>
+<p>It represents the proportion of total variance in the dependent variable explained by group membership. <strong>Benchmarks</strong> (Cohen, 1988):</p>
+<ul>
+<li>η² = .01: Small effect</li>
+<li>η² = .06: Medium effect</li>
+<li>η² = .14: Large effect</li>
+</ul>
+<p><strong>Limitation:</strong> η² slightly overestimates the population effect size, particularly in small samples, because <span class="math inline">\(SS_{\text{total}}\)</span> includes variability from the factor being estimated<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>.</p>
+</section>
+<section id="omega-squared-ω²" class="level3" data-number="14.8.2">
+<h3 data-number="14.8.2" class="anchored" data-anchor-id="omega-squared-ω²"><span class="header-section-number">14.8.2</span> Omega-squared (ω²)</h3>
+<p><strong>Omega-squared</strong> provides a less biased estimate of the population effect size<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>:</p>
+<p><span class="math display">\[
+\omega^2 = \frac{SS_{\text{between}} - (k-1) \cdot MS_{\text{within}}}{SS_{\text{total}} + MS_{\text{within}}}
+\]</span></p>
+<p>ω² is preferred over η² when reporting results, particularly with small-to-moderate samples, because it corrects for the upward bias in η²<span class="citation" data-cites="lakens2013 olejnik2003"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>. The same Cohen (1988) benchmarks (.01/.06/.14) are used for interpretation.</p>
+</section>
+<section id="cohens-f" class="level3" data-number="14.8.3">
+<h3 data-number="14.8.3" class="anchored" data-anchor-id="cohens-f"><span class="header-section-number">14.8.3</span> Cohen’s <em>f</em></h3>
+<p><strong>Cohen’s <em>f</em></strong> is a standardized effect size well suited to power analysis planning<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>]</sup></span>:</p>
+<p><span class="math display">\[
+f = \sqrt{\frac{\eta^2}{1 - \eta^2}}
+\]</span></p>
+<p><strong>Benchmarks</strong> (Cohen, 1988):</p>
+<ul>
+<li><em>f</em> = .10: Small effect</li>
+<li><em>f</em> = .25: Medium effect</li>
+<li><em>f</em> = .40: Large effect</li>
+</ul>
+<p>Cohen’s <em>f</em> is the effect size metric used in G*Power when planning sample sizes for ANOVA<span class="citation" data-cites="faul2007"><sup>[<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>.</p>
+</section>
+<section id="which-effect-size-to-report" class="level3" data-number="14.8.4">
+<h3 data-number="14.8.4" class="anchored" data-anchor-id="which-effect-size-to-report"><span class="header-section-number">14.8.4</span> Which effect size to report?</h3>
+<p>The short answer for published research is to prioritize <strong>ω²</strong>. Because η² systematically overestimates the population effect — it treats the sample’s own variability as the denominator rather than correcting for it — ω²’s penalty for the number of groups and the within-group variance produces an estimate that generalizes more honestly to the broader population<span class="citation" data-cites="olejnik2003 lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>. This distinction is especially consequential with small-to-moderate total samples, where η² can exceed the true effect by a meaningful margin.</p>
+<p>That said, it is worth also reporting <strong>η²</strong> alongside ω² whenever you are directly comparing your results to existing literature, since the vast majority of published Movement Science studies report η² rather than ω². Providing both values with a brief note that η² is the commonly used but upwardly biased estimate allows readers to interpret your findings relative to the prior literature while still appreciating the more conservative estimate<span class="citation" data-cites="lakens2013 olejnik2003"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>.</p>
+<p>Regardless of which variance-explained effect size you report, always accompany it with <strong>95% confidence intervals</strong> when your software provides them. A point estimate alone — whether η² = .34 or ω² = .32 — communicates the sample result but not the precision of that estimate<span class="citation" data-cites="cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">19</a>]</sup></span>. Wide confidence intervals signal that the true effect could be considerably smaller or larger than observed, which has direct implications for how the findings should be weighted in practice. Finally, when the goal is planning a future study or conducting a power analysis, convert η² or ω² into <strong>Cohen’s <em>f</em></strong> using the formula given above. G<em>Power requires Cohen’s </em>f* as its input, and this translation ensures that power calculations are grounded in the same effect size estimate you observed<span class="citation" data-cites="faul2007 cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>η² overestimates — report ω² for small samples
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With small samples (total N &lt; 100), η² can substantially overestimate the true population effect. ω² is a more conservative and honest estimate. Software such as JASP and R’s <code>effectsize</code> package compute both automatically<span class="citation" data-cites="olejnik2003 lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="visualizing-anova-results" class="level2" data-number="14.9">
+<h2 data-number="14.9" class="anchored" data-anchor-id="visualizing-anova-results"><span class="header-section-number">14.9</span> Visualizing ANOVA results</h2>
+<p>Effective visualizations help communicate both the central tendency and variability of each group<span class="citation" data-cites="cumming2012 wilkinson1999"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">22</a>,<a href="references.html#ref-wilkinson1999" role="doc-biblioref">23</a>]</sup></span>.</p>
+<section id="box-plots-by-group" class="level3" data-number="14.9.1">
+<h3 data-number="14.9.1" class="anchored" data-anchor-id="box-plots-by-group"><span class="header-section-number">14.9.1</span> Box plots by group</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>vo2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Group =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Endurance"</span>, <span class="st">"Resistance"</span>, <span class="st">"Control"</span>), <span class="at">each =</span> n),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Resistance"</span>, <span class="st">"Endurance"</span>)),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">VO2max =</span> <span class="fu">c</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">52.4</span>, <span class="at">sd =</span> <span class="fl">6.8</span>),  <span class="co"># Endurance</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">45.2</span>, <span class="at">sd =</span> <span class="fl">6.2</span>),  <span class="co"># Resistance</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">40.6</span>, <span class="at">sd =</span> <span class="fl">6.4</span>)   <span class="co"># Control</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vo2, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> VO2max, <span class="at">fill =</span> Group)) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">outlier.shape =</span> <span class="dv">16</span>, <span class="at">outlier.size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>, <span class="at">size =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span>   <span class="ot">=</span> <span class="st">"#d9534f"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Resistance"</span> <span class="ot">=</span> <span class="st">"#f0ad4e"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Endurance"</span>  <span class="ot">=</span> <span class="st">"#5bc0de"</span>)) <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Training Group"</span>, <span class="at">y =</span> <span class="fu">expression</span>(VO[<span class="dv">2</span>]<span class="sc">*</span><span class="st">"max (mL·kg"</span><span class="sc">^-</span><span class="dv">1</span><span class="sc">*</span><span class="st">"·min"</span><span class="sc">^-</span><span class="dv">1</span><span class="sc">*</span><span class="st">")"</span>),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"VO₂max by Training Group"</span>) <span class="sc">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-anova-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anova-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch14-anova_files/figure-html/fig-anova-boxplot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;14.1: VO₂max (mL·kg⁻¹·min⁻¹) across three training groups. Box plots display the median, interquartile range, and outliers for each group. Endurance training produced notably higher and more variable VO₂max values compared to resistance and control groups."><img src="ch14-anova_files/figure-html/fig-anova-boxplot-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anova-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.1: VO₂max (mL·kg⁻¹·min⁻¹) across three training groups. Box plots display the median, interquartile range, and outliers for each group. Endurance training produced notably higher and more variable VO₂max values compared to resistance and control groups.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Box plots (<a href="#fig-anova-boxplot" class="quarto-xref">Figure&nbsp;<span>14.1</span></a>) reveal the full distribution of VO₂max scores within each group, making it easy to spot differences in both central tendency and spread. The endurance group shows clearly higher medians and interquartile ranges, consistent with the known aerobic demands of endurance training<span class="citation" data-cites="vincent2005"><sup>[<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>]</sup></span>.</p>
+</section>
+<section id="error-bar-plots-with-confidence-intervals" class="level3" data-number="14.9.2">
+<h3 data-number="14.9.2" class="anchored" data-anchor-id="error-bar-plots-with-confidence-intervals"><span class="header-section-number">14.9.2</span> Error bar plots with confidence intervals</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>summary_vo2 <span class="ot">&lt;-</span> vo2 <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Group) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Mean =</span> <span class="fu">mean</span>(VO2max),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SD   =</span> <span class="fu">sd</span>(VO2max),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">n    =</span> <span class="fu">n</span>(),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">SE   =</span> SD <span class="sc">/</span> <span class="fu">sqrt</span>(n),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">CI_lower =</span> Mean <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> SE,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">CI_upper =</span> Mean <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> SE</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_vo2, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> Mean, <span class="at">fill =</span> Group)) <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">alpha =</span> <span class="fl">0.75</span>, <span class="at">width =</span> <span class="fl">0.55</span>) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_lower, <span class="at">ymax =</span> CI_upper),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span>   <span class="ot">=</span> <span class="st">"#d9534f"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Resistance"</span> <span class="ot">=</span> <span class="st">"#f0ad4e"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Endurance"</span>  <span class="ot">=</span> <span class="st">"#5bc0de"</span>)) <span class="sc">+</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Training Group"</span>, <span class="at">y =</span> <span class="fu">expression</span>(VO[<span class="dv">2</span>]<span class="sc">*</span><span class="st">"max (mL·kg"</span><span class="sc">^-</span><span class="dv">1</span><span class="sc">*</span><span class="st">"·min"</span><span class="sc">^-</span><span class="dv">1</span><span class="sc">*</span><span class="st">")"</span>),</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Mean VO₂max by Training Group (95% CI)"</span>) <span class="sc">+</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">65</span>)) <span class="sc">+</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-anova-errorbars" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-anova-errorbars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch14-anova_files/figure-html/fig-anova-errorbars-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;14.2: Mean VO₂max (mL·kg⁻¹·min⁻¹) with 95% confidence intervals for each training group. Non-overlapping confidence intervals between the endurance and control groups strongly suggest a statistically significant difference."><img src="ch14-anova_files/figure-html/fig-anova-errorbars-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-anova-errorbars-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;14.2: Mean VO₂max (mL·kg⁻¹·min⁻¹) with 95% confidence intervals for each training group. Non-overlapping confidence intervals between the endurance and control groups strongly suggest a statistically significant difference.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Error bar plots with 95% confidence intervals (<a href="#fig-anova-errorbars" class="quarto-xref">Figure&nbsp;<span>14.2</span></a>) complement formal testing by conveying both the magnitude and precision of group differences. When CIs do not overlap, this provides a visual indication that the corresponding groups likely differ significantly; however, overlapping CIs do not rule out significance at α = .05, so formal ANOVA and post hoc tests are always necessary<span class="citation" data-cites="cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">22</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="reporting-anova-results-in-apa-style" class="level2" data-number="14.10">
+<h2 data-number="14.10" class="anchored" data-anchor-id="reporting-anova-results-in-apa-style"><span class="header-section-number">14.10</span> Reporting ANOVA results in APA style</h2>
+<section id="omnibus-f-test" class="level3" data-number="14.10.1">
+<h3 data-number="14.10.1" class="anchored" data-anchor-id="omnibus-f-test"><span class="header-section-number">14.10.1</span> Omnibus F-test</h3>
+<p><strong>Template:</strong></p>
+<p>“A one-way ANOVA revealed a [significant/non-significant] effect of [factor] on [DV], F([df_B], [df_W]) = [F-value], p = [p-value], η² = [value] (or ω² = [value]).”</p>
+<p><strong>Example:</strong></p>
+<p>“A one-way ANOVA revealed a significant effect of training group on VO₂max, F(2, 57) = 14.87, p &lt; .001, η² = .34, ω² = .32.”</p>
+</section>
+<section id="post-hoc-comparisons" class="level3" data-number="14.10.2">
+<h3 data-number="14.10.2" class="anchored" data-anchor-id="post-hoc-comparisons"><span class="header-section-number">14.10.2</span> Post hoc comparisons</h3>
+<p><strong>Template (following significant omnibus F):</strong></p>
+<p>“Post hoc comparisons using [test name] indicated that [Group A] (M = [value], SD = [value]) differed significantly from [Group B] (M = [value], SD = [value]), p = [value], 95% CI [lower, upper].”</p>
+<p><strong>Full example:</strong></p>
+<p>“A one-way ANOVA revealed a significant effect of training group on VO₂max, F(2, 57) = 14.87, p &lt; .001, η² = .34, ω² = .32. Post hoc comparisons using Tukey HSD indicated that the endurance group (M = 52.4, SD = 6.8 mL·kg⁻¹·min⁻¹) had significantly higher VO₂max than both the resistance group (M = 45.2, SD = 6.2), p = .003, 95% CI [2.1, 12.3], and the control group (M = 40.6, SD = 6.4), p &lt; .001, 95% CI [6.7, 16.9]. Resistance and control groups did not differ significantly, p = .082, 95% CI [−0.5, 9.7].”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Include descriptive statistics for each group
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Always report group means and standard deviations alongside the omnibus F-test. These allow readers to assess the direction and practical magnitude of differences, independent of the p-value<span class="citation" data-cites="apa2020 wilkinson1999"><sup>[<a href="references.html#ref-wilkinson1999" role="doc-biblioref">23</a>,<a href="references.html#ref-apa2020" role="doc-biblioref">24</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sample-size-and-power-for-anova" class="level2" data-number="14.11">
+<h2 data-number="14.11" class="anchored" data-anchor-id="sample-size-and-power-for-anova"><span class="header-section-number">14.11</span> Sample size and power for ANOVA</h2>
+<p>Statistical power in one-way ANOVA depends on the same factors as the t-test: sample size, effect size (Cohen’s <em>f</em>), and α level — plus the number of groups<span class="citation" data-cites="cohen1988 faul2007"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>.</p>
+<p>Power analysis for ANOVA is most conveniently performed using <strong>G*Power</strong>, a free and widely used software package<span class="citation" data-cites="faul2007"><sup>[<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>. To conduct a prospective power analysis (determining the sample size needed before collecting data), open G*Power, set the test family to <em>F tests</em> and the statistical test to <em>ANOVA: Fixed effects, omnibus, one-way</em>, then select <em>A priori</em> under the type of power analysis. You will need to specify four values: the expected effect size Cohen’s <em>f</em> (derived from pilot data, prior literature, or the small/medium/large benchmarks of .10, .25, and .40, respectively), the desired α level (typically .05), the target power level (typically .80 or .90), and the number of groups in your design.</p>
+<p>Effect size is the most consequential and most difficult of these inputs. Rather than defaulting to a “medium” effect, researchers are encouraged to base their effect size estimate on the smallest effect that would be meaningful or detectable in their specific context — an approach sometimes called the <em>smallest effect size of interest</em><span class="citation" data-cites="lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>]</sup></span>. If pilot data are available, compute Cohen’s <em>f</em> from the observed η² using <span class="math inline">\(f = \sqrt{\eta^2 / (1 - \eta^2)}\)</span> and use that value as the input. For example, to detect a medium effect (f = .25) with 80% power and α = .05 across three groups, G*Power indicates approximately <strong>52 total participants</strong> — about 17 per group — are required<span class="citation" data-cites="faul2007 cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>. Increasing the number of groups while holding effect size and power constant requires proportionally larger samples, since each additional group adds degrees of freedom to the denominator without contributing additional between-group signal.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Explore power with the in-book calculator — then confirm with G*Power or SPSS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong><a href="./appendix-statistical-calculators.html">Statistical Calculators appendix</a></strong> includes an interactive power calculator that supports one-way ANOVA alongside t-tests and correlations. It is a great way to build intuition: try adjusting the effect size, number of groups, or sample size and watch how power responds in real time. This kind of exploration — rather than just solving for a single required N — is how researchers develop a practical feel for these relationships.</p>
+<p>For formal research planning, confirm your estimates with dedicated software. <strong>G*Power</strong> (free, downloadable at <a href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower">psychologie.hhu.de</a>) has long been the standard for movement science power analyses and is widely cited in published methods sections<span class="citation" data-cites="faul2007"><sup>[<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>. <strong>SPSS Statistics 31 and later</strong> now includes a built-in power analysis module under <em>Analyze → Power Analysis</em>, letting you estimate required sample sizes or post-hoc achieved power without leaving the software you already use for your analyses.</p>
+</div>
+</div>
+</section>
+<section id="common-pitfalls-and-best-practices" class="level2" data-number="14.12">
+<h2 data-number="14.12" class="anchored" data-anchor-id="common-pitfalls-and-best-practices"><span class="header-section-number">14.12</span> Common pitfalls and best practices</h2>
+<section id="pitfall-1-running-multiple-t-tests-instead-of-anova" class="level3" data-number="14.12.1">
+<h3 data-number="14.12.1" class="anchored" data-anchor-id="pitfall-1-running-multiple-t-tests-instead-of-anova"><span class="header-section-number">14.12.1</span> Pitfall 1: Running multiple t-tests instead of ANOVA</h3>
+<p><strong>Problem:</strong> Conducting separate t-tests for each pair inflates familywise Type I error far beyond α<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>.</p>
+<p><strong>Solution:</strong> Always use ANOVA for the omnibus test across three or more groups, then apply post hoc tests for pairwise comparisons.</p>
+</section>
+<section id="pitfall-2-running-post-hoc-tests-without-a-significant-omnibus-f" class="level3" data-number="14.12.2">
+<h3 data-number="14.12.2" class="anchored" data-anchor-id="pitfall-2-running-post-hoc-tests-without-a-significant-omnibus-f"><span class="header-section-number">14.12.2</span> Pitfall 2: Running post hoc tests without a significant omnibus F</h3>
+<p><strong>Problem:</strong> Conducting pairwise comparisons after a non-significant F capitalizes on chance and produces unreliable results.</p>
+<p><strong>Solution:</strong> Post hoc tests are only appropriate following a statistically significant omnibus F-test<span class="citation" data-cites="field_discovering tukey1949"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>,<a href="references.html#ref-tukey1949" role="doc-biblioref">11</a>]</sup></span>.</p>
+</section>
+<section id="pitfall-3-reporting-η²-without-acknowledging-its-bias" class="level3" data-number="14.12.3">
+<h3 data-number="14.12.3" class="anchored" data-anchor-id="pitfall-3-reporting-η²-without-acknowledging-its-bias"><span class="header-section-number">14.12.3</span> Pitfall 3: Reporting η² without acknowledging its bias</h3>
+<p><strong>Problem:</strong> η² systematically overestimates the population effect in small samples, presenting a more optimistic picture than warranted.</p>
+<p><strong>Solution:</strong> Report ω² as the primary effect size, or note η²’s upward bias when reporting it<span class="citation" data-cites="olejnik2003 lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>.</p>
+</section>
+<section id="pitfall-4-treating-a-non-significant-f-as-proof-of-no-difference" class="level3" data-number="14.12.4">
+<h3 data-number="14.12.4" class="anchored" data-anchor-id="pitfall-4-treating-a-non-significant-f-as-proof-of-no-difference"><span class="header-section-number">14.12.4</span> Pitfall 4: Treating a non-significant F as proof of no difference</h3>
+<p><strong>Problem:</strong> Failing to reject H₀ does not establish that group means are equal — it only means the evidence was insufficient to detect a difference, which may reflect low power<span class="citation" data-cites="cohen1994 altman1995"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">25</a>,<a href="references.html#ref-altman1995" role="doc-biblioref">26</a>]</sup></span>.</p>
+<p><strong>Solution:</strong> Always report effect sizes and confidence intervals. A non-significant result with a wide CI and moderate effect size calls for a larger study, not the conclusion that groups do not differ.</p>
+</section>
+<section id="pitfall-5-ignoring-unequal-group-sizes" class="level3" data-number="14.12.5">
+<h3 data-number="14.12.5" class="anchored" data-anchor-id="pitfall-5-ignoring-unequal-group-sizes"><span class="header-section-number">14.12.5</span> Pitfall 5: Ignoring unequal group sizes</h3>
+<p><strong>Problem:</strong> Highly unbalanced designs (very unequal n per group) reduce power and may affect assumption checks.</p>
+<p><strong>Solution:</strong> Aim for approximately equal group sizes whenever possible. When designs are unbalanced, use Type III sums of squares and report group-specific descriptive statistics<span class="citation" data-cites="maxwell2008 tabachnick2019"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-tabachnick2019" role="doc-biblioref">15</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="14.13">
+<h2 data-number="14.13" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">14.13</span> Chapter summary</h2>
+<p>Analysis of Variance is the natural extension of the two-group t-test to situations involving three or more group means, and it is among the most widely used statistical procedures in Movement Science research<span class="citation" data-cites="fisher1925 vincent2005"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>]</sup></span>. Its primary motivation is the multiple comparisons problem: running separate t-tests for all possible pairs of groups inflates the familywise Type I error rate to unacceptable levels, while ANOVA tests the omnibus null hypothesis in a single, coherent analysis that preserves the stated α<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>. The conceptual core of ANOVA — partitioning total variance into between-groups and within-groups components — provides a remarkably versatile framework that extends to repeated-measures designs (Chapter 15), factorial designs with multiple factors (Chapter 16), and analysis of covariance (Chapter 17).</p>
+<p>Interpreting ANOVA results requires looking beyond the omnibus F-test. A significant F indicates that <em>somewhere</em> among the groups a difference exists; post hoc tests (Tukey HSD when variances are equal, Games-Howell when they are not) identify <em>which</em> specific pairs of groups differ, while controlling the familywise error rate<span class="citation" data-cites="tukey1949 games1976"><sup>[<a href="references.html#ref-tukey1949" role="doc-biblioref">11</a>,<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>. Effect sizes quantify how large these differences are in practical terms: η² expresses the proportion of total variance explained by the factor, while ω² provides a less biased estimate that is preferred for small-to-moderate samples<span class="citation" data-cites="olejnik2003 lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>. Cohen’s <em>f</em> links effect size to power analysis, enabling researchers to determine the sample sizes needed for adequately powered studies<span class="citation" data-cites="cohen1988 faul2007"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>,<a href="references.html#ref-faul2007" role="doc-biblioref">21</a>]</sup></span>.</p>
+<p>Throughout this chapter — as in Chapter 13 — the emphasis has been on integrating hypothesis testing with effect size estimation and practical significance evaluation<span class="citation" data-cites="cumming2014 batterham2006"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">19</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">27</a>]</sup></span>. A significant p-value confirms that a difference is unlikely due to chance; a large η² or ω² confirms it is meaningful in magnitude; and confidence intervals around post hoc mean differences reveal its real-world size and precision. Together, these elements allow Movement Science researchers to answer not just “Did the groups differ?” but “How much did they differ, how precisely do we know, and does it matter for practice?”<span class="citation" data-cites="hopkins2009 thomas2015"><sup>[<a href="references.html#ref-thomas2015" role="doc-biblioref">6</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">18</a>]</sup></span>.</p>
+</section>
+<section id="key-terms" class="level2" data-number="14.14">
+<h2 data-number="14.14" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">14.14</span> Key terms</h2>
+<p>one-way ANOVA; analysis of variance; familywise error rate; omnibus test; between-groups variance; within-groups variance; sum of squares; mean square; F-ratio; F-distribution; source table; degrees of freedom; homogeneity of variance; Levene’s test; post hoc test; Tukey HSD; Bonferroni correction; Games-Howell; eta-squared; omega-squared; Cohen’s <em>f</em>; effect size; statistical power</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="14.15">
+<h2 data-number="14.15" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">14.15</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>Question 1: Why is it inappropriate to run multiple t-tests when
+comparing three or more groups?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>When comparing k groups, every additional pairwise t-test adds another opportunity for a Type I error. The familywise error rate is 1 − (1 − α)^c, where c is the number of comparisons. With three groups (three tests) at α = .05, the familywise rate rises to approximately .14; with five groups (ten tests), it approaches .40<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span>. This means that even if there are no real group differences, a researcher has a 40% chance of finding at least one spuriously significant result. ANOVA solves this by evaluating all group means simultaneously in a single test that maintains the stated α level<span class="citation" data-cites="fisher1925 field_discovering"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>Question 2: What does the F-ratio represent, and when would you expect
+it to be large?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>The F-ratio is the ratio of between-groups mean square to within-groups mean square: F = MS_between / MS_within. MS_between reflects how much group means deviate from the grand mean (signal), while MS_within reflects how much individuals vary within their own groups (noise). When the null hypothesis is true — all group means are equal — both MS components estimate the same population variance, and F ≈ 1. F becomes large when group means differ substantially <em>relative to</em> the variability within groups, indicating that between-group variation is unlikely due to sampling error alone<span class="citation" data-cites="moore_ips maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">3</a>]</sup></span>. In Movement Science, large F-values often arise when comparing groups with clearly distinct training histories or fitness profiles.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>Question 3: How do you decide which post hoc test to use after a
+significant ANOVA?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>The choice depends primarily on whether the homogeneity of variance assumption is met<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>. When Levene’s test is non-significant (variances are approximately equal), <strong>Tukey HSD</strong> is the standard recommendation — it controls the familywise error rate well while maintaining good power for pairwise comparisons<span class="citation" data-cites="tukey1949"><sup>[<a href="references.html#ref-tukey1949" role="doc-biblioref">11</a>]</sup></span>. When Levene’s test is significant (variances are unequal) or group sizes are very unequal, <strong>Games-Howell</strong> is preferred because it does not assume equal variances and adjusts both the test statistic and degrees of freedom accordingly<span class="citation" data-cites="games1976"><sup>[<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>. The Bonferroni correction is a conservative alternative suitable for any situation, particularly when the number of planned comparisons is small.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>Question 4: What is the difference between η² and ω², and which should
+you prefer?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>Both η² and ω² quantify the proportion of variance in the dependent variable attributable to the factor<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span>. Eta-squared (η² = SS_between / SS_total) is straightforward to compute but is a biased estimator of the population effect size — it tends to overestimate, especially in small samples. Omega-squared (ω²) includes a correction term that penalizes for the number of groups and the within-groups variance, making it less biased and more accurate for generalizing to the population<span class="citation" data-cites="lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">9</a>]</sup></span>. <strong>ω² is preferred</strong> for reporting, particularly with small samples (total N &lt; 100). Eta-squared remains widely used in published research, so it is worth reporting both and noting η²’s upward bias to aid transparent interpretation.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>Question 5: A researcher runs a one-way ANOVA and gets F(3, 76) = 2.31,
+p = .083. What should they conclude and report?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>With p = .083 &gt; α = .05, the omnibus F-test is not significant and the researcher fails to reject H₀. This means the evidence is insufficient to conclude that any group means differ — but it does <strong>not</strong> prove that the groups are equal<span class="citation" data-cites="altman1995 cohen1994"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">25</a>,<a href="references.html#ref-altman1995" role="doc-biblioref">26</a>]</sup></span>. The researcher should report the F-statistic, degrees of freedom, and p-value, and also compute and report the effect size (ω²) and its confidence interval. If ω² is modest and the CI is wide, the study may be underpowered; a larger sample size should be considered for future research. Critically, post hoc tests should <strong>not</strong> be run following a non-significant omnibus result, as doing so inflates Type I error<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>Question 6: What are the three key assumptions of one-way ANOVA, and
+what can you do when each is violated?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>The three assumptions are: (1) <strong>Independence of observations</strong> — scores are not influenced by other participants. This must be ensured by design (random, independent sampling); there is no statistical correction for non-independence. (2) <strong>Normality</strong> — the DV is approximately normally distributed within each group. ANOVA is robust to mild departures from normality with larger samples (n ≥ 30 per group)<span class="citation" data-cites="blanca2013"><sup>[<a href="references.html#ref-blanca2013" role="doc-biblioref">12</a>]</sup></span>; severe violations can be addressed with data transformations or the nonparametric Kruskal-Wallis test (Chapter 19)<span class="citation" data-cites="conover1999"><sup>[<a href="references.html#ref-conover1999" role="doc-biblioref">10</a>]</sup></span>. (3) <strong>Homogeneity of variance</strong> — population variances are approximately equal across groups, assessed with Levene’s test<span class="citation" data-cites="levene1960"><sup>[<a href="references.html#ref-levene1960" role="doc-biblioref">14</a>]</sup></span>. When violated, use Welch’s ANOVA or Brown-Forsythe ANOVA with Games-Howell post hoc tests<span class="citation" data-cites="games1976 field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>,<a href="references.html#ref-games1976" role="doc-biblioref">16</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For deeper exploration of ANOVA and experimental design, see Maxwell, Delaney &amp; Kelley (2018)<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">2</a>]</sup></span> (<em>Designing Experiments and Analyzing Data</em>), Field (2018)<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">4</a>]</sup></span> (<em>Discovering Statistics Using IBM SPSS</em>), Cohen (1988)<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">8</a>]</sup></span> for effect size planning, and Olejnik &amp; Algina (2003)<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">20</a>]</sup></span> for guidance on unbiased effect size estimation. For Movement Science applications, consult Vincent (2005)<span class="citation" data-cites="vincent2005"><sup>[<a href="references.html#ref-vincent2005" role="doc-biblioref">5</a>]</sup></span> and Hopkins et al.&nbsp;(2009)<span class="citation" data-cites="hopkins2009"><sup>[<a href="references.html#ref-hopkins2009" role="doc-biblioref">18</a>]</sup></span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Chapter 15, you will extend the ANOVA framework to <strong>repeated measures designs</strong>, in which the same participants are measured across multiple conditions or time points. You will learn about the sphericity assumption, Mauchly’s test, and corrections (Greenhouse-Geisser, Huynh-Feldt), as well as how within-subject designs dramatically increase statistical power by removing between-subject variability from the error term.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-fisher1925" class="csl-entry" role="listitem">
+1. Fisher, R. A. (1925). <em>Statistical methods for research workers</em>.
+</div>
+<div id="ref-maxwell2008" class="csl-entry" role="listitem">
+2. Maxwell, S. E., Delaney, H. D., &amp; Kelley, K. (2018). <em>Designing experiments and analyzing data: A model comparison perspective</em> (3rd ed.). Routledge.
+</div>
+<div id="ref-moore_ips" class="csl-entry" role="listitem">
+3. Moore, D. S., McCabe, G. P., &amp; Craig, B. A. (2021). <em>Introduction to the practice of statistics</em> (10th ed.). W. H. Freeman; Company.
+</div>
+<div id="ref-field_discovering" class="csl-entry" role="listitem">
+4. Field, A. (2018). <em>Discovering statistics using IBM SPSS statistics</em> (5th ed.). SAGE Publications.
+</div>
+<div id="ref-vincent2005" class="csl-entry" role="listitem">
+5. Vincent, W. J. (2005). <em>Statistics in kinesiology</em>.
+</div>
+<div id="ref-thomas2015" class="csl-entry" role="listitem">
+6. Thomas, L. (2015). How to estimate power and sample size. <em>Trauma Surgery &amp; Acute Care Open</em>, <em>1</em>(1), e000005. <a href="https://doi.org/10.1136/tsaco-2015-000005">https://doi.org/10.1136/tsaco-2015-000005</a>
+</div>
+<div id="ref-portney2020" class="csl-entry" role="listitem">
+7. Portney, L. G., &amp; Watkins, M. P. (2020). <em>Foundations of clinical research: Applications to practice</em>.
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+8. Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Lawrence Erlbaum Associates.
+</div>
+<div id="ref-lakens2013" class="csl-entry" role="listitem">
+9. Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for t-tests and ANOVAs. <em>Frontiers in Psychology</em>, <em>4</em>, 863. <a href="https://doi.org/10.3389/fpsyg.2013.00863">https://doi.org/10.3389/fpsyg.2013.00863</a>
+</div>
+<div id="ref-conover1999" class="csl-entry" role="listitem">
+10. Conover, W. J. (1999). <em>Practical nonparametric statistics</em>.
+</div>
+<div id="ref-tukey1949" class="csl-entry" role="listitem">
+11. Tukey, J. W. (1949). Comparing individual means in the analysis of variance. <em>Biometrics</em>, <em>5</em>(2), 99–114. <a href="https://doi.org/10.2307/3001913">https://doi.org/10.2307/3001913</a>
+</div>
+<div id="ref-blanca2013" class="csl-entry" role="listitem">
+12. Blanca, M. J., Alarcón, R., Arnau, J., Bono, R., &amp; Bendayan, R. (2013). Non-normal data: Is ANOVA still a valid option? <em>Psicothema</em>, <em>25</em>(4), 552–557. <a href="https://doi.org/10.7334/psicothema2013.552">https://doi.org/10.7334/psicothema2013.552</a>
+</div>
+<div id="ref-lumley2002" class="csl-entry" role="listitem">
+13. Lumley, T., Diehr, P., Emerson, S., &amp; Chen, L. (2002). The importance of the normality assumption in large public health data sets. <em>Annual Review of Public Health</em>, <em>23</em>, 151–169. <a href="https://doi.org/10.1146/annurev.publhealth.23.100901.140546">https://doi.org/10.1146/annurev.publhealth.23.100901.140546</a>
+</div>
+<div id="ref-levene1960" class="csl-entry" role="listitem">
+14. Levene, H. (1960). Robust tests for equality of variances. <em>Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling</em>, 278–292.
+</div>
+<div id="ref-tabachnick2019" class="csl-entry" role="listitem">
+15. Tabachnick, B. G., &amp; Fidell, L. S. (2019). <em>Using multivariate statistics</em>.
+</div>
+<div id="ref-games1976" class="csl-entry" role="listitem">
+16. Games, P. A., &amp; Howell, J. F. (1976). Pairwise multiple comparison procedures with unequal n’s and/or variances: A monte carlo study. <em>Journal of Educational Statistics</em>, <em>1</em>(2), 113–125. <a href="https://doi.org/10.3102/10769986001002113">https://doi.org/10.3102/10769986001002113</a>
+</div>
+<div id="ref-osborne2002" class="csl-entry" role="listitem">
+17. Osborne, J. (2002). Notes on the use of data transformations. <em>Practical Assessment, Research &amp; Evaluation</em>, <em>8</em>(6). <a href="https://scholarworks.umass.edu/pare/vol8/iss1/6">https://scholarworks.umass.edu/pare/vol8/iss1/6</a>
+</div>
+<div id="ref-hopkins2009" class="csl-entry" role="listitem">
+18. Hopkins, W. G., Marshall, S. W., Batterham, A. M., &amp; Hanin, J. (2009). Progressive statistics for studies in sports medicine and exercise science. <em>Medicine &amp; Science in Sports &amp; Exercise</em>, <em>41</em>(1), 3–13. <a href="https://doi.org/10.1249/MSS.0b013e31818cb278">https://doi.org/10.1249/MSS.0b013e31818cb278</a>
+</div>
+<div id="ref-cumming2014" class="csl-entry" role="listitem">
+19. Cumming, G. (2014). The new statistics: Why and how. <em>Psychological Science</em>, <em>25</em>(1), 7–29. <a href="https://doi.org/10.1177/0956797613504966">https://doi.org/10.1177/0956797613504966</a>
+</div>
+<div id="ref-olejnik2003" class="csl-entry" role="listitem">
+20. Olejnik, S., &amp; Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. <em>Psychological Methods</em>, <em>8</em>(4), 434–447. <a href="https://doi.org/10.1037/1082-989X.8.4.434">https://doi.org/10.1037/1082-989X.8.4.434</a>
+</div>
+<div id="ref-faul2007" class="csl-entry" role="listitem">
+21. Faul, F., Erdfelder, E., Lang, A.-G., &amp; Buchner, A. (2007). G*power 3: A flexible statistical power analysis program for the social, behavioral, and biomedical sciences. <em>Behavior Research Methods</em>, <em>39</em>(2), 175–191. <a href="https://doi.org/10.3758/BF03193146">https://doi.org/10.3758/BF03193146</a>
+</div>
+<div id="ref-cumming2012" class="csl-entry" role="listitem">
+22. Cumming, G. (2012). <em>Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis</em>. Routledge.
+</div>
+<div id="ref-wilkinson1999" class="csl-entry" role="listitem">
+23. Wilkinson, L., &amp; Task Force on Statistical Inference. (1999). Statistical methods in psychology journals: Guidelines and explanations. <em>American Psychologist</em>, <em>54</em>(8), 594–604. <a href="https://doi.org/10.1037/0003-066X.54.8.594">https://doi.org/10.1037/0003-066X.54.8.594</a>
+</div>
+<div id="ref-apa2020" class="csl-entry" role="listitem">
+24. American Psychological Association. (2020). <em>Publication manual of the american psychological association</em> (7th ed.). American Psychological Association.
+</div>
+<div id="ref-cohen1994" class="csl-entry" role="listitem">
+25. Cohen, J. (1994). The earth is round (p &lt; .05). <em>American Psychologist</em>, <em>49</em>(12), 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a>
+</div>
+<div id="ref-altman1995" class="csl-entry" role="listitem">
+26. Altman, D. G., &amp; Bland, J. M. (1995). Statistics notes: Absence of evidence is not evidence of absence. <em>BMJ</em>, <em>311</em>, 485. <a href="https://doi.org/10.1136/bmj.311.7003.485">https://doi.org/10.1136/bmj.311.7003.485</a>
+</div>
+<div id="ref-batterham2006" class="csl-entry" role="listitem">
+27. Batterham, A. M., &amp; Hopkins, W. G. (2006). Making meaningful inferences about magnitudes. <em>International Journal of Sports Physiology and Performance</em>, <em>1</em>(1), 50–57. <a href="https://doi.org/10.1123/ijspp.1.1.50">https://doi.org/10.1123/ijspp.1.1.50</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch13-comparing-two-means.html" class="pagination-link" aria-label="Comparing Two Means">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch15-repeated-measures.html" class="pagination-link" aria-label="Repeated Measures Designs">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

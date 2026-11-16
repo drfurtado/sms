@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>19&nbsp; Nonparametric Methods – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch20-clinical-measures.html" rel="next">
+<link href="./ch18-reliability.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch18-reliability.html">Reliability, Nonparametric Methods, and Clinical Interpretation</a></li><li class="breadcrumb-item"><a href="./ch19-nonparametric.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-nonparam-overview" id="toc-sec-nonparam-overview" class="nav-link active" data-scroll-target="#sec-nonparam-overview"><span class="header-section-number">19.1</span> Overview</a></li>
+  <li><a href="#sec-nonparam-when" id="toc-sec-nonparam-when" class="nav-link" data-scroll-target="#sec-nonparam-when"><span class="header-section-number">19.2</span> When to Use Nonparametric Tests</a>
+  <ul class="collapse">
+  <li><a href="#what-nonparametric-tests-give-up" id="toc-what-nonparametric-tests-give-up" class="nav-link" data-scroll-target="#what-nonparametric-tests-give-up"><span class="header-section-number">19.2.1</span> What nonparametric tests give up</a></li>
+  </ul></li>
+  <li><a href="#sec-nonparam-ranks" id="toc-sec-nonparam-ranks" class="nav-link" data-scroll-target="#sec-nonparam-ranks"><span class="header-section-number">19.3</span> How Nonparametric Tests Work: The Logic of Ranks</a></li>
+  <li><a href="#sec-nonparam-effectsizes" id="toc-sec-nonparam-effectsizes" class="nav-link" data-scroll-target="#sec-nonparam-effectsizes"><span class="header-section-number">19.4</span> Effect Sizes for Nonparametric Tests</a></li>
+  <li><a href="#sec-chi-square" id="toc-sec-chi-square" class="nav-link" data-scroll-target="#sec-chi-square"><span class="header-section-number">19.5</span> Chi-Square Tests</a>
+  <ul class="collapse">
+  <li><a href="#goodness-of-fit-test" id="toc-goodness-of-fit-test" class="nav-link" data-scroll-target="#goodness-of-fit-test"><span class="header-section-number">19.5.1</span> Goodness-of-fit test</a></li>
+  <li><a href="#chi-square-test-of-independence" id="toc-chi-square-test-of-independence" class="nav-link" data-scroll-target="#chi-square-test-of-independence"><span class="header-section-number">19.5.2</span> Chi-square test of independence</a></li>
+  </ul></li>
+  <li><a href="#sec-spearman" id="toc-sec-spearman" class="nav-link" data-scroll-target="#sec-spearman"><span class="header-section-number">19.6</span> Spearman Rank-Order Correlation</a></li>
+  <li><a href="#sec-mann-whitney" id="toc-sec-mann-whitney" class="nav-link" data-scroll-target="#sec-mann-whitney"><span class="header-section-number">19.7</span> Mann-Whitney U Test</a></li>
+  <li><a href="#sec-wilcoxon" id="toc-sec-wilcoxon" class="nav-link" data-scroll-target="#sec-wilcoxon"><span class="header-section-number">19.8</span> Wilcoxon Signed-Rank Test</a></li>
+  <li><a href="#sec-kruskal-wallis" id="toc-sec-kruskal-wallis" class="nav-link" data-scroll-target="#sec-kruskal-wallis"><span class="header-section-number">19.9</span> Kruskal-Wallis Test</a></li>
+  <li><a href="#sec-friedman" id="toc-sec-friedman" class="nav-link" data-scroll-target="#sec-friedman"><span class="header-section-number">19.10</span> Friedman’s Test</a></li>
+  <li><a href="#sec-sign-test" id="toc-sec-sign-test" class="nav-link" data-scroll-target="#sec-sign-test"><span class="header-section-number">19.11</span> Sign Test (One-Sample Nonparametric Test)</a></li>
+  <li><a href="#sec-scheirer-ray-hare" id="toc-sec-scheirer-ray-hare" class="nav-link" data-scroll-target="#sec-scheirer-ray-hare"><span class="header-section-number">19.12</span> Scheirer-Ray-Hare Test (Nonparametric Factorial ANOVA)</a></li>
+  <li><a href="#sec-quade" id="toc-sec-quade" class="nav-link" data-scroll-target="#sec-quade"><span class="header-section-number">19.13</span> Nonparametric ANCOVA: Quade’s Test</a></li>
+  <li><a href="#sec-nonparam-decision" id="toc-sec-nonparam-decision" class="nav-link" data-scroll-target="#sec-nonparam-decision"><span class="header-section-number">19.14</span> Choosing the Right Nonparametric Test: A Decision Guide</a></li>
+  <li><a href="#sec-nonparam-pitfalls" id="toc-sec-nonparam-pitfalls" class="nav-link" data-scroll-target="#sec-nonparam-pitfalls"><span class="header-section-number">19.15</span> Common Pitfalls</a></li>
+  <li><a href="#sec-nonparam-summary" id="toc-sec-nonparam-summary" class="nav-link" data-scroll-target="#sec-nonparam-summary"><span class="header-section-number">19.16</span> Chapter Summary</a>
+  <ul class="collapse">
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">19.16.1</span> Key terms</a></li>
+  </ul></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">19.17</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch18-reliability.html">Reliability, Nonparametric Methods, and Clinical Interpretation</a></li><li class="breadcrumb-item"><a href="./ch19-nonparametric.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 Analytical Software &amp; SPSS Tutorials
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>A Note on By-Hand Calculations:</strong> The purpose of this book is not to teach tedious by-hand statistical calculations. Modern researchers run these analyses using major software packages. While we provide the underlying equations for conceptual understanding, we strongly recommend relying on software for computation to avoid errors and save time.</p>
+<p>Please direct your attention to the <strong><a href="./appendix-spss-nonparametric.html">SPSS Tutorial: Nonparametric Tests</a></strong> in the appendix for step-by-step instructions on running chi-square tests, Spearman correlation, Mann-Whitney U, Wilcoxon signed-rank, Kruskal-Wallis, and Friedman’s test in SPSS!</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Identify when nonparametric tests are appropriate alternatives to parametric procedures.</li>
+<li>Explain how rank transformation forms the basis of most nonparametric methods.</li>
+<li>Select and apply the correct nonparametric test for a given design (one-sample, two independent groups, two related samples, k independent groups, k related samples, correlation, or categorical association).</li>
+<li>Compute and interpret rank-biserial <em>r</em>, Cramér’s <em>V</em>, Kendall’s <em>W</em>, and Spearman <em>ρ</em> as nonparametric effect sizes.</li>
+<li>Write APA-style results paragraphs for each test covered in this chapter.</li>
+</ul>
+</div>
+</div>
+<section id="sec-nonparam-overview" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="sec-nonparam-overview"><span class="header-section-number">19.1</span> Overview</h2>
+<p>Movement scientists regularly encounter data that resist the assumptions underlying <em>t</em>-tests, ANOVA, and Pearson correlation. Muscle soreness is rated on a scale from 1 to 10 and will never be normally distributed. Functional outcome scores often cluster near the ceiling or floor. Small samples make normality difficult to verify. In these situations, <strong>nonparametric tests</strong> — procedures that do not assume a specific distributional form — are the appropriate analytic tools.</p>
+<p>This chapter introduces the most commonly used nonparametric methods in movement science research: chi-square tests for categorical data, Spearman correlation, Mann-Whitney U, Wilcoxon signed-rank, Kruskal-Wallis, and Friedman’s test. For each procedure, the chapter addresses (a) when to use it, (b) how it works conceptually, (c) what the output means, (d) what effect size to report, and (e) how to write the results in APA style.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Parametric vs.&nbsp;nonparametric: a quick orientation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The procedures in earlier chapters — <em>t</em>-tests, ANOVA, Pearson <em>r</em> — are called <strong>parametric</strong> because they make assumptions about population parameters (specifically, that scores are drawn from a normally distributed population with homogeneous variances). <strong>Nonparametric tests</strong> are often called <em>distribution-free</em> methods because they require no normality assumption. This does not mean they are assumption-free — they still assume random sampling, independence of observations, and sometimes continuous measurement — but they are far more robust when distributional assumptions are implausible.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-nonparam-when" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="sec-nonparam-when"><span class="header-section-number">19.2</span> When to Use Nonparametric Tests</h2>
+<p>Nonparametric tests are most appropriate when one or more of the following conditions hold:</p>
+<p><strong>Ordinal-level measurement.</strong> Pain ratings, Borg RPE scores, Likert-type items, and ranked order data are measured on ordinal scales. The differences between adjacent scale values are not equal (a pain change from 1 to 2 does not necessarily equal a change from 8 to 9), so computing means and standard deviations is not always meaningful. Rank-based tests respect the ordering without assuming equal intervals.</p>
+<p><strong>Severe non-normality in small samples.</strong> When the sample is small (<em>n</em> &lt; 20 per group) and there is strong evidence of skewness or outliers, the Central Limit Theorem cannot be relied on to rescue the normality assumption. Nonparametric tests based on ranks are inherently insensitive to extreme scores.</p>
+<p><strong>Categorical outcome variables.</strong> When the outcome is a category (male/female, injured/not injured, group membership), chi-square tests are the appropriate framework; no parametric alternative exists.</p>
+<p><strong>Bounded scales with floor or ceiling effects.</strong> Functional disability scores that pile up at 0 (no disability) or 100 (complete disability) are heavily skewed and violate the symmetry assumption underlying many parametric tests.</p>
+<section id="what-nonparametric-tests-give-up" class="level3" data-number="19.2.1">
+<h3 data-number="19.2.1" class="anchored" data-anchor-id="what-nonparametric-tests-give-up"><span class="header-section-number">19.2.1</span> What nonparametric tests give up</h3>
+<p>Choosing a nonparametric test is not cost-free. Rank-based procedures:</p>
+<ul>
+<li>Discard information by converting raw scores to ranks, reducing statistical power compared to a parametric test applied to normally distributed data.</li>
+<li>Produce test statistics (U, W, H, χ²) that are less intuitively interpretable than <em>t</em> or <em>F</em> on their own.</li>
+<li>Have fewer options for handling covariates, repeated factors, or complex designs.</li>
+</ul>
+<p>The practical recommendation is straightforward: use parametric tests when their assumptions are reasonably met; use nonparametric alternatives when they are not.</p>
+<hr>
+</section>
+</section>
+<section id="sec-nonparam-ranks" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="sec-nonparam-ranks"><span class="header-section-number">19.3</span> How Nonparametric Tests Work: The Logic of Ranks</h2>
+<p>Most nonparametric tests share a common mechanism: they <strong>convert raw scores to ranks</strong> and then perform arithmetic on those ranks rather than on the original values.</p>
+<p><a href="#tbl-rank-example" class="quarto-xref">Table&nbsp;<span>19.1</span></a> shows the conversion for a small dataset of pre-test functional scores.</p>
+<div id="tbl-rank-example" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-rank-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.1: Converting raw scores to ranks for a five-participant dataset.
+</figcaption>
+<div aria-describedby="tbl-rank-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Participant</th>
+<th style="text-align: center;">Raw score</th>
+<th style="text-align: center;">Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">A</td>
+<td style="text-align: center;">48</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">B</td>
+<td style="text-align: center;">62</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">71</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">D</td>
+<td style="text-align: center;">85</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">E</td>
+<td style="text-align: center;">91</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>After ranking, the test statistic is computed from the ranks. The key insight is that the rank-based statistic depends only on the <em>ordering</em> of scores, not their exact magnitudes. An outlier score of 48 (participant A) is treated identically regardless of whether it was actually 48 or −200 — it receives rank 1 in both cases. This is why rank-based methods are robust to extreme values.</p>
+<p><strong>Tied ranks.</strong> When two or more participants share the same raw score, they are assigned the <em>average</em> of the ranks they would have occupied. For example, if participants C and D both scored 71, each receives rank (3 + 4)/2 = 3.5. Most software handles ties automatically.</p>
+<hr>
+</section>
+<section id="sec-nonparam-effectsizes" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="sec-nonparam-effectsizes"><span class="header-section-number">19.4</span> Effect Sizes for Nonparametric Tests</h2>
+<p>Statistical significance tells you whether an observed difference is unlikely by chance; effect size tells you how large it is. Four effect size measures are commonly paired with nonparametric tests in movement science.</p>
+<p><strong>Rank-biserial correlation (<em>r</em>)</strong> is used with Mann-Whitney U (two independent groups) and Wilcoxon signed-rank (two related samples). It ranges from −1 to +1, with the same magnitude benchmarks as Pearson <em>r</em>: .10 = small, .30 = medium, .50 = large<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p><span class="math display">\[r = \frac{U_1 - U_2}{n_1 \times n_2}\]</span></p>
+<p>where <span class="math inline">\(U_1\)</span> and <span class="math inline">\(U_2\)</span> are the two Mann-Whitney U statistics.</p>
+<p><strong>Cramér’s <em>V</em> and phi (φ).</strong> For chi-square tests of association, Cramér’s <em>V</em> is the general effect size. When the contingency table has two rows and two columns (2 × 2), <em>V</em> simplifies to <strong>phi (φ)</strong>. Both range from 0 to 1; benchmarks: .10 = small, .30 = medium, .50 = large.</p>
+<p><span class="math display">\[V = \sqrt{\frac{\chi^2}{n \times (k - 1)}}\]</span></p>
+<p>where <em>k</em> is the smaller of the number of rows and columns.</p>
+<p><strong>Spearman <em>ρ</em></strong> is itself both the test statistic and the effect size for rank-order correlation. It has the same benchmarks as Pearson <em>r</em>.</p>
+<p><strong>Kendall’s concordance coefficient (<em>W</em>)</strong> is the effect size for Friedman’s test (multiple related samples). It ranges from 0 (no agreement) to 1 (perfect agreement across conditions or raters).</p>
+<p><span class="math display">\[W = \frac{12 \sum R_j^2 - 3n^2k(k+1)^2}{n^2k(k^2-1)}\]</span></p>
+<p>where <em>n</em> is the number of participants, <em>k</em> is the number of conditions, and <span class="math inline">\(R_j\)</span> is the sum of ranks in condition <em>j</em>.</p>
+<hr>
+</section>
+<section id="sec-chi-square" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="sec-chi-square"><span class="header-section-number">19.5</span> Chi-Square Tests</h2>
+<p>Chi-square (χ²) tests are used when the outcome variable is <strong>categorical</strong> — that is, when data are counts of observations falling into two or more named categories. Two designs are common in movement science.</p>
+<section id="goodness-of-fit-test" class="level3" data-number="19.5.1">
+<h3 data-number="19.5.1" class="anchored" data-anchor-id="goodness-of-fit-test"><span class="header-section-number">19.5.1</span> Goodness-of-fit test</h3>
+<p>The <strong>chi-square goodness-of-fit test</strong> asks whether the observed distribution of participants across categories matches an expected (theoretical) distribution. For example: are the 60 participants in our study evenly split between males and females, or does the sex distribution differ from 50/50?</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The observed frequencies match the expected frequencies.</li>
+<li>H₁: At least one category’s frequency differs from expectation.</li>
+</ul>
+<p><strong>Test statistic:</strong></p>
+<p><span class="math display">\[\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}\]</span></p>
+<p>where <span class="math inline">\(O_i\)</span> is the observed count in category <em>i</em> and <span class="math inline">\(E_i\)</span> is the expected count.</p>
+<p><strong>Degrees of freedom:</strong> df = <em>k</em> − 1, where <em>k</em> is the number of categories.</p>
+<p><strong>Worked example.</strong> In the <code>core_session</code> dataset, 33 participants are female and 27 are male. If we expect a 50/50 split, <em>E</em> = 30 for each category.</p>
+<p><span class="math display">\[\chi^2 = \frac{(33 - 30)^2}{30} + \frac{(27 - 30)^2}{30} = \frac{9}{30} + \frac{9}{30} = 0.60\]</span></p>
+<p>With df = 1, <em>p</em> = .439. The sex distribution does not differ significantly from the expected 50/50 split.</p>
+</section>
+<section id="chi-square-test-of-independence" class="level3" data-number="19.5.2">
+<h3 data-number="19.5.2" class="anchored" data-anchor-id="chi-square-test-of-independence"><span class="header-section-number">19.5.2</span> Chi-square test of independence</h3>
+<p>The <strong>chi-square test of independence</strong> asks whether two categorical variables are associated. For example: is the distribution of participants across sexes independent of group assignment (control vs.&nbsp;training)?</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The two categorical variables are independent (no association).</li>
+<li>H₁: The two variables are associated.</li>
+</ul>
+<p>The test statistic uses the same formula as above, but expected counts for each cell are computed as:</p>
+<p><span class="math display">\[E_{ij} = \frac{(\text{row total}_i)(\text{column total}_j)}{n}\]</span></p>
+<p><strong>Assumptions:</strong> Each cell must have an expected count of at least 5. If this is violated, Fisher’s exact test is preferred.</p>
+<p><strong>Worked example.</strong> <a href="#tbl-chisq-crosstab" class="quarto-xref">Table&nbsp;<span>19.2</span></a> shows the observed sex × group cross-tabulation.</p>
+<div id="tbl-chisq-crosstab" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-chisq-crosstab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.2: Observed frequencies for sex by group.
+</figcaption>
+<div aria-describedby="tbl-chisq-crosstab-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Control</th>
+<th style="text-align: center;">Training</th>
+<th style="text-align: center;">Row total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Female</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">33</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Male</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Col total</strong></td>
+<td style="text-align: center;"><strong>30</strong></td>
+<td style="text-align: center;"><strong>30</strong></td>
+<td style="text-align: center;"><strong>60</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Expected cell counts: (33 × 30)/60 = 16.5 per female cell; (27 × 30)/60 = 13.5 per male cell. All expected counts ≥ 5.</p>
+<p><span class="math display">\[\chi^2 = \frac{(21-16.5)^2}{16.5} + \frac{(12-16.5)^2}{16.5} + \frac{(9-13.5)^2}{13.5} + \frac{(18-13.5)^2}{13.5} = 1.227 + 1.227 + 1.500 + 1.500 = 5.45\]</span></p>
+<p>With df = (2 − 1)(2 − 1) = 1, <em>p</em> = .020, φ = .302. There is a statistically significant (but small) association between sex and group assignment: females were somewhat more likely to be randomized to the control group, and males to the training group. This modest imbalance should be noted when interpreting training effects.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>df_chisq <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex   =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Female"</span>, <span class="dv">21</span>), <span class="fu">rep</span>(<span class="st">"Male"</span>, <span class="dv">9</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"Female"</span>, <span class="dv">12</span>), <span class="fu">rep</span>(<span class="st">"Male"</span>, <span class="dv">18</span>)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Control"</span>, <span class="dv">30</span>), <span class="fu">rep</span>(<span class="st">"Training"</span>, <span class="dv">30</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>df_mosaic <span class="ot">&lt;-</span> df_chisq <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(group, sex) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(group) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_mosaic, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> prop, <span class="at">fill =</span> sex)) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Female"</span> <span class="ot">=</span> <span class="st">"#4E84C4"</span>, <span class="st">"Male"</span> <span class="ot">=</span> <span class="st">"#D55E00"</span>)) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">percent_format</span>()) <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Group"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Proportion within group"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill  =</span> <span class="st">"Sex"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Sex composition by group"</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"right"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-chisq-mosaic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chisq-mosaic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch19-nonparametric_files/figure-html/fig-chisq-mosaic-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;19.1: Mosaic plot of participant sex by group assignment. Tile width is proportional to column frequency (equal here); tile height is proportional to the proportion of each sex within each group. The overrepresentation of females in the control group and males in the training group reflects the significant association, χ²(1) = 5.45, p = .020, φ = .302."><img src="ch19-nonparametric_files/figure-html/fig-chisq-mosaic-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chisq-mosaic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.1: Mosaic plot of participant sex by group assignment. Tile width is proportional to column frequency (equal here); tile height is proportional to the proportion of each sex within each group. The overrepresentation of females in the control group and males in the training group reflects the significant association, χ²(1) = 5.45, <em>p</em> = .020, φ = .302.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A chi-square test of independence was conducted to examine the association between participant sex and group assignment. The association was statistically significant, χ²(1, <em>N</em> = 60) = 5.45, <em>p</em> = .020, φ = .302, indicating a small but real imbalance: females were proportionally more common in the control group (70%) than the training group (40%).</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="sec-spearman" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="sec-spearman"><span class="header-section-number">19.6</span> Spearman Rank-Order Correlation</h2>
+<p><strong>Spearman’s rho (ρ)</strong> is the nonparametric analogue of Pearson <em>r</em>. It measures the <strong>monotonic</strong> relationship between two variables — that is, whether one variable tends to increase as the other increases (or decreases), regardless of whether the relationship is exactly linear.</p>
+<p>Spearman <em>ρ</em> is computed by converting both variables to ranks and then applying the Pearson <em>r</em> formula to those ranks:</p>
+<p><span class="math display">\[\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}\]</span></p>
+<p>where <span class="math inline">\(d_i\)</span> is the difference between the ranks of the <em>i</em>th observation on the two variables.</p>
+<p><strong>When to use Spearman ρ instead of Pearson r:</strong></p>
+<ul>
+<li>One or both variables are measured on an ordinal scale.</li>
+<li>The relationship is monotonic but not linear (e.g., diminishing returns).</li>
+<li>Outliers substantially distort the Pearson correlation.</li>
+</ul>
+<p><strong>Assumptions:</strong> Random sample; the relationship between the two variables is monotonic (not necessarily linear).</p>
+<p><strong>Worked example.</strong> Is there an association between maximal strength (<code>strength_kg</code>) and sprint speed (<code>sprint_20m_s</code>) at post-test? Faster sprint times correspond to <em>lower</em> values of <code>sprint_20m_s</code>, so a negative correlation means stronger participants also tend to be faster.</p>
+<p>From the <code>core_session</code> dataset (post-test measurements, <em>N</em> = 55; 5 participants missing post-test sprint data):</p>
+<p><span class="math display">\[\rho = -.705, \quad p &lt; .001\]</span></p>
+<p>The large negative Spearman correlation indicates that participants with greater post-test muscular strength tended to achieve faster (lower) 20-meter sprint times. This association is strong and would be of practical importance for sport performance.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>strength_post <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="dv">81</span>, <span class="at">sd =</span> <span class="fl">13.5</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sprint_post   <span class="ot">&lt;-</span> <span class="fl">3.5</span> <span class="sc">-</span> <span class="fl">0.012</span> <span class="sc">*</span> strength_post <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.12</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>df_sp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">strength_post =</span> strength_post, <span class="at">sprint_post =</span> sprint_post)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_sp, <span class="fu">aes</span>(<span class="at">x =</span> strength_post, <span class="at">y =</span> sprint_post)) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">color =</span> <span class="st">"#4E84C4"</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"loess"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"#D55E00"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Post-test strength (kg)"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Post-test 20-m sprint time (s)"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Spearman "</span>, rho, <span class="st">" = −.705, "</span>, <span class="fu">italic</span>(p), <span class="st">" &lt; .001"</span>))</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="fig-spearman-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spearman-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch19-nonparametric_files/figure-html/fig-spearman-scatter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;19.2: Scatter plot of post-test strength vs.&nbsp;post-test 20-m sprint time (N = 60). Each point represents one participant; the dashed line is the lowess smoother. The strong negative monotonic relationship is quantified by Spearman ρ = −.705, p < .001: stronger participants tend to be faster sprinters."><img src="ch19-nonparametric_files/figure-html/fig-spearman-scatter-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spearman-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.2: Scatter plot of post-test strength vs.&nbsp;post-test 20-m sprint time (N = 60). Each point represents one participant; the dashed line is the lowess smoother. The strong negative monotonic relationship is quantified by Spearman ρ = −.705, p &lt; .001: stronger participants tend to be faster sprinters.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>Spearman rank-order correlation was used to examine the association between post-test muscular strength and 20-m sprint performance (<em>N</em> = 55). There was a strong, statistically significant negative correlation, <em>ρ</em>(53) = −.71, <em>p</em> &lt; .001, indicating that participants with greater strength tended to achieve faster sprint times.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Reporting degrees of freedom for Spearman ρ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>APA convention reports the degrees of freedom for Spearman <em>ρ</em> as <em>n</em> − 2, enclosed in parentheses after <em>ρ</em>, identical to the convention for Pearson <em>r</em>: <em>ρ</em>(53) = −.71.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-mann-whitney" class="level2" data-number="19.7">
+<h2 data-number="19.7" class="anchored" data-anchor-id="sec-mann-whitney"><span class="header-section-number">19.7</span> Mann-Whitney U Test</h2>
+<p>The <strong>Mann-Whitney U test</strong> (also called the Wilcoxon rank-sum test) is the nonparametric alternative to the independent-samples <em>t</em>-test. It tests whether the distribution of scores in one group tends to be higher or lower than the distribution in a second group.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The two populations have identical distributions (equivalently, the probability that a randomly selected score from population 1 exceeds a randomly selected score from population 2 is .50).</li>
+<li>H₁: One population tends to produce higher scores than the other.</li>
+</ul>
+<p><strong>How it works.</strong> All scores from both groups are pooled and ranked together. The U statistic is based on the number of times a score from group 1 exceeds a score from group 2 (and vice versa). A very small or very large U indicates that one group’s scores are consistently higher or lower than the other’s.</p>
+<p><strong>Assumption:</strong> Observations are independent both within and between groups; the measurement scale is at least ordinal.</p>
+<p><strong>Worked example.</strong> Do training and control groups differ in <strong>perceived exertion (RPE)</strong> at post-test? RPE is measured on Borg’s 6–20 scale — an ordinal instrument for which a <em>t</em>-test would be questionable.</p>
+<p>From the <code>core_session</code> dataset (post-test RPE, <em>n</em>_ctrl = 30, <em>n</em>_train = 25; 5 participants missing post-test RPE):</p>
+<p><span class="math display">\[U = 249, \quad p = .030, \quad r = -.34\]</span></p>
+<p>The control group reported significantly higher post-test RPE than the training group, a medium-sized effect.</p>
+<p><strong>Reporting U.</strong> There are two U values (<span class="math inline">\(U_1\)</span> and <span class="math inline">\(U_2\)</span>); SPSS reports the <strong>smaller</strong> of the two (U = 249, corresponding to the training group). Some textbooks report the larger U by convention — always specify which group or which U your software is reporting.</p>
+<p><strong>Effect size — rank-biserial <em>r</em>:</strong></p>
+<p><span class="math display">\[r = \frac{U_\text{train} - U_\text{ctrl}}{n_1 \times n_2} = \frac{249 - 501}{30 \times 25} = \frac{-252}{750} = -.34 \text{ (medium)}\]</span></p>
+<p>(The negative sign indicates the training group has lower ranks — control participants tended to report higher RPE values.)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_rpe <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Training"</span>), <span class="at">each =</span> <span class="dv">30</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Training"</span>)),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">rpe   =</span> <span class="fu">c</span>(<span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="fl">11.2</span>, <span class="fl">2.0</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">30</span>, <span class="fl">13.1</span>, <span class="fl">2.1</span>)))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>df_rpe<span class="sc">$</span>rpe <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(df_rpe<span class="sc">$</span>rpe, <span class="dv">6</span>), <span class="dv">20</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_rpe, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> rpe, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">outlier.shape =</span> <span class="dv">19</span>, <span class="at">outlier.size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.15</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#4E84C4"</span>, <span class="st">"Training"</span> <span class="ot">=</span> <span class="st">"#D55E00"</span>)) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Group"</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"RPE (Borg 6–20)"</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Post-test RPE by group"</span>,</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Mann-Whitney U = 249, p = .030, r = −.34"</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-mwu-boxplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mwu-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch19-nonparametric_files/figure-html/fig-mwu-boxplot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;19.3: Boxplots of post-test RPE by group (N = 60). The training group reports higher perceived exertion at post-test than the control group, Mann-Whitney U = 249, p = .030, r = −.34."><img src="ch19-nonparametric_files/figure-html/fig-mwu-boxplot-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mwu-boxplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.3: Boxplots of post-test RPE by group (N = 60). The training group reports higher perceived exertion at post-test than the control group, Mann-Whitney U = 249, p = .030, r = −.34.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A Mann-Whitney U test was conducted to compare post-test perceived exertion (RPE) between the training and control groups. The control group reported significantly higher post-test RPE (<em>Mdn</em> = 13) than the training group (<em>Mdn</em> = 12), <em>U</em> = 249, <em>p</em> = .030, <em>r</em> = −.34, a medium-sized effect.</p>
+</blockquote>
+<hr>
+</section>
+<section id="sec-wilcoxon" class="level2" data-number="19.8">
+<h2 data-number="19.8" class="anchored" data-anchor-id="sec-wilcoxon"><span class="header-section-number">19.8</span> Wilcoxon Signed-Rank Test</h2>
+<p>The <strong>Wilcoxon signed-rank test</strong> is the nonparametric analogue of the paired-samples <em>t</em>-test. It is used when two related measurements are available for each participant (e.g., pre and post, left and right limb) and distributional assumptions are not met.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The distribution of difference scores is symmetric around zero.</li>
+<li>H₁: The difference scores tend to be positive (or negative).</li>
+</ul>
+<p><strong>How it works.</strong> For each participant, the test computes the difference between the two measurements and then ranks the <em>absolute values</em> of those differences. The test statistic <em>W</em> (not to be confused with Levene’s <em>W</em> or Kendall’s <em>W</em>) is the sum of ranks for positive differences minus the sum for negative differences. If H₀ is true, positive and negative ranks should roughly cancel.</p>
+<p><strong>Assumption:</strong> The differences are drawn from a continuous, symmetric distribution; the measurement scale is at least ordinal.</p>
+<p><strong>Worked example.</strong> Did self-reported <strong>functional ability</strong> (<code>function_0_100</code>) improve from pre- to post-test in the training group? Functional scores are bounded at 0 and 100 and are often skewed, making the Wilcoxon test more appropriate than a paired <em>t</em>-test.</p>
+<p>From the training group (<em>n</em> = 25 complete pairs; 5 participants missing post-test data):</p>
+<p><span class="math display">\[W = 69, \quad p &lt; .001, \quad r = -.71\]</span></p>
+<p>The signed-rank test confirms a highly significant improvement in functional ability. The large rank-biserial correlation (<em>r</em> = −.71) indicates that the great majority of participants improved from pre- to post-test.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n_tr <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pre_func  <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_tr, <span class="dv">58</span>, <span class="dv">12</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>post_func <span class="ot">&lt;-</span> <span class="fu">round</span>(pre_func <span class="sc">+</span> <span class="fu">rnorm</span>(n_tr, <span class="dv">22</span>, <span class="dv">6</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pre_func  <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(pre_func, <span class="dv">0</span>), <span class="dv">100</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>post_func <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="fu">pmax</span>(post_func, <span class="dv">0</span>), <span class="dv">100</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df_wil <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">id        =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n_tr, <span class="dv">2</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">time      =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Pre"</span>, <span class="st">"Post"</span>), <span class="at">each =</span> n_tr),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Pre"</span>, <span class="st">"Post"</span>)),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">func_score =</span> <span class="fu">c</span>(pre_func, post_func)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_wil, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> func_score, <span class="at">group =</span> id)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">color =</span> <span class="st">"grey50"</span>) <span class="sc">+</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> time), <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Pre"</span> <span class="ot">=</span> <span class="st">"#4E84C4"</span>, <span class="st">"Post"</span> <span class="ot">=</span> <span class="st">"#D55E00"</span>)) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x     =</span> <span class="st">"Time"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y     =</span> <span class="st">"Functional ability (0–100)"</span>,</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Training group: functional ability pre vs. post"</span>,</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Wilcoxon W = 20, p &lt; .001, r = −.80"</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-wilcoxon-paired" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-wilcoxon-paired-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch19-nonparametric_files/figure-html/fig-wilcoxon-paired-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;19.4: Paired scatter plot showing individual pre- and post-test functional ability scores for the training group (n = 30). Lines connect each participant’s two measurements; upward trajectories indicate improvement. Nearly all participants improved, consistent with W = 20, p < .001, r = −.80."><img src="ch19-nonparametric_files/figure-html/fig-wilcoxon-paired-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wilcoxon-paired-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.4: Paired scatter plot showing individual pre- and post-test functional ability scores for the training group (n = 30). Lines connect each participant’s two measurements; upward trajectories indicate improvement. Nearly all participants improved, consistent with W = 20, p &lt; .001, r = −.80.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A Wilcoxon signed-rank test was conducted to examine changes in self-reported functional ability from pre- to post-test in the training group (<em>n</em> = 25 complete pairs). Functional scores improved significantly from pre-test (<em>Mdn</em> = 67.1) to post-test (<em>Mdn</em> = 74.9), <em>W</em> = 69, <em>p</em> &lt; .001, <em>r</em> = −.71, a large effect. The magnitude of this improvement substantially exceeded the MDC₉₅ for this measure, indicating that the change reflects genuine improvement beyond measurement error.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>When to use Wilcoxon vs.&nbsp;paired t-test
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If the distribution of difference scores is approximately symmetric (even if the raw scores are skewed), the paired <em>t</em>-test is generally preferable because it is more powerful. The Wilcoxon test is most valuable when difference scores are themselves skewed or when the measurement scale is ordinal. In practice, if the Wilcoxon and paired <em>t</em>-test agree (both significant or both non-significant), either can be reported; when they disagree, the Wilcoxon is more trustworthy if normality is clearly violated.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-kruskal-wallis" class="level2" data-number="19.9">
+<h2 data-number="19.9" class="anchored" data-anchor-id="sec-kruskal-wallis"><span class="header-section-number">19.9</span> Kruskal-Wallis Test</h2>
+<p>The <strong>Kruskal-Wallis test</strong> is the nonparametric analogue of one-way between-subjects ANOVA. It tests whether <em>k</em> ≥ 2 independent groups differ in their central tendency, using ranks rather than means.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: All <em>k</em> populations have identical distributions.</li>
+<li>H₁: At least one population tends to produce higher (or lower) scores than the others.</li>
+</ul>
+<p><strong>How it works.</strong> Scores from all groups are pooled and ranked. The test statistic <em>H</em> is based on the sum of ranks in each group; it follows a chi-square distribution with df = <em>k</em> − 1 under H₀.</p>
+<p><span class="math display">\[H = \frac{12}{n(n+1)} \sum_{j=1}^{k} \frac{R_j^2}{n_j} - 3(n+1)\]</span></p>
+<p><strong>Post-hoc tests.</strong> When <em>H</em> is significant and <em>k</em> &gt; 2, pairwise Mann-Whitney U tests with a Bonferroni or Dunn correction are used to locate which groups differ.</p>
+<p><strong>Worked example.</strong> Do balance errors (<code>balance_errors_count</code>) differ across the three time points (pre, mid, post) in the full sample? Balance errors are count data with a strong floor effect, making ANOVA questionable.</p>
+<p>From the <code>core_session</code> dataset (<em>k</em> = 3 time points):</p>
+<p><span class="math display">\[H(2) = 1.03, \quad p = .597\]</span></p>
+<p>The Kruskal-Wallis test is non-significant. There is no evidence that the average level of balance errors differs across time points for the full sample. This suggests that any time-related changes in balance are not detectable at the group level, or that group membership (control vs.&nbsp;training) moderates the effect (which would require a more complex design).</p>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A Kruskal-Wallis test was conducted to determine whether balance errors differed across the three time points (pre, mid, post). The test was non-significant, <em>H</em>(2) = 1.03, <em>p</em> = .597, indicating no evidence of a systematic change in balance performance across measurement occasions.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Kruskal-Wallis for two groups
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When <em>k</em> = 2, the Kruskal-Wallis test is mathematically equivalent to the Mann-Whitney U test. Use Mann-Whitney U directly for the two-group comparison; Kruskal-Wallis adds no advantage.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-friedman" class="level2" data-number="19.10">
+<h2 data-number="19.10" class="anchored" data-anchor-id="sec-friedman"><span class="header-section-number">19.10</span> Friedman’s Test</h2>
+<p><strong>Friedman’s test</strong> is the nonparametric analogue of one-way repeated-measures ANOVA. It is used when the same participants are measured under <em>k</em> ≥ 2 conditions and distributional assumptions are not met.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The <em>k</em> related conditions have identical distributions.</li>
+<li>H₁: At least one condition tends to produce higher scores than the others.</li>
+</ul>
+<p><strong>How it works.</strong> Ranks are assigned <em>within each participant</em> separately: each participant’s <em>k</em> scores are ranked 1 through <em>k</em>. The test statistic χ² (sometimes denoted <em>F_r</em>) is based on the column (condition) rank sums; it follows a chi-square distribution with df = <em>k</em> − 1 under H₀.</p>
+<p><span class="math display">\[\chi^2_r = \frac{12}{nk(k+1)} \sum_{j=1}^{k} R_j^2 - 3n(k+1)\]</span></p>
+<p><strong>Effect size — Kendall’s W:</strong></p>
+<p><span class="math display">\[W = \frac{\chi^2_r}{n(k-1)}\]</span></p>
+<p>Values of <em>W</em> near 0 indicate no consistency across conditions; values near 1 indicate near-perfect agreement (or ordering) across participants.</p>
+<p><strong>Post-hoc tests.</strong> If Friedman’s test is significant, pairwise Wilcoxon signed-rank tests with Bonferroni correction are used.</p>
+<p><strong>Worked example.</strong> Does RPE change across time (pre, mid, post) within the training group? Friedman’s test is appropriate because RPE is ordinal and the same participants are measured at all three occasions.</p>
+<p>From the training group (<em>n</em> = 30, <em>k</em> = 3 time points):</p>
+<p><span class="math display">\[\chi^2_r(2) = 4.46, \quad p = .107, \quad W = .051\]</span></p>
+<p>Friedman’s test is non-significant. There is no evidence that RPE increases systematically across pre, mid, and post in the training group. The very small <em>W</em> = .051 confirms negligible concordance in the direction of change across participants — RPE fluctuations appear to be largely individual-specific.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n_tr2 <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rpe_pre  <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_tr2, <span class="fl">12.5</span>, <span class="fl">2.0</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rpe_mid  <span class="ot">&lt;-</span> <span class="fu">round</span>(rpe_pre <span class="sc">+</span> <span class="fu">rnorm</span>(n_tr2, <span class="fl">0.3</span>, <span class="fl">1.5</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>rpe_post <span class="ot">&lt;-</span> <span class="fu">round</span>(rpe_mid  <span class="sc">+</span> <span class="fu">rnorm</span>(n_tr2, <span class="fl">0.2</span>, <span class="fl">1.5</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (v <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"rpe_pre"</span>,<span class="st">"rpe_mid"</span>,<span class="st">"rpe_post"</span>)) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(v, <span class="fu">pmin</span>(<span class="fu">pmax</span>(<span class="fu">get</span>(v), <span class="dv">6</span>), <span class="dv">20</span>))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>df_fried <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">id   =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>n_tr2, <span class="dv">3</span>),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">time =</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Pre"</span>,<span class="st">"Mid"</span>,<span class="st">"Post"</span>), <span class="at">each =</span> n_tr2),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Pre"</span>,<span class="st">"Mid"</span>,<span class="st">"Post"</span>)),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">rpe  =</span> <span class="fu">c</span>(rpe_pre, rpe_mid, rpe_post)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_fried, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> rpe, <span class="at">group =</span> id)) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">color =</span> <span class="st">"grey40"</span>) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">fun =</span> median,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"line"</span>, <span class="at">linewidth =</span> <span class="fl">1.5</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"#D55E00"</span>) <span class="sc">+</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="dv">1</span>), <span class="at">fun =</span> median,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">geom =</span> <span class="st">"point"</span>, <span class="at">size =</span> <span class="dv">4</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"#D55E00"</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Time"</span>,</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"RPE (Borg 6–20)"</span>,</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Training group: RPE across time points"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(chi<span class="sc">^</span><span class="dv">2</span>, <span class="st">"(2) = 4.46, "</span>, <span class="fu">italic</span>(p), <span class="st">" = .107"</span>))</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-friedman-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-friedman-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch19-nonparametric_files/figure-html/fig-friedman-profile-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;19.5: Individual RPE profiles across pre, mid, and post for the training group (n = 30). Each line represents one participant. The lack of a consistent directional trend across individuals is consistent with the non-significant Friedman’s test, χ²(2) = 4.46, p = .107."><img src="ch19-nonparametric_files/figure-html/fig-friedman-profile-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-friedman-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;19.5: Individual RPE profiles across pre, mid, and post for the training group (n = 30). Each line represents one participant. The lack of a consistent directional trend across individuals is consistent with the non-significant Friedman’s test, χ²(2) = 4.46, p = .107.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>Friedman’s test was conducted to determine whether RPE changed across the three measurement occasions (pre, mid, post) in the training group (<em>n</em> = 30). The test was non-significant, χ²(2) = 4.46, <em>p</em> = .107, <em>W</em> = .05, indicating no evidence of a systematic change in perceived exertion over the training period.</p>
+</blockquote>
+<hr>
+</section>
+<section id="sec-sign-test" class="level2" data-number="19.11">
+<h2 data-number="19.11" class="anchored" data-anchor-id="sec-sign-test"><span class="header-section-number">19.11</span> Sign Test (One-Sample Nonparametric Test)</h2>
+<p>The <strong>sign test</strong> is the nonparametric analogue of the one-sample <em>t</em>-test. It is used when a single set of scores is compared against a hypothesised median (rather than a mean), or when paired differences are evaluated without requiring a symmetric distribution of those differences.</p>
+<p><strong>When to use it.</strong> Use the sign test instead of the Wilcoxon signed-rank test when the differences themselves are so severely skewed or non-symmetric that even their magnitudes cannot be trusted — only their direction (positive or negative) is interpretable. In practice, the Wilcoxon signed-rank test uses more information (the magnitude of differences, not just their sign) and is almost always preferred when it is applicable. The sign test is best reserved for situations where only the direction of change is measurable.</p>
+<p><strong>How it works.</strong> For each participant, record whether the score is above (+) or below (−) the hypothesised median. Ignore ties (scores exactly equal to the hypothesised value). Under H₀, positive and negative signs should be equally frequent (probability = .50 for each). The test statistic is the count of the less frequent sign, which follows a binomial distribution under H₀.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: The population median equals the specified value (positive and negative differences are equally likely).</li>
+<li>H₁: The population median differs from the specified value.</li>
+</ul>
+<p><strong>Example.</strong> In the training group (<em>n</em> = 30), suppose we want to test whether functional ability at post-test differs from 75 (a clinically relevant benchmark). If 22 participants score above 75 and 8 score below, the test assesses whether 22 positives out of 30 is more than expected by chance.</p>
+<p>Under H₀ (p = .50), the binomial probability of observing 22 or more positives in 30 trials is <em>p</em> = .043. The proportion exceeding the benchmark is significantly greater than .50, suggesting that the median post-test functional score in the training group exceeds 75.</p>
+<p><strong>Effect size.</strong> Report the observed proportion of positive signs (<em>p</em>̂) alongside the 95% binomial confidence interval. In the example: <em>p</em>̂ = .73, 95% CI [.54, .88].</p>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A sign test was conducted to determine whether post-test functional ability scores in the training group differed from the benchmark value of 75 (<em>n</em> = 30). Twenty-two of 30 participants scored above the benchmark, a proportion significantly greater than .50, <em>p</em> = .043, <em>p</em>̂ = .73, 95% CI [.54, .88].</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Sign test vs.&nbsp;Wilcoxon signed-rank
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Both tests address one-sample or paired-sample hypotheses about a median. The <strong>Wilcoxon signed-rank test</strong> uses the magnitude and direction of differences, making it more powerful when differences are at least approximately symmetrically distributed. The <strong>sign test</strong> uses only the direction (positive/negative), making it more robust when even the magnitudes of differences are unreliable or when the distribution of differences is severely asymmetric. As a rule: prefer Wilcoxon signed-rank unless you have a specific reason to distrust the magnitudes of the differences.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-scheirer-ray-hare" class="level2" data-number="19.12">
+<h2 data-number="19.12" class="anchored" data-anchor-id="sec-scheirer-ray-hare"><span class="header-section-number">19.12</span> Scheirer-Ray-Hare Test (Nonparametric Factorial ANOVA)</h2>
+<p>When a study involves two or more crossed independent variables (as in the factorial and mixed designs of Chapter 16) and the outcome is ordinal or severely non-normal, neither Kruskal-Wallis nor Friedman’s test is sufficient — they each handle only one factor at a time. The <strong>Scheirer-Ray-Hare test</strong><span class="citation" data-cites="scheirer1976"><sup>[<a href="references.html#ref-scheirer1976" role="doc-biblioref">2</a>]</sup></span> is the nonparametric extension of factorial ANOVA. It extends the Kruskal-Wallis framework to designs with two or more factors by ranking all scores once across the entire dataset and then computing the ANOVA sums of squares on those ranks.</p>
+<p><strong>When to use it.</strong> Use the Scheirer-Ray-Hare test as a nonparametric alternative to between-subjects factorial ANOVA (e.g., the 2 × 2 Sex × Group design in Chapter 16) when the outcome variable is ordinal or when the normality assumption is untenable with small samples across all cells.</p>
+<p><strong>How it works.</strong> All observations across all cells of the design are ranked from 1 to <em>N</em>. A standard two-way ANOVA is then computed on these ranks. Each sum of squares is divided by the mean square of the total (MS_total = SS_total/<em>N</em>), yielding <em>H</em> statistics for each main effect and the interaction — each approximately chi-square distributed under H₀.</p>
+<p><span class="math display">\[H_A = \frac{SS_A}{MS_{total}}, \quad H_B = \frac{SS_B}{MS_{total}}, \quad H_{AB} = \frac{SS_{AB}}{MS_{total}}\]</span></p>
+<p>Each <em>H</em> statistic is compared to a chi-square distribution with degrees of freedom equal to the number of levels of that factor minus one (or the product of those df for the interaction).</p>
+<p><strong>Limitation.</strong> The Scheirer-Ray-Hare test has relatively low power for detecting interaction effects, and its Type I error rate can become inflated when cell sizes are unequal or very small. A more robust modern alternative for factorial designs is the <strong>Aligned Rank Transform (ART) ANOVA</strong><span class="citation" data-cites="wobbrock2011"><sup>[<a href="references.html#ref-wobbrock2011" role="doc-biblioref">3</a>]</sup></span>, which applies a different rank transformation separately for each main effect and interaction before computing the F-ratio. ART-ANOVA is available in R (<code>ARTool</code> package) but not directly in SPSS.</p>
+<p><strong>Example.</strong> Applying the Scheirer-Ray-Hare test to the 2(Sex) × 2(Group) between-subjects design on post-test strength from Chapter 16:</p>
+<ul>
+<li>Sex: <em>H</em>(1) = 0.01, <em>p</em> = .932 (non-significant)</li>
+<li>Group: <em>H</em>(1) = 4.89, <em>p</em> = .027 (significant; training group had higher ranks)</li>
+<li>Sex × Group interaction: <em>H</em>(1) = 0.52, <em>p</em> = .469 (non-significant)</li>
+</ul>
+<p>These conclusions align closely with the parametric factorial ANOVA results from Chapter 16, providing reassurance that the parametric analysis was appropriate for this dataset.</p>
+<p><strong>APA write-up:</strong></p>
+<blockquote class="blockquote">
+<p>A Scheirer-Ray-Hare test was conducted as a nonparametric alternative to the 2(Sex) × 2(Group) factorial ANOVA. There was a significant main effect of Group, <em>H</em>(1) = 4.89, <em>p</em> = .027, consistent with the parametric result. Neither the main effect of Sex, <em>H</em>(1) = 0.01, <em>p</em> = .932, nor the Sex × Group interaction, <em>H</em>(1) = 0.52, <em>p</em> = .469, reached significance.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>No standard nonparametric equivalent for mixed ANOVA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The 2(Group) × 3(Time) <strong>mixed ANOVA</strong> in Chapter 16 combines a between-subjects factor with a within-subjects factor. No single nonparametric test perfectly mirrors this structure. Common practice when mixed ANOVA assumptions are untenable is to: (a) use the Scheirer-Ray-Hare test on between-subjects comparisons at each time point separately, combined with Friedman’s test within each group for the within-subjects factor; (b) use the Aligned Rank Transform ANOVA (ART-ANOVA) which handles mixed designs; or (c) report both parametric and nonparametric results and note any discrepancies. The choice depends on which part of the design (between or within) is most problematic. For purely within-subjects factorial designs, Friedman’s test can be extended by computing it separately for each factor.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="sec-quade" class="level2" data-number="19.13">
+<h2 data-number="19.13" class="anchored" data-anchor-id="sec-quade"><span class="header-section-number">19.13</span> Nonparametric ANCOVA: Quade’s Test</h2>
+<p><strong>ANCOVA</strong> (Chapter 17) adjusts group means for a continuous covariate (e.g., pre-test scores) before testing whether groups differ on the outcome. When the ANCOVA assumptions — particularly normality of residuals or homogeneity of regression slopes — cannot be met, <strong>Quade’s rank ANCOVA</strong><span class="citation" data-cites="quade1967"><sup>[<a href="references.html#ref-quade1967" role="doc-biblioref">4</a>]</sup></span> provides a nonparametric alternative.</p>
+<p><strong>How it works.</strong> Quade’s test ranks <em>both</em> the covariate and the outcome variable separately. Residuals are obtained by removing the covariate’s rank-based influence, and the resulting adjusted ranks are compared across groups using an <em>F</em>-like statistic.</p>
+<p><strong>When to use it.</strong> Quade’s test is most appropriate when there are only two groups and one covariate. For more complex designs or multiple covariates, the <strong>Conover-Iman aligned-ranks ANCOVA</strong><span class="citation" data-cites="conover1999"><sup>[<a href="references.html#ref-conover1999" role="doc-biblioref">5</a>]</sup></span> is the more general alternative. Both are available in R (<code>coin</code> and <code>RVAideMemoire</code> packages) but are not directly implemented in SPSS.</p>
+<p><strong>Practical note.</strong> Because nonparametric ANCOVA is rarely implemented in SPSS, most movement science researchers encountering ANCOVA assumption violations instead take one of these approaches:</p>
+<ol type="1">
+<li><strong>Transform the outcome variable</strong> (e.g., log transformation) to restore normality of residuals, then proceed with standard ANCOVA.</li>
+<li><strong>Use robust regression</strong> (e.g., Huber <em>M</em>-estimation) to downweight influential observations.</li>
+<li><strong>Report results from both parametric ANCOVA and a sensitivity analysis</strong> (e.g., Mann-Whitney U on residualised scores) and note any discrepancies.</li>
+</ol>
+<p>The important principle is that the pre-test covariate should not be ignored when it is correlated with the outcome, even when switching to a nonparametric approach. Failing to control for pre-test differences in a non-randomised design will bias the group comparison regardless of whether parametric or nonparametric methods are used.</p>
+<p><strong>APA write-up (when Quade’s test is used):</strong></p>
+<blockquote class="blockquote">
+<p>Quade’s nonparametric rank ANCOVA was conducted to compare post-test [DV] between groups while controlling for pre-test scores, due to a significant violation of the normality assumption for residuals. After adjusting for pre-test ranks, the training group showed significantly higher post-test [DV] ranks than the control group, <em>F</em>(1, 57) = [value], <em>p</em> = [value].</p>
+</blockquote>
+<hr>
+</section>
+<section id="sec-nonparam-decision" class="level2" data-number="19.14">
+<h2 data-number="19.14" class="anchored" data-anchor-id="sec-nonparam-decision"><span class="header-section-number">19.14</span> Choosing the Right Nonparametric Test: A Decision Guide</h2>
+<p><a href="#tbl-nonparam-guide" class="quarto-xref">Table&nbsp;<span>19.3</span></a> summarizes the design features that determine which nonparametric test to use.</p>
+<div id="tbl-nonparam-guide" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nonparam-guide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;19.3: Nonparametric test selection guide.
+</figcaption>
+<div aria-describedby="tbl-nonparam-guide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 33%">
+<col style="width: 32%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Design</th>
+<th style="text-align: center;">Parametric analogue</th>
+<th style="text-align: center;">Nonparametric test</th>
+<th style="text-align: center;">Effect size</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1 sample vs.&nbsp;median</td>
+<td style="text-align: center;">One-sample <em>t</em></td>
+<td style="text-align: center;">Sign test</td>
+<td style="text-align: center;"><em>p</em>̂ (proportion)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Categorical outcome, 1 variable</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">Chi-square GoF</td>
+<td style="text-align: center;">Cramér’s <em>V</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Categorical outcome, 2 variables</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">Chi-square independence</td>
+<td style="text-align: center;">φ or Cramér’s <em>V</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monotonic relationship</td>
+<td style="text-align: center;">Pearson <em>r</em></td>
+<td style="text-align: center;">Spearman <em>ρ</em></td>
+<td style="text-align: center;"><em>ρ</em> itself</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2 independent groups</td>
+<td style="text-align: center;">Independent <em>t</em></td>
+<td style="text-align: center;">Mann-Whitney U</td>
+<td style="text-align: center;">Rank-biserial <em>r</em></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2 related samples</td>
+<td style="text-align: center;">Paired <em>t</em></td>
+<td style="text-align: center;">Wilcoxon signed-rank</td>
+<td style="text-align: center;">Rank-biserial <em>r</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">≥3 independent groups</td>
+<td style="text-align: center;">One-way ANOVA</td>
+<td style="text-align: center;">Kruskal-Wallis</td>
+<td style="text-align: center;">η²_H</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">≥3 related conditions</td>
+<td style="text-align: center;">Repeated-measures ANOVA</td>
+<td style="text-align: center;">Friedman’s</td>
+<td style="text-align: center;">Kendall’s <em>W</em></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2+ factors, between-subjects</td>
+<td style="text-align: center;">Factorial ANOVA</td>
+<td style="text-align: center;">Scheirer-Ray-Hare</td>
+<td style="text-align: center;">η²_H per effect</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2+ factors, mixed</td>
+<td style="text-align: center;">Mixed ANOVA</td>
+<td style="text-align: center;">ART-ANOVA (or split approach)</td>
+<td style="text-align: center;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Groups + covariate</td>
+<td style="text-align: center;">ANCOVA</td>
+<td style="text-align: center;">Quade’s rank ANCOVA</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<hr>
+</section>
+<section id="sec-nonparam-pitfalls" class="level2" data-number="19.15">
+<h2 data-number="19.15" class="anchored" data-anchor-id="sec-nonparam-pitfalls"><span class="header-section-number">19.15</span> Common Pitfalls</h2>
+<p><strong>Using nonparametric tests “just to be safe” when parametric assumptions are met.</strong> Rank-based methods discard information and reduce statistical power when the data are well-behaved. Routinely choosing nonparametric tests out of unfounded caution inflates Type II error rates.</p>
+<p><strong>Interpreting a non-significant test as confirming H₀.</strong> Failing to reject H₀ is not evidence that groups are equivalent. With small samples, the test may simply lack power to detect a real difference. Always report the effect size alongside <em>p</em> to allow readers to judge practical significance.</p>
+<p><strong>Ignoring the directionality of effect size signs.</strong> Rank-biserial <em>r</em> and Spearman <em>ρ</em> carry sign information. A negative <em>r</em> for Mann-Whitney U means that group 2 (by software convention, often the second listed group) has higher ranks. Always clarify which group or direction the sign corresponds to.</p>
+<p><strong>Misusing chi-square when expected cell counts are small.</strong> The chi-square approximation requires all expected cell counts ≥ 5. When this is violated, Fisher’s exact test should replace chi-square for 2 × 2 tables; for larger tables, collapsing categories or collecting more data may be necessary.</p>
+<p><strong>Treating Friedman’s <em>W</em> as equivalent to eta-squared.</strong> Kendall’s <em>W</em> ranges from 0 to 1 and measures concordance across conditions; it is not directly comparable to η² from parametric ANOVA. Use <em>W</em> to describe consistency of the rank ordering across participants, not to benchmark against ANOVA effect size standards.</p>
+<p><strong>Running multiple nonparametric comparisons without correction.</strong> If you run six Wilcoxon tests to follow up a significant Friedman result, the familywise Type I error rate inflates just as it does with parametric post-hocs. Apply Bonferroni or Holm correction.</p>
+<hr>
+</section>
+<section id="sec-nonparam-summary" class="level2" data-number="19.16">
+<h2 data-number="19.16" class="anchored" data-anchor-id="sec-nonparam-summary"><span class="header-section-number">19.16</span> Chapter Summary</h2>
+<p>Nonparametric methods are essential tools in the movement scientist’s statistical toolkit. When data are ordinal, severely non-normal, or categorical, rank-based and chi-square procedures provide valid and interpretable analyses that their parametric counterparts cannot. The six tests covered in this chapter — chi-square (goodness of fit and independence), Spearman <em>ρ</em>, Mann-Whitney U, Wilcoxon signed-rank, Kruskal-Wallis, and Friedman’s test — collectively cover the most common designs encountered in measurement, intervention, and survey-based movement science research.</p>
+<p>A critical take-away: nonparametric tests are not inherently safer or better than parametric alternatives. Choose based on whether parametric assumptions are plausible, report appropriate effect sizes alongside <em>p</em>-values, and use post-hoc corrections whenever multiple comparisons are made.</p>
+<section id="key-terms" class="level3" data-number="19.16.1">
+<h3 data-number="19.16.1" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">19.16.1</span> Key terms</h3>
+<p><strong>Chi-square test of independence</strong> — A test of whether two categorical variables are associated, based on the discrepancy between observed and expected cell frequencies.</p>
+<p><strong>Effect size</strong> — A standardised measure of the magnitude of a relationship or difference, independent of sample size.</p>
+<p><strong>Friedman’s test</strong> — A nonparametric test for detecting differences across <em>k</em> related conditions by ranking scores within each participant.</p>
+<p><strong>Kendall’s W</strong> — An effect size for Friedman’s test measuring the degree of concordance in rank ordering across participants.</p>
+<p><strong>Kruskal-Wallis test</strong> — A nonparametric test for differences across <em>k</em> independent groups, based on overall rank sums.</p>
+<p><strong>Mann-Whitney U test</strong> — A nonparametric test for comparing two independent groups using ranks.</p>
+<p><strong>Nonparametric test</strong> — A statistical procedure that does not require assumptions about the parametric form of the population distribution.</p>
+<p><strong>Rank-biserial <em>r</em></strong> — An effect size for Mann-Whitney U and Wilcoxon signed-rank tests, ranging from −1 to +1.</p>
+<p><strong>Spearman ρ</strong> — A rank-order correlation coefficient measuring the strength and direction of the monotonic relationship between two variables.</p>
+<p><strong>Wilcoxon signed-rank test</strong> — A nonparametric test for comparing two related measurements (paired data) using signed ranks of the differences.</p>
+<hr>
+</section>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="19.17">
+<h2 data-number="19.17" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">19.17</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>A researcher records the preferred training footwear brand (Nike,
+Adidas, Other) among 90 athletes drawn from three sports (basketball,
+soccer, swimming). They want to know whether footwear preference is
+associated with sport. What test is appropriate, and what assumption
+must first be verified?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>A chi-square test of independence with a 3 × 3 contingency table is appropriate. The researcher must verify that all nine expected cell counts are ≥ 5. If any cell has an expected count &lt; 5, options include collapsing the “Other” category with one of the named brands (if conceptually justified) or using an exact permutation test. The effect size to report is Cramér’s <em>V</em>, computed as <span class="math inline">\(\sqrt{\chi^2 / [n \times (k-1)]}\)</span> where <em>k</em> = 2 (the smaller table dimension, min(rows−1, cols−1) = 2).</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>A clinician administers a pain scale (0–10) to 20 patients before and
+after a 4-week intervention. Why might the Wilcoxon signed-rank test be
+preferred over a paired <em>t</em>-test in this study, and what
+additional information would influence that choice?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>The Wilcoxon test is preferred because pain scores are measured on a bounded ordinal scale (0–10), where equal numerical differences may not represent equal psychological magnitudes. Additionally, with only <em>n</em> = 20 paired differences, the Central Limit Theorem offers limited protection against non-normality. The choice would be influenced by: (1) a Shapiro-Wilk test on the difference scores — if <em>p</em> &gt; .05, the paired <em>t</em>-test is defensible; (2) a histogram or Q-Q plot of difference scores — severe skew or outliers favour the Wilcoxon test. If the differences appear approximately symmetric, the paired <em>t</em>-test retains more power and should be used.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>Kruskal-Wallis yields <em>H</em>(3) = 7.82, <em>p</em> = .050 across
+four groups. What are the next steps?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>The result is significant at the α = .05 threshold (exactly, since <em>p</em> = .050). Follow-up pairwise comparisons using Dunn’s test (or Mann-Whitney U tests with Bonferroni correction) are now needed to identify which specific pair or pairs of groups differ. With four groups, there are six pairwise comparisons, so the Bonferroni-corrected α is .05/6 = .0083. The researcher should also report an effect size: the rank-based η² for Kruskal-Wallis is <span class="math inline">\(\eta^2_H = (H - k + 1)/(n - k)\)</span>, where <em>k</em> is the number of groups.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>A study reports Spearman <em>ρ</em> = .18, <em>p</em> = .31 between
+flexibility and balance in a sample of <em>n</em> = 30. A colleague
+argues the relationship “doesn’t exist.” How would you respond?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>The non-significant result does not mean the relationship is zero — it means the study lacked sufficient evidence to reject H₀ given the sample size. With <em>n</em> = 30, a Spearman <em>ρ</em> of .18 has very low power (approximately 20% at α = .05); the confidence interval around <em>ρ</em> = .18 is wide and includes values that would be practically meaningful. The most accurate statement is that the study was underpowered to detect a small-to-medium correlation, and a larger sample would be required to determine whether the relationship is truly negligible. Reporting the 95% CI for <em>ρ</em> alongside the <em>p</em>-value would communicate this uncertainty to readers.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>Why is the Pearson <em>r</em> between two variables sometimes noticeably
+different from the Spearman <em>ρ</em> for the same data?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>Pearson <em>r</em> measures the strength of the <em>linear</em> relationship between the raw scores. Spearman <em>ρ</em> measures the strength of the <em>monotonic</em> relationship between the ranked scores. The two will diverge when: (1) the relationship is monotonic but non-linear (Spearman will be larger); (2) outliers are present (Pearson is more sensitive to extremes, which inflate or deflate the correlation; Spearman is insensitive to them); or (3) the distributions are markedly skewed (rank transformation reduces the influence of the tail). In the worked example (strength vs.&nbsp;sprint), Pearson <em>r</em> ≈ −.70 and Spearman <em>ρ</em> = −.71 are nearly identical, suggesting the relationship is approximately linear and free of severe outliers.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>A Friedman test across three conditions yields χ²(2) = 0.80, <em>p</em>
+= .67, <em>W</em> = .01. A researcher concludes that “performance was
+consistent across all three conditions.” Evaluate this conclusion.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>The conclusion is not warranted. A non-significant Friedman test and a near-zero <em>W</em> indicate that there was no <em>systematic</em> rank ordering across conditions, but this does not mean performance was consistent. In fact, <em>W</em> ≈ .01 implies near-total disorder — different participants showed different patterns of change across conditions, which is a finding of substantial individual variability, not stability. The researcher should report the median and interquartile range for each condition, examine individual-level profiles, and note that the lack of a group-level trend may mask meaningful within-person patterns. A conclusion of “no consistent trend across participants” is more accurate than “consistent performance.”</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="siegel1988"><sup>[<a href="references.html#ref-siegel1988" role="doc-biblioref">6</a>]</sup></span> remains a foundational reference for nonparametric statistics in the behavioural sciences, covering every test in this chapter with detailed worked examples.<span class="citation" data-cites="conover1999"><sup>[<a href="references.html#ref-conover1999" role="doc-biblioref">5</a>]</sup></span> provides a rigorous theoretical treatment.<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span> offers an accessible introduction with SPSS guidance. For factorial and mixed nonparametric designs,<span class="citation" data-cites="wobbrock2011"><sup>[<a href="references.html#ref-wobbrock2011" role="doc-biblioref">3</a>]</sup></span> describes the Aligned Rank Transform ANOVA, and<span class="citation" data-cites="scheirer1976"><sup>[<a href="references.html#ref-scheirer1976" role="doc-biblioref">2</a>]</sup></span> is the original source for the Scheirer-Ray-Hare test.<span class="citation" data-cites="hollander2013"><sup>[<a href="references.html#ref-hollander2013" role="doc-biblioref">8</a>]</sup></span> is the standard graduate-level reference for the full range of nonparametric methods.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chapter 20 introduces <strong>Clinical Measures and Interpretation</strong> — tools that bridge the gap between statistical significance and clinical meaningfulness. You will learn how to compute and apply the Minimal Clinically Important Difference (MCID), Number Needed to Treat (NNT), and diagnostic accuracy statistics including sensitivity, specificity, likelihood ratios, and ROC analysis.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+1. Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Lawrence Erlbaum Associates.
+</div>
+<div id="ref-scheirer1976" class="csl-entry" role="listitem">
+2. Scheirer, C. J., Ray, W. S., &amp; Hare, N. (1976). The analysis of ranked data derived from completely randomized factorial designs. <em>Biometrics</em>, <em>32</em>(2), 429–434. <a href="https://doi.org/10.2307/2529511">https://doi.org/10.2307/2529511</a>
+</div>
+<div id="ref-wobbrock2011" class="csl-entry" role="listitem">
+3. Wobbrock, J. O., Findlater, L., Gergle, D., &amp; Higgins, J. J. (2011). The aligned rank transform for nonparametric factorial analyses using only <span>ANOVA</span> procedures. <em>Proceedings of the SIGCHI Conference on Human Factors in Computing Systems</em>, 143–146. <a href="https://doi.org/10.1145/1978942.1978963">https://doi.org/10.1145/1978942.1978963</a>
+</div>
+<div id="ref-quade1967" class="csl-entry" role="listitem">
+4. Quade, D. (1967). Rank analysis of covariance. <em>Journal of the American Statistical Association</em>, <em>62</em>(320), 1187–1200. <a href="https://doi.org/10.1080/01621459.1967.10500925">https://doi.org/10.1080/01621459.1967.10500925</a>
+</div>
+<div id="ref-conover1999" class="csl-entry" role="listitem">
+5. Conover, W. J. (1999). <em>Practical nonparametric statistics</em>.
+</div>
+<div id="ref-siegel1988" class="csl-entry" role="listitem">
+6. Siegel, S., &amp; Castellan, N. J. (1988). <em>Nonparametric statistics for the behavioral sciences</em> (2nd ed.). McGraw-Hill.
+</div>
+<div id="ref-field_discovering" class="csl-entry" role="listitem">
+7. Field, A. (2018). <em>Discovering statistics using IBM SPSS statistics</em> (5th ed.). SAGE Publications.
+</div>
+<div id="ref-hollander2013" class="csl-entry" role="listitem">
+8. Hollander, M., Wolfe, D. A., &amp; Chicken, E. (2013). <em>Nonparametric statistical methods</em> (3rd ed.). Wiley. <a href="https://doi.org/10.1002/9781119196037">https://doi.org/10.1002/9781119196037</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch18-reliability.html" class="pagination-link" aria-label="Quantifying Reliability in Movement Science">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch20-clinical-measures.html" class="pagination-link" aria-label="Clinical Measures and Interpretation">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

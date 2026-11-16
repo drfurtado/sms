@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Percentiles and Standard Scores – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch07-normal-distribution.html" rel="next">
+<link href="./ch05-variability.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-describing-data.html">Part II: Describing Data</a></li><li class="breadcrumb-item"><a href="./ch06-percentiles-standard-scores.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">6.1</span> Chapter roadmap</a></li>
+  <li><a href="#workflow-used-throughout-this-chapter" id="toc-workflow-used-throughout-this-chapter" class="nav-link" data-scroll-target="#workflow-used-throughout-this-chapter"><span class="header-section-number">6.2</span> Workflow used throughout this chapter</a></li>
+  <li><a href="#why-individual-location-matters-in-movement-science" id="toc-why-individual-location-matters-in-movement-science" class="nav-link" data-scroll-target="#why-individual-location-matters-in-movement-science"><span class="header-section-number">6.3</span> Why individual location matters in Movement Science</a></li>
+  <li><a href="#percentiles-and-percentile-ranks" id="toc-percentiles-and-percentile-ranks" class="nav-link" data-scroll-target="#percentiles-and-percentile-ranks"><span class="header-section-number">6.4</span> Percentiles and percentile ranks</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-percentile" id="toc-what-is-a-percentile" class="nav-link" data-scroll-target="#what-is-a-percentile"><span class="header-section-number">6.4.1</span> What is a percentile?</a></li>
+  <li><a href="#computing-percentiles-by-hand" id="toc-computing-percentiles-by-hand" class="nav-link" data-scroll-target="#computing-percentiles-by-hand"><span class="header-section-number">6.4.2</span> Computing percentiles by hand</a></li>
+  <li><a href="#computing-percentile-ranks" id="toc-computing-percentile-ranks" class="nav-link" data-scroll-target="#computing-percentile-ranks"><span class="header-section-number">6.4.3</span> Computing percentile ranks</a></li>
+  <li><a href="#percentiles-are-resistant" id="toc-percentiles-are-resistant" class="nav-link" data-scroll-target="#percentiles-are-resistant"><span class="header-section-number">6.4.4</span> Percentiles are resistant</a></li>
+  <li><a href="#visualizing-percentiles" id="toc-visualizing-percentiles" class="nav-link" data-scroll-target="#visualizing-percentiles"><span class="header-section-number">6.4.5</span> Visualizing percentiles</a></li>
+  </ul></li>
+  <li><a href="#common-percentile-divisions" id="toc-common-percentile-divisions" class="nav-link" data-scroll-target="#common-percentile-divisions"><span class="header-section-number">6.5</span> Common percentile divisions</a>
+  <ul class="collapse">
+  <li><a href="#quartiles" id="toc-quartiles" class="nav-link" data-scroll-target="#quartiles"><span class="header-section-number">6.5.1</span> Quartiles</a></li>
+  <li><a href="#quintiles" id="toc-quintiles" class="nav-link" data-scroll-target="#quintiles"><span class="header-section-number">6.5.2</span> Quintiles</a></li>
+  <li><a href="#deciles" id="toc-deciles" class="nav-link" data-scroll-target="#deciles"><span class="header-section-number">6.5.3</span> Deciles</a></li>
+  <li><a href="#percentile-based-classifications-in-movement-science" id="toc-percentile-based-classifications-in-movement-science" class="nav-link" data-scroll-target="#percentile-based-classifications-in-movement-science"><span class="header-section-number">6.5.4</span> Percentile-based classifications in Movement Science</a></li>
+  </ul></li>
+  <li><a href="#z-scores-and-standardization" id="toc-z-scores-and-standardization" class="nav-link" data-scroll-target="#z-scores-and-standardization"><span class="header-section-number">6.6</span> Z-scores and standardization</a>
+  <ul class="collapse">
+  <li><a href="#what-is-a-z-score" id="toc-what-is-a-z-score" class="nav-link" data-scroll-target="#what-is-a-z-score"><span class="header-section-number">6.6.1</span> What is a z-score?</a></li>
+  <li><a href="#interpreting-z-scores" id="toc-interpreting-z-scores" class="nav-link" data-scroll-target="#interpreting-z-scores"><span class="header-section-number">6.6.2</span> Interpreting z-scores</a></li>
+  <li><a href="#worked-example-computing-z-scores" id="toc-worked-example-computing-z-scores" class="nav-link" data-scroll-target="#worked-example-computing-z-scores"><span class="header-section-number">6.6.3</span> Worked example: computing z-scores</a></li>
+  <li><a href="#properties-of-z-scores" id="toc-properties-of-z-scores" class="nav-link" data-scroll-target="#properties-of-z-scores"><span class="header-section-number">6.6.4</span> Properties of z-scores</a></li>
+  <li><a href="#comparing-performance-across-different-tests-using-z-scores" id="toc-comparing-performance-across-different-tests-using-z-scores" class="nav-link" data-scroll-target="#comparing-performance-across-different-tests-using-z-scores"><span class="header-section-number">6.6.5</span> Comparing performance across different tests using z-scores</a></li>
+  </ul></li>
+  <li><a href="#other-standard-scores" id="toc-other-standard-scores" class="nav-link" data-scroll-target="#other-standard-scores"><span class="header-section-number">6.7</span> Other standard scores</a>
+  <ul class="collapse">
+  <li><a href="#t-scores" id="toc-t-scores" class="nav-link" data-scroll-target="#t-scores"><span class="header-section-number">6.7.1</span> T-scores</a></li>
+  <li><a href="#other-linear-transformations" id="toc-other-linear-transformations" class="nav-link" data-scroll-target="#other-linear-transformations"><span class="header-section-number">6.7.2</span> Other linear transformations</a></li>
+  </ul></li>
+  <li><a href="#percentiles-vs.-z-scores-when-to-use-which" id="toc-percentiles-vs.-z-scores-when-to-use-which" class="nav-link" data-scroll-target="#percentiles-vs.-z-scores-when-to-use-which"><span class="header-section-number">6.8</span> Percentiles vs.&nbsp;z-scores: when to use which</a>
+  <ul class="collapse">
+  <li><a href="#when-percentiles-are-preferred" id="toc-when-percentiles-are-preferred" class="nav-link" data-scroll-target="#when-percentiles-are-preferred"><span class="header-section-number">6.8.1</span> When percentiles are preferred</a></li>
+  <li><a href="#when-z-scores-are-preferred" id="toc-when-z-scores-are-preferred" class="nav-link" data-scroll-target="#when-z-scores-are-preferred"><span class="header-section-number">6.8.2</span> When z-scores are preferred</a></li>
+  <li><a href="#using-both" id="toc-using-both" class="nav-link" data-scroll-target="#using-both"><span class="header-section-number">6.8.3</span> Using both</a></li>
+  </ul></li>
+  <li><a href="#applied-examples-in-movement-science" id="toc-applied-examples-in-movement-science" class="nav-link" data-scroll-target="#applied-examples-in-movement-science"><span class="header-section-number">6.9</span> Applied examples in Movement Science</a>
+  <ul class="collapse">
+  <li><a href="#fitness-testing-and-normative-databases" id="toc-fitness-testing-and-normative-databases" class="nav-link" data-scroll-target="#fitness-testing-and-normative-databases"><span class="header-section-number">6.9.1</span> Fitness testing and normative databases</a></li>
+  <li><a href="#clinical-assessment-and-fall-risk" id="toc-clinical-assessment-and-fall-risk" class="nav-link" data-scroll-target="#clinical-assessment-and-fall-risk"><span class="header-section-number">6.9.2</span> Clinical assessment and fall risk</a></li>
+  <li><a href="#talent-identification-in-youth-sport" id="toc-talent-identification-in-youth-sport" class="nav-link" data-scroll-target="#talent-identification-in-youth-sport"><span class="header-section-number">6.9.3</span> Talent identification in youth sport</a></li>
+  <li><a href="#return-to-sport-decision-making" id="toc-return-to-sport-decision-making" class="nav-link" data-scroll-target="#return-to-sport-decision-making"><span class="header-section-number">6.9.4</span> Return-to-sport decision-making</a></li>
+  </ul></li>
+  <li><a href="#limitations-and-cautions" id="toc-limitations-and-cautions" class="nav-link" data-scroll-target="#limitations-and-cautions"><span class="header-section-number">6.10</span> Limitations and cautions</a>
+  <ul class="collapse">
+  <li><a href="#sample-size-and-stability" id="toc-sample-size-and-stability" class="nav-link" data-scroll-target="#sample-size-and-stability"><span class="header-section-number">6.10.1</span> Sample size and stability</a></li>
+  <li><a href="#measurement-error" id="toc-measurement-error" class="nav-link" data-scroll-target="#measurement-error"><span class="header-section-number">6.10.2</span> Measurement error</a></li>
+  <li><a href="#normative-data-currency" id="toc-normative-data-currency" class="nav-link" data-scroll-target="#normative-data-currency"><span class="header-section-number">6.10.3</span> Normative data currency</a></li>
+  <li><a href="#conflating-percentile-and-percentage-correct" id="toc-conflating-percentile-and-percentage-correct" class="nav-link" data-scroll-target="#conflating-percentile-and-percentage-correct"><span class="header-section-number">6.10.4</span> Conflating percentile and percentage correct</a></li>
+  </ul></li>
+  <li><a href="#worked-example-using-the-core-dataset" id="toc-worked-example-using-the-core-dataset" class="nav-link" data-scroll-target="#worked-example-using-the-core-dataset"><span class="header-section-number">6.11</span> Worked example using the Core Dataset</a>
+  <ul class="collapse">
+  <li><a href="#scenario-multi-component-fitness-assessment" id="toc-scenario-multi-component-fitness-assessment" class="nav-link" data-scroll-target="#scenario-multi-component-fitness-assessment"><span class="header-section-number">6.11.1</span> Scenario: multi-component fitness assessment</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">6.12</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">6.13</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">6.14</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-describing-data.html">Part II: Describing Data</a></li><li class="breadcrumb-item"><a href="./ch06-percentiles-standard-scores.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></h1>
+<p class="subtitle lead">Locating individual performance within a group and across different scales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 SPSS Tutorial Available
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn how to calculate percentiles and standard scores in SPSS! See the <strong><a href="./appendix-spss-percentiles-z-scores.html">SPSS Tutorial: Percentiles and Z-Scores</a></strong> in the appendix for step-by-step instructions on computing percentile ranks, z-scores, and interpreting standardized values in performance assessment contexts.</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">6.1</span> Chapter roadmap</h2>
+<p>Describing distributions with measures of center and spread tells you about the group as a whole. But in Movement Science practice, you often need to answer a different question: where does this individual stand relative to others? When an athlete produces a vertical jump height of 45 cm, is that typical, below average, or exceptional? When a patient scores 72 on a balance assessment, how does that compare to age-matched norms? When you want to compare an athlete’s sprint time to their flexibility score, how do you account for the fact that these measurements use completely different scales and units? These questions require tools that locate individual values within distributions and, when needed, transform different measurements onto a common scale for meaningful comparison<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>Percentiles answer the location question by telling you what percentage of the distribution falls at or below a given value. A percentile rank of 75 means the individual performed as well as or better than 75 percent of the comparison group. Percentiles are especially useful in Movement Science because they are scale-free (they work equally well for sprint times, strength scores, and flexibility measures), resistant to outliers, and immediately interpretable without making distributional assumptions<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. They are the foundation of normative databases in fitness testing, clinical assessments, and talent identification contexts. However, percentiles have limitations: equal percentile differences do not represent equal performance differences, percentile ranks can be unstable in small samples, and they do not preserve the metric properties needed for many statistical operations<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>Standard scores, particularly z-scores, address different needs by expressing how many standard deviations an observation falls from the mean. A z-score of +2.0 indicates performance two standard deviations above the mean, regardless of whether you are measuring sprint time, grip strength, or VO₂max. This transformation creates a common scale that enables cross-variable comparisons, supports identification of unusual values, and connects directly to probability statements when distributions are approximately normal<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. In Movement Science, z-scores and related transformations are used in talent identification batteries, return-to-play assessments, multi-component fitness evaluations, and research contexts where you need to combine or compare measures with different units. The key limitation is that z-scores perform best when distributions are roughly symmetric and unimodal; with strong skew or outliers, z-scores can be misleading because they depend on the mean and standard deviation, which are themselves sensitive to distributional shape<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Compute and interpret percentiles and percentile ranks for individual observations.</li>
+<li>Explain common percentile divisions (quartiles, quintiles, deciles) and their uses in Movement Science.</li>
+<li>Calculate and interpret z-scores and other standard scores.</li>
+<li>Compare observations across different measurement scales using standardization.</li>
+<li>Recognize when percentiles are more appropriate than z-scores and vice versa.</li>
+<li>Apply these tools to fitness testing, clinical assessment, and talent identification contexts.</li>
+</ul>
+</section>
+<section id="workflow-used-throughout-this-chapter" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="workflow-used-throughout-this-chapter"><span class="header-section-number">6.2</span> Workflow used throughout this chapter</h2>
+<p>Use this sequence when locating individual performance within a group:</p>
+<ol type="1">
+<li>Identify the reference distribution (norms, baseline sample, or comparison group).</li>
+<li>Decide between percentile-based or standard score approaches based on distribution shape and purpose.</li>
+<li>Compute the location measure (percentile rank or z-score).</li>
+<li>Interpret the result in context (what does this mean for this individual?).</li>
+<li>Consider measurement error and sample size when making judgments.</li>
+</ol>
+</section>
+<section id="why-individual-location-matters-in-movement-science" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="why-individual-location-matters-in-movement-science"><span class="header-section-number">6.3</span> Why individual location matters in Movement Science</h2>
+<p>Much of Movement Science practice involves comparing individuals to reference standards. Fitness professionals assess cardiovascular endurance against age and sex norms. Physical therapists track balance scores relative to fall-risk cutoffs. Sport scientists evaluate an athlete’s sprint time against team benchmarks or talent identification criteria. In each case, the raw score alone is insufficient; you need context to know whether 3.45 seconds is fast, average, or slow for this group<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>Location measures provide that context in two complementary ways. Percentiles rank individuals within a distribution, answering “how does this person compare to others?” without requiring any assumption about the shape of the distribution. Standard scores quantify distance from the mean in standard deviation units, answering “how unusual is this value?” in a way that connects to probability and enables cross-scale comparisons. Choosing between them (or using both) depends on your distribution, your question, and your purpose.</p>
+<p>A practical example clarifies the difference. Suppose two athletes are evaluated on sprint time and vertical jump:</p>
+<ul>
+<li>Athlete A: sprint = 3.20 s (z = −1.5), vertical jump = 50 cm (z = +1.2)</li>
+<li>Athlete B: sprint = 3.30 s (z = −0.8), vertical jump = 48 cm (z = +0.8)</li>
+</ul>
+<p>The z-scores immediately reveal that Athlete A shows greater strength (higher jump) but also faster speed (lower time = more negative z for a “lower is better” measure). Without standardization, comparing 3.20 s to 50 cm is meaningless because the units differ. With z-scores, you can see that both athletes have strengths, but Athlete A shows more extreme deviation from the mean in both directions.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: normative fitness databases
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Many fitness testing batteries report percentile ranks based on age and sex. For example, a 20-year-old female with a 1-mile run time at the 60th percentile is faster than 60 percent of women in that age group. Over time, as she ages, her raw time might stay the same, but her percentile rank could change because the reference group changes. This highlights that percentile ranks are always relative to a defined comparison group.</p>
+</div>
+</div>
+</section>
+<section id="percentiles-and-percentile-ranks" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="percentiles-and-percentile-ranks"><span class="header-section-number">6.4</span> Percentiles and percentile ranks</h2>
+<section id="what-is-a-percentile" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="what-is-a-percentile"><span class="header-section-number">6.4.1</span> What is a percentile?</h3>
+<p>The <em>p</em>th percentile is the value at or below which <em>p</em> percent of the distribution falls<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. For example, the 25th percentile (also called the first quartile, Q₁) is the value that separates the lowest 25 percent from the upper 75 percent. The 50th percentile is the median. The 75th percentile (Q₃) separates the lowest 75 percent from the upper 25 percent.</p>
+<p>A <em>percentile rank</em> answers the reverse question: given a specific value, what percentage of the distribution is at or below it? If an athlete’s sprint time corresponds to the 80th percentile, that athlete is faster than 80 percent of the comparison group (assuming lower times are better).</p>
+<p>Important: percentiles and percentile ranks are not the same thing, though they are closely related. A percentile is a location on the scale (a value), while a percentile rank is a percentage (how much of the data is below that value).</p>
+</section>
+<section id="computing-percentiles-by-hand" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="computing-percentiles-by-hand"><span class="header-section-number">6.4.2</span> Computing percentiles by hand</h3>
+<p>For small datasets, percentiles can be computed by sorting the data and finding the position that corresponds to the desired percentage. Different methods exist, and software packages may use slightly different conventions, but the logic is the same: locate the position in the ordered data that divides it at the target proportion<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>One common method uses the formula:</p>
+<p><span class="math display">\[
+L = \frac{p}{100}(n+1)
+\]</span></p>
+<p>where <em>L</em> is the location in the ordered dataset and <em>p</em> is the desired percentile. If <em>L</em> is a whole number, the percentile is the value at that position. If <em>L</em> is fractional, interpolate between the two surrounding values.</p>
+<section id="worked-example-computing-the-30th-percentile" class="level4" data-number="6.4.2.1">
+<h4 data-number="6.4.2.1" class="anchored" data-anchor-id="worked-example-computing-the-30th-percentile"><span class="header-section-number">6.4.2.1</span> Worked example: computing the 30th percentile</h4>
+<p>Use this dataset of 10 sprint times (in seconds), unsorted:</p>
+<p><span class="math display">\[
+3.45, 3.38, 3.52, 3.41, 3.50, 3.48, 3.35, 3.55, 3.42, 3.47
+\]</span></p>
+<p><strong>Step 1: Sort the data</strong></p>
+<p><span class="math display">\[
+3.35, 3.38, 3.41, 3.42, 3.45, 3.47, 3.48, 3.50, 3.52, 3.55
+\]</span></p>
+<p><strong>Step 2: Find the location</strong></p>
+<p>For the 30th percentile (<em>p</em> = 30):</p>
+<p><span class="math display">\[
+L = \frac{30}{100}(10+1) = 0.30 \times 11 = 3.3
+\]</span></p>
+<p>The location is 3.3, which is between the 3rd and 4th positions.</p>
+<p><strong>Step 3: Interpolate</strong></p>
+<p>The 3rd value is 3.41 and the 4th value is 3.42.</p>
+<p><span class="math display">\[
+\text{30th percentile} = 3.41 + 0.3(3.42 - 3.41) = 3.41 + 0.3(0.01) = 3.413 \text{ seconds}
+\]</span></p>
+<p><strong>Interpretation</strong></p>
+<p>Approximately 30 percent of sprint times in this sample are at or below 3.413 seconds. If an athlete runs 3.40 seconds, they are performing slightly better than the 30th percentile benchmark for this group.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Confusing the percentile (a value on the measurement scale) with the percentile rank (a percentage). The 30th percentile is 3.413 seconds. If someone asks “what is the percentile rank of 3.40 seconds?” you would say “slightly below the 30th percentile,” not “3.40th percentile.”</p>
+</div>
+</div>
+</section>
+</section>
+<section id="computing-percentile-ranks" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="computing-percentile-ranks"><span class="header-section-number">6.4.3</span> Computing percentile ranks</h3>
+<p>Given an individual’s score, the percentile rank estimates what percentage of the distribution falls at or below that score. A simple method for small samples is:</p>
+<p><span class="math display">\[
+\text{Percentile rank} = \frac{\text{number of values} \leq x}{n} \times 100
+\]</span></p>
+<p>For larger samples or continuous data, software typically uses more sophisticated interpolation, but the principle remains the same.</p>
+<section id="worked-example-percentile-rank-for-an-individual-score" class="level4" data-number="6.4.3.1">
+<h4 data-number="6.4.3.1" class="anchored" data-anchor-id="worked-example-percentile-rank-for-an-individual-score"><span class="header-section-number">6.4.3.1</span> Worked example: percentile rank for an individual score</h4>
+<p>Using the same sorted sprint times:</p>
+<p><span class="math display">\[
+3.35, 3.38, 3.41, 3.42, 3.45, 3.47, 3.48, 3.50, 3.52, 3.55
+\]</span></p>
+<p>An athlete runs 3.47 seconds. How many values are at or below 3.47?</p>
+<p>Count: 3.35, 3.38, 3.41, 3.42, 3.45, 3.47 → 6 values</p>
+<p><span class="math display">\[
+\text{Percentile rank} = \frac{6}{10} \times 100 = 60
+\]</span></p>
+<p><strong>Interpretation</strong></p>
+<p>This athlete’s sprint time is at approximately the 60th percentile, meaning they performed as well as or better than 60 percent of the sample. In “lower is better” scales like sprint time, a higher percentile rank indicates better performance (faster time).</p>
+</section>
+</section>
+<section id="percentiles-are-resistant" class="level3" data-number="6.4.4">
+<h3 data-number="6.4.4" class="anchored" data-anchor-id="percentiles-are-resistant"><span class="header-section-number">6.4.4</span> Percentiles are resistant</h3>
+<p>Percentiles depend only on rank order, not on the magnitude of extreme values. This makes them highly resistant to outliers and skew. If the slowest sprint time changes from 3.55 to 4.00 seconds, the 30th percentile does not change at all because it depends only on the sorted positions, not on how far apart the values are<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>This resistance is valuable in Movement Science contexts where distributions can be skewed (e.g., reaction time, sway area) or where occasional unusual values occur (equipment error, participant distraction).</p>
+</section>
+<section id="visualizing-percentiles" class="level3" data-number="6.4.5">
+<h3 data-number="6.4.5" class="anchored" data-anchor-id="visualizing-percentiles"><span class="header-section-number">6.4.5</span> Visualizing percentiles</h3>
+<p>A cumulative distribution function (CDF) shows percentile ranks directly. The y-axis represents the cumulative proportion (percentile rank as a decimal), and the x-axis represents the measurement scale.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sprint times from worked example</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sprint_times <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">3.35</span>, <span class="fl">3.38</span>, <span class="fl">3.41</span>, <span class="fl">3.42</span>, <span class="fl">3.45</span>, <span class="fl">3.47</span>, <span class="fl">3.48</span>, <span class="fl">3.50</span>, <span class="fl">3.52</span>, <span class="fl">3.55</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create empirical CDF</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(sprint_times), </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Cumulative Distribution of Sprint Times"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Sprint Time (seconds)"</span>, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Cumulative Proportion (Percentile Rank)"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Highlight 30th and 60th percentiles</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.30</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.60</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">3.52</span>, <span class="fl">0.33</span>, <span class="st">"30th percentile"</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="fl">3.52</span>, <span class="fl">0.63</span>, <span class="st">"60th percentile"</span>, <span class="at">col =</span> <span class="st">"darkgreen"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-cdf-sprint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cdf-sprint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch06-percentiles-standard-scores_files/figure-html/fig-cdf-sprint-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;6.1: Cumulative distribution function showing percentile ranks for sprint times"><img src="ch06-percentiles-standard-scores_files/figure-html/fig-cdf-sprint-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cdf-sprint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: Cumulative distribution function showing percentile ranks for sprint times
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This cumulative distribution function (CDF) provides a visual representation of percentile ranks across the entire sprint time distribution. The step-like pattern reflects the discrete nature of the small sample (n=10). To find the percentile rank of any value, locate it on the x-axis and read up to the curve, then across to the y-axis. For example, the value 3.47 seconds corresponds to approximately 0.60 (60th percentile), meaning 60% of the sample had sprint times at or below this value. The red and green dashed lines highlight the 30th and 60th percentiles respectively, illustrating how different performance levels map onto the distribution. With larger samples, the step pattern smooths into a continuous curve, making percentile estimation more precise.</p>
+</section>
+</section>
+<section id="common-percentile-divisions" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="common-percentile-divisions"><span class="header-section-number">6.5</span> Common percentile divisions</h2>
+<p>Percentiles can be grouped into divisions that provide useful benchmarks for interpretation:</p>
+<section id="quartiles" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="quartiles"><span class="header-section-number">6.5.1</span> Quartiles</h3>
+<p>Quartiles divide the distribution into four equal parts<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>:</p>
+<ul>
+<li>Q₁ (25th percentile): 25% of values fall below this point</li>
+<li>Q₂ (50th percentile): the median</li>
+<li>Q₃ (75th percentile): 75% of values fall below this point</li>
+</ul>
+<p>The interquartile range (IQR = Q₃ − Q₁) contains the middle 50% of observations. Quartiles are commonly used in box plots and as robust summaries of spread.</p>
+</section>
+<section id="quintiles" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="quintiles"><span class="header-section-number">6.5.2</span> Quintiles</h3>
+<p>Quintiles divide the distribution into five equal parts (20th, 40th, 60th, 80th percentiles). These are sometimes used in talent identification contexts to classify athletes into performance bands (e.g., top 20%, next 20%, etc.).</p>
+</section>
+<section id="deciles" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="deciles"><span class="header-section-number">6.5.3</span> Deciles</h3>
+<p>Deciles divide the distribution into ten equal parts (10th, 20th, …, 90th percentiles). Deciles provide finer resolution for classification. For example, a fitness test might report results in decile bands to give more granular feedback than quartiles provide.</p>
+</section>
+<section id="percentile-based-classifications-in-movement-science" class="level3" data-number="6.5.4">
+<h3 data-number="6.5.4" class="anchored" data-anchor-id="percentile-based-classifications-in-movement-science"><span class="header-section-number">6.5.4</span> Percentile-based classifications in Movement Science</h3>
+<p>Many Movement Science applications use percentile cutoffs to define categories:</p>
+<ul>
+<li><strong>Fitness testing</strong>: VO₂max standards often report values by quintiles or deciles for age and sex groups.</li>
+<li><strong>Clinical assessment</strong>: Balance scores may define fall-risk categories based on percentile cutoffs (e.g., below the 10th percentile = high risk).</li>
+<li><strong>Talent identification</strong>: Young athletes may be classified as “emerging” (above 75th percentile) or “elite” (above 90th percentile) for their age group.</li>
+<li><strong>Return-to-play</strong>: Symmetry indices or performance scores may need to reach the 50th percentile of pre-injury norms before clearance.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: physical fitness test battery
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A common fitness battery might report:</p>
+<ul>
+<li>Cardiovascular endurance (1-mile run time): 75th percentile (good)</li>
+<li>Muscular strength (push-ups): 60th percentile (above average)</li>
+<li>Flexibility (sit-and-reach): 40th percentile (below average)</li>
+</ul>
+<p>Each component is evaluated against age and sex norms. The percentile ranks allow comparison across components despite different units and scales. A coach can see that this individual has relative strength in aerobic fitness and relative weakness in flexibility, guiding targeted training interventions.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="z-scores-and-standardization" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="z-scores-and-standardization"><span class="header-section-number">6.6</span> Z-scores and standardization</h2>
+<section id="what-is-a-z-score" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="what-is-a-z-score"><span class="header-section-number">6.6.1</span> What is a z-score?</h3>
+<p>A z-score (also called a standard score) expresses how many standard deviations an observation falls from the mean<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>:</p>
+<p><span class="math display">\[
+z = \frac{x - \bar{x}}{s}
+\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> = individual’s raw score</li>
+<li><span class="math inline">\(\bar{x}\)</span> = sample mean</li>
+<li><span class="math inline">\(s\)</span> = sample standard deviation</li>
+</ul>
+<p>A z-score of 0 means the value equals the mean. A z-score of +1 means the value is one standard deviation above the mean. A z-score of −2 means the value is two standard deviations below the mean.</p>
+</section>
+<section id="interpreting-z-scores" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="interpreting-z-scores"><span class="header-section-number">6.6.2</span> Interpreting z-scores</h3>
+<p>Z-scores tell you about location and unusualness:</p>
+<ul>
+<li><strong>Typical values</strong>: z-scores between −1 and +1 are considered within one standard deviation of the mean, which captures roughly 68% of data in a normal distribution.</li>
+<li><strong>Moderately unusual</strong>: z-scores between ±1 and ±2 represent moderate departures from the mean.</li>
+<li><strong>Unusual</strong>: z-scores beyond ±2 or ±3 represent increasingly rare values in normal distributions.</li>
+</ul>
+<p>However, these interpretations assume an approximately normal distribution. For skewed or bounded distributions, z-scores can be computed algebraically, but their interpretation as “unusual” depends on the distributional context<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Critical point about z-scores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Z-scores standardize the <em>mean</em> and <em>standard deviation</em>, so they perform best when the distribution is roughly symmetric and unimodal. For skewed distributions, z-scores can still be computed, but extreme values inflate the standard deviation, and mean-based distances may not correspond to intuitive notions of “typical” or “unusual.” In such cases, percentile ranks often provide more faithful summaries.</p>
+</div>
+</div>
+</section>
+<section id="worked-example-computing-z-scores" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="worked-example-computing-z-scores"><span class="header-section-number">6.6.3</span> Worked example: computing z-scores</h3>
+<p>Use the sprint time dataset with mean and standard deviation:</p>
+<p><span class="math display">\[
+\bar{x} = 3.453 \text{ seconds}, \quad s = 0.064 \text{ seconds}
+\]</span></p>
+<p><strong>Athlete A runs 3.35 seconds:</strong></p>
+<p><span class="math display">\[
+z = \frac{3.35 - 3.453}{0.064} = \frac{-0.103}{0.064} = -1.61
+\]</span></p>
+<p><strong>Interpretation</strong>: Athlete A is 1.61 standard deviations <em>faster</em> than the mean (negative z-score indicates lower time, which is better in sprint contexts).</p>
+<p><strong>Athlete B runs 3.52 seconds:</strong></p>
+<p><span class="math display">\[
+z = \frac{3.52 - 3.453}{0.064} = \frac{0.067}{0.064} = +1.05
+\]</span></p>
+<p><strong>Interpretation</strong>: Athlete B is 1.05 standard deviations <em>slower</em> than the mean (positive z-score indicates higher time, which is worse).</p>
+<p><strong>Athlete C runs 3.45 seconds:</strong></p>
+<p><span class="math display">\[
+z = \frac{3.45 - 3.453}{0.064} = \frac{-0.003}{0.064} = -0.05
+\]</span></p>
+<p><strong>Interpretation</strong>: Athlete C’s time is essentially at the mean (z ≈ 0), indicating average performance for this group.</p>
+</section>
+<section id="properties-of-z-scores" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="properties-of-z-scores"><span class="header-section-number">6.6.4</span> Properties of z-scores</h3>
+<p>Z-scores have mathematically useful properties that make them valuable for further analysis:</p>
+<ol type="1">
+<li><strong>Standardized scale</strong>: Z-scores always have a mean of 0 and a standard deviation of 1, regardless of the original units.</li>
+<li><strong>Linear transformation</strong>: Z-scores preserve the shape of the distribution. If the raw data are skewed, the z-scores will be skewed in the same way.</li>
+<li><strong>Unit-free comparison</strong>: Z-scores enable comparison across different measurement scales because they express location in standard deviation units rather than raw units.</li>
+<li><strong>Outlier identification</strong>: Values with z-scores beyond ±2 or ±3 are often flagged as potential outliers, though this rule works best for symmetric distributions<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</li>
+</ol>
+</section>
+<section id="comparing-performance-across-different-tests-using-z-scores" class="level3" data-number="6.6.5">
+<h3 data-number="6.6.5" class="anchored" data-anchor-id="comparing-performance-across-different-tests-using-z-scores"><span class="header-section-number">6.6.5</span> Comparing performance across different tests using z-scores</h3>
+<p>Z-scores are especially useful when you need to compare performance on tests with different units. This is common in multi-component fitness batteries, return-to-play evaluations, and talent identification.</p>
+<section id="worked-example-cross-test-comparison" class="level4" data-number="6.6.5.1">
+<h4 data-number="6.6.5.1" class="anchored" data-anchor-id="worked-example-cross-test-comparison"><span class="header-section-number">6.6.5.1</span> Worked example: cross-test comparison</h4>
+<p>An athlete completes three tests with the following results and group norms:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>Athlete’s Score</th>
+<th>Group Mean</th>
+<th>Group SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sprint (20 m)</td>
+<td>3.10 s</td>
+<td>3.30 s</td>
+<td>0.12 s</td>
+</tr>
+<tr class="even">
+<td>Vertical Jump</td>
+<td>52 cm</td>
+<td>45 cm</td>
+<td>6 cm</td>
+</tr>
+<tr class="odd">
+<td>Flexibility</td>
+<td>28 cm</td>
+<td>32 cm</td>
+<td>5 cm</td>
+</tr>
+</tbody>
+</table>
+<p>Compute z-scores:</p>
+<p><strong>Sprint:</strong></p>
+<p><span class="math display">\[
+z = \frac{3.10 - 3.30}{0.12} = \frac{-0.20}{0.12} = -1.67
+\]</span></p>
+<p>(Faster than average; negative because lower time is better)</p>
+<p><strong>Vertical Jump:</strong></p>
+<p><span class="math display">\[
+z = \frac{52 - 45}{6} = \frac{7}{6} = +1.17
+\]</span></p>
+<p>(Higher than average; positive because greater height is better)</p>
+<p><strong>Flexibility:</strong></p>
+<p><span class="math display">\[
+z = \frac{28 - 32}{5} = \frac{-4}{5} = -0.80
+\]</span></p>
+<p>(Below average; negative because lower reach is worse)</p>
+<p><strong>Interpretation</strong></p>
+<p>The athlete shows relative strength in sprint speed (z = −1.67, well below mean time) and vertical jump (z = +1.17, above mean height), but relative weakness in flexibility (z = −0.80, below mean reach). The z-scores place all three performances on a common scale, making it easy to see where strengths and deficits lie. This pattern might suggest training priorities: maintaining power and speed while improving flexibility.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Z-scores for the three tests</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sprint (20m)"</span>, <span class="st">"Vertical Jump"</span>, <span class="st">"Flexibility"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>z_scores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">1.67</span>, <span class="fl">1.17</span>, <span class="sc">-</span><span class="fl">0.80</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust z-scores for "lower is better" tests to make interpretation clearer</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For sprint, we'll plot the absolute value with "better" being positive</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>z_scores_adjusted <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.67</span>, <span class="fl">1.17</span>, <span class="sc">-</span><span class="fl">0.80</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>))</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(z_scores_adjusted, </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">names.arg =</span> tests, </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">ifelse</span>(z_scores_adjusted <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"darkgreen"</span>, <span class="st">"red"</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Z-Score (adjusted for directionality)"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Fitness Profile: Z-Scores Across Tests"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="st">"black"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>), <span class="at">y =</span> z_scores_adjusted <span class="sc">+</span> <span class="fu">sign</span>(z_scores_adjusted)<span class="sc">*</span><span class="fl">0.2</span>, </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"z = +1.67</span><span class="sc">\n</span><span class="st">(faster)"</span>, <span class="st">"z = +1.17</span><span class="sc">\n</span><span class="st">(higher)"</span>, <span class="st">"z = -0.80</span><span class="sc">\n</span><span class="st">(less flexible)"</span>),</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">0.9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-z-score-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-z-score-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch06-percentiles-standard-scores_files/figure-html/fig-z-score-profile-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;6.2: Z-score profile across three fitness tests showing relative strengths and weaknesses"><img src="ch06-percentiles-standard-scores_files/figure-html/fig-z-score-profile-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-z-score-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: Z-score profile across three fitness tests showing relative strengths and weaknesses
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This z-score profile visualizes the athlete’s relative performance across three fitness components. Positive bars (green) indicate above-average performance, while negative bars (red) indicate below-average performance, with all values adjusted so that “up” means “better” regardless of the raw test’s directionality. The athlete shows notable strength in sprint speed (z = +1.67, meaning 1.67 SD faster than average) and vertical jump (z = +1.17, meaning 1.17 SD higher than average), but a relative weakness in flexibility (z = −0.80, meaning 0.80 SD less flexible than average). The dashed horizontal lines at ±1 represent one standard deviation from the mean, a common threshold for identifying moderate departures from typical performance. This type of profile is valuable in Movement Science for identifying training priorities, monitoring balanced development, and making talent identification decisions based on multi-component assessments.</p>
+</section>
+</section>
+</section>
+<section id="other-standard-scores" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="other-standard-scores"><span class="header-section-number">6.7</span> Other standard scores</h2>
+<p>While z-scores have a mean of 0 and standard deviation of 1, other standard scores are linear transformations designed for convenience or tradition in specific contexts.</p>
+<section id="t-scores" class="level3" data-number="6.7.1">
+<h3 data-number="6.7.1" class="anchored" data-anchor-id="t-scores"><span class="header-section-number">6.7.1</span> T-scores</h3>
+<p>T-scores are transformed z-scores with a mean of 50 and standard deviation of 10:</p>
+<p><span class="math display">\[
+T = 10z + 50
+\]</span></p>
+<p>T-scores avoid negative numbers and decimals, which can be easier to communicate in applied settings. A T-score of 40 corresponds to z = −1 (one SD below the mean), while a T-score of 60 corresponds to z = +1.</p>
+</section>
+<section id="other-linear-transformations" class="level3" data-number="6.7.2">
+<h3 data-number="6.7.2" class="anchored" data-anchor-id="other-linear-transformations"><span class="header-section-number">6.7.2</span> Other linear transformations</h3>
+<p>Many standardized tests use similar transformations:</p>
+<ul>
+<li><strong>IQ scores</strong>: mean = 100, SD = 15</li>
+<li><strong>SAT scores (historically)</strong>: mean = 500, SD = 100</li>
+<li><strong>Stanines</strong>: 1–9 scale with mean ≈ 5, SD ≈ 2 (discrete categories)</li>
+</ul>
+<p>These are all linear transformations of z-scores, so they preserve the shape of the distribution and the relative distances between observations. The only difference is the scale for reporting<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<section id="worked-example-converting-z-score-to-t-score" class="level4" data-number="6.7.2.1">
+<h4 data-number="6.7.2.1" class="anchored" data-anchor-id="worked-example-converting-z-score-to-t-score"><span class="header-section-number">6.7.2.1</span> Worked example: converting z-score to T-score</h4>
+<p>From the earlier sprint example, Athlete A had z = −1.61.</p>
+<p>Convert to T-score:</p>
+<p><span class="math display">\[
+T = 10(-1.61) + 50 = -16.1 + 50 = 33.9
+\]</span></p>
+<p><strong>Interpretation</strong></p>
+<p>A T-score of 33.9 indicates performance 1.61 standard deviations below the mean, expressed on a scale where 50 is average and each 10-point change represents one standard deviation. This scale avoids negative numbers and may be preferable in some reporting contexts.</p>
+</section>
+</section>
+</section>
+<section id="percentiles-vs.-z-scores-when-to-use-which" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="percentiles-vs.-z-scores-when-to-use-which"><span class="header-section-number">6.8</span> Percentiles vs.&nbsp;z-scores: when to use which</h2>
+<p>Both percentiles and z-scores locate individuals within distributions, but they have different strengths and limitations. Choosing the appropriate tool depends on the distribution’s shape, the purpose of the comparison, and the statistical operations you need to perform.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 38%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Percentiles</th>
+<th>Z-Scores</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Assumption about distribution</strong></td>
+<td>None (nonparametric)</td>
+<td>Best for symmetric, unimodal distributions</td>
+</tr>
+<tr class="even">
+<td><strong>Resistance to outliers</strong></td>
+<td>Highly resistant</td>
+<td>Sensitive (uses mean and SD)</td>
+</tr>
+<tr class="odd">
+<td><strong>Ease of interpretation</strong></td>
+<td>Intuitive (“better than X%”)</td>
+<td>Requires understanding of SDs</td>
+</tr>
+<tr class="even">
+<td><strong>Cross-scale comparison</strong></td>
+<td>Not directly comparable</td>
+<td>Directly comparable (common scale)</td>
+</tr>
+<tr class="odd">
+<td><strong>Connection to probability</strong></td>
+<td>Direct (percentile = cumulative %)</td>
+<td>Strong if distribution is normal</td>
+</tr>
+<tr class="even">
+<td><strong>Use in further statistics</strong></td>
+<td>Limited</td>
+<td>Widely used in inferential methods</td>
+</tr>
+<tr class="odd">
+<td><strong>Best for skewed data</strong></td>
+<td>Yes</td>
+<td>No (can mislead)</td>
+</tr>
+</tbody>
+</table>
+<section id="when-percentiles-are-preferred" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="when-percentiles-are-preferred"><span class="header-section-number">6.8.1</span> When percentiles are preferred</h3>
+<ul>
+<li>The distribution is skewed or has outliers.</li>
+<li>The measurement scale is ordinal (e.g., Likert scales, pain ratings).</li>
+<li>You need a simple, intuitive summary for applied audiences.</li>
+<li>You are creating normative categories (e.g., fitness percentile bands).</li>
+<li>Sample size is small and distributional assumptions are uncertain.</li>
+</ul>
+</section>
+<section id="when-z-scores-are-preferred" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="when-z-scores-are-preferred"><span class="header-section-number">6.8.2</span> When z-scores are preferred</h3>
+<ul>
+<li>The distribution is roughly symmetric and unimodal.</li>
+<li>You need to compare scores across different measurement scales.</li>
+<li>You are performing further statistical analyses that assume normality.</li>
+<li>You want to identify outliers systematically (e.g., values with |z| &gt; 3).</li>
+<li>You need to connect individual performance to probability (via the normal curve, covered in Chapter 7).</li>
+</ul>
+</section>
+<section id="using-both" class="level3" data-number="6.8.3">
+<h3 data-number="6.8.3" class="anchored" data-anchor-id="using-both"><span class="header-section-number">6.8.3</span> Using both</h3>
+<p>In practice, reporting both percentile ranks and z-scores can provide complementary information. For example:</p>
+<ul>
+<li><strong>Sprint time</strong>: 3.35 s (60th percentile, z = −1.61)</li>
+</ul>
+<p>This tells the reader that the performance is faster than 60% of the group and 1.61 standard deviations below the mean. If the distribution is roughly symmetric, these interpretations align well. If the distribution is skewed, the percentile may be more trustworthy.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: return-to-play assessment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A physical therapist assesses a patient’s balance after ankle surgery. The patient scores 45 on a balance test. Reference data show:</p>
+<ul>
+<li>Mean = 50, SD = 8 → z = (45 − 50) / 8 = −0.63</li>
+<li>Percentile rank ≈ 26th percentile</li>
+</ul>
+<p>The z-score indicates performance is about two-thirds of a standard deviation below the mean—not extreme, but below average. The percentile rank indicates the patient scored better than only 26% of the reference group. Together, these suggest the patient has not fully recovered to typical levels, supporting a decision to continue rehabilitation before clearance for full activity.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="applied-examples-in-movement-science" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="applied-examples-in-movement-science"><span class="header-section-number">6.9</span> Applied examples in Movement Science</h2>
+<section id="fitness-testing-and-normative-databases" class="level3" data-number="6.9.1">
+<h3 data-number="6.9.1" class="anchored" data-anchor-id="fitness-testing-and-normative-databases"><span class="header-section-number">6.9.1</span> Fitness testing and normative databases</h3>
+<p>Fitness test batteries commonly report results using percentile ranks based on large normative samples stratified by age and sex. For example:</p>
+<ul>
+<li><strong>Cardiovascular endurance</strong>: 1-mile run time → 70th percentile for 20-year-old females</li>
+<li><strong>Muscular strength</strong>: Push-ups to fatigue → 55th percentile</li>
+<li><strong>Body composition</strong>: Body fat percentage → 40th percentile</li>
+</ul>
+<p>These percentile ranks provide immediate context: “This individual is above average in cardiovascular fitness, about average in strength, and slightly below average in body composition relative to peers.” Fitness professionals use these profiles to design individualized training programs that target relative weaknesses while maintaining strengths.</p>
+</section>
+<section id="clinical-assessment-and-fall-risk" class="level3" data-number="6.9.2">
+<h3 data-number="6.9.2" class="anchored" data-anchor-id="clinical-assessment-and-fall-risk"><span class="header-section-number">6.9.2</span> Clinical assessment and fall risk</h3>
+<p>Balance and mobility assessments often use percentile cutoffs to stratify risk. For example, the Berg Balance Scale or Timed Up and Go (TUG) test may define:</p>
+<ul>
+<li><strong>Low risk</strong>: Above 50th percentile</li>
+<li><strong>Moderate risk</strong>: 25th–50th percentile</li>
+<li><strong>High risk</strong>: Below 25th percentile</li>
+</ul>
+<p>Patients below critical thresholds receive targeted interventions (balance training, assistive devices, home modifications). The percentile framework allows clinicians to communicate risk in accessible terms and track improvement over time by monitoring changes in percentile rank.</p>
+</section>
+<section id="talent-identification-in-youth-sport" class="level3" data-number="6.9.3">
+<h3 data-number="6.9.3" class="anchored" data-anchor-id="talent-identification-in-youth-sport"><span class="header-section-number">6.9.3</span> Talent identification in youth sport</h3>
+<p>Talent identification programs often assess young athletes across multiple physical, technical, and cognitive domains. Z-scores enable comparison across domains with different scales (e.g., sprint time in seconds, jump height in centimeters, agility score as a composite). Coaches can create composite scores by averaging z-scores across tests, identifying athletes who excel in multiple areas.</p>
+<p>For example, a talent identification battery might include:</p>
+<ul>
+<li>Sprint speed (z = +1.8)</li>
+<li>Vertical jump (z = +1.5)</li>
+<li>Agility (z = +0.9)</li>
+<li>Aerobic capacity (z = +0.5)</li>
+</ul>
+<p><strong>Composite z-score</strong> = (1.8 + 1.5 + 0.9 + 0.5) / 4 = +1.18</p>
+<p>An athlete with a composite z-score above +1.0 might be classified as “emerging talent,” while those above +1.5 might be flagged as “elite prospects” for further development. This standardization ensures that tests with different units contribute equally to the composite.</p>
+</section>
+<section id="return-to-sport-decision-making" class="level3" data-number="6.9.4">
+<h3 data-number="6.9.4" class="anchored" data-anchor-id="return-to-sport-decision-making"><span class="header-section-number">6.9.4</span> Return-to-sport decision-making</h3>
+<p>Return-to-sport protocols often require athletes to meet multiple benchmarks before clearance. These may include:</p>
+<ul>
+<li><strong>Strength symmetry</strong>: &lt;10% difference between limbs (z-scores can compare injured vs.&nbsp;uninjured limb relative to norms)</li>
+<li><strong>Functional performance</strong>: Performance on hop tests must reach ≥90% of pre-injury levels or ≥50th percentile of normative data</li>
+<li><strong>Patient-reported outcomes</strong>: Symptom scores below a critical percentile threshold</li>
+</ul>
+<p>By combining z-scores and percentile ranks across domains, clinicians make evidence-based decisions that balance objective performance with patient-reported function.</p>
+<div class="cell" data-eval="false" data-fig-width="6" data-fig-height="4.5" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="limitations-and-cautions" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="limitations-and-cautions"><span class="header-section-number">6.10</span> Limitations and cautions</h2>
+<section id="sample-size-and-stability" class="level3" data-number="6.10.1">
+<h3 data-number="6.10.1" class="anchored" data-anchor-id="sample-size-and-stability"><span class="header-section-number">6.10.1</span> Sample size and stability</h3>
+<p>Both percentiles and z-scores can be unstable in small samples. A single extreme value can shift percentile ranks noticeably, and the sample mean and SD (used for z-scores) are themselves estimates with sampling variability. With very small samples (n &lt; 20), treat extreme percentile ranks (e.g., 5th or 95th) and extreme z-scores (|z| &gt; 2) with caution, as they may not replicate well in repeated testing<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+</section>
+<section id="measurement-error" class="level3" data-number="6.10.2">
+<h3 data-number="6.10.2" class="anchored" data-anchor-id="measurement-error"><span class="header-section-number">6.10.2</span> Measurement error</h3>
+<p>All measurements contain error. An athlete who scores at the 60th percentile today might score at the 55th or 65th percentile tomorrow due to normal fluctuations in performance and measurement noise. Similarly, a z-score of +1.0 might shift to +0.8 or +1.2 on retesting. Interpret individual scores within the context of expected measurement variability (see Chapter 18 on reliability for more detail)<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+<section id="normative-data-currency" class="level3" data-number="6.10.3">
+<h3 data-number="6.10.3" class="anchored" data-anchor-id="normative-data-currency"><span class="header-section-number">6.10.3</span> Normative data currency</h3>
+<p>Percentile ranks are only as good as the normative database. If norms are outdated (e.g., based on data from 20 years ago) or unrepresentative (e.g., based on college athletes when assessing recreational participants), the percentile ranks may mislead. Always verify that the reference group matches the population of interest in terms of age, sex, training status, and other relevant characteristics.</p>
+</section>
+<section id="conflating-percentile-and-percentage-correct" class="level3" data-number="6.10.4">
+<h3 data-number="6.10.4" class="anchored" data-anchor-id="conflating-percentile-and-percentage-correct"><span class="header-section-number">6.10.4</span> Conflating percentile and percentage correct</h3>
+<p>In cognitive testing or skill assessments, a “percentage correct” (e.g., 80% of questions answered correctly) is not the same as a percentile rank (better than 80% of test-takers). These are easily confused, and the distinction matters. A student who scores 80% correct might be at the 90th percentile if the test is hard, or the 50th percentile if the test is easy. Always clarify which meaning is intended.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Interpreting all distributions as normal and assuming that z = +2 always means “better than 95% of people.” This is only true if the distribution is approximately normal. For skewed distributions, z-scores can still be computed, but their connection to percentiles changes. Always check distributional shape before interpreting z-scores probabilistically.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="worked-example-using-the-core-dataset" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="worked-example-using-the-core-dataset"><span class="header-section-number">6.11</span> Worked example using the Core Dataset</h2>
+<p>This section demonstrates practical application using a realistic Movement Science scenario.</p>
+<section id="scenario-multi-component-fitness-assessment" class="level3" data-number="6.11.1">
+<h3 data-number="6.11.1" class="anchored" data-anchor-id="scenario-multi-component-fitness-assessment"><span class="header-section-number">6.11.1</span> Scenario: multi-component fitness assessment</h3>
+<p>A university fitness center tests 50 students on three components:</p>
+<ul>
+<li><strong>20-meter sprint time</strong> (lower is better)</li>
+<li><strong>Vertical jump height</strong> (higher is better)</li>
+<li><strong>Sit-and-reach flexibility</strong> (higher is better)</li>
+</ul>
+<p>Normative data for 18–22-year-old college students:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>Mean</th>
+<th>SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sprint (s)</td>
+<td>3.40</td>
+<td>0.15</td>
+</tr>
+<tr class="even">
+<td>Vertical Jump (cm)</td>
+<td>45</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>Flexibility (cm)</td>
+<td>30</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Student A</strong> completes the battery with these results:</p>
+<ul>
+<li>Sprint: 3.20 s</li>
+<li>Vertical Jump: 52 cm</li>
+<li>Flexibility: 28 cm</li>
+</ul>
+<p><strong>Step 1: Compute z-scores</strong></p>
+<p>Sprint:</p>
+<p><span class="math display">\[
+z = \frac{3.20 - 3.40}{0.15} = \frac{-0.20}{0.15} = -1.33
+\]</span></p>
+<p>Vertical Jump:</p>
+<p><span class="math display">\[
+z = \frac{52 - 45}{7} = \frac{7}{7} = +1.00
+\]</span></p>
+<p>Flexibility:</p>
+<p><span class="math display">\[
+z = \frac{28 - 30}{6} = \frac{-2}{6} = -0.33
+\]</span></p>
+<p><strong>Step 2: Interpret each z-score</strong></p>
+<ul>
+<li><strong>Sprint</strong>: z = −1.33 indicates the student is 1.33 SD faster than average (negative z for time = better performance).</li>
+<li><strong>Vertical Jump</strong>: z = +1.00 indicates the student jumps 1 SD higher than average.</li>
+<li><strong>Flexibility</strong>: z = −0.33 indicates the student is 0.33 SD below average (slightly less flexible).</li>
+</ul>
+<p><strong>Step 3: Estimate percentile ranks (assuming approximate normality)</strong></p>
+<p>Using a standard normal table (see <a href="./appendix-statistical-tables.html"><strong>Appendix: Statistical Tables</strong></a>) or calculator:</p>
+<ul>
+<li>Sprint z = −1.33 → approximately 9th percentile in raw time, but <strong>91st percentile in performance</strong> (faster than 91% of peers, because lower time is better).</li>
+<li>Vertical Jump z = +1.00 → approximately 84th percentile (higher than 84% of peers).</li>
+<li>Flexibility z = −0.33 → approximately 37th percentile (better than only 37% of peers).</li>
+</ul>
+<p><strong>Step 4: Create a profile and recommendations</strong></p>
+<p><strong>Strengths</strong>: Sprint speed and vertical jump (both &gt; 80th percentile) <strong>Relative weakness</strong>: Flexibility (37th percentile) <strong>Recommendation</strong>: Maintain power-based training; add regular flexibility work to improve range of motion and reduce injury risk.</p>
+<p>This example illustrates how z-scores and percentile ranks work together to provide a comprehensive performance profile. The standardization allows direct comparison across tests with different units, while the percentile ranks make the results accessible to non-technical audiences.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define test components and percentile ranks</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Sprint"</span>, <span class="st">"Vertical Jump"</span>, <span class="st">"Flexibility"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>percentiles <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">91</span>, <span class="dv">84</span>, <span class="dv">37</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create bar plot</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(percentiles, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">names.arg =</span> tests,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">ifelse</span>(percentiles <span class="sc">&gt;=</span> <span class="dv">75</span>, <span class="st">"darkgreen"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">ifelse</span>(percentiles <span class="sc">&gt;=</span> <span class="dv">50</span>, <span class="st">"gold"</span>, <span class="st">"red"</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Percentile Rank (%)"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Student A: Fitness Profile"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="st">"black"</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"gray40"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">1.9</span>, <span class="fl">3.1</span>), <span class="at">y =</span> percentiles <span class="sc">+</span> <span class="dv">4</span>, </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels =</span> <span class="fu">paste0</span>(percentiles, <span class="st">"th"</span>), <span class="at">cex =</span> <span class="fl">1.1</span>, <span class="at">font =</span> <span class="dv">2</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Above 75th (Good)"</span>, <span class="st">"50th-75th (Average)"</span>, <span class="st">"Below 50th (Needs Work)"</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"darkgreen"</span>, <span class="st">"gold"</span>, <span class="st">"red"</span>),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">border =</span> <span class="st">"black"</span>, <span class="at">cex =</span> <span class="fl">0.9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-student-profile" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-student-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch06-percentiles-standard-scores_files/figure-html/fig-student-profile-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;6.3: Fitness profile for Student A showing percentile ranks across three components"><img src="ch06-percentiles-standard-scores_files/figure-html/fig-student-profile-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-student-profile-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: Fitness profile for Student A showing percentile ranks across three components
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>This fitness profile visualizes Student A’s relative standing across three fitness components using percentile ranks, which are more intuitive for applied audiences than z-scores. Green bars indicate strong performance (above 75th percentile), gold indicates average performance (50th–75th), and red indicates areas needing improvement (below 50th). The dashed horizontal lines at the 25th, 50th, and 75th percentiles provide reference points for interpretation. Student A shows clear strengths in sprint speed (91st percentile) and vertical jump (84th percentile), both power-related attributes, but demonstrates a relative weakness in flexibility (37th percentile). This type of profile is widely used in fitness centers, sports medicine clinics, and talent identification programs to communicate results to athletes, clients, and coaches in an accessible format.</p>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">6.12</span> Chapter summary</h2>
+<p>Percentiles and standard scores are essential tools for locating individual performance within a group and enabling comparisons across different measurement scales<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. Percentiles express the proportion of the distribution at or below a given value and are highly resistant to outliers and skew, making them ideal for normative databases, clinical cutoffs, and fitness classifications where distributions may be non-normal. Percentile ranks are intuitive and accessible, but they do not preserve equal intervals and cannot be directly manipulated in many statistical procedures<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. Z-scores standardize observations by expressing them as deviations from the mean in standard deviation units, creating a common scale that enables cross-test comparisons and connects to probability when distributions are approximately normal. However, z-scores depend on the mean and standard deviation, so they are sensitive to outliers and perform best with roughly symmetric distributions<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. In Movement Science applications, including fitness testing, clinical assessment, talent identification, and return-to-sport decisions, choosing between percentiles and z-scores (or using both) depends on distributional shape, the audience, and the scientific purpose. Understanding both approaches allows practitioners to communicate individual performance relative to norms in ways that are statistically sound and practically meaningful<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+<section id="key-terms" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">6.13</span> Key terms</h2>
+<p>percentile; percentile rank; quartile; quintile; decile; interquartile range; z-score; standard score; standardization; T-score; normative data; cumulative distribution function; linear transformation; outlier identification; cross-scale comparison</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="6.14">
+<h2 data-number="6.14" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">6.14</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>A patient scores at the 30th percentile on a balance test. What does
+this mean, and is it concerning?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>A 30th percentile score means the patient performed as well as or better than 30 percent of the reference group, or equivalently, 70 percent of the reference group scored higher. Whether this is concerning depends on the clinical context and the reference group. If the test is used to stratify fall risk and scores below the 25th percentile indicate high risk, then the 30th percentile is just above the high-risk threshold. However, it still represents below-average performance and may warrant monitoring or targeted intervention. Always interpret percentile ranks relative to clinically meaningful cutoffs and consider measurement error—a score at the 30th percentile could easily be 25th or 35th on repeated testing.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>An athlete has a z-score of +2.5 on a vertical jump test. Interpret this
+value and explain what it suggests about their performance.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>A z-score of +2.5 indicates the athlete’s vertical jump is 2.5 standard deviations above the mean for the reference group. This is an unusually high value, representing exceptional performance. If the distribution is approximately normal, a z-score of +2.5 corresponds to roughly the 99th percentile, meaning the athlete jumps higher than approximately 99 percent of the comparison group. This level of performance would typically be classified as elite or outlier status, depending on the context. It suggests this athlete has notable lower-body power that may be worth leveraging in sport-specific training or talent identification programs.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>You need to compare an athlete’s sprint time (3.25 s) to their
+sit-and-reach flexibility (35 cm). Explain why comparing the raw scores
+is meaningless and describe how z-scores solve this problem.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>Comparing 3.25 seconds to 35 centimeters is meaningless because the measurements use completely different units and scales—there is no basis for saying one is “better” or “worse” than the other. Z-scores solve this by transforming both values into a common scale: standard deviations from the mean. If the sprint time has a z-score of −1.8 (1.8 SD faster than average) and the sit-and-reach has a z-score of +0.5 (0.5 SD more flexible than average), we can now see that the athlete shows greater relative strength in sprint speed than in flexibility. The z-scores remove the dependency on units and allow direct comparison of relative standing within each domain.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>When would percentiles be preferable to z-scores, and vice versa?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>Percentiles are preferable when the distribution is skewed or contains outliers, when the measurement scale is ordinal, when the audience needs intuitive summaries (e.g., “better than 75% of peers”), or when creating normative categories for applied use (e.g., fitness test bands). Percentiles make no assumptions about distributional shape and are highly resistant to extreme values. Z-scores are preferable when the distribution is roughly symmetric and unimodal, when you need to compare performance across different measurement scales, when performing further statistical analyses that assume normality, or when you want to identify outliers systematically (e.g., flagging values with |z| &gt; 3). If both conditions are met, reporting both provides complementary information: percentile ranks for accessibility and z-scores for standardization.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>A fitness center uses norms from a study conducted in 2000. Why might
+this be problematic when assessing current clients?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>Norms from 2000 may no longer accurately represent the current population due to secular trends—systematic changes over time in physical fitness, body composition, and health status. For example, if obesity rates have increased and physical activity has decreased since 2000, average fitness scores may have declined, meaning current clients might receive inflated percentile ranks (appearing “better” relative to an outdated norm). Conversely, if performance standards have improved (e.g., due to better training methods), current clients might receive deflated ranks. Additionally, norms may not match the demographics or training status of current clients. Always verify that normative data are recent (within 5–10 years), representative of the target population, and collected using the same testing protocols.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>An athlete scores 48 on a T-score scale. Interpret this result.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>T-scores have a mean of 50 and a standard deviation of 10, so a T-score of 48 corresponds to a z-score of −0.2 (calculated as (48 − 50) / 10 = −0.2). This indicates performance is 0.2 standard deviations below the mean, which is very close to average. In practical terms, this athlete’s performance is essentially typical for the reference group, with no meaningful deviation in either direction. T-scores are often used in standardized testing contexts because they avoid negative numbers and decimals, making results easier to communicate to non-technical audiences.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For applied perspectives on normative data and individual assessment in sport and exercise contexts, see discussions of measurement and interpretation in fitness testing manuals and sports medicine texts. For a statistical foundation on percentiles and z-scores, see introductory statistics texts such as<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. For Movement Science-specific applications in reliability and measurement, see<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">2</a>]</sup></span> and<span class="citation" data-cites="atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">3</a>]</sup></span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The next chapter introduces the normal distribution and its properties, connecting z-scores to probability statements and explaining when and why the normal curve is a useful model for Movement Science data.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-moore_ips" class="csl-entry" role="listitem">
+1. Moore, D. S., McCabe, G. P., &amp; Craig, B. A. (2021). <em>Introduction to the practice of statistics</em> (10th ed.). W. H. Freeman; Company.
+</div>
+<div id="ref-hopkins2000" class="csl-entry" role="listitem">
+2. Hopkins, W. G. (2000). Measures of reliability in sports medicine and science. <em>Sports Medicine</em>, <em>30</em>(1), 1–15. <a href="https://doi.org/10.2165/00007256-200030010-00001">https://doi.org/10.2165/00007256-200030010-00001</a>
+</div>
+<div id="ref-atkinsonneville1998" class="csl-entry" role="listitem">
+3. Atkinson, G., &amp; Nevill, A. M. (1998). Statistical methods for assessing measurement error (reliability) in variables relevant to sports medicine. <em>Sports Medicine</em>, <em>26</em>(4), 217–238. <a href="https://doi.org/10.2165/00007256-199826040-00002">https://doi.org/10.2165/00007256-199826040-00002</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch05-variability.html" class="pagination-link" aria-label="Measures of Variability">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch07-normal-distribution.html" class="pagination-link" aria-label="The Normal Distribution">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

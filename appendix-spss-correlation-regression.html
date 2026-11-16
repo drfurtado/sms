@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix Z — SPSS Tutorial: Correlation and Bivariate Regression – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appendix-spss-multiple-regression.html" rel="next">
+<link href="./appendix-spss-clinical-measures.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-correlation-regression.html"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">Z.1</span> Overview</a></li>
+  <li><a href="#dataset-for-this-tutorial" id="toc-dataset-for-this-tutorial" class="nav-link" data-scroll-target="#dataset-for-this-tutorial"><span class="header-section-number">Z.2</span> Dataset for this tutorial</a></li>
+  <li><a href="#part-1-creating-a-scatterplot" id="toc-part-1-creating-a-scatterplot" class="nav-link" data-scroll-target="#part-1-creating-a-scatterplot"><span class="header-section-number">Z.3</span> Part 1: Creating a scatterplot</a>
+  <ul class="collapse">
+  <li><a href="#procedure" id="toc-procedure" class="nav-link" data-scroll-target="#procedure"><span class="header-section-number">Z.3.1</span> Procedure</a></li>
+  <li><a href="#interpreting-the-scatterplot" id="toc-interpreting-the-scatterplot" class="nav-link" data-scroll-target="#interpreting-the-scatterplot"><span class="header-section-number">Z.3.2</span> Interpreting the scatterplot</a></li>
+  </ul></li>
+  <li><a href="#part-2-computing-pearsons-correlation" id="toc-part-2-computing-pearsons-correlation" class="nav-link" data-scroll-target="#part-2-computing-pearsons-correlation"><span class="header-section-number">Z.4</span> Part 2: Computing Pearson’s correlation</a>
+  <ul class="collapse">
+  <li><a href="#procedure-1" id="toc-procedure-1" class="nav-link" data-scroll-target="#procedure-1"><span class="header-section-number">Z.4.1</span> Procedure</a></li>
+  <li><a href="#interpreting-the-output" id="toc-interpreting-the-output" class="nav-link" data-scroll-target="#interpreting-the-output"><span class="header-section-number">Z.4.2</span> Interpreting the output</a></li>
+  </ul></li>
+  <li><a href="#part-3-bivariate-linear-regression" id="toc-part-3-bivariate-linear-regression" class="nav-link" data-scroll-target="#part-3-bivariate-linear-regression"><span class="header-section-number">Z.5</span> Part 3: Bivariate linear regression</a>
+  <ul class="collapse">
+  <li><a href="#procedure-2" id="toc-procedure-2" class="nav-link" data-scroll-target="#procedure-2"><span class="header-section-number">Z.5.1</span> Procedure</a></li>
+  <li><a href="#interpreting-the-output-1" id="toc-interpreting-the-output-1" class="nav-link" data-scroll-target="#interpreting-the-output-1"><span class="header-section-number">Z.5.2</span> Interpreting the output</a></li>
+  </ul></li>
+  <li><a href="#part-4-checking-assumptions" id="toc-part-4-checking-assumptions" class="nav-link" data-scroll-target="#part-4-checking-assumptions"><span class="header-section-number">Z.6</span> Part 4: Checking assumptions</a>
+  <ul class="collapse">
+  <li><a href="#assumption-1-linearity" id="toc-assumption-1-linearity" class="nav-link" data-scroll-target="#assumption-1-linearity"><span class="header-section-number">Z.6.1</span> Assumption 1: Linearity</a></li>
+  <li><a href="#assumption-2-homoscedasticity" id="toc-assumption-2-homoscedasticity" class="nav-link" data-scroll-target="#assumption-2-homoscedasticity"><span class="header-section-number">Z.6.2</span> Assumption 2: Homoscedasticity</a></li>
+  <li><a href="#assumption-3-normality-of-residuals" id="toc-assumption-3-normality-of-residuals" class="nav-link" data-scroll-target="#assumption-3-normality-of-residuals"><span class="header-section-number">Z.6.3</span> Assumption 3: Normality of residuals</a></li>
+  <li><a href="#assumption-4-independence" id="toc-assumption-4-independence" class="nav-link" data-scroll-target="#assumption-4-independence"><span class="header-section-number">Z.6.4</span> Assumption 4: Independence</a></li>
+  <li><a href="#assumption-5-no-extreme-outliers-or-influential-points" id="toc-assumption-5-no-extreme-outliers-or-influential-points" class="nav-link" data-scroll-target="#assumption-5-no-extreme-outliers-or-influential-points"><span class="header-section-number">Z.6.5</span> Assumption 5: No extreme outliers or influential points</a></li>
+  </ul></li>
+  <li><a href="#part-5-making-predictions" id="toc-part-5-making-predictions" class="nav-link" data-scroll-target="#part-5-making-predictions"><span class="header-section-number">Z.7</span> Part 5: Making predictions</a></li>
+  <li><a href="#part-6-reporting-results-in-apa-style" id="toc-part-6-reporting-results-in-apa-style" class="nav-link" data-scroll-target="#part-6-reporting-results-in-apa-style"><span class="header-section-number">Z.8</span> Part 6: Reporting results in APA style</a>
+  <ul class="collapse">
+  <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation"><span class="header-section-number">Z.8.1</span> Correlation</a></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression"><span class="header-section-number">Z.8.2</span> Regression</a></li>
+  <li><a href="#apa-formatting-rules" id="toc-apa-formatting-rules" class="nav-link" data-scroll-target="#apa-formatting-rules"><span class="header-section-number">Z.8.3</span> APA formatting rules</a></li>
+  </ul></li>
+  <li><a href="#part-7-common-mistakes-and-troubleshooting" id="toc-part-7-common-mistakes-and-troubleshooting" class="nav-link" data-scroll-target="#part-7-common-mistakes-and-troubleshooting"><span class="header-section-number">Z.9</span> Part 7: Common mistakes and troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#mistake-1-not-examining-the-scatterplot-first" id="toc-mistake-1-not-examining-the-scatterplot-first" class="nav-link" data-scroll-target="#mistake-1-not-examining-the-scatterplot-first"><span class="header-section-number">Z.9.1</span> Mistake 1: Not examining the scatterplot first</a></li>
+  <li><a href="#mistake-2-reporting-only-the-p-value" id="toc-mistake-2-reporting-only-the-p-value" class="nav-link" data-scroll-target="#mistake-2-reporting-only-the-p-value"><span class="header-section-number">Z.9.2</span> Mistake 2: Reporting only the p-value</a></li>
+  <li><a href="#mistake-3-concluding-causation-from-correlation" id="toc-mistake-3-concluding-causation-from-correlation" class="nav-link" data-scroll-target="#mistake-3-concluding-causation-from-correlation"><span class="header-section-number">Z.9.3</span> Mistake 3: Concluding causation from correlation</a></li>
+  <li><a href="#mistake-4-extrapolating-predictions" id="toc-mistake-4-extrapolating-predictions" class="nav-link" data-scroll-target="#mistake-4-extrapolating-predictions"><span class="header-section-number">Z.9.4</span> Mistake 4: Extrapolating predictions</a></li>
+  <li><a href="#mistake-5-over-interpreting-the-intercept" id="toc-mistake-5-over-interpreting-the-intercept" class="nav-link" data-scroll-target="#mistake-5-over-interpreting-the-intercept"><span class="header-section-number">Z.9.5</span> Mistake 5: Over-interpreting the intercept</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">Z.10</span> Summary</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">Z.11</span> Additional resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-correlation-regression.html"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix Z — SPSS Tutorial: Correlation and Bivariate Regression</h1>
+<p class="subtitle lead">Computing Pearson’s r, fitting regression models, and interpreting output in SPSS</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this tutorial, you will be able to:</p>
+<ul>
+<li>Compute Pearson’s correlation coefficient and create a correlation matrix in SPSS</li>
+<li>Produce and interpret a scatterplot with a regression line</li>
+<li>Conduct a bivariate linear regression and read the full SPSS output</li>
+<li>Interpret the slope, intercept, <span class="math inline">\(R^2\)</span>, and unstandardized/standardized coefficients</li>
+<li>Check assumptions: linearity, homoscedasticity, normality of residuals, and outliers</li>
+<li>Report correlation and regression results following APA guidelines</li>
+</ul>
+</div>
+</div>
+<section id="overview" class="level2" data-number="Z.1">
+<h2 data-number="Z.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">Z.1</span> Overview</h2>
+<p>Correlation and bivariate regression are foundational tools for examining relationships between two continuous variables in Movement Science. SPSS provides a straightforward interface for computing Pearson’s <span class="math inline">\(r\)</span>, testing its significance, fitting a regression model, and producing diagnostic plots. This tutorial demonstrates:</p>
+<ul>
+<li>How to produce scatterplots and correlation coefficients in SPSS</li>
+<li>How to set up and run a bivariate (simple) linear regression</li>
+<li>How to read and interpret SPSS regression output (Coefficients, Model Summary, ANOVA tables)</li>
+<li>How to request and evaluate residual diagnostics</li>
+<li>How to report results in APA style</li>
+</ul>
+<p><strong>Prerequisites:</strong> Familiarity with SPSS data entry and basic descriptive statistics.</p>
+</section>
+<section id="dataset-for-this-tutorial" class="level2" data-number="Z.2">
+<h2 data-number="Z.2" class="anchored" data-anchor-id="dataset-for-this-tutorial"><span class="header-section-number">Z.2</span> Dataset for this tutorial</h2>
+<p>We will use the <strong>Core Dataset</strong> (<code>core_session.csv</code>) introduced in the <a href="./appendix-core-dataset-overview.html">Core Dataset Overview</a>. This is the same dataset used throughout the book.</p>
+<p>Download it here: <a href="data/core_session.csv">core_session.csv</a></p>
+<p>For this tutorial, we examine the relationship between two continuous variables measured at the <strong>pre-training time point</strong> (<code>time = "pre"</code>, <em>N</em> = 60):</p>
+<ul>
+<li><code>vo2_mlkgmin</code> — Aerobic capacity (VO₂max) in mL·kg⁻¹·min⁻¹ — predictor/independent variable (<span class="math inline">\(X\)</span>)</li>
+<li><code>sprint_20m_s</code> — 20-meter sprint time in seconds (s) — outcome/dependent variable (<span class="math inline">\(Y\)</span>)</li>
+</ul>
+<p>This pairing has clear theoretical grounding: athletes with higher aerobic capacity tend to have faster sprint times, making it a natural candidate for correlation and regression analysis.</p>
+<p><strong>Opening the dataset in SPSS:</strong></p>
+<ol type="1">
+<li><strong>File → Open → Data…</strong></li>
+<li>Change the file type to <strong>CSV (*.csv)</strong>, browse to <code>core_session.csv</code>, and click <strong>Open</strong></li>
+<li>Follow the Text Import Wizard: choose <strong>Delimited</strong>, check <strong>Variable names included at top of file</strong>, set delimiter to <strong>Comma</strong>, and click <strong>Finish</strong></li>
+<li>To restrict analyses to the pre-training time point, use <strong>Data → Select Cases → If condition is satisfied</strong> and enter: <code>time = 'pre'</code></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Which variables to use
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See the <strong>Core Dataset Codebook</strong> for exact variable names, units, and coding. For this tutorial, use <code>vo2_mlkgmin</code> as the predictor and <code>sprint_20m_s</code> as the outcome.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="part-1-creating-a-scatterplot" class="level2" data-number="Z.3">
+<h2 data-number="Z.3" class="anchored" data-anchor-id="part-1-creating-a-scatterplot"><span class="header-section-number">Z.3</span> Part 1: Creating a scatterplot</h2>
+<p>Always visualize your data <strong>before</strong> computing any statistics. A scatterplot reveals the shape, direction, and strength of the relationship—and whether any outliers or nonlinearity exist.</p>
+<section id="procedure" class="level3" data-number="Z.3.1">
+<h3 data-number="Z.3.1" class="anchored" data-anchor-id="procedure"><span class="header-section-number">Z.3.1</span> Procedure</h3>
+<ol type="1">
+<li><strong>Graphs → Chart Builder…</strong></li>
+<li>In the gallery at the bottom, click <strong>Scatter/Dot</strong>, then double-click the top-left (simple scatter) icon.</li>
+<li>Drag <code>vo2_mlkgmin</code> to the <strong>X-Axis</strong> zone and <code>sprint_20m_s</code> to the <strong>Y-Axis</strong> zone.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+<p>To add a regression line to the existing chart:</p>
+<ol start="5" type="1">
+<li>Double-click the chart in the output viewer to open the <strong>Chart Editor</strong>.</li>
+<li>From the menu, choose <strong>Elements → Fit Line at Total</strong>.</li>
+<li>Select <strong>Linear</strong> in the Properties dialog → <strong>Apply → Close</strong>.</li>
+<li>Close the Chart Editor.</li>
+</ol>
+</section>
+<section id="interpreting-the-scatterplot" class="level3" data-number="Z.3.2">
+<h3 data-number="Z.3.2" class="anchored" data-anchor-id="interpreting-the-scatterplot"><span class="header-section-number">Z.3.2</span> Interpreting the scatterplot</h3>
+<p>Examine the scatterplot for:</p>
+<ul>
+<li><strong>Direction</strong>: Do points move upward (positive) or downward (negative) from left to right?</li>
+<li><strong>Linearity</strong>: Do points roughly follow a straight-line trend, or is there a curved pattern?</li>
+<li><strong>Spread</strong>: Is the vertical spread of points roughly constant (homoscedastic), or does it fan out?</li>
+<li><strong>Outliers</strong>: Are any points far away from the overall pattern?</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Always plot first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Never skip the scatterplot. Identical correlation coefficients can arise from completely different data patterns (Anscombe’s Quartet). Visual inspection protects against misleading interpretations.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="part-2-computing-pearsons-correlation" class="level2" data-number="Z.4">
+<h2 data-number="Z.4" class="anchored" data-anchor-id="part-2-computing-pearsons-correlation"><span class="header-section-number">Z.4</span> Part 2: Computing Pearson’s correlation</h2>
+<section id="procedure-1" class="level3" data-number="Z.4.1">
+<h3 data-number="Z.4.1" class="anchored" data-anchor-id="procedure-1"><span class="header-section-number">Z.4.1</span> Procedure</h3>
+<ol type="1">
+<li><strong>Analyze → Correlate → Bivariate…</strong></li>
+<li>Move both <code>vo2_mlkgmin</code> and <code>sprint_20m_s</code> to the <strong>Variables</strong> box.</li>
+<li>Under <strong>Correlation Coefficients</strong>, ensure <strong>Pearson</strong> is checked.</li>
+<li>Under <strong>Test of Significance</strong>, select <strong>Two-tailed</strong> (default).</li>
+<li>Leave <strong>Flag significant correlations</strong> checked.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+</section>
+<section id="interpreting-the-output" class="level3" data-number="Z.4.2">
+<h3 data-number="Z.4.2" class="anchored" data-anchor-id="interpreting-the-output"><span class="header-section-number">Z.4.2</span> Interpreting the output</h3>
+<p>SPSS produces a <strong>Correlations</strong> table:</p>
+<pre><code>Correlations
+                          vo2_mlkgmin   sprint_20m_s
+vo2_mlkgmin Pearson Corr.  1              -.643**
+            Sig. (2-tailed)               .000
+            N               60             60
+sprint_20m_s Pearson Corr. -.643**         1
+            Sig. (2-tailed) .000
+            N               60             60
+
+** Correlation is significant at the 0.01 level (2-tailed).</code></pre>
+<p><strong>Key elements:</strong></p>
+<ul>
+<li><strong>Pearson Correlation = −.643</strong>: Moderate-to-strong <strong>negative</strong> linear relationship — athletes with higher VO₂max tend to have <strong>faster</strong> (lower) sprint times.</li>
+<li><strong>Sig. (2-tailed) = .000</strong>: <em>p</em> &lt; .001 — the correlation is statistically significant (SPSS displays “.000” for very small <em>p</em>-values; report as <em>p</em> &lt; .001).</li>
+<li><strong>N = 60</strong>: Sample size (pre-training time point).</li>
+<li>The table is symmetric: <span class="math inline">\(r_{XY}\)</span> = <span class="math inline">\(r_{YX}\)</span>.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Coefficient of determination
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Square the correlation to get <span class="math inline">\(r^2\)</span>:</p>
+<p><span class="math display">\[r^2 = (-.643)^2 = .414\]</span></p>
+<p>This means <strong>41.4% of the variance</strong> in sprint time is explained by VO₂max in this sample.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="part-3-bivariate-linear-regression" class="level2" data-number="Z.5">
+<h2 data-number="Z.5" class="anchored" data-anchor-id="part-3-bivariate-linear-regression"><span class="header-section-number">Z.5</span> Part 3: Bivariate linear regression</h2>
+<p>Correlation quantifies the relationship; <strong>regression</strong> models it with an equation that enables prediction.</p>
+<section id="procedure-2" class="level3" data-number="Z.5.1">
+<h3 data-number="Z.5.1" class="anchored" data-anchor-id="procedure-2"><span class="header-section-number">Z.5.1</span> Procedure</h3>
+<ol type="1">
+<li><strong>Analyze → Regression → Linear…</strong></li>
+<li>Move <code>sprint_20m_s</code> to the <strong>Dependent</strong> box.</li>
+<li>Move <code>vo2_mlkgmin</code> to the <strong>Independent(s)</strong> box.</li>
+<li>Click <strong>Statistics…</strong>
+<ul>
+<li>✓ Estimates (regression coefficients) — checked by default</li>
+<li>✓ Confidence intervals (at 95%)</li>
+<li>✓ Model fit</li>
+<li>✓ Descriptives <em>(optional)</em></li>
+<li><strong>Continue</strong></li>
+</ul></li>
+<li>Click <strong>Plots…</strong>
+<ul>
+<li>Move <code>*ZRESID</code> (standardized residuals) to the <strong>Y</strong> axis.</li>
+<li>Move <code>*ZPRED</code> (standardized predicted values) to the <strong>X</strong> axis.</li>
+<li>✓ Check <strong>Normal probability plot</strong></li>
+<li><strong>Continue</strong></li>
+</ul></li>
+<li>Click <strong>Save…</strong>
+<ul>
+<li>✓ Unstandardized Residuals <em>(optional, useful for residual plots)</em></li>
+<li><strong>Continue</strong></li>
+</ul></li>
+<li><strong>OK</strong></li>
+</ol>
+</section>
+<section id="interpreting-the-output-1" class="level3" data-number="Z.5.2">
+<h3 data-number="Z.5.2" class="anchored" data-anchor-id="interpreting-the-output-1"><span class="header-section-number">Z.5.2</span> Interpreting the output</h3>
+<p>SPSS produces four main output blocks for bivariate regression:</p>
+<section id="table-1-model-summary" class="level4" data-number="Z.5.2.1">
+<h4 data-number="Z.5.2.1" class="anchored" data-anchor-id="table-1-model-summary"><span class="header-section-number">Z.5.2.1</span> Table 1: Model Summary</h4>
+<pre><code>Model Summary
+Model   R       R Square   Adjusted R Square   Std. Error of the Estimate
+1       .643a   .414       .404                .274
+
+a. Predictors: (Constant), vo2_mlkgmin</code></pre>
+<ul>
+<li><strong>R = .643</strong>: The multiple correlation coefficient (= |Pearson’s <span class="math inline">\(r\)</span>| in bivariate regression).</li>
+<li><strong>R Square = .414</strong>: 41.4% of the variance in sprint time is explained by VO₂max.</li>
+<li><strong>Adjusted R Square = .404</strong>: R² adjusted for sample size and number of predictors (more relevant in multiple regression).</li>
+<li><strong>Std. Error of the Estimate = .274 s</strong>: Average distance between observed and predicted sprint times.</li>
+</ul>
+</section>
+<section id="table-2-anova" class="level4" data-number="Z.5.2.2">
+<h4 data-number="Z.5.2.2" class="anchored" data-anchor-id="table-2-anova"><span class="header-section-number">Z.5.2.2</span> Table 2: ANOVA</h4>
+<pre><code>ANOVAa
+Model              Sum of Squares   df   Mean Square   F        Sig.
+1  Regression      3.067            1    3.067          40.97    .000b
+   Residual        4.341            58   .075
+   Total           7.408            59
+
+a. Dependent Variable: sprint_20m_s
+b. Predictors: (Constant), vo2_mlkgmin</code></pre>
+<ul>
+<li><strong>F(1, 58) = 40.97, p &lt; .001</strong>: The regression model is statistically significant — VO₂max significantly predicts 20-meter sprint time.</li>
+<li><strong>Sum of Squares Regression</strong>: Variance in sprint time explained by the model.</li>
+<li><strong>Sum of Squares Residual</strong>: Unexplained (residual) variance.</li>
+</ul>
+</section>
+<section id="table-3-coefficients" class="level4" data-number="Z.5.2.3">
+<h4 data-number="Z.5.2.3" class="anchored" data-anchor-id="table-3-coefficients"><span class="header-section-number">Z.5.2.3</span> Table 3: Coefficients</h4>
+<pre><code>Coefficientsa
+Model                 Unstandardized Coefficients    Standardized    t        Sig.   95% CI for B
+                      B           Std. Error         Coefficients
+                                                     Beta                           Lower    Upper
+1  (Constant)         5.174       .219                               23.641   .000    4.736    5.612
+   vo2_mlkgmin       -.033       .005               -.643            -6.401   .000   -.044    -.023
+
+a. Dependent Variable: sprint_20m_s</code></pre>
+<p><strong>Key values:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 28%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>B (Constant)</strong></td>
+<td>5.174</td>
+<td>Intercept (<span class="math inline">\(a\)</span>): predicted sprint time when VO₂max = 0 (not meaningful here)</td>
+</tr>
+<tr class="even">
+<td><strong>B (vo2_mlkgmin)</strong></td>
+<td>−.033</td>
+<td>Slope (<span class="math inline">\(b\)</span>): for every 1 mL·kg⁻¹·min⁻¹ increase in VO₂max, sprint time <strong>decreases</strong> by 0.033 s</td>
+</tr>
+<tr class="odd">
+<td><strong>Beta (vo2_mlkgmin)</strong></td>
+<td>−.643</td>
+<td>Standardized slope (equal to <span class="math inline">\(r\)</span> in bivariate regression)</td>
+</tr>
+<tr class="even">
+<td><strong>t (vo2_mlkgmin)</strong></td>
+<td>−6.401</td>
+<td>t-statistic for the slope</td>
+</tr>
+<tr class="odd">
+<td><strong>Sig. (vo2_mlkgmin)</strong></td>
+<td>.000</td>
+<td><em>p</em> &lt; .001 — slope is significantly different from zero</td>
+</tr>
+<tr class="even">
+<td><strong>95% CI for B</strong></td>
+<td>[−.044, −.023]</td>
+<td>Plausible range for the true slope</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The regression equation:</strong></p>
+<p><span class="math display">\[\hat{y} = 5.174 + (-0.033) \times \text{VO}_2\text{max}\]</span></p>
+<p>or equivalently:</p>
+<p><span class="math display">\[\hat{y} = 5.174 - 0.033 \times \text{VO}_2\text{max}\]</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Slope (−0.033)</strong>: For every additional 1 mL·kg⁻¹·min⁻¹ of VO₂max, predicted 20-m sprint time <strong>decreases</strong> by <strong>0.033 seconds</strong> on average. The negative slope reflects the expected inverse relationship — fitter athletes sprint faster (lower time).</li>
+<li><strong>Intercept (5.174)</strong>: The predicted sprint time for an athlete with a VO₂max of 0 is 5.174 s. This value is <strong>not meaningful</strong> in this context (no athlete has zero aerobic capacity) — do not over-interpret the intercept outside the data range.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Extrapolation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not use the regression equation to predict sprint times outside the observed range of VO₂max in this sample (approximately 27–57 mL·kg⁻¹·min⁻¹). Predictions beyond the observed data are unreliable.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="part-4-checking-assumptions" class="level2" data-number="Z.6">
+<h2 data-number="Z.6" class="anchored" data-anchor-id="part-4-checking-assumptions"><span class="header-section-number">Z.6</span> Part 4: Checking assumptions</h2>
+<p>Regression requires several assumptions to be met for results to be valid and generalizable.</p>
+<section id="assumption-1-linearity" class="level3" data-number="Z.6.1">
+<h3 data-number="Z.6.1" class="anchored" data-anchor-id="assumption-1-linearity"><span class="header-section-number">Z.6.1</span> Assumption 1: Linearity</h3>
+<p><strong>Check:</strong> Examine the scatterplot (Part 1) and the standardized residuals vs.&nbsp;standardized predicted values plot (ZRESID vs.&nbsp;ZPRED).</p>
+<p><strong>What to look for:</strong> Points should scatter randomly around zero in the residual plot — no curved pattern.</p>
+</section>
+<section id="assumption-2-homoscedasticity" class="level3" data-number="Z.6.2">
+<h3 data-number="Z.6.2" class="anchored" data-anchor-id="assumption-2-homoscedasticity"><span class="header-section-number">Z.6.2</span> Assumption 2: Homoscedasticity</h3>
+<p><strong>Check:</strong> Same ZRESID vs.&nbsp;ZPRED plot.</p>
+<p><strong>What to look for:</strong> The vertical spread of points should be consistent across all values of ZPRED. A funnel shape indicates heteroscedasticity (variance changes with predicted values).</p>
+</section>
+<section id="assumption-3-normality-of-residuals" class="level3" data-number="Z.6.3">
+<h3 data-number="Z.6.3" class="anchored" data-anchor-id="assumption-3-normality-of-residuals"><span class="header-section-number">Z.6.3</span> Assumption 3: Normality of residuals</h3>
+<p><strong>Check:</strong> The Normal Probability Plot (P-P plot) produced by SPSS.</p>
+<p><strong>What to look for:</strong> Points should fall approximately on the diagonal line. Systematic departures suggest non-normality.</p>
+</section>
+<section id="assumption-4-independence" class="level3" data-number="Z.6.4">
+<h3 data-number="Z.6.4" class="anchored" data-anchor-id="assumption-4-independence"><span class="header-section-number">Z.6.4</span> Assumption 4: Independence</h3>
+<p><strong>Check:</strong> Study design. When using <code>core_session.csv</code> filtered to pre-training, each participant contributes one row — observations are independent. If participants appear in multiple time points, use appropriate repeated-measures methods.</p>
+</section>
+<section id="assumption-5-no-extreme-outliers-or-influential-points" class="level3" data-number="Z.6.5">
+<h3 data-number="Z.6.5" class="anchored" data-anchor-id="assumption-5-no-extreme-outliers-or-influential-points"><span class="header-section-number">Z.6.5</span> Assumption 5: No extreme outliers or influential points</h3>
+<p><strong>Check:</strong> Inspect the scatterplot and the ZRESID vs.&nbsp;ZPRED plot for points far from the general pattern. In SPSS, you can save Cook’s Distance values (<strong>Save → Cook’s Distance</strong>) and examine them in the data file.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Interpreting the residual plot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A good residual plot shows <strong>random scatter around zero</strong> with no pattern, no funnel shape, and no extreme outliers. Any systematic pattern suggests an assumption violation.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="part-5-making-predictions" class="level2" data-number="Z.7">
+<h2 data-number="Z.7" class="anchored" data-anchor-id="part-5-making-predictions"><span class="header-section-number">Z.7</span> Part 5: Making predictions</h2>
+<p>Using the regression equation from SPSS:</p>
+<p><span class="math display">\[\hat{y} = 5.174 - 0.033 \times \text{VO}_2\text{max}\]</span></p>
+<p><strong>Example:</strong> Predict 20-m sprint time for an athlete with a VO₂max of 45 mL·kg⁻¹·min⁻¹:</p>
+<p><span class="math display">\[\hat{y} = 5.174 - 0.033 \times 45 = 5.174 - 1.485 = 3.689 \approx 3.69 \text{ s}\]</span></p>
+<p>This prediction falls within the observed range of VO₂max in the dataset (~27–57 mL·kg⁻¹·min⁻¹), so it is a valid application of the model.</p>
+<p>In SPSS, you can also save predicted values directly:</p>
+<ol type="1">
+<li><strong>Analyze → Regression → Linear → Save…</strong></li>
+<li>✓ Check <strong>Unstandardized Predicted Values</strong></li>
+<li><strong>Continue → OK</strong></li>
+</ol>
+<p>SPSS adds a new column (<code>PRE_1</code>) to your data file with the predicted value for each case.</p>
+<hr>
+</section>
+<section id="part-6-reporting-results-in-apa-style" class="level2" data-number="Z.8">
+<h2 data-number="Z.8" class="anchored" data-anchor-id="part-6-reporting-results-in-apa-style"><span class="header-section-number">Z.8</span> Part 6: Reporting results in APA style</h2>
+<section id="correlation" class="level3" data-number="Z.8.1">
+<h3 data-number="Z.8.1" class="anchored" data-anchor-id="correlation"><span class="header-section-number">Z.8.1</span> Correlation</h3>
+<p>Report <span class="math inline">\(r\)</span>, degrees of freedom, <span class="math inline">\(p\)</span>-value, and <span class="math inline">\(r^2\)</span>:</p>
+<blockquote class="blockquote">
+<p>“Aerobic capacity (VO₂max) was significantly and negatively correlated with 20-meter sprint time, <span class="math inline">\(r(58) = -.643\)</span>, <span class="math inline">\(p &lt; .001\)</span>, <span class="math inline">\(r^2 = .414\)</span>, indicating that VO₂max accounted for 41.4% of the variance in sprint time.”</p>
+</blockquote>
+<p>Note: Degrees of freedom for Pearson’s <span class="math inline">\(r\)</span> = <span class="math inline">\(n - 2 = 58\)</span>.</p>
+</section>
+<section id="regression" class="level3" data-number="Z.8.2">
+<h3 data-number="Z.8.2" class="anchored" data-anchor-id="regression"><span class="header-section-number">Z.8.2</span> Regression</h3>
+<p>Report the regression equation, unstandardized slope with confidence interval, <span class="math inline">\(R^2\)</span>, and the model F-test:</p>
+<blockquote class="blockquote">
+<p>“A bivariate linear regression was conducted to examine whether aerobic capacity (VO₂max) predicted 20-meter sprint time. The model was statistically significant, <span class="math inline">\(F(1, 58) = 40.97\)</span>, <span class="math inline">\(p &lt; .001\)</span>, <span class="math inline">\(R^2 = .414\)</span>. VO₂max was a significant predictor of sprint time (<span class="math inline">\(b = -0.033\)</span>, 95% CI <span class="math inline">\([-0.044, -0.023]\)</span>, <span class="math inline">\(\beta = -.643\)</span>, <span class="math inline">\(p &lt; .001\)</span>), indicating that each additional mL·kg⁻¹·min⁻¹ of aerobic capacity was associated with a decrease of 0.033 seconds in 20-meter sprint time, on average.”</p>
+</blockquote>
+</section>
+<section id="apa-formatting-rules" class="level3" data-number="Z.8.3">
+<h3 data-number="Z.8.3" class="anchored" data-anchor-id="apa-formatting-rules"><span class="header-section-number">Z.8.3</span> APA formatting rules</h3>
+<ul>
+<li>Report <span class="math inline">\(r\)</span> in lowercase italics: <em>r</em></li>
+<li>Report degrees of freedom in parentheses: <em>r</em>(6)</li>
+<li>Use <em>p</em> &lt; .001 when the p-value is very small (SPSS shows .000)</li>
+<li>Report unstandardized (<span class="math inline">\(b\)</span>) and standardized (<span class="math inline">\(\beta\)</span>) coefficients</li>
+<li>Include 95% confidence intervals for the slope</li>
+<li>Always include <span class="math inline">\(R^2\)</span> to convey practical (not just statistical) significance</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="part-7-common-mistakes-and-troubleshooting" class="level2" data-number="Z.9">
+<h2 data-number="Z.9" class="anchored" data-anchor-id="part-7-common-mistakes-and-troubleshooting"><span class="header-section-number">Z.9</span> Part 7: Common mistakes and troubleshooting</h2>
+<section id="mistake-1-not-examining-the-scatterplot-first" class="level3" data-number="Z.9.1">
+<h3 data-number="Z.9.1" class="anchored" data-anchor-id="mistake-1-not-examining-the-scatterplot-first"><span class="header-section-number">Z.9.1</span> Mistake 1: Not examining the scatterplot first</h3>
+<p><strong>Problem:</strong> Computing <span class="math inline">\(r\)</span> without visualizing the data can miss nonlinear relationships, outliers, or heteroscedasticity.</p>
+<p><strong>Solution:</strong> Always produce a scatterplot before computing any statistics.</p>
+</section>
+<section id="mistake-2-reporting-only-the-p-value" class="level3" data-number="Z.9.2">
+<h3 data-number="Z.9.2" class="anchored" data-anchor-id="mistake-2-reporting-only-the-p-value"><span class="header-section-number">Z.9.2</span> Mistake 2: Reporting only the p-value</h3>
+<p><strong>Problem:</strong> “The correlation was significant, <span class="math inline">\(p &lt; .05\)</span>” tells the reader almost nothing about the magnitude or practical importance of the relationship.</p>
+<p><strong>Solution:</strong> Always report <span class="math inline">\(r\)</span>, <span class="math inline">\(r^2\)</span>, and confidence intervals alongside significance tests.</p>
+</section>
+<section id="mistake-3-concluding-causation-from-correlation" class="level3" data-number="Z.9.3">
+<h3 data-number="Z.9.3" class="anchored" data-anchor-id="mistake-3-concluding-causation-from-correlation"><span class="header-section-number">Z.9.3</span> Mistake 3: Concluding causation from correlation</h3>
+<p><strong>Problem:</strong> “Higher VO₂max <em>causes</em> faster sprint times because <span class="math inline">\(r = -.643\)</span>.”</p>
+<p><strong>Solution:</strong> Correlation only establishes association. Use cautious language: “VO₂max was <em>associated with</em> sprint time.” Causation requires experimental manipulation and control.</p>
+</section>
+<section id="mistake-4-extrapolating-predictions" class="level3" data-number="Z.9.4">
+<h3 data-number="Z.9.4" class="anchored" data-anchor-id="mistake-4-extrapolating-predictions"><span class="header-section-number">Z.9.4</span> Mistake 4: Extrapolating predictions</h3>
+<p><strong>Problem:</strong> Using the regression equation to predict sprint times for participants with VO₂max values far outside the observed range (~27–57 mL·kg⁻¹·min⁻¹) in the dataset.</p>
+<p><strong>Solution:</strong> Restrict predictions to within the observed range of <span class="math inline">\(X\)</span> in your sample.</p>
+</section>
+<section id="mistake-5-over-interpreting-the-intercept" class="level3" data-number="Z.9.5">
+<h3 data-number="Z.9.5" class="anchored" data-anchor-id="mistake-5-over-interpreting-the-intercept"><span class="header-section-number">Z.9.5</span> Mistake 5: Over-interpreting the intercept</h3>
+<p><strong>Problem:</strong> Reporting the intercept as a meaningful finding (“the baseline sprint time is 5.17 s”).</p>
+<p><strong>Solution:</strong> The intercept is only meaningful when <span class="math inline">\(X = 0\)</span> is within the observed data range and theoretically sensible. In most Movement Science contexts, it is just a mathematical anchor.</p>
+<hr>
+</section>
+</section>
+<section id="summary" class="level2" data-number="Z.10">
+<h2 data-number="Z.10" class="anchored" data-anchor-id="summary"><span class="header-section-number">Z.10</span> Summary</h2>
+<p>This tutorial demonstrated how to:</p>
+<ul>
+<li>Produce scatterplots to visualize bivariate relationships in SPSS</li>
+<li>Compute Pearson’s <span class="math inline">\(r\)</span> and test its significance using <strong>Analyze → Correlate → Bivariate</strong></li>
+<li>Conduct a bivariate regression using <strong>Analyze → Regression → Linear</strong> and interpret the Model Summary, ANOVA table, and Coefficients table</li>
+<li>Check regression assumptions using residual plots and the Normal P-P plot</li>
+<li>Make predictions using the regression equation</li>
+<li>Report correlation and regression results following APA guidelines</li>
+</ul>
+<p><strong>Key takeaways from this example</strong> (VO₂max predicting 20-m sprint time, <em>N</em> = 60, pre-training):</p>
+<ul>
+<li><span class="math inline">\(r(58) = -.643\)</span>, <em>p</em> &lt; .001 — a significant, moderate-to-strong <strong>negative</strong> relationship</li>
+<li><span class="math inline">\(R^2 = .414\)</span> — VO₂max explained 41.4% of the variance in sprint time</li>
+<li>Slope <span class="math inline">\(b = -0.033\)</span> — each 1 mL·kg⁻¹·min⁻¹ increase in VO₂max predicts a 0.033-s decrease in sprint time</li>
+<li>Always visualize before computing — scatterplots reveal what statistics cannot</li>
+<li><span class="math inline">\(r\)</span> measures only linear relationships; nonlinearity yields misleading coefficients</li>
+<li>Correlation does not imply causation — use cautious language</li>
+<li>Check all five assumptions before trusting regression results</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next steps
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Practice with your own Movement Science datasets: flexibility and balance scores, heart rate and RPE, or body composition and agility</li>
+<li>Explore multiple regression (Chapter 12) to model outcomes from more than one predictor</li>
+<li>Compare Spearman’s rank correlation when data are ordinal or assumptions are violated</li>
+<li>Review Chapter 11 of the textbook for deeper conceptual coverage</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="additional-resources" class="level2" data-number="Z.11">
+<h2 data-number="Z.11" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">Z.11</span> Additional resources</h2>
+<ul>
+<li><strong>SPSS manuals</strong>: IBM SPSS Statistics Base documentation</li>
+<li><strong>APA Style (7th ed.)</strong>: Guidelines for reporting statistical tests</li>
+<li><strong>Textbook website</strong>: Download practice datasets and syntax files</li>
+</ul>
+<hr>
+<p><strong>Questions or issues?</strong> Refer to the textbook’s online support forum or consult your instructor.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./appendix-spss-clinical-measures.html" class="pagination-link" aria-label="SPSS Tutorial: Clinical Measures">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appendix-spss-multiple-regression.html" class="pagination-link" aria-label="SPSS Tutorial: Multiple Regression">
+        <span class="nav-page-text"></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

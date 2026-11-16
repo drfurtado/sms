@@ -1,0 +1,2358 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>11&nbsp; Correlation and Bivariate Regression – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch12-multiple-regression.html" rel="next">
+<link href="./part-relationships.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-relationships.html">Part IV: Relationships and Prediction</a></li><li class="breadcrumb-item"><a href="./ch11-correlation-regression.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#statistical-symbols-used-in-this-chapter" id="toc-statistical-symbols-used-in-this-chapter" class="nav-link active" data-scroll-target="#statistical-symbols-used-in-this-chapter"><span class="header-section-number">11.1</span> Statistical symbols used in this chapter</a></li>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link" data-scroll-target="#chapter-roadmap"><span class="header-section-number">11.2</span> Chapter roadmap</a></li>
+  <li><a href="#workflow-for-examining-relationships-between-two-variables" id="toc-workflow-for-examining-relationships-between-two-variables" class="nav-link" data-scroll-target="#workflow-for-examining-relationships-between-two-variables"><span class="header-section-number">11.3</span> Workflow for examining relationships between two variables</a></li>
+  <li><a href="#what-is-correlation" id="toc-what-is-correlation" class="nav-link" data-scroll-target="#what-is-correlation"><span class="header-section-number">11.4</span> What is correlation?</a>
+  <ul class="collapse">
+  <li><a href="#pearsons-correlation-coefficient-r" id="toc-pearsons-correlation-coefficient-r" class="nav-link" data-scroll-target="#pearsons-correlation-coefficient-r"><span class="header-section-number">11.4.1</span> Pearson’s correlation coefficient (<span class="math inline">\(r\)</span>)</a></li>
+  <li><a href="#critical-limitations-what-correlation-does-and-does-not-tell-you" id="toc-critical-limitations-what-correlation-does-and-does-not-tell-you" class="nav-link" data-scroll-target="#critical-limitations-what-correlation-does-and-does-not-tell-you"><span class="header-section-number">11.4.2</span> Critical limitations: What correlation does and does not tell you</a></li>
+  <li><a href="#the-formula-for-pearsons-r" id="toc-the-formula-for-pearsons-r" class="nav-link" data-scroll-target="#the-formula-for-pearsons-r"><span class="header-section-number">11.4.3</span> The formula for Pearson’s <span class="math inline">\(r\)</span></a></li>
+  <li><a href="#worked-example-computing-pearsons-r" id="toc-worked-example-computing-pearsons-r" class="nav-link" data-scroll-target="#worked-example-computing-pearsons-r"><span class="header-section-number">11.4.4</span> Worked example: Computing Pearson’s <span class="math inline">\(r\)</span></a></li>
+  </ul></li>
+  <li><a href="#visualizing-relationships-with-scatterplots" id="toc-visualizing-relationships-with-scatterplots" class="nav-link" data-scroll-target="#visualizing-relationships-with-scatterplots"><span class="header-section-number">11.5</span> Visualizing relationships with scatterplots</a>
+  <ul class="collapse">
+  <li><a href="#the-scatterplot" id="toc-the-scatterplot" class="nav-link" data-scroll-target="#the-scatterplot"><span class="header-section-number">11.5.1</span> The scatterplot</a></li>
+  </ul></li>
+  <li><a href="#interpreting-correlation-coefficients" id="toc-interpreting-correlation-coefficients" class="nav-link" data-scroll-target="#interpreting-correlation-coefficients"><span class="header-section-number">11.6</span> Interpreting correlation coefficients</a>
+  <ul class="collapse">
+  <li><a href="#coefficient-of-determination-r2" id="toc-coefficient-of-determination-r2" class="nav-link" data-scroll-target="#coefficient-of-determination-r2"><span class="header-section-number">11.6.1</span> Coefficient of determination: <span class="math inline">\(r^2\)</span></a></li>
+  <li><a href="#statistical-significance-of-correlation" id="toc-statistical-significance-of-correlation" class="nav-link" data-scroll-target="#statistical-significance-of-correlation"><span class="header-section-number">11.6.2</span> Statistical significance of correlation</a></li>
+  </ul></li>
+  <li><a href="#bivariate-linear-regression" id="toc-bivariate-linear-regression" class="nav-link" data-scroll-target="#bivariate-linear-regression"><span class="header-section-number">11.7</span> Bivariate linear regression</a>
+  <ul class="collapse">
+  <li><a href="#worked-example-fitting-a-regression-line" id="toc-worked-example-fitting-a-regression-line" class="nav-link" data-scroll-target="#worked-example-fitting-a-regression-line"><span class="header-section-number">11.7.1</span> Worked example: Fitting a regression line</a></li>
+  </ul></li>
+  <li><a href="#assessing-the-fit-of-the-regression-model-r2" id="toc-assessing-the-fit-of-the-regression-model-r2" class="nav-link" data-scroll-target="#assessing-the-fit-of-the-regression-model-r2"><span class="header-section-number">11.8</span> Assessing the fit of the regression model: <span class="math inline">\(R^2\)</span></a>
+  <ul class="collapse">
+  <li><a href="#residuals-and-residual-plots" id="toc-residuals-and-residual-plots" class="nav-link" data-scroll-target="#residuals-and-residual-plots"><span class="header-section-number">11.8.1</span> Residuals and residual plots</a></li>
+  </ul></li>
+  <li><a href="#assumptions-of-correlation-and-regression" id="toc-assumptions-of-correlation-and-regression" class="nav-link" data-scroll-target="#assumptions-of-correlation-and-regression"><span class="header-section-number">11.9</span> Assumptions of correlation and regression</a>
+  <ul class="collapse">
+  <li><a href="#linearity" id="toc-linearity" class="nav-link" data-scroll-target="#linearity"><span class="header-section-number">11.9.1</span> 1. Linearity</a></li>
+  <li><a href="#homoscedasticity" id="toc-homoscedasticity" class="nav-link" data-scroll-target="#homoscedasticity"><span class="header-section-number">11.9.2</span> 2. Homoscedasticity</a></li>
+  <li><a href="#independence" id="toc-independence" class="nav-link" data-scroll-target="#independence"><span class="header-section-number">11.9.3</span> 3. Independence</a></li>
+  <li><a href="#normality-for-inference" id="toc-normality-for-inference" class="nav-link" data-scroll-target="#normality-for-inference"><span class="header-section-number">11.9.4</span> 4. Normality (for inference)</a></li>
+  <li><a href="#no-extreme-outliers" id="toc-no-extreme-outliers" class="nav-link" data-scroll-target="#no-extreme-outliers"><span class="header-section-number">11.9.5</span> 5. No extreme outliers</a></li>
+  </ul></li>
+  <li><a href="#correlation-does-not-imply-causation-1" id="toc-correlation-does-not-imply-causation-1" class="nav-link" data-scroll-target="#correlation-does-not-imply-causation-1"><span class="header-section-number">11.10</span> Correlation does not imply causation</a>
+  <ul class="collapse">
+  <li><a href="#reverse-causation" id="toc-reverse-causation" class="nav-link" data-scroll-target="#reverse-causation"><span class="header-section-number">11.10.1</span> 1. Reverse causation</a></li>
+  <li><a href="#confounding-variables" id="toc-confounding-variables" class="nav-link" data-scroll-target="#confounding-variables"><span class="header-section-number">11.10.2</span> 2. Confounding variables</a></li>
+  <li><a href="#coincidence" id="toc-coincidence" class="nav-link" data-scroll-target="#coincidence"><span class="header-section-number">11.10.3</span> 3. Coincidence</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">11.11</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">11.12</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">11.13</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-relationships.html">Part IV: Relationships and Prediction</a></li><li class="breadcrumb-item"><a href="./ch11-correlation-regression.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></h1>
+<p class="subtitle lead">Quantifying relationships and making predictions from movement data</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="statistical-symbols-used-in-this-chapter" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="statistical-symbols-used-in-this-chapter"><span class="header-section-number">11.1</span> Statistical symbols used in this chapter</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 28%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(r\)</span></td>
+<td>Pearson’s correlation coefficient</td>
+<td>Measures the strength and direction of the linear relationship between two variables; ranges from <span class="math inline">\(-1\)</span> to <span class="math inline">\(+1\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(r^2\)</span></td>
+<td>Coefficient of determination (bivariate)</td>
+<td>Proportion of variance in <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(X\)</span>; square of <span class="math inline">\(r\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R^2\)</span></td>
+<td>Coefficient of determination (regression)</td>
+<td>Proportion of variance in <span class="math inline">\(Y\)</span> explained by the regression model</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\bar{x}\)</span></td>
+<td>Sample mean of <span class="math inline">\(X\)</span></td>
+<td>Average value of the predictor variable</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\bar{y}\)</span></td>
+<td>Sample mean of <span class="math inline">\(Y\)</span></td>
+<td>Average value of the outcome variable</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(b_0\)</span></td>
+<td>Intercept</td>
+<td>Predicted value of <span class="math inline">\(Y\)</span> when <span class="math inline">\(X = 0\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(b_1\)</span></td>
+<td>Slope</td>
+<td>Change in <span class="math inline">\(\hat{Y}\)</span> for each one-unit increase in <span class="math inline">\(X\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat{Y}\)</span></td>
+<td>Predicted value of <span class="math inline">\(Y\)</span></td>
+<td>Value of <span class="math inline">\(Y\)</span> estimated by the regression equation</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(e_i\)</span></td>
+<td>Residual</td>
+<td>Difference between observed and predicted <span class="math inline">\(Y\)</span>: <span class="math inline">\(Y_i - \hat{Y}_i\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(z_x, z_y\)</span></td>
+<td>Standardized scores (z-scores)</td>
+<td>Values of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> expressed in standard deviation units</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(n\)</span></td>
+<td>Sample size</td>
+<td>Number of observations</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(SS\)</span></td>
+<td>Sum of squares</td>
+<td>Sum of squared deviations; used in regression decomposition</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(p\)</span></td>
+<td><span class="math inline">\(p\)</span>-value</td>
+<td>Probability of observing the result if the null hypothesis (<span class="math inline">\(\rho = 0\)</span>) is true</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho\)</span></td>
+<td>Rho (population correlation)</td>
+<td>True (population) correlation coefficient; estimated by <span class="math inline">\(r\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 SPSS Tutorial Available
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn how to perform correlation and bivariate regression in SPSS! See the <strong><a href="./appendix-spss-correlation-regression.html">SPSS Tutorial: Correlation and Bivariate Regression</a></strong> in the appendix for step-by-step instructions on computing Pearson’s <em>r</em>, fitting regression models, and interpreting SPSS output.</p>
+</div>
+</div>
+</section>
+<section id="chapter-roadmap" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">11.2</span> Chapter roadmap</h2>
+<p>Many questions in Movement Science involve relationships between variables<span class="citation" data-cites="moore_ips vincent1999"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. Does greater muscular strength predict higher vertical jump performance? Is there a relationship between limb length and stride frequency? Can we predict oxygen consumption from heart rate during exercise? <strong>Correlation</strong> quantifies the strength and direction of linear relationships between two variables, while <strong>bivariate regression</strong> enables us to model these relationships mathematically and make predictions<span class="citation" data-cites="cumming2012 hopkins2000"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. Understanding these methods is essential because movement scientists regularly examine how physical, physiological, and biomechanical variables relate to one another, and whether one variable can be used to predict another<span class="citation" data-cites="wilcox_robust batterham2006"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+<p>Correlation and regression are foundational to both descriptive and inferential statistics in Movement Science<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Correlation coefficients summarize the degree to which two variables co-vary—whether they tend to increase together (positive correlation), move in opposite directions (negative correlation), or show no systematic relationship (zero correlation)<span class="citation" data-cites="cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. Regression extends this by fitting a linear model to the data, producing an equation that predicts one variable (the <strong>dependent variable</strong> or <strong>outcome</strong>) from another (the <strong>independent variable</strong> or <strong>predictor</strong>)<span class="citation" data-cites="vincent1999 hopkins2009"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>. However, both methods come with critical assumptions and limitations: <strong>correlation does not imply causation</strong><span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>, outliers can distort relationships<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>, and violations of assumptions (especially homoscedasticity and linearity) can produce misleading results<span class="citation" data-cites="field_discovering cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p>This chapter introduces Pearson’s correlation coefficient, explains how to compute and interpret it, and demonstrates bivariate linear regression<span class="citation" data-cites="moore_ips hopkins2000"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. You will learn to construct scatterplots to visualize relationships, fit regression lines to data, interpret regression coefficients and <span class="math inline">\(R^2\)</span> values, and recognize when these methods are appropriate<span class="citation" data-cites="field_discovering batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Importantly, you will also learn about common pitfalls: confusing correlation with causation, ignoring outliers and influential points, and failing to check assumptions like linearity and homoscedasticity<span class="citation" data-cites="wilcox_robust cumming2014"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. By mastering these concepts, you will be equipped to quantify relationships in Movement Science data and use them responsibly to generate predictions and test hypotheses.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Explain what correlation measures and how it quantifies linear relationships between variables.</li>
+<li>Compute and interpret Pearson’s correlation coefficient (<span class="math inline">\(r\)</span>) and its squared value (<span class="math inline">\(r^2\)</span>).</li>
+<li>Distinguish between correlation and causation, recognizing that association does not imply a causal relationship.</li>
+<li>Construct and interpret scatterplots to visualize bivariate relationships.</li>
+<li>Fit a bivariate linear regression model and interpret the slope, intercept, and <span class="math inline">\(R^2\)</span>.</li>
+<li>Assess assumptions of correlation and regression, including linearity, homoscedasticity, and normality of residuals.</li>
+<li>Recognize the influence of outliers and leverage points on correlation and regression results.</li>
+<li>Apply correlation and regression appropriately to Movement Science data and report results clearly.</li>
+</ul>
+</section>
+<section id="workflow-for-examining-relationships-between-two-variables" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="workflow-for-examining-relationships-between-two-variables"><span class="header-section-number">11.3</span> Workflow for examining relationships between two variables</h2>
+<p>Use this sequence whenever you examine the relationship between two continuous variables:</p>
+<ol type="1">
+<li><strong>Create a scatterplot</strong> to visualize the relationship and check for linearity, outliers, and heteroscedasticity.</li>
+<li><strong>Compute the correlation coefficient</strong> (<span class="math inline">\(r\)</span>) to quantify the strength and direction of the linear relationship.</li>
+<li><strong>Test for statistical significance</strong> of the correlation (if inference is needed).</li>
+<li><strong>Fit a regression model</strong> (if prediction is the goal) and assess <span class="math inline">\(R^2\)</span> and residual plots.</li>
+<li><strong>Check assumptions</strong>: linearity, homoscedasticity, independence, and normality of residuals.</li>
+<li><strong>Interpret cautiously</strong>: remember that correlation does not imply causation, and outliers can distort results.</li>
+</ol>
+</section>
+<section id="what-is-correlation" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="what-is-correlation"><span class="header-section-number">11.4</span> What is correlation?</h2>
+<p><strong>Correlation</strong> measures the strength and direction of the linear relationship between two continuous variables<span class="citation" data-cites="moore_ips cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>. It quantifies the degree to which two variables tend to change together in a systematic way—that is, whether knowing the value of one variable helps predict the value of the other<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. When two variables are positively correlated, higher values of one variable tend to occur with higher values of the other; for example, taller individuals often have longer stride lengths, and greater muscular strength is typically associated with higher vertical jump height<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. Conversely, when negatively correlated, higher values of one variable tend to occur with lower values of the other; for instance, body mass often correlates negatively with endurance running performance<span class="citation" data-cites="field_discovering hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. A correlation of zero indicates no systematic linear relationship—knowing one variable provides no information about the other<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. Importantly, correlation coefficients are <strong>dimensionless</strong> and <strong>standardized</strong>, meaning they have no units and are unaffected by the scales of measurement used for the variables<span class="citation" data-cites="moore_ips cumming2014"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>.</p>
+<section id="pearsons-correlation-coefficient-r" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="pearsons-correlation-coefficient-r"><span class="header-section-number">11.4.1</span> Pearson’s correlation coefficient (<span class="math inline">\(r\)</span>)</h3>
+<p>The most common measure of correlation is <strong>Pearson’s correlation coefficient</strong> (also called the <strong>Pearson product-moment correlation</strong>), denoted <span class="math inline">\(r\)</span><span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. It ranges from <span class="math inline">\(-1\)</span> to <span class="math inline">\(+1\)</span>:</p>
+<ul>
+<li><span class="math inline">\(r = +1\)</span>: Perfect positive linear relationship</li>
+<li><span class="math inline">\(r = -1\)</span>: Perfect negative linear relationship</li>
+<li><span class="math inline">\(r = 0\)</span>: No linear relationship</li>
+<li><span class="math inline">\(|r| &gt; 0.7\)</span>: Strong correlation</li>
+<li><span class="math inline">\(0.4 &lt; |r| &lt; 0.7\)</span>: Moderate correlation</li>
+<li><span class="math inline">\(|r| &lt; 0.4\)</span>: Weak correlation</li>
+</ul>
+<p>These thresholds are approximate and highly context-dependent<span class="citation" data-cites="hopkins2000 batterham2006"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. What constitutes a “strong” or “weak” correlation depends on the nature of the variables, measurement precision, and research domain<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. In controlled laboratory settings measuring biomechanical variables (e.g., joint angle and muscle force), correlations above 0.90 may be expected because both variables are tightly coupled and measured with high precision<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. Conversely, in studies of training interventions or field-based performance testing, correlations of 0.30–0.50 may be meaningful because human performance is influenced by many factors beyond the single variable being examined<span class="citation" data-cites="hopkins2009 cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>. Hopkins and colleagues<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span> argue that even small correlations (<span class="math inline">\(r \approx 0.10\)</span>–<span class="math inline">\(0.30\)</span>) can be practically significant in elite sport contexts where tiny performance improvements matter. Always interpret the magnitude of <span class="math inline">\(r\)</span> relative to what is theoretically expected and practically meaningful in your specific research context<span class="citation" data-cites="batterham2006 wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="critical-limitations-what-correlation-does-and-does-not-tell-you" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="critical-limitations-what-correlation-does-and-does-not-tell-you"><span class="header-section-number">11.4.2</span> Critical limitations: What correlation does and does not tell you</h3>
+<p>Understanding the limitations of correlation is as important as knowing how to calculate it. Two critical limitations can lead to serious misinterpretations if ignored: the restriction to linear relationships and the inability of correlation to establish causation<span class="citation" data-cites="moore_ips cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>.</p>
+<section id="pearsons-correlation-measures-only-linear-relationships" class="level4" data-number="11.4.2.1">
+<h4 data-number="11.4.2.1" class="anchored" data-anchor-id="pearsons-correlation-measures-only-linear-relationships"><span class="header-section-number">11.4.2.1</span> Pearson’s correlation measures only linear relationships</h4>
+<p>Pearson’s <span class="math inline">\(r\)</span> quantifies <strong>only linear</strong> associations between variables<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Two variables may have a strong, systematic relationship but show a weak or even zero correlation if that relationship is nonlinear<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. For example, the relationship between exercise intensity and lactate concentration is exponential—lactate rises slowly at low intensities but increases dramatically at high intensities<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. If you computed Pearson’s <span class="math inline">\(r\)</span> across a wide range of intensities, you might obtain a moderate correlation (e.g., <span class="math inline">\(r = 0.60\)</span>) even though the relationship is strong and highly predictable when modeled correctly (e.g., with an exponential function)<span class="citation" data-cites="hopkins2009"><sup>[<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>. Similarly, the relationship between arousal and performance often follows an inverted-U shape (the Yerkes-Dodson law): performance is poor at very low and very high arousal but optimal at moderate arousal<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. In this case, Pearson’s <span class="math inline">\(r\)</span> could be close to zero despite a clear and meaningful relationship.</p>
+<p>This is why <strong>always plotting your data before computing <span class="math inline">\(r\)</span></strong> is essential<span class="citation" data-cites="field_discovering cumming2014"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. A scatterplot reveals the shape of the relationship and alerts you to nonlinearity, which Pearson’s <span class="math inline">\(r\)</span> cannot detect<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. If you observe a curved pattern, consider transformation (e.g., logarithmic), fitting a nonlinear model, or using alternative measures of association<span class="citation" data-cites="wilcox_robust batterham2006"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="correlation-does-not-imply-causation" class="level4" data-number="11.4.2.2">
+<h4 data-number="11.4.2.2" class="anchored" data-anchor-id="correlation-does-not-imply-causation"><span class="header-section-number">11.4.2.2</span> Correlation does not imply causation</h4>
+<p>Perhaps the most important limitation: <strong>correlation does not imply causation</strong><span class="citation" data-cites="moore_ips vincent1999 cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>–<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>. A strong correlation between two variables does not mean that changes in one variable <strong>cause</strong> changes in the other. There are several reasons why two variables might be correlated without a causal relationship<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>:</p>
+<ol type="1">
+<li><p><strong>Confounding variables</strong>: Both variables may be influenced by a third variable (a <strong>confounding variable</strong> or <strong>lurking variable</strong>) that is not measured<span class="citation" data-cites="moore_ips cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>. For example, ice cream sales and drowning deaths are positively correlated, but ice cream consumption does not cause drowning. Both are influenced by a confounding variable: hot weather<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. In Movement Science, body mass and maximal oxygen uptake (<span class="math inline">\(\dot{V}O_2\text{max}\)</span>) are often correlated simply because larger individuals tend to have larger hearts and lungs—not because body mass per se causes higher <span class="math inline">\(\dot{V}O_2\text{max}\)</span><span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p></li>
+<li><p><strong>Reverse causation</strong>: The direction of causation may be opposite to what you assume<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. For instance, reaction time and balance ability may be correlated, but does faster reaction time improve balance, or does better balance allow faster responding? Without experimental manipulation, correlation alone cannot answer this question<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>.</p></li>
+<li><p><strong>Spurious correlations</strong>: Sometimes correlations occur by chance or reflect coincidental co-variation with no meaningful connection<span class="citation" data-cites="cumming2012 wilcox_robust"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. For example, the number of letters in winning word in a national spelling bee and number of people killed by venomous spiders in a given year may show a correlation purely by coincidence.</p></li>
+</ol>
+<p><strong>Establishing causation requires experimental evidence</strong>: random assignment to treatment conditions, manipulation of the independent variable, and control of confounding factors<span class="citation" data-cites="moore_ips vincent1999"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. Correlation is a useful descriptive tool and a starting point for generating hypotheses, but it cannot, by itself, prove that one variable causes another<span class="citation" data-cites="cumming2012 field_discovering"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. When reporting correlations, always use cautious language: “X is <strong>associated with</strong> Y” or “X and Y are <strong>related</strong>,” not “X <strong>causes</strong> Y”<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="the-formula-for-pearsons-r" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="the-formula-for-pearsons-r"><span class="header-section-number">11.4.3</span> The formula for Pearson’s <span class="math inline">\(r\)</span></h3>
+<p>Pearson’s correlation coefficient is computed as:</p>
+<p><span class="math display">\[
+r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> are individual data points for variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></li>
+<li><span class="math inline">\(\bar{x}\)</span> and <span class="math inline">\(\bar{y}\)</span> are the sample means of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span></li>
+<li>The numerator measures <strong>covariation</strong> (how much <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> vary together)</li>
+<li>The denominator standardizes the result by the variability in each variable</li>
+</ul>
+<p>Equivalently, <span class="math inline">\(r\)</span> can be thought of as the average of the products of the standardized values (z-scores) of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span><span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>:</p>
+<p><span class="math display">\[
+r = \frac{1}{n-1} \sum z_x z_y
+\]</span></p>
+<p>This formula shows that <span class="math inline">\(r\)</span> is <strong>unitless</strong> and symmetric: <span class="math inline">\(r_{XY} = r_{YX}\)</span><span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+<section id="worked-example-computing-pearsons-r" class="level3" data-number="11.4.4">
+<h3 data-number="11.4.4" class="anchored" data-anchor-id="worked-example-computing-pearsons-r"><span class="header-section-number">11.4.4</span> Worked example: Computing Pearson’s <span class="math inline">\(r\)</span></h3>
+<p>A researcher measures leg strength (kg) and vertical jump height (cm) in 8 athletes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Athlete</th>
+<th>Leg Strength (<span class="math inline">\(X\)</span>)</th>
+<th>Jump Height (<span class="math inline">\(Y\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>80</td>
+<td>45</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>90</td>
+<td>50</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>70</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>100</td>
+<td>55</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>85</td>
+<td>48</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>95</td>
+<td>52</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>75</td>
+<td>42</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>88</td>
+<td>49</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 1: Compute the means</strong></p>
+<p><span class="math display">\[
+\bar{x} = \frac{80 + 90 + 70 + 100 + 85 + 95 + 75 + 88}{8} = \frac{683}{8} = 85.375 \text{ kg}
+\]</span></p>
+<p><span class="math display">\[
+\bar{y} = \frac{45 + 50 + 40 + 55 + 48 + 52 + 42 + 49}{8} = \frac{381}{8} = 47.625 \text{ cm}
+\]</span></p>
+<p><strong>Step 2: Compute deviations and products</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 16%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(x_i\)</span></th>
+<th><span class="math inline">\(y_i\)</span></th>
+<th><span class="math inline">\(x_i - \bar{x}\)</span></th>
+<th><span class="math inline">\(y_i - \bar{y}\)</span></th>
+<th><span class="math inline">\((x_i - \bar{x})(y_i - \bar{y})\)</span></th>
+<th><span class="math inline">\((x_i - \bar{x})^2\)</span></th>
+<th><span class="math inline">\((y_i - \bar{y})^2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>80</td>
+<td>45</td>
+<td>-5.375</td>
+<td>-2.625</td>
+<td>14.109</td>
+<td>28.891</td>
+<td>6.891</td>
+</tr>
+<tr class="even">
+<td>90</td>
+<td>50</td>
+<td>4.625</td>
+<td>2.375</td>
+<td>10.984</td>
+<td>21.391</td>
+<td>5.641</td>
+</tr>
+<tr class="odd">
+<td>70</td>
+<td>40</td>
+<td>-15.375</td>
+<td>-7.625</td>
+<td>117.234</td>
+<td>236.391</td>
+<td>58.141</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>55</td>
+<td>14.625</td>
+<td>7.375</td>
+<td>107.859</td>
+<td>213.891</td>
+<td>54.391</td>
+</tr>
+<tr class="odd">
+<td>85</td>
+<td>48</td>
+<td>-0.375</td>
+<td>0.375</td>
+<td>-0.141</td>
+<td>0.141</td>
+<td>0.141</td>
+</tr>
+<tr class="even">
+<td>95</td>
+<td>52</td>
+<td>9.625</td>
+<td>4.375</td>
+<td>42.109</td>
+<td>92.641</td>
+<td>19.141</td>
+</tr>
+<tr class="odd">
+<td>75</td>
+<td>42</td>
+<td>-10.375</td>
+<td>-5.625</td>
+<td>58.359</td>
+<td>107.641</td>
+<td>31.641</td>
+</tr>
+<tr class="even">
+<td>88</td>
+<td>49</td>
+<td>2.625</td>
+<td>1.375</td>
+<td>3.609</td>
+<td>6.891</td>
+<td>1.891</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 3: Sum the columns</strong></p>
+<p><span class="math display">\[
+\sum (x_i - \bar{x})(y_i - \bar{y}) = 354.122
+\]</span></p>
+<p><span class="math display">\[
+\sum (x_i - \bar{x})^2 = 707.878
+\]</span></p>
+<p><span class="math display">\[
+\sum (y_i - \bar{y})^2 = 177.878
+\]</span></p>
+<p><strong>Step 4: Compute</strong> <span class="math inline">\(r\)</span></p>
+<p><span class="math display">\[
+r = \frac{354.122}{\sqrt{707.878 \times 177.878}} = \frac{354.122}{\sqrt{125,941.6}} = \frac{354.122}{354.899} = 0.998
+\]</span></p>
+<p><strong>Interpretation</strong></p>
+<p>The correlation coefficient <span class="math inline">\(r = 0.998\)</span> indicates an extremely strong positive linear relationship between leg strength and vertical jump height in this sample<span class="citation" data-cites="moore_ips hopkins2000"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. As leg strength increases, vertical jump height tends to increase proportionally. However, this does not necessarily mean that strength causes jump height—other factors like technique, power, and muscle fiber type may also contribute<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Correlation in Movement Science research
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">10</a>]</sup></span> examined the relationship between repeated measures of vertical jump performance and found test-retest correlations exceeding <span class="math inline">\(r = 0.95\)</span>, indicating high reliability. In contrast, correlations between strength and endurance measures are often moderate (<span class="math inline">\(r \approx 0.3-0.5\)</span>), reflecting that these are partially independent fitness qualities<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="visualizing-relationships-with-scatterplots" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="visualizing-relationships-with-scatterplots"><span class="header-section-number">11.5</span> Visualizing relationships with scatterplots</h2>
+<p><strong>Scatterplots</strong> are essential for visualizing bivariate relationships before computing correlation or fitting regression models<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. They reveal:</p>
+<ul>
+<li>The overall pattern (linear, nonlinear, or no relationship)</li>
+<li>The strength and direction of the relationship</li>
+<li>Outliers or influential points</li>
+<li>Heteroscedasticity (unequal variance across the range of <span class="math inline">\(X\)</span>)</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Never compute a correlation coefficient without first examining a scatterplot<span class="citation" data-cites="field_discovering cumming2014"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. Correlation coefficients can be identical for datasets with vastly different patterns—a phenomenon famously illustrated by <strong>Anscombe’s Quartet</strong> and the <strong>Datasaurus Dozen</strong><span class="citation" data-cites="matejka2017"><sup>[<a href="references.html#ref-matejka2017" role="doc-biblioref">11</a>]</sup></span>. Always visualize your data.</p>
+</div>
+</div>
+<section id="the-scatterplot" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="the-scatterplot"><span class="header-section-number">11.5.1</span> The scatterplot</h3>
+<p>Here is an example of a scatterplot for the leg strength and jump height data:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>strength <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">90</span>, <span class="dv">70</span>, <span class="dv">100</span>, <span class="dv">85</span>, <span class="dv">95</span>, <span class="dv">75</span>, <span class="dv">88</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>jump <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">50</span>, <span class="dv">40</span>, <span class="dv">55</span>, <span class="dv">48</span>, <span class="dv">52</span>, <span class="dv">42</span>, <span class="dv">49</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create scatterplot</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(strength, jump,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Relationship Between Leg Strength and Jump Height"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Leg Strength (kg)"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Vertical Jump Height (cm)"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.5</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a reference line (regression line)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(jump <span class="sc">~</span> strength), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-strength-jump-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-strength-jump-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch11-correlation-regression_files/figure-html/fig-strength-jump-scatter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;11.1: Scatterplot showing the strong positive linear relationship between leg strength and vertical jump height in 8 athletes."><img src="ch11-correlation-regression_files/figure-html/fig-strength-jump-scatter-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-strength-jump-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: Scatterplot showing the strong positive linear relationship between leg strength and vertical jump height in 8 athletes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The scatterplot in <a href="#fig-strength-jump-scatter" class="quarto-xref">Figure&nbsp;<span>11.1</span></a> shows a clear positive linear trend, with points clustered tightly around the red regression line. This confirms the strong correlation we computed (<span class="math inline">\(r = 0.998\)</span>).</p>
+</section>
+</section>
+<section id="interpreting-correlation-coefficients" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="interpreting-correlation-coefficients"><span class="header-section-number">11.6</span> Interpreting correlation coefficients</h2>
+<section id="coefficient-of-determination-r2" class="level3" data-number="11.6.1">
+<h3 data-number="11.6.1" class="anchored" data-anchor-id="coefficient-of-determination-r2"><span class="header-section-number">11.6.1</span> Coefficient of determination: <span class="math inline">\(r^2\)</span></h3>
+<p>The <strong>coefficient of determination</strong>, denoted <span class="math inline">\(r^2\)</span>, represents the proportion of variance in one variable that is explained by the other<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. It is computed by squaring the correlation coefficient:</p>
+<p><span class="math display">\[
+r^2 = (0.998)^2 = 0.996
+\]</span></p>
+<p>This means that 99.6% of the variability in vertical jump height can be explained by differences in leg strength (in this sample)<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. The remaining 0.4% is due to measurement error, individual differences in technique, or other unmeasured factors<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Practical interpretation of <span class="math inline">\(r^2\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><span class="math inline">\(r^2 &lt; 0.10\)</span>: Weak relationship (less than 10% shared variance)</li>
+<li><span class="math inline">\(0.10 \leq r^2 &lt; 0.30\)</span>: Moderate relationship</li>
+<li><span class="math inline">\(r^2 \geq 0.30\)</span>: Strong relationship (substantial shared variance)</li>
+</ul>
+<p>These thresholds vary by context<span class="citation" data-cites="hopkins2000 vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="statistical-significance-of-correlation" class="level3" data-number="11.6.2">
+<h3 data-number="11.6.2" class="anchored" data-anchor-id="statistical-significance-of-correlation"><span class="header-section-number">11.6.2</span> Statistical significance of correlation</h3>
+<p>To determine whether an observed correlation is statistically distinguishable from zero, we test:</p>
+<p><span class="math display">\[
+H_0: \rho = 0 \quad \text{(no correlation in the population)}
+\]</span> <span class="math display">\[
+H_A: \rho \neq 0 \quad \text{(correlation exists in the population)}
+\]</span></p>
+<p>Where <span class="math inline">\(\rho\)</span> (rho) is the population correlation parameter<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>The test statistic is:</p>
+<p><span class="math display">\[
+t = \frac{r \sqrt{n - 2}}{\sqrt{1 - r^2}}
+\]</span></p>
+<p>With <span class="math inline">\(df = n - 2\)</span><span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p>For our example:</p>
+<p><span class="math display">\[
+t = \frac{0.998 \sqrt{8 - 2}}{\sqrt{1 - 0.996}} = \frac{0.998 \times 2.449}{0.063} = 38.8
+\]</span></p>
+<p>With <span class="math inline">\(df = 6\)</span>, this <span class="math inline">\(t\)</span>-value far exceeds any critical value, so <span class="math inline">\(p &lt; 0.001\)</span>. We reject <span class="math inline">\(H_0\)</span> and conclude that there is a statistically significant positive correlation between leg strength and vertical jump height<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Statistical significance ≠ practical importance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A correlation can be statistically significant but practically trivial if the sample size is very large<span class="citation" data-cites="cumming2014 batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. Always report <span class="math inline">\(r\)</span> and <span class="math inline">\(r^2\)</span> along with confidence intervals, not just <span class="math inline">\(p\)</span>-values<span class="citation" data-cites="wilkinson1999 cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-wilkinson1999" role="doc-biblioref">12</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="bivariate-linear-regression" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="bivariate-linear-regression"><span class="header-section-number">11.7</span> Bivariate linear regression</h2>
+<p>While correlation quantifies the strength of a relationship, <strong>regression</strong> models the relationship mathematically and enables prediction<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. <strong>Bivariate linear regression</strong> (also called <strong>simple linear regression</strong>) fits a straight line to data:</p>
+<p><span class="math display">\[
+\hat{y} = a + bx
+\]</span></p>
+<p>Where<span class="citation" data-cites="moore_ips vincent1999"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>:</p>
+<ul>
+<li><span class="math inline">\(\hat{y}\)</span> = predicted value of the dependent variable <span class="math inline">\(Y\)</span></li>
+<li><span class="math inline">\(a\)</span> = intercept (value of <span class="math inline">\(\hat{y}\)</span> when <span class="math inline">\(x = 0\)</span>)</li>
+<li><span class="math inline">\(b\)</span> = slope (change in <span class="math inline">\(\hat{y}\)</span> for a one-unit increase in <span class="math inline">\(x\)</span>)</li>
+<li><span class="math inline">\(x\)</span> = value of the independent variable <span class="math inline">\(X\)</span></li>
+</ul>
+<p>The <strong>slope</strong> (<span class="math inline">\(b\)</span>) is computed as:</p>
+<p><span class="math display">\[
+b = r \frac{s_y}{s_x}
+\]</span></p>
+<p>Where <span class="math inline">\(r\)</span> is the correlation coefficient, <span class="math inline">\(s_y\)</span> is the standard deviation of <span class="math inline">\(Y\)</span>, and <span class="math inline">\(s_x\)</span> is the standard deviation of <span class="math inline">\(X\)</span><span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>The <strong>intercept</strong> (<span class="math inline">\(a\)</span>) is computed as:</p>
+<p><span class="math display">\[
+a = \bar{y} - b\bar{x}
+\]</span></p>
+<p>This ensures that the regression line passes through the point <span class="math inline">\((\bar{x}, \bar{y})\)</span><span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<section id="worked-example-fitting-a-regression-line" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="worked-example-fitting-a-regression-line"><span class="header-section-number">11.7.1</span> Worked example: Fitting a regression line</h3>
+<p>Using the same leg strength and jump height data, let’s fit a regression model to predict jump height from leg strength.</p>
+<p><strong>Step 1: Compute the slope</strong></p>
+<p>First, compute the standard deviations:</p>
+<p><span class="math display">\[
+s_x = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}} = \sqrt{\frac{707.878}{7}} = \sqrt{101.125} = 10.056 \text{ kg}
+\]</span></p>
+<p><span class="math display">\[
+s_y = \sqrt{\frac{\sum (y_i - \bar{y})^2}{n - 1}} = \sqrt{\frac{177.878}{7}} = \sqrt{25.411} = 5.041 \text{ cm}
+\]</span></p>
+<p>Now compute the slope:</p>
+<p><span class="math display">\[
+b = r \frac{s_y}{s_x} = 0.998 \times \frac{5.041}{10.056} = 0.998 \times 0.501 = 0.500 \text{ cm/kg}
+\]</span></p>
+<p><strong>Step 2: Compute the intercept</strong></p>
+<p><span class="math display">\[
+a = \bar{y} - b\bar{x} = 47.625 - (0.500 \times 85.375) = 47.625 - 42.688 = 4.938 \text{ cm}
+\]</span></p>
+<p><strong>Step 3: Write the regression equation</strong></p>
+<p><span class="math display">\[
+\hat{y} = 4.938 + 0.500x
+\]</span></p>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>The <strong>slope</strong> (<span class="math inline">\(b = 0.500\)</span>) means that for every 1 kg increase in leg strength, vertical jump height increases by 0.5 cm on average<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</li>
+<li>The <strong>intercept</strong> (<span class="math inline">\(a = 4.938\)</span>) is the predicted jump height when leg strength is zero—this value is not meaningful in this context (no one has zero leg strength), so the intercept should not be over-interpreted<span class="citation" data-cites="field_discovering vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</li>
+</ul>
+<p><strong>Making predictions</strong></p>
+<p>Using the regression equation, we can predict jump height for a new athlete:</p>
+<p>If leg strength = 92 kg:</p>
+<p><span class="math display">\[
+\hat{y} = 4.938 + 0.500(92) = 4.938 + 46 = 50.938 \text{ cm}
+\]</span></p>
+<p>The predicted vertical jump height is approximately 51 cm<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: Extrapolation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Do not use the regression equation to predict values outside the range of the observed data<span class="citation" data-cites="field_discovering wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. For example, if the observed leg strength ranged from 70 to 100 kg, predictions for athletes with 120 kg or 50 kg leg strength would be <strong>extrapolation</strong> and may be inaccurate<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="assessing-the-fit-of-the-regression-model-r2" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="assessing-the-fit-of-the-regression-model-r2"><span class="header-section-number">11.8</span> Assessing the fit of the regression model: <span class="math inline">\(R^2\)</span></h2>
+<p>In bivariate regression, the <strong>coefficient of determination</strong> (<span class="math inline">\(R^2\)</span>) is identical to <span class="math inline">\(r^2\)</span> (the squared correlation)<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. It represents the proportion of variance in <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+R^2 = r^2 = 0.996
+\]</span></p>
+<p>This means that 99.6% of the variability in vertical jump height is explained by the regression model using leg strength as a predictor<span class="citation" data-cites="hopkins2000 batterham2006"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. The remaining 0.4% is <strong>residual variance</strong> (unexplained variability)<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<section id="residuals-and-residual-plots" class="level3" data-number="11.8.1">
+<h3 data-number="11.8.1" class="anchored" data-anchor-id="residuals-and-residual-plots"><span class="header-section-number">11.8.1</span> Residuals and residual plots</h3>
+<p>A <strong>residual</strong> is the difference between the observed value and the predicted value:</p>
+<p><span class="math display">\[
+\text{residual} = y_i - \hat{y}_i
+\]</span></p>
+<p>Residuals reveal how well the model fits the data<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. <strong>Residual plots</strong> (residuals vs.&nbsp;predicted values) are used to check assumptions:</p>
+<ul>
+<li><strong>Linearity</strong>: Residuals should be randomly scattered around zero (no pattern)</li>
+<li><strong>Homoscedasticity</strong>: Residual variance should be constant across all predicted values</li>
+<li><strong>Normality</strong>: Residuals should be approximately normally distributed (for inference)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Checking assumptions with residual plots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>good residual plot</strong> looks like a random scatter of points with no pattern, no funnel shape (heteroscedasticity), and no outliers<span class="citation" data-cites="field_discovering wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. If you see patterns in the residuals, the linear model may be inappropriate<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit regression model</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(jump <span class="sc">~</span> strength)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">fitted</span>(model)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>residuals <span class="ot">&lt;-</span> <span class="fu">resid</span>(model)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create residual plot</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(predicted, residuals,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Residual Plot"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Predicted Jump Height (cm)"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Residuals (cm)"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-residual-plot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-residual-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch11-correlation-regression_files/figure-html/fig-residual-plot-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;11.2: Residual plot showing residuals versus predicted values. The random scatter with no obvious pattern suggests that the linear model is appropriate."><img src="ch11-correlation-regression_files/figure-html/fig-residual-plot-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residual-plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: Residual plot showing residuals versus predicted values. The random scatter with no obvious pattern suggests that the linear model is appropriate.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The residual plot in <a href="appendix-spss-multiple-regression.html#fig-residual-plot" class="quarto-xref">Figure&nbsp;<span>[.2</span></a> shows a random scatter around zero with no obvious pattern, suggesting that the linear model is appropriate and assumptions are reasonably met<span class="citation" data-cites="field_discovering moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="assumptions-of-correlation-and-regression" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="assumptions-of-correlation-and-regression"><span class="header-section-number">11.9</span> Assumptions of correlation and regression</h2>
+<p>Both correlation and regression rely on several key assumptions<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>:</p>
+<section id="linearity" class="level3" data-number="11.9.1">
+<h3 data-number="11.9.1" class="anchored" data-anchor-id="linearity"><span class="header-section-number">11.9.1</span> 1. Linearity</h3>
+<p>The relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> must be approximately linear<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. Pearson’s <span class="math inline">\(r\)</span> only measures linear relationships; nonlinear relationships (e.g., quadratic, exponential) will produce misleading correlations<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>.</p>
+<p><strong>Check</strong>: Examine a scatterplot and residual plot<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+</section>
+<section id="homoscedasticity" class="level3" data-number="11.9.2">
+<h3 data-number="11.9.2" class="anchored" data-anchor-id="homoscedasticity"><span class="header-section-number">11.9.2</span> 2. Homoscedasticity</h3>
+<p>The variability in <span class="math inline">\(Y\)</span> should be roughly constant across all values of <span class="math inline">\(X\)</span><span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. If the spread of data increases or decreases as <span class="math inline">\(X\)</span> changes (a “funnel” pattern), this is <strong>heteroscedasticity</strong> and can distort regression results<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>.</p>
+<p><strong>Check</strong>: Examine a scatterplot or residual plot for funnel shapes<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Heteroscedasticity in Movement Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span> noted that measurement error in performance tests often increases with the magnitude of the measured value. For example, vertical jump variability may be greater in high-performers than low-performers, violating the homoscedasticity assumption. Transformations (e.g., log transformation) may help<span class="citation" data-cites="blandaltman1996_transformations"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">13</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="independence" class="level3" data-number="11.9.3">
+<h3 data-number="11.9.3" class="anchored" data-anchor-id="independence"><span class="header-section-number">11.9.3</span> 3. Independence</h3>
+<p>Observations must be independent<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. In Movement Science, this means each participant should contribute one data point (or, if repeated measures are used, appropriate statistical methods must be applied)<span class="citation" data-cites="field_discovering vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+</section>
+<section id="normality-for-inference" class="level3" data-number="11.9.4">
+<h3 data-number="11.9.4" class="anchored" data-anchor-id="normality-for-inference"><span class="header-section-number">11.9.4</span> 4. Normality (for inference)</h3>
+<p>For hypothesis testing and confidence intervals, the <strong>residuals</strong> (not the raw data) should be approximately normally distributed<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. This assumption is less critical for large samples due to the Central Limit Theorem<span class="citation" data-cites="cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>.</p>
+<p><strong>Check</strong>: Create a histogram or Q-Q plot of residuals<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+</section>
+<section id="no-extreme-outliers" class="level3" data-number="11.9.5">
+<h3 data-number="11.9.5" class="anchored" data-anchor-id="no-extreme-outliers"><span class="header-section-number">11.9.5</span> 5. No extreme outliers</h3>
+<p>Outliers can have disproportionate influence on correlation and regression<span class="citation" data-cites="wilcox_robust moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. Points with extreme <span class="math inline">\(X\)</span> values (high <strong>leverage</strong>) and large residuals (high <strong>influence</strong>) can distort results<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p><strong>Check</strong>: Examine scatterplots and residual plots for outliers; compute leverage and Cook’s distance<span class="citation" data-cites="field_discovering wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="correlation-does-not-imply-causation-1" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="correlation-does-not-imply-causation-1"><span class="header-section-number">11.10</span> Correlation does not imply causation</h2>
+<p>This is perhaps the most important principle in interpreting correlation and regression<span class="citation" data-cites="moore_ips cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>. A strong correlation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> does not mean that <span class="math inline">\(X\)</span> causes <span class="math inline">\(Y\)</span>—there are several alternative explanations:</p>
+<section id="reverse-causation" class="level3" data-number="11.10.1">
+<h3 data-number="11.10.1" class="anchored" data-anchor-id="reverse-causation"><span class="header-section-number">11.10.1</span> 1. Reverse causation</h3>
+<p>Perhaps <span class="math inline">\(Y\)</span> causes <span class="math inline">\(X\)</span>, not the other way around<span class="citation" data-cites="moore_ips vincent1999"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+<section id="confounding-variables" class="level3" data-number="11.10.2">
+<h3 data-number="11.10.2" class="anchored" data-anchor-id="confounding-variables"><span class="header-section-number">11.10.2</span> 2. Confounding variables</h3>
+<p>A third variable <span class="math inline">\(Z\)</span> may cause both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, creating a <strong>spurious correlation</strong><span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p><strong>Example</strong>: Ice cream sales and drowning deaths are positively correlated—but this does not mean ice cream causes drowning. Both are caused by warm weather (a confounding variable)<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+</section>
+<section id="coincidence" class="level3" data-number="11.10.3">
+<h3 data-number="11.10.3" class="anchored" data-anchor-id="coincidence"><span class="header-section-number">11.10.3</span> 3. Coincidence</h3>
+<p>In large datasets with many variables, some correlations will appear by chance<span class="citation" data-cites="cumming2014 wilkinson1999"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>,<a href="references.html#ref-wilkinson1999" role="doc-biblioref">12</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Establishing causation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To establish causation, you need more than correlation<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>:</p>
+<ol type="1">
+<li><strong>Temporal precedence</strong>: The cause must precede the effect.</li>
+<li><strong>Covariation</strong>: The variables must be correlated.</li>
+<li><strong>Elimination of alternative explanations</strong>: Confounds must be ruled out through experimental control or statistical adjustment.</li>
+</ol>
+<p><strong>Randomized controlled trials</strong> (RCTs) are the gold standard for establishing causation because they control for confounding variables<span class="citation" data-cites="cumming2012 hopkins2009"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Correlation vs.&nbsp;causation in exercise science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Observational studies show a strong negative correlation between physical activity and cardiovascular disease<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. However, this does not necessarily mean physical activity prevents heart disease—healthier individuals may simply be more likely to exercise (reverse causation), or genetic factors may influence both activity levels and disease risk (confounding)<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>. Only randomized controlled trials can definitively establish causation<span class="citation" data-cites="hopkins2009"><sup>[<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">11.11</span> Chapter summary</h2>
+<p>Correlation and regression are powerful tools for quantifying relationships between continuous variables in Movement Science<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Pearson’s correlation coefficient (<span class="math inline">\(r\)</span>) measures the strength and direction of linear relationships, ranging from <span class="math inline">\(-1\)</span> (perfect negative) to <span class="math inline">\(+1\)</span> (perfect positive), with <span class="math inline">\(r^2\)</span> representing the proportion of shared variance<span class="citation" data-cites="cumming2012 hopkins2000"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. Bivariate linear regression extends correlation by fitting a mathematical model (<span class="math inline">\(\hat{y} = a + bx\)</span>) that enables prediction, with the slope (<span class="math inline">\(b\)</span>) indicating the change in <span class="math inline">\(Y\)</span> per unit change in <span class="math inline">\(X\)</span> and <span class="math inline">\(R^2\)</span> quantifying model fit<span class="citation" data-cites="moore_ips batterham2006"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+<p>However, both methods require careful application and interpretation<span class="citation" data-cites="field_discovering wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Always visualize data with scatterplots before computing correlations, check assumptions (linearity, homoscedasticity, independence, normality of residuals), and watch for outliers that can distort results<span class="citation" data-cites="cumming2014 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. Most importantly, remember that <strong>correlation does not imply causation</strong>—a strong association between two variables does not mean one causes the other, as confounding variables, reverse causation, or coincidence may explain the relationship<span class="citation" data-cites="moore_ips hopkins2009"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>. Only well-designed experiments with random assignment can establish causal relationships<span class="citation" data-cites="cumming2012 batterham2006"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>]</sup></span>.</p>
+<p>Mastering correlation and regression equips you to explore relationships in Movement Science data responsibly, make predictions when appropriate, and communicate findings with appropriate caution<span class="citation" data-cites="wilkinson1999 cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>,<a href="references.html#ref-wilkinson1999" role="doc-biblioref">12</a>]</sup></span>. These skills are foundational for understanding more advanced methods like multiple regression, ANOVA, and multivariate statistics covered in later chapters.</p>
+</section>
+<section id="key-terms" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">11.12</span> Key terms</h2>
+<p>Pearson’s correlation coefficient; coefficient of determination; scatterplot; bivariate regression; slope; intercept; residual; homoscedasticity; heteroscedasticity; linearity; outlier; leverage; influence; causation; confounding variable; spurious correlation; extrapolation</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">11.13</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>Question 1: When would a correlation coefficient be close to zero even
+if two variables are strongly related?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>A correlation coefficient close to zero does not always mean there is no relationship—it means there is no <strong>linear</strong> relationship<span class="citation" data-cites="moore_ips wilcox_robust"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. Two variables can have a strong nonlinear relationship (e.g., quadratic, exponential, or U-shaped) but still produce <span class="math inline">\(r \approx 0\)</span> because Pearson’s <span class="math inline">\(r\)</span> only measures linear associations<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. This is why it is critical to visualize data with a scatterplot before relying on correlation coefficients<span class="citation" data-cites="cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>. For example, the relationship between exercise intensity and heart rate may be exponential rather than linear, producing a misleadingly low <span class="math inline">\(r\)</span> if not modeled appropriately<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>Question 2: Why is it problematic to use a regression equation to
+predict values far outside the range of the observed data?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>Using a regression equation to predict values outside the observed range of <span class="math inline">\(X\)</span> is called <strong>extrapolation</strong>, and it is risky because the relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> may not remain linear beyond the range of the data<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. The regression line is only valid within the range where it was estimated—outside that range, the relationship may change direction, flatten, or become nonlinear<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. For example, predicting oxygen consumption from heart rate might work well for moderate-intensity exercise, but at very high or very low intensities, the relationship may break down<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. Always restrict predictions to the range of observed <span class="math inline">\(X\)</span> values unless you have strong theoretical reasons to believe the relationship holds beyond that range<span class="citation" data-cites="vincent1999"><sup>[<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>Question 3: What is the difference between <span class="math inline"><em>r</em><sup>2</sup></span> and <span class="math inline"><em>R</em><sup>2</sup></span>, and what do they tell
+you about model fit?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>In bivariate regression, <span class="math inline">\(r^2\)</span> (the squared correlation coefficient) and <span class="math inline">\(R^2\)</span> (the coefficient of determination) are identical—they both represent the proportion of variance in <span class="math inline">\(Y\)</span> explained by <span class="math inline">\(X\)</span><span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. An <span class="math inline">\(R^2\)</span> of 0.80 means that 80% of the variability in the dependent variable is accounted for by the regression model, with the remaining 20% being residual (unexplained) variance<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>. While <span class="math inline">\(r^2\)</span> and <span class="math inline">\(R^2\)</span> are the same in simple regression, in multiple regression (Chapter 12) <span class="math inline">\(R^2\)</span> represents the combined explanatory power of multiple predictors<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. A high <span class="math inline">\(R^2\)</span> indicates a good fit, but it does not guarantee that the model is appropriate—always check residual plots to ensure assumptions are met<span class="citation" data-cites="wilcox_robust cumming2014"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">8</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>Question 4: How can an outlier affect correlation and regression
+results, and what should you do about it?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>Outliers—data points that are far from the general pattern—can have a disproportionate influence on correlation and regression<span class="citation" data-cites="wilcox_robust moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. A single outlier can inflate or deflate <span class="math inline">\(r\)</span>, distort the slope and intercept of the regression line, and produce misleading conclusions<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Points with extreme <span class="math inline">\(X\)</span> values (high <strong>leverage</strong>) are especially influential because they pull the regression line toward themselves<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. To address outliers, first determine whether they are legitimate data points or errors (e.g., data entry mistakes)<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. If legitimate, consider reporting results both with and without the outlier, using robust methods (e.g., Spearman’s rank correlation), or transforming the data to reduce the outlier’s influence<span class="citation" data-cites="wilcox_robust field_discovering"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Never automatically delete outliers—they may represent important biological variability or rare but meaningful cases<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>Question 5: A researcher finds a strong positive correlation (<span class="math inline"><em>r</em> = 0.85</span>) between hours of practice
+per week and skill performance in gymnasts. Can they conclude that
+practice causes improved performance?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>No—correlation does not imply causation<span class="citation" data-cites="moore_ips cumming2012"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>. While the strong positive correlation suggests that practice and performance are associated, it does not prove that practice causes improved performance<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Alternative explanations include: (1) reverse causation—perhaps athletes who perform better are more motivated to practice; (2) confounding variables—innate talent, coaching quality, or physical fitness may influence both practice time and performance; or (3) coincidence<span class="citation" data-cites="moore_ips vincent1999"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-vincent1999" role="doc-biblioref">2</a>]</sup></span>. To establish causation, the researcher would need to conduct a randomized controlled trial where participants are randomly assigned to different practice schedules, thereby controlling for confounds<span class="citation" data-cites="hopkins2009 batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">6</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">9</a>]</sup></span>. Observational correlations can generate hypotheses and suggest relationships, but only experimental designs with random assignment can establish causal effects<span class="citation" data-cites="cumming2012"><sup>[<a href="references.html#ref-cumming2012" role="doc-biblioref">3</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>Question 6: What does it mean if a residual plot shows a clear funnel
+shape (spread increasing with predicted values)?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>A funnel shape in a residual plot indicates <strong>heteroscedasticity</strong>—the variance of the residuals is not constant across the range of predicted values<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. This violates the homoscedasticity assumption of regression, meaning that prediction accuracy varies depending on the value of <span class="math inline">\(X\)</span><span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>]</sup></span>. Heteroscedasticity can distort standard errors, confidence intervals, and hypothesis tests, making results unreliable<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">7</a>]</sup></span>. Common solutions include transforming the dependent variable (e.g., using a log transformation), using weighted least squares regression, or employing robust regression methods that are less sensitive to heteroscedasticity<span class="citation" data-cites="wilcox_robust blandaltman1996_transformations"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">5</a>,<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">13</a>]</sup></span>. In Movement Science, heteroscedasticity often occurs when measurement variability increases with the magnitude of the measured quantity<span class="citation" data-cites="hopkins2000"><sup>[<a href="references.html#ref-hopkins2000" role="doc-biblioref">4</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-moore_ips" class="csl-entry" role="listitem">
+1. Moore, D. S., McCabe, G. P., &amp; Craig, B. A. (2021). <em>Introduction to the practice of statistics</em> (10th ed.). W. H. Freeman; Company.
+</div>
+<div id="ref-vincent1999" class="csl-entry" role="listitem">
+2. Vincent, W. J. (1999). <em>Statistics in kinesiology</em>.
+</div>
+<div id="ref-cumming2012" class="csl-entry" role="listitem">
+3. Cumming, G. (2012). <em>Understanding the new statistics: Effect sizes, confidence intervals, and meta-analysis</em>. Routledge.
+</div>
+<div id="ref-hopkins2000" class="csl-entry" role="listitem">
+4. Hopkins, W. G. (2000). Measures of reliability in sports medicine and science. <em>Sports Medicine</em>, <em>30</em>(1), 1–15. <a href="https://doi.org/10.2165/00007256-200030010-00001">https://doi.org/10.2165/00007256-200030010-00001</a>
+</div>
+<div id="ref-wilcox_robust" class="csl-entry" role="listitem">
+5. Wilcox, R. R. (2017). <em>Introduction to robust estimation and hypothesis testing</em> (4th ed.). Academic Press.
+</div>
+<div id="ref-batterham2006" class="csl-entry" role="listitem">
+6. Batterham, A. M., &amp; Hopkins, W. G. (2006). Making meaningful inferences about magnitudes. <em>International Journal of Sports Physiology and Performance</em>, <em>1</em>(1), 50–57. <a href="https://doi.org/10.1123/ijspp.1.1.50">https://doi.org/10.1123/ijspp.1.1.50</a>
+</div>
+<div id="ref-field_discovering" class="csl-entry" role="listitem">
+7. Field, A. (2018). <em>Discovering statistics using IBM SPSS statistics</em> (5th ed.). SAGE Publications.
+</div>
+<div id="ref-cumming2014" class="csl-entry" role="listitem">
+8. Cumming, G. (2014). The new statistics: Why and how. <em>Psychological Science</em>, <em>25</em>(1), 7–29. <a href="https://doi.org/10.1177/0956797613504966">https://doi.org/10.1177/0956797613504966</a>
+</div>
+<div id="ref-hopkins2009" class="csl-entry" role="listitem">
+9. Hopkins, W. G., Marshall, S. W., Batterham, A. M., &amp; Hanin, J. (2009). Progressive statistics for studies in sports medicine and exercise science. <em>Medicine &amp; Science in Sports &amp; Exercise</em>, <em>41</em>(1), 3–13. <a href="https://doi.org/10.1249/MSS.0b013e31818cb278">https://doi.org/10.1249/MSS.0b013e31818cb278</a>
+</div>
+<div id="ref-atkinsonneville1998" class="csl-entry" role="listitem">
+10. Atkinson, G., &amp; Nevill, A. M. (1998). Statistical methods for assessing measurement error (reliability) in variables relevant to sports medicine. <em>Sports Medicine</em>, <em>26</em>(4), 217–238. <a href="https://doi.org/10.2165/00007256-199826040-00002">https://doi.org/10.2165/00007256-199826040-00002</a>
+</div>
+<div id="ref-matejka2017" class="csl-entry" role="listitem">
+11. Matejka, J., &amp; Fitzmaurice, G. (2017). Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing. <em>Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems</em>, 1290–1294. <a href="https://doi.org/10.1145/3025453.3025912">https://doi.org/10.1145/3025453.3025912</a>
+</div>
+<div id="ref-wilkinson1999" class="csl-entry" role="listitem">
+12. Wilkinson, L., &amp; Task Force on Statistical Inference. (1999). Statistical methods in psychology journals: Guidelines and explanations. <em>American Psychologist</em>, <em>54</em>(8), 594–604. <a href="https://doi.org/10.1037/0003-066X.54.8.594">https://doi.org/10.1037/0003-066X.54.8.594</a>
+</div>
+<div id="ref-blandaltman1996_transformations" class="csl-entry" role="listitem">
+13. Bland, J. M., &amp; Altman, D. G. (1996). Transformations, means, and confidence intervals. <em>BMJ</em>, <em>312</em>(7038), 1079. <a href="https://doi.org/10.1136/bmj.312.7038.1079">https://doi.org/10.1136/bmj.312.7038.1079</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./part-relationships.html" class="pagination-link" aria-label="Part IV: Relationships and Prediction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Part IV: Relationships and Prediction</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch12-multiple-regression.html" class="pagination-link" aria-label="Multiple Correlation and Multiple Regression">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

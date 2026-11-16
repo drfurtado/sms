@@ -1,0 +1,2345 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>16&nbsp; Factorial ANOVA – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch17-ancova.html" rel="next">
+<link href="./ch15-repeated-measures.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-comparing-means.html">Part V: Comparing Means</a></li><li class="breadcrumb-item"><a href="./ch16-factorial-anova.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">16.1</span> Chapter roadmap</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives"><span class="header-section-number">16.2</span> Learning objectives</a></li>
+  <li><a href="#workflow-for-factorial-anova" id="toc-workflow-for-factorial-anova" class="nav-link" data-scroll-target="#workflow-for-factorial-anova"><span class="header-section-number">16.3</span> Workflow for factorial ANOVA</a></li>
+  <li><a href="#what-is-a-factorial-design" id="toc-what-is-a-factorial-design" class="nav-link" data-scroll-target="#what-is-a-factorial-design"><span class="header-section-number">16.4</span> What is a factorial design?</a>
+  <ul class="collapse">
+  <li><a href="#factors-levels-and-cells" id="toc-factors-levels-and-cells" class="nav-link" data-scroll-target="#factors-levels-and-cells"><span class="header-section-number">16.4.1</span> Factors, levels, and cells</a></li>
+  <li><a href="#why-not-run-separate-one-way-anovas" id="toc-why-not-run-separate-one-way-anovas" class="nav-link" data-scroll-target="#why-not-run-separate-one-way-anovas"><span class="header-section-number">16.4.2</span> Why not run separate one-way ANOVAs?</a></li>
+  </ul></li>
+  <li><a href="#main-effects-and-interactions" id="toc-main-effects-and-interactions" class="nav-link" data-scroll-target="#main-effects-and-interactions"><span class="header-section-number">16.5</span> Main effects and interactions</a>
+  <ul class="collapse">
+  <li><a href="#main-effects" id="toc-main-effects" class="nav-link" data-scroll-target="#main-effects"><span class="header-section-number">16.5.1</span> Main effects</a></li>
+  <li><a href="#interactions" id="toc-interactions" class="nav-link" data-scroll-target="#interactions"><span class="header-section-number">16.5.2</span> Interactions</a></li>
+  </ul></li>
+  <li><a href="#between-subjects-factorial-anova" id="toc-between-subjects-factorial-anova" class="nav-link" data-scroll-target="#between-subjects-factorial-anova"><span class="header-section-number">16.6</span> Between-subjects factorial ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#design-and-variance-partitioning" id="toc-design-and-variance-partitioning" class="nav-link" data-scroll-target="#design-and-variance-partitioning"><span class="header-section-number">16.6.1</span> Design and variance partitioning</a></li>
+  <li><a href="#worked-example-sex-group-on-post-test-strength" id="toc-worked-example-sex-group-on-post-test-strength" class="nav-link" data-scroll-target="#worked-example-sex-group-on-post-test-strength"><span class="header-section-number">16.6.2</span> Worked example: Sex × Group on post-test strength</a></li>
+  <li><a href="#post-hoc-tests-in-between-subjects-designs" id="toc-post-hoc-tests-in-between-subjects-designs" class="nav-link" data-scroll-target="#post-hoc-tests-in-between-subjects-designs"><span class="header-section-number">16.6.3</span> Post hoc tests in between-subjects designs</a></li>
+  </ul></li>
+  <li><a href="#mixed-factorial-anova" id="toc-mixed-factorial-anova" class="nav-link" data-scroll-target="#mixed-factorial-anova"><span class="header-section-number">16.7</span> Mixed factorial ANOVA</a>
+  <ul class="collapse">
+  <li><a href="#the-mixed-design-in-movement-science" id="toc-the-mixed-design-in-movement-science" class="nav-link" data-scroll-target="#the-mixed-design-in-movement-science"><span class="header-section-number">16.7.1</span> The mixed design in movement science</a></li>
+  <li><a href="#variance-partitioning-in-the-mixed-design" id="toc-variance-partitioning-in-the-mixed-design" class="nav-link" data-scroll-target="#variance-partitioning-in-the-mixed-design"><span class="header-section-number">16.7.2</span> Variance partitioning in the mixed design</a></li>
+  <li><a href="#sphericity-in-the-mixed-anova" id="toc-sphericity-in-the-mixed-anova" class="nav-link" data-scroll-target="#sphericity-in-the-mixed-anova"><span class="header-section-number">16.7.3</span> Sphericity in the mixed ANOVA</a></li>
+  <li><a href="#worked-example-group-time-on-strength" id="toc-worked-example-group-time-on-strength" class="nav-link" data-scroll-target="#worked-example-group-time-on-strength"><span class="header-section-number">16.7.4</span> Worked example: Group × Time on strength</a></li>
+  </ul></li>
+  <li><a href="#simple-effects-analysis" id="toc-simple-effects-analysis" class="nav-link" data-scroll-target="#simple-effects-analysis"><span class="header-section-number">16.8</span> Simple effects analysis</a>
+  <ul class="collapse">
+  <li><a href="#what-are-simple-effects" id="toc-what-are-simple-effects" class="nav-link" data-scroll-target="#what-are-simple-effects"><span class="header-section-number">16.8.1</span> What are simple effects?</a></li>
+  <li><a href="#interpreting-simple-effects-in-the-group-time-example" id="toc-interpreting-simple-effects-in-the-group-time-example" class="nav-link" data-scroll-target="#interpreting-simple-effects-in-the-group-time-example"><span class="header-section-number">16.8.2</span> Interpreting simple effects in the Group × Time example</a></li>
+  </ul></li>
+  <li><a href="#within-within-factorial-anova" id="toc-within-within-factorial-anova" class="nav-link" data-scroll-target="#within-within-factorial-anova"><span class="header-section-number">16.9</span> Within-within factorial ANOVA</a></li>
+  <li><a href="#effect-sizes-for-factorial-designs" id="toc-effect-sizes-for-factorial-designs" class="nav-link" data-scroll-target="#effect-sizes-for-factorial-designs"><span class="header-section-number">16.10</span> Effect sizes for factorial designs</a>
+  <ul class="collapse">
+  <li><a href="#partial-eta-squared-and-partial-omega-squared" id="toc-partial-eta-squared-and-partial-omega-squared" class="nav-link" data-scroll-target="#partial-eta-squared-and-partial-omega-squared"><span class="header-section-number">16.10.1</span> Partial eta-squared and partial omega-squared</a></li>
+  <li><a href="#cohens-f-for-power-calculations" id="toc-cohens-f-for-power-calculations" class="nav-link" data-scroll-target="#cohens-f-for-power-calculations"><span class="header-section-number">16.10.2</span> Cohen’s <em>f</em> for power calculations</a></li>
+  </ul></li>
+  <li><a href="#sample-size-and-power-for-factorial-designs" id="toc-sample-size-and-power-for-factorial-designs" class="nav-link" data-scroll-target="#sample-size-and-power-for-factorial-designs"><span class="header-section-number">16.11</span> Sample size and power for factorial designs</a></li>
+  <li><a href="#reporting-factorial-anova-in-apa-style" id="toc-reporting-factorial-anova-in-apa-style" class="nav-link" data-scroll-target="#reporting-factorial-anova-in-apa-style"><span class="header-section-number">16.12</span> Reporting factorial ANOVA in APA style</a>
+  <ul class="collapse">
+  <li><a href="#template" id="toc-template" class="nav-link" data-scroll-target="#template"><span class="header-section-number">16.12.1</span> Template</a></li>
+  <li><a href="#full-apa-example-group-time-mixed-anova" id="toc-full-apa-example-group-time-mixed-anova" class="nav-link" data-scroll-target="#full-apa-example-group-time-mixed-anova"><span class="header-section-number">16.12.2</span> Full APA example: Group × Time mixed ANOVA</a></li>
+  </ul></li>
+  <li><a href="#common-pitfalls-and-best-practices" id="toc-common-pitfalls-and-best-practices" class="nav-link" data-scroll-target="#common-pitfalls-and-best-practices"><span class="header-section-number">16.13</span> Common pitfalls and best practices</a>
+  <ul class="collapse">
+  <li><a href="#pitfall-1-interpreting-main-effects-when-the-interaction-is-significant" id="toc-pitfall-1-interpreting-main-effects-when-the-interaction-is-significant" class="nav-link" data-scroll-target="#pitfall-1-interpreting-main-effects-when-the-interaction-is-significant"><span class="header-section-number">16.13.1</span> Pitfall 1: Interpreting main effects when the interaction is significant</a></li>
+  <li><a href="#pitfall-2-confusing-no-significant-interaction-with-no-interaction" id="toc-pitfall-2-confusing-no-significant-interaction-with-no-interaction" class="nav-link" data-scroll-target="#pitfall-2-confusing-no-significant-interaction-with-no-interaction"><span class="header-section-number">16.13.2</span> Pitfall 2: Confusing “no significant interaction” with “no interaction”</a></li>
+  <li><a href="#pitfall-3-using-the-wrong-error-term-in-a-mixed-anova" id="toc-pitfall-3-using-the-wrong-error-term-in-a-mixed-anova" class="nav-link" data-scroll-target="#pitfall-3-using-the-wrong-error-term-in-a-mixed-anova"><span class="header-section-number">16.13.3</span> Pitfall 3: Using the wrong error term in a mixed ANOVA</a></li>
+  <li><a href="#pitfall-4-failing-to-report-effect-sizes-for-all-effects" id="toc-pitfall-4-failing-to-report-effect-sizes-for-all-effects" class="nav-link" data-scroll-target="#pitfall-4-failing-to-report-effect-sizes-for-all-effects"><span class="header-section-number">16.13.4</span> Pitfall 4: Failing to report effect sizes for all effects</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">16.14</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">16.15</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">16.16</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-comparing-means.html">Part V: Comparing Means</a></li><li class="breadcrumb-item"><a href="./ch16-factorial-anova.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></h1>
+<p class="subtitle lead">Analyzing main effects, interactions, and mixed designs in Movement Science</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 Analytical Software &amp; SPSS Tutorials
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>A Note on By-Hand Calculations:</strong> The purpose of this book is not to teach tedious by-hand statistical calculations. Modern researchers run these analyses using major software packages. While we provide the underlying equations for conceptual understanding, we strongly recommend relying on software for computation to avoid errors and save time.</p>
+<p>Please direct your attention to the <strong><a href="./appendix-spss-factorial-anova.html">SPSS Tutorial: Factorial ANOVA</a></strong> in the appendix for step-by-step instructions on running both between-subjects and mixed factorial ANOVAs, interpreting interaction plots, conducting simple effects analysis, and computing effect sizes!</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">16.1</span> Chapter roadmap</h2>
+<p>The between-subjects ANOVA introduced in Chapter 14 answered one question at a time: does the training program affect strength? Does group membership predict aerobic capacity? These are clean, elegant questions — but they are also incomplete descriptions of how human movement and performance actually work. In practice, a researcher interested in resistance training does not simply ask <em>whether</em> training improves strength. She asks <em>who</em> benefits, <em>by how much</em>, and <em>when</em> the gains emerge. These questions involve at least two independent variables acting simultaneously, and the statistical tool required to address them is the <strong>factorial ANOVA</strong>.</p>
+<p>A factorial design is one in which the researcher manipulates or observes two or more independent variables — called <em>factors</em> — simultaneously and examines their individual and combined effects on a single outcome variable. The power of the factorial approach lies in the word <em>combined</em>: beyond estimating the effect of each factor in isolation (the main effects), the factorial ANOVA tests whether the effect of one factor depends on the level of another. This conditional relationship is called an <strong>interaction</strong>, and interactions are among the most scientifically interesting findings in all of movement science research. A training program that improves strength in male athletes but not female athletes, or that produces gains in the first training block but not the second, involves an interaction — and a factorial design is required to detect it<span class="citation" data-cites="maxwell2008 field_discovering"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">2</a>]</sup></span>.</p>
+<p>This chapter develops the factorial ANOVA framework across three design types that movement science researchers commonly encounter. The <strong>between-subjects factorial ANOVA</strong> (also called two-way ANOVA) tests the effects of two or more between-groups factors, where each participant appears in only one combination of factor levels. The <strong>mixed factorial ANOVA</strong> — arguably the most common design in training and rehabilitation research — combines at least one between-subjects factor (such as group) with at least one within-subjects (repeated measures) factor (such as time), allowing the researcher to ask whether groups differ in <em>how they change</em>. The <strong>within-within factorial</strong> extends the repeated measures design to two within-subjects factors, such as testing the same participants under multiple conditions and at multiple time points.</p>
+<p>Throughout this chapter, the worked examples continue with the <code>core_session.csv</code> dataset that runs through this textbook. The primary question addressed is: <strong>did a 12-week training program produce strength gains, and did the magnitude of those gains differ by participant sex or by the trajectory across three time points?</strong> This is precisely the kind of multifactorial question that characterizes modern movement science, and it produces some of the most instructive statistical output in the book.</p>
+</section>
+<section id="learning-objectives" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">16.2</span> Learning objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Define a factorial design and explain how it differs from multiple one-way ANOVAs.</li>
+<li>Distinguish between main effects and interaction effects and explain what it means for an interaction to be present.</li>
+<li>Describe how total variance is partitioned in a two-way between-subjects ANOVA, a mixed factorial ANOVA, and a within-within ANOVA.</li>
+<li>Identify the correct error term for each F-ratio in a mixed factorial ANOVA.</li>
+<li>Interpret an interaction plot and determine whether patterns suggest a qualitative or quantitative interaction.</li>
+<li>Conduct simple effects analysis to decompose a statistically significant interaction.</li>
+<li>Compute and interpret partial eta-squared (η²_p) and partial omega-squared (ω²_p) for each effect in a factorial design.</li>
+<li>Report factorial ANOVA results in APA format, including all main effects, the interaction, and follow-up tests.</li>
+</ul>
+</section>
+<section id="workflow-for-factorial-anova" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="workflow-for-factorial-anova"><span class="header-section-number">16.3</span> Workflow for factorial ANOVA</h2>
+<p>Use this sequence when two or more factors are involved:</p>
+<ol type="1">
+<li><strong>Identify the design</strong> — how many factors? Is each between-subjects or within-subjects?</li>
+<li><strong>Check assumptions</strong> — normality, homogeneity of variance (between-subjects factors), and sphericity (within-subjects factors with ≥ 3 levels).</li>
+<li><strong>Run the factorial ANOVA</strong> and inspect all three sources of variance: Factor A, Factor B, and A × B interaction.</li>
+<li><strong>Interpret the interaction first</strong> — if it is significant, the main effects cannot be interpreted in isolation.</li>
+<li><strong>If the interaction is significant</strong>, run simple effects analysis: test Factor A separately at each level of Factor B (or vice versa).</li>
+<li><strong>If the interaction is not significant</strong>, interpret main effects directly; apply post hoc tests for factors with three or more levels.</li>
+<li><strong>Calculate effect sizes</strong> (η²_p and ω²_p) for each source.</li>
+<li><strong>Interpret and report</strong> in APA format.</li>
+</ol>
+</section>
+<section id="what-is-a-factorial-design" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="what-is-a-factorial-design"><span class="header-section-number">16.4</span> What is a factorial design?</h2>
+<section id="factors-levels-and-cells" class="level3" data-number="16.4.1">
+<h3 data-number="16.4.1" class="anchored" data-anchor-id="factors-levels-and-cells"><span class="header-section-number">16.4.1</span> Factors, levels, and cells</h3>
+<p>In statistical terminology, each independent variable in a factorial design is called a <em>factor</em>, and its discrete categories are called <em>levels</em>. A study comparing male and female participants (Sex: 2 levels) across a control and a training group (Group: 2 levels) produces a <strong>2 × 2 factorial design</strong> with four distinct combinations, or <em>cells</em>: Male-Control, Male-Training, Female-Control, and Female-Training. Each cell is defined by a unique intersection of factor levels, and the cell means — the average outcome within each combination — are the raw material from which all factorial ANOVA effects are derived.</p>
+<p>The number of cells multiplies with complexity. A 2 × 3 design (2 levels of one factor, 3 of another) produces 6 cells; a 3 × 3 produces 9. Adding a third factor of 2 levels creates a 2 × 3 × 2 design with 12 cells. Each additional factor improves the researcher’s ability to model reality more completely — but also increases the number of participants required, the complexity of the output, and the challenge of interpretation. Most textbooks and applied research in movement science focus on two-factor designs, and this chapter follows that convention while briefly addressing the third-factor case<span class="citation" data-cites="thomas2015 vincent2005"><sup>[<a href="references.html#ref-thomas2015" role="doc-biblioref">3</a>,<a href="references.html#ref-vincent2005" role="doc-biblioref">4</a>]</sup></span>.</p>
+<p>A design is called <strong>balanced</strong> when the number of participants is equal across all cells. Balanced designs are statistically ideal: the main effects are independent of one another (technically, <em>orthogonal</em>), and the computations are straightforward. When cell sizes differ — an <strong>unbalanced</strong> design — the main effects are no longer orthogonal, the sums of squares do not partition cleanly, and the analysis must use Type III (adjusted) sums of squares rather than the simpler sequential partitioning. SPSS uses Type III SS by default, which handles both balanced and unbalanced designs correctly<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>]</sup></span>.</p>
+</section>
+<section id="why-not-run-separate-one-way-anovas" class="level3" data-number="16.4.2">
+<h3 data-number="16.4.2" class="anchored" data-anchor-id="why-not-run-separate-one-way-anovas"><span class="header-section-number">16.4.2</span> Why not run separate one-way ANOVAs?</h3>
+<p>The most common question students raise about factorial designs is: why not simply run a separate one-way ANOVA for each factor? The answer is threefold. First, running multiple separate ANOVAs inflates the familywise Type I error rate — the probability of a false positive grows with every additional test performed. Second, and more importantly, separate ANOVAs cannot detect interactions. The interaction between Group and Sex — the possibility that training benefits male and female participants differently — simply does not exist in a world of separate one-way tests, because it requires examining <em>both</em> factors simultaneously. Third, the factorial ANOVA typically uses a smaller error term than separate one-way ANOVAs, because the variance attributable to both factors and their interaction is removed before estimating error, yielding more powerful tests<span class="citation" data-cites="maxwell2008 field_discovering"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="main-effects-and-interactions" class="level2" data-number="16.5">
+<h2 data-number="16.5" class="anchored" data-anchor-id="main-effects-and-interactions"><span class="header-section-number">16.5</span> Main effects and interactions</h2>
+<section id="main-effects" class="level3" data-number="16.5.1">
+<h3 data-number="16.5.1" class="anchored" data-anchor-id="main-effects"><span class="header-section-number">16.5.1</span> Main effects</h3>
+<p>A main effect is the <em>overall</em> effect of one factor, averaging across all levels of all other factors. In a 2(Sex) × 2(Group) design, the main effect of Group represents the difference in the group means — Training versus Control — computed by collapsing across (i.e., ignoring) sex. If the training group averages 85 kg and the control group averages 77 kg regardless of sex, there is a main effect of Group. The main effect of Sex, similarly, is the difference in the sex means regardless of group assignment. Main effects are perfectly interpretable when they are not qualified by an interaction — but when an interaction is present, the main effects can be misleading and must be interpreted with caution.</p>
+</section>
+<section id="interactions" class="level3" data-number="16.5.2">
+<h3 data-number="16.5.2" class="anchored" data-anchor-id="interactions"><span class="header-section-number">16.5.2</span> Interactions</h3>
+<p>An interaction occurs when the effect of one factor differs depending on the level of another factor. Consider two scenarios using strength gain data. In the first, training increases strength by approximately 8 kg in both male and female participants — the effect of Group is identical regardless of Sex. There is no interaction. In the second scenario, training increases strength by 12 kg in male participants but only 4 kg in female participants — the effect of Group depends on Sex. There is an interaction, and understanding the training effect requires specifying <em>for whom</em> it operates.</p>
+<p>The distinction between a <strong>quantitative</strong> and a <strong>qualitative</strong> interaction is important in movement science. A quantitative interaction (sometimes called an ordinal interaction) occurs when one group benefits more than another, but both groups still change in the same direction — a difference in magnitude, not direction. A qualitative interaction (disordinal interaction) occurs when the direction of the effect reverses: training improves one group but impairs another. Qualitative interactions are scientifically dramatic but relatively rare in movement data; quantitative interactions are common and often represent the most meaningful finding in a training study<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>The clearest way to detect and communicate an interaction is through an <strong>interaction plot</strong>: a graph with the levels of one factor on the x-axis, the outcome variable on the y-axis, and separate lines for each level of the second factor. When the lines are parallel (or nearly so), there is no interaction. When the lines diverge, converge, or cross, an interaction is present. <a href="#fig-interaction-schematic" class="quarto-xref">Figure&nbsp;<span>16.1</span></a> illustrates both patterns using simulated data.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine both scenarios into a single data frame for faceting</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>d_schematic <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Scenario =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"No Interaction"</span>, <span class="st">"Interaction Present"</span>), <span class="at">each =</span> <span class="dv">4</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Group    =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Training"</span>), <span class="at">each =</span> <span class="dv">2</span>), <span class="dv">2</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sex      =</span> <span class="fu">rep</span>(<span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>), <span class="dv">2</span>), <span class="dv">2</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean     =</span> <span class="fu">c</span>(<span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">76</span>, <span class="dv">86</span>,   <span class="co"># no interaction: parallel lines</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>               <span class="dv">77</span>, <span class="dv">87</span>, <span class="dv">76</span>, <span class="dv">92</span>)   <span class="co"># interaction: lines diverge for Male</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>d_schematic<span class="sc">$</span>Scenario <span class="ot">&lt;-</span> <span class="fu">factor</span>(d_schematic<span class="sc">$</span>Scenario,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                                <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No Interaction"</span>, <span class="st">"Interaction Present"</span>))</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>d_schematic<span class="sc">$</span>Group    <span class="ot">&lt;-</span> <span class="fu">factor</span>(d_schematic<span class="sc">$</span>Group, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Training"</span>))</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d_schematic, <span class="fu">aes</span>(<span class="at">x =</span> Group, <span class="at">y =</span> Mean, <span class="at">group =</span> Sex, <span class="at">color =</span> Sex)) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Female"</span> <span class="ot">=</span> <span class="st">"#E07B54"</span>, <span class="st">"Male"</span> <span class="ot">=</span> <span class="st">"#4A90D9"</span>),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Scenario) <span class="sc">+</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"Strength (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-interaction-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-interaction-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch16-factorial-anova_files/figure-html/fig-interaction-schematic-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;16.1: Schematic interaction plots. No Interaction (left): Parallel lines indicate that the Group effect is the same for both sexes. Interaction Present (right): Non-parallel lines indicate that the Group effect is larger for male than female participants."><img src="ch16-factorial-anova_files/figure-html/fig-interaction-schematic-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-interaction-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.1: Schematic interaction plots. <strong>No Interaction (left)</strong>: Parallel lines indicate that the Group effect is the same for both sexes. <strong>Interaction Present (right)</strong>: Non-parallel lines indicate that the Group effect is larger for male than female participants.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Always interpret the interaction before the main effects
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When a factorial ANOVA yields a significant interaction, the main effects lose their simple interpretation. A main effect of Group that averages across two very different sex-specific patterns is technically accurate but substantively misleading. The cardinal rule is: <strong>check the interaction first</strong>. If it is significant, decompose it with simple effects analysis; do not interpret the main effects as stand-alone conclusions.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="between-subjects-factorial-anova" class="level2" data-number="16.6">
+<h2 data-number="16.6" class="anchored" data-anchor-id="between-subjects-factorial-anova"><span class="header-section-number">16.6</span> Between-subjects factorial ANOVA</h2>
+<section id="design-and-variance-partitioning" class="level3" data-number="16.6.1">
+<h3 data-number="16.6.1" class="anchored" data-anchor-id="design-and-variance-partitioning"><span class="header-section-number">16.6.1</span> Design and variance partitioning</h3>
+<p>In a two-way between-subjects ANOVA, every participant belongs to exactly one cell — one unique combination of Factor A and Factor B. The total variance in the outcome is partitioned into five sources: the main effect of A, the main effect of B, the A × B interaction, and the within-cell error. The F-ratio for each effect uses this same error term — the variance within cells — as the denominator.</p>
+<p>The partitioning follows directly from the one-way ANOVA framework of Chapter 14, extended to two factors:</p>
+<p><span class="math display">\[SS_{\text{total}} = SS_A + SS_B + SS_{A \times B} + SS_{\text{error}}\]</span></p>
+<p>The F-ratios are:</p>
+<p><span class="math display">\[F_A = \frac{MS_A}{MS_{\text{error}}}, \quad F_B = \frac{MS_B}{MS_{\text{error}}}, \quad F_{A \times B} = \frac{MS_{A \times B}}{MS_{\text{error}}}\]</span></p>
+<p>All three effects are tested against the same error term. The degrees of freedom follow from the number of levels: <span class="math inline">\(df_A = a - 1\)</span> for a factor with <span class="math inline">\(a\)</span> levels, <span class="math inline">\(df_{A \times B} = (a-1)(b-1)\)</span> for the interaction, and <span class="math inline">\(df_{\text{error}} = N - ab\)</span> where <span class="math inline">\(N\)</span> is total sample size and <span class="math inline">\(ab\)</span> is the number of cells<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>In practice, you will never partition these sums of squares by hand. SPSS calculates them automatically. See the <strong><a href="./appendix-spss-factorial-anova.html">SPSS Tutorial: Factorial ANOVA</a></strong> for the full step-by-step procedure.</p>
+</section>
+<section id="worked-example-sex-group-on-post-test-strength" class="level3" data-number="16.6.2">
+<h3 data-number="16.6.2" class="anchored" data-anchor-id="worked-example-sex-group-on-post-test-strength"><span class="header-section-number">16.6.2</span> Worked example: Sex × Group on post-test strength</h3>
+<p><strong>Research question</strong>: Did a 12-week training program improve strength at post-test, and did this effect differ between male and female participants?</p>
+<p><strong>Design</strong>: 2(Sex: Female, Male) × 2(Group: Control, Training) between-subjects ANOVA, outcome variable <code>strength_kg</code> at the post-test time point, <span class="math inline">\(N = 60\)</span> (21 Female-Control, 12 Female-Training, 9 Male-Control, 18 Male-Training).</p>
+<p><strong>Descriptive statistics</strong> are shown in <a href="#tbl-factorial-desc" class="quarto-xref">Table&nbsp;<span>16.1</span></a>.</p>
+<div id="tbl-factorial-desc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-factorial-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.1: Descriptive statistics for post-test strength by Sex and Group.
+</figcaption>
+<div aria-describedby="tbl-factorial-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Sex</th>
+<th>Group</th>
+<th><em>n</em></th>
+<th><em>M</em> (kg)</th>
+<th><em>SD</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Female</td>
+<td>Control</td>
+<td>21</td>
+<td>77.54</td>
+<td>14.70</td>
+</tr>
+<tr class="even">
+<td>Female</td>
+<td>Training</td>
+<td>12</td>
+<td>87.18</td>
+<td>8.21</td>
+</tr>
+<tr class="odd">
+<td>Male</td>
+<td>Control</td>
+<td>9</td>
+<td>76.22</td>
+<td>12.92</td>
+</tr>
+<tr class="even">
+<td>Male</td>
+<td>Training</td>
+<td>18</td>
+<td>83.64</td>
+<td>14.72</td>
+</tr>
+<tr class="odd">
+<td>—</td>
+<td>Control (total)</td>
+<td>30</td>
+<td>77.14</td>
+<td>13.98</td>
+</tr>
+<tr class="even">
+<td>—</td>
+<td>Training (total)</td>
+<td>30</td>
+<td>85.06</td>
+<td>12.48</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The ANOVA results are presented in <a href="#tbl-factorial-results" class="quarto-xref">Table&nbsp;<span>16.2</span></a>.</p>
+<div id="tbl-factorial-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-factorial-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.2: Two-way between-subjects ANOVA: 2(Sex) × 2(Group) on post-test strength.
+</figcaption>
+<div aria-describedby="tbl-factorial-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th><em>SS</em></th>
+<th><em>df</em></th>
+<th><em>MS</em></th>
+<th><em>F</em></th>
+<th><em>p</em></th>
+<th>η²_p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sex</td>
+<td>0.22</td>
+<td>1</td>
+<td>0.22</td>
+<td>0.00</td>
+<td>.974</td>
+<td>.000</td>
+</tr>
+<tr class="even">
+<td>Group</td>
+<td>939.31</td>
+<td>1</td>
+<td>939.31</td>
+<td>5.22</td>
+<td>.026</td>
+<td>.085</td>
+</tr>
+<tr class="odd">
+<td>Sex × Group</td>
+<td>101.14</td>
+<td>1</td>
+<td>101.14</td>
+<td>0.56</td>
+<td>.457</td>
+<td>.010</td>
+</tr>
+<tr class="even">
+<td>Error</td>
+<td>10,084.70</td>
+<td>56</td>
+<td>180.08</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Interpretation</strong>: The interaction was not significant, <em>F</em>(1, 56) = 0.56, <em>p</em> = .457, η²_p = .010, indicating that the effect of training on post-test strength did not differ between male and female participants. Because the interaction was not significant, the main effects can be interpreted directly. The main effect of Group was significant, <em>F</em>(1, 56) = 5.22, <em>p</em> = .026, η²_p = .085, with the training group (<em>M</em> = 85.06 kg) outperforming the control group (<em>M</em> = 77.14 kg) at post-test regardless of sex — a moderate-sized between-groups difference. The main effect of Sex was not significant, <em>F</em>(1, 56) = 0.00, <em>p</em> = .974, η²_p = .000, confirming that male and female participants were similar in post-test strength when groups were collapsed.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulated data matching core_session.csv post-test values</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>n_fc <span class="ot">&lt;-</span> <span class="dv">21</span>; n_ft <span class="ot">&lt;-</span> <span class="dv">12</span>; n_mc <span class="ot">&lt;-</span> <span class="dv">9</span>; n_mt <span class="ot">&lt;-</span> <span class="dv">18</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df_between <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sex   =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Female"</span>,n_fc<span class="sc">+</span>n_ft), <span class="fu">rep</span>(<span class="st">"Male"</span>,n_mc<span class="sc">+</span>n_mt)),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">group =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Control"</span>,n_fc), <span class="fu">rep</span>(<span class="st">"Training"</span>,n_ft),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">rep</span>(<span class="st">"Control"</span>,n_mc), <span class="fu">rep</span>(<span class="st">"Training"</span>,n_mt)),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength =</span> <span class="fu">c</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n_fc, <span class="fl">77.54</span>, <span class="fl">14.70</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n_ft, <span class="fl">87.18</span>,  <span class="fl">8.21</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n_mc, <span class="fl">76.22</span>, <span class="fl">12.92</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rnorm</span>(n_mt, <span class="fl">83.64</span>, <span class="fl">14.72</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> df_between <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex, group) <span class="sc">%&gt;%</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">M =</span> <span class="fu">mean</span>(strength), <span class="at">SE =</span> <span class="fu">sd</span>(strength)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_df, <span class="fu">aes</span>(<span class="at">x =</span> group, <span class="at">y =</span> M, <span class="at">group =</span> sex, <span class="at">color =</span> sex)) <span class="sc">+</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> M <span class="sc">-</span> SE, <span class="at">ymax =</span> M <span class="sc">+</span> SE), <span class="at">width =</span> <span class="fl">0.10</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Female"</span> <span class="ot">=</span> <span class="st">"#E07B54"</span>, <span class="st">"Male"</span> <span class="ot">=</span> <span class="st">"#4A90D9"</span>),</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">"Sex"</span>) <span class="sc">+</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Control"</span>, <span class="st">"Training"</span>)) <span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Group"</span>, <span class="at">y =</span> <span class="st">"Post-test Strength (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">65</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-factorial-interaction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-factorial-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch16-factorial-anova_files/figure-html/fig-factorial-interaction-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;16.2: Post-test strength (kg) by Sex and Training Group. Error bars represent ± 1 standard error. Parallel lines confirm the absence of a statistically significant interaction: both male and female participants show similar training benefits."><img src="ch16-factorial-anova_files/figure-html/fig-factorial-interaction-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-factorial-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.2: Post-test strength (kg) by Sex and Training Group. Error bars represent ± 1 standard error. Parallel lines confirm the absence of a statistically significant interaction: both male and female participants show similar training benefits.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Equal training benefits across sex
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The non-significant interaction in this example (η²_p = .010) tells a practically important story: the resistance training program produced equivalent relative gains in male and female participants. A physical therapist or strength coach can interpret this as evidence that the same training prescription was equally effective for both groups, without the need for sex-specific program modifications. Null interaction results are not failures — they are substantive findings about the boundary conditions of an effect.</p>
+</div>
+</div>
+</section>
+<section id="post-hoc-tests-in-between-subjects-designs" class="level3" data-number="16.6.3">
+<h3 data-number="16.6.3" class="anchored" data-anchor-id="post-hoc-tests-in-between-subjects-designs"><span class="header-section-number">16.6.3</span> Post hoc tests in between-subjects designs</h3>
+<p>When a factor has only two levels (as in the Sex × Group example above), a significant main effect identifies which two means differ without the need for additional tests — the only comparison available is the one already tested. When a factor has three or more levels, post hoc tests (such as Bonferroni correction or Tukey’s HSD) are applied to the marginal means for that factor, just as in the one-way ANOVA (Chapter 14). When an interaction is significant, post hoc testing proceeds through simple effects analysis rather than testing marginal means, as described below<span class="citation" data-cites="tukey1949"><sup>[<a href="references.html#ref-tukey1949" role="doc-biblioref">5</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="mixed-factorial-anova" class="level2" data-number="16.7">
+<h2 data-number="16.7" class="anchored" data-anchor-id="mixed-factorial-anova"><span class="header-section-number">16.7</span> Mixed factorial ANOVA</h2>
+<section id="the-mixed-design-in-movement-science" class="level3" data-number="16.7.1">
+<h3 data-number="16.7.1" class="anchored" data-anchor-id="the-mixed-design-in-movement-science"><span class="header-section-number">16.7.1</span> The mixed design in movement science</h3>
+<p>The most common factorial design in training, rehabilitation, and motor learning research is the <strong>mixed factorial ANOVA</strong>, also called a <em>split-plot design</em>. It combines at least one between-subjects factor (such as Group) with at least one within-subjects factor (such as Time). This design is ideally suited to longitudinal training studies, where different groups of participants are measured repeatedly over the course of an intervention.</p>
+<p>The mixed factorial answers a question that neither the between-subjects ANOVA nor the repeated measures ANOVA can answer alone: <strong>do groups differ in their trajectory of change over time?</strong> A training group that starts at the same strength level as a control group but gains 6 kg by post-test while the control group gains less than 1 kg shows a Group × Time interaction. This interaction is the scientific heart of most intervention studies in movement science<span class="citation" data-cites="maxwell2008 thomas2015"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>,<a href="references.html#ref-thomas2015" role="doc-biblioref">3</a>]</sup></span>.</p>
+</section>
+<section id="variance-partitioning-in-the-mixed-design" class="level3" data-number="16.7.2">
+<h3 data-number="16.7.2" class="anchored" data-anchor-id="variance-partitioning-in-the-mixed-design"><span class="header-section-number">16.7.2</span> Variance partitioning in the mixed design</h3>
+<p>The partitioning of variance in a mixed ANOVA is more complex than in the between-subjects case because there are two distinct error terms: one for between-subjects effects, and one for within-subjects effects. Consider a 2(Group) × 3(Time) design with <span class="math inline">\(n\)</span> participants per group:</p>
+<p><strong>Between-subjects partition:</strong></p>
+<p><span class="math display">\[SS_{\text{between subjects}} = SS_{\text{Group}} + SS_{\text{Subjects/Group}}\]</span></p>
+<p><span class="math inline">\(SS_{\text{Group}}\)</span> captures variance among group means; <span class="math inline">\(SS_{\text{Subjects/Group}}\)</span> — subjects nested within groups — is the error term for the Group F-ratio.</p>
+<p><strong>Within-subjects partition:</strong></p>
+<p><span class="math display">\[SS_{\text{within subjects}} = SS_{\text{Time}} + SS_{\text{Group} \times \text{Time}} + SS_{\text{Time} \times \text{Subjects/Group}}\]</span></p>
+<p><span class="math inline">\(SS_{\text{Time}}\)</span> captures variance among time-point means; <span class="math inline">\(SS_{\text{Group} \times \text{Time}}\)</span> captures the interaction; and <span class="math inline">\(SS_{\text{Time} \times \text{Subjects/Group}}\)</span> — the time-by-subjects-within-groups term — is the error for both the Time and the interaction F-ratios.</p>
+<p>This produces three F-ratios with different denominators:</p>
+<p><span class="math display">\[F_{\text{Group}} = \frac{MS_{\text{Group}}}{MS_{\text{Subjects/Group}}}\]</span></p>
+<p><span class="math display">\[F_{\text{Time}} = \frac{MS_{\text{Time}}}{MS_{\text{Time} \times \text{Subjects/Group}}}\]</span></p>
+<p><span class="math display">\[F_{\text{Group} \times \text{Time}} = \frac{MS_{\text{Group} \times \text{Time}}}{MS_{\text{Time} \times \text{Subjects/Group}}}\]</span></p>
+<p>The between-subjects error (<span class="math inline">\(MS_{\text{Subjects/Group}}\)</span>) is typically large — it reflects all the stable individual differences that make people different from one another in overall strength level. The within-subjects error (<span class="math inline">\(MS_{\text{Time} \times \text{Subjects/Group}}\)</span>) is usually much smaller — it captures only how inconsistently each participant responds to time, stripped of individual baselines. This asymmetry is why the Time and interaction effects tend to have much higher statistical power than the Group (between-subjects) effect<span class="citation" data-cites="maxwell2008 girden1992"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>,<a href="references.html#ref-girden1992" role="doc-biblioref">6</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: Using the wrong error term
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because the mixed ANOVA uses two different error terms, there is an important conceptual trap: the between-subjects F and the within-subjects F are not directly comparable in magnitude, even if they test effects of similar practical importance. A Group F of 2.5 and a Time F of 108 do not mean that Time is 43 times more important — they are evaluated against completely different sources of variance. Always focus on effect size (η²_p or ω²_p) to compare the practical magnitude of effects across different sources in a mixed ANOVA.</p>
+</div>
+</div>
+</section>
+<section id="sphericity-in-the-mixed-anova" class="level3" data-number="16.7.3">
+<h3 data-number="16.7.3" class="anchored" data-anchor-id="sphericity-in-the-mixed-anova"><span class="header-section-number">16.7.3</span> Sphericity in the mixed ANOVA</h3>
+<p>As introduced in Chapter 15, the sphericity assumption requires that the variances of all pairwise <em>differences</em> among the within-subjects factor levels be approximately equal. In a mixed ANOVA, this assumption applies to the within-subjects factor (Time) and the interaction term — both use the same within-subjects error. Mauchly’s test of sphericity should be inspected before reading the Time and interaction F-ratios. If the test is significant (suggesting sphericity is violated), apply the Greenhouse-Geisser correction when <span class="math inline">\(\hat{\varepsilon} &lt; .75\)</span> and the Huynh-Feldt correction when <span class="math inline">\(\hat{\varepsilon} \geq .75\)</span><span class="citation" data-cites="greenhouse1959 huynh1976 girden1992"><sup>[<a href="references.html#ref-girden1992" role="doc-biblioref">6</a>–<a href="references.html#ref-huynh1976" role="doc-biblioref">8</a>]</sup></span>. SPSS reports both corrections automatically.</p>
+</section>
+<section id="worked-example-group-time-on-strength" class="level3" data-number="16.7.4">
+<h3 data-number="16.7.4" class="anchored" data-anchor-id="worked-example-group-time-on-strength"><span class="header-section-number">16.7.4</span> Worked example: Group × Time on strength</h3>
+<p><strong>Research question</strong>: Did strength change over a 12-week training program, and did the trajectory of change differ between the training and control groups?</p>
+<p><strong>Design</strong>: 2(Group: Control, Training) × 3(Time: Pre, Mid, Post) mixed ANOVA, Group = between-subjects factor, Time = within-subjects factor, <span class="math inline">\(n = 30\)</span> per group, outcome variable <code>strength_kg</code>.</p>
+<p><strong>Descriptive statistics</strong> are shown in <a href="#tbl-mixed-desc" class="quarto-xref">Table&nbsp;<span>16.3</span></a>.</p>
+<div id="tbl-mixed-desc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mixed-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.3: Cell means and standard deviations (in parentheses) for strength (kg) by Group and Time.
+</figcaption>
+<div aria-describedby="tbl-mixed-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Group</th>
+<th>Pre</th>
+<th>Mid</th>
+<th>Post</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Control</td>
+<td>76.34 (13.70)</td>
+<td>76.85 (13.87)</td>
+<td>77.14 (13.98)</td>
+</tr>
+<tr class="even">
+<td>Training</td>
+<td>79.67 (12.26)</td>
+<td>81.69 (12.26)</td>
+<td>85.06 (12.48)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Sphericity</strong>: For this dataset, Mauchly’s test of sphericity was not significant (a finding consistent with the very gradual and nearly uniform spread of difference variances across the three time points), so the sphericity-assumed F values are reported below.</p>
+<p><strong>ANOVA results</strong> are shown in <a href="#tbl-mixed-results" class="quarto-xref">Table&nbsp;<span>16.4</span></a>.</p>
+<div id="tbl-mixed-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mixed-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;16.4: Mixed factorial ANOVA results: 2(Group) × 3(Time) on strength (kg).
+</figcaption>
+<div aria-describedby="tbl-mixed-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Source</th>
+<th><em>SS</em></th>
+<th><em>df</em></th>
+<th><em>MS</em></th>
+<th><em>F</em></th>
+<th><em>p</em></th>
+<th>η²_p</th>
+<th>ω²_p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Group</td>
+<td>1,294.44</td>
+<td>1</td>
+<td>1,294.44</td>
+<td>2.52</td>
+<td>.117</td>
+<td>.042</td>
+<td>.008</td>
+</tr>
+<tr class="even">
+<td>Subjects/Group (error B)</td>
+<td>29,772.65</td>
+<td>58</td>
+<td>513.32</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Time</td>
+<td>290.49</td>
+<td>2</td>
+<td>145.24</td>
+<td>108.55</td>
+<td>&lt; .001</td>
+<td>.652</td>
+<td>.544</td>
+</tr>
+<tr class="even">
+<td>Group × Time</td>
+<td>163.26</td>
+<td>2</td>
+<td>81.63</td>
+<td>61.00</td>
+<td>&lt; .001</td>
+<td>.513</td>
+<td>.400</td>
+</tr>
+<tr class="odd">
+<td>Time × Subjects/Group (error W)</td>
+<td>155.22</td>
+<td>116</td>
+<td>1.34</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p><strong>Interpretation</strong>: The Group × Time interaction was highly significant, <em>F</em>(2, 116) = 61.00, <em>p</em> &lt; .001, η²_p = .513, ω²_p = .400 — a large effect by any standard<span class="citation" data-cites="cohen1988 olejnik2003"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">9</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">10</a>]</sup></span>. Because the interaction is significant, the main effects of Group and Time are interpreted cautiously and in the context of the interaction pattern. The main effect of Time was also significant, <em>F</em>(2, 116) = 108.55, <em>p</em> &lt; .001, η²_p = .652, indicating that strength changed across time when both groups are averaged together. The main effect of Group was not significant, <em>F</em>(1, 58) = 2.52, <em>p</em> = .117, η²_p = .042 — but this is expected when the interaction is present: the groups start at similar levels and diverge over time, so their overall (time-averaged) means are not dramatically different.</p>
+<p><a href="#fig-mixed-interaction" class="quarto-xref">Figure&nbsp;<span>16.3</span></a> shows the interaction pattern clearly: the training group shows a progressive linear increase in strength from pre (<em>M</em> = 79.67 kg) to mid (<em>M</em> = 81.69 kg) to post (<em>M</em> = 85.06 kg), while the control group remains essentially flat across all three time points (76.34, 76.85, 77.14 kg). The lines diverge rather than cross, indicating a quantitative interaction: training benefits are not reversed in the control group, but they are substantially larger.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>id <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate correlated within-subject data matching real means/SDs</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>pre_ctrl  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="fl">76.34</span>, <span class="fl">13.70</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>mid_ctrl  <span class="ot">&lt;-</span> pre_ctrl <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="fl">0.51</span>, <span class="fl">0.80</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>post_ctrl <span class="ot">&lt;-</span> pre_ctrl <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="fl">0.80</span>, <span class="fl">1.00</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>pre_train  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="fl">79.67</span>, <span class="fl">12.26</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>mid_train  <span class="ot">&lt;-</span> pre_train <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="fl">2.02</span>, <span class="fl">1.20</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>post_train <span class="ot">&lt;-</span> pre_train <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="fl">5.39</span>, <span class="fl">1.40</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>df_long <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">id       =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="dv">2</span><span class="sc">*</span>n), <span class="at">each =</span> <span class="dv">3</span>),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">group    =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Control"</span>,n), <span class="fu">rep</span>(<span class="st">"Training"</span>,n)), <span class="at">each =</span> <span class="dv">3</span>),</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">time     =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Pre"</span>,<span class="st">"Mid"</span>,<span class="st">"Post"</span>), <span class="dv">2</span><span class="sc">*</span>n),</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength =</span> <span class="fu">c</span>(<span class="fu">rbind</span>(pre_ctrl, mid_ctrl, post_ctrl),</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rbind</span>(pre_train, mid_train, post_train))</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>df_long<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">factor</span>(df_long<span class="sc">$</span>time, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Pre"</span>,<span class="st">"Mid"</span>,<span class="st">"Post"</span>))</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> df_long <span class="sc">%&gt;%</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(group, time) <span class="sc">%&gt;%</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">M  =</span> <span class="fu">mean</span>(strength),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            <span class="at">SE =</span> <span class="fu">sd</span>(strength)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summary_df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> M, <span class="at">group =</span> group,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>                       <span class="at">color =</span> group, <span class="at">fill =</span> group)) <span class="sc">+</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> M <span class="sc">-</span> SE, <span class="at">ymax =</span> M <span class="sc">+</span> SE), <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.3</span>) <span class="sc">+</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#7B9EA6"</span>, <span class="st">"Training"</span> <span class="ot">=</span> <span class="st">"#C0392B"</span>),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">"Group"</span>) <span class="sc">+</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values  =</span> <span class="fu">c</span>(<span class="st">"Control"</span> <span class="ot">=</span> <span class="st">"#7B9EA6"</span>, <span class="st">"Training"</span> <span class="ot">=</span> <span class="st">"#C0392B"</span>),</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>                    <span class="at">name =</span> <span class="st">"Group"</span>) <span class="sc">+</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time Point"</span>, <span class="at">y =</span> <span class="st">"Strength (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">68</span>, <span class="dv">92</span>)) <span class="sc">+</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-mixed-interaction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mixed-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch16-factorial-anova_files/figure-html/fig-mixed-interaction-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;16.3: Strength (kg) across time by training group. Error bars represent ± 1 standard error of the mean. The diverging trajectories constitute the significant Group × Time interaction: the training group shows progressive strength gains while the control group remains essentially unchanged."><img src="ch16-factorial-anova_files/figure-html/fig-mixed-interaction-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mixed-interaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;16.3: Strength (kg) across time by training group. Error bars represent ± 1 standard error of the mean. The diverging trajectories constitute the significant Group × Time interaction: the training group shows progressive strength gains while the control group remains essentially unchanged.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="simple-effects-analysis" class="level2" data-number="16.8">
+<h2 data-number="16.8" class="anchored" data-anchor-id="simple-effects-analysis"><span class="header-section-number">16.8</span> Simple effects analysis</h2>
+<section id="what-are-simple-effects" class="level3" data-number="16.8.1">
+<h3 data-number="16.8.1" class="anchored" data-anchor-id="what-are-simple-effects"><span class="header-section-number">16.8.1</span> What are simple effects?</h3>
+<p>When an interaction is statistically significant, the main effects provide an incomplete — and sometimes misleading — summary. The solution is <strong>simple effects analysis</strong>: testing the effect of one factor separately at each level of the other factor. In the Group × Time example, simple effects analysis asks two complementary questions:</p>
+<ol type="1">
+<li><em>Does strength change across Time within the Control group?</em> (simple effect of Time at Control)</li>
+<li><em>Does strength change across Time within the Training group?</em> (simple effect of Time at Training)</li>
+</ol>
+<p>Alternatively, the analysis can be “flipped” to ask about Group differences at each time point separately:</p>
+<ol type="1">
+<li>Do the groups differ at Pre? At Mid? At Post?</li>
+</ol>
+<p>Both perspectives are valid; the choice depends on the research question. In training studies, the most theoretically interesting question is usually whether the intervention group changed — which motivates examining the simple effect of Time within each group. In cross-sectional comparisons, examining Group differences at each time point may be more informative.</p>
+</section>
+<section id="interpreting-simple-effects-in-the-group-time-example" class="level3" data-number="16.8.2">
+<h3 data-number="16.8.2" class="anchored" data-anchor-id="interpreting-simple-effects-in-the-group-time-example"><span class="header-section-number">16.8.2</span> Interpreting simple effects in the Group × Time example</h3>
+<p>Examining <a href="#tbl-mixed-desc" class="quarto-xref">Table&nbsp;<span>16.3</span></a> and <a href="#fig-mixed-interaction" class="quarto-xref">Figure&nbsp;<span>16.3</span></a>, the simple effects pattern is apparent. Within the <strong>Control group</strong>, the three time-point means (76.34, 76.85, 77.14 kg) differ by less than 1 kg across the entire 12-week period — a negligible and statistically non-significant change. Within the <strong>Training group</strong>, strength increased by 2.02 kg from Pre to Mid, and by an additional 3.37 kg from Mid to Post, for a total gain of 5.39 kg — a large and highly significant change that mirrors the repeated measures ANOVA findings from Chapter 15.</p>
+<p>When examining Group differences at each time point, the groups start comparably at Pre (76.34 vs.&nbsp;79.67 kg, difference = 3.33 kg, non-significant) but diverge progressively at Mid (76.85 vs.&nbsp;81.69, difference = 4.84 kg) and Post (77.14 vs.&nbsp;85.06 kg, difference = 7.92 kg, statistically significant). This divergence pattern is the visual signature of a significant interaction and the most compelling evidence that the training program produced meaningful physiological adaptation.</p>
+<p>In SPSS, simple effects are accessed through the General Linear Model → Repeated Measures dialog by clicking <em>Options</em> → <em>Compare main effects</em> for within-subjects factors, or by running separate one-way ANOVAs after splitting the file by one factor. See the <strong><a href="./appendix-spss-factorial-anova.html">SPSS Tutorial: Factorial ANOVA</a></strong> for step-by-step instructions.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Use interaction plots before running simple effects
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before running formal simple effects tests, always examine the interaction plot. The plot tells you <em>where</em> the interaction is — which group diverges, and at which time point. Running simple effects blindly, without looking at the plot, can lead to testing combinations that are not theoretically interesting and interpreting numerically significant but practically trivial differences.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="within-within-factorial-anova" class="level2" data-number="16.9">
+<h2 data-number="16.9" class="anchored" data-anchor-id="within-within-factorial-anova"><span class="header-section-number">16.9</span> Within-within factorial ANOVA</h2>
+<p>A <strong>within-within</strong> (or fully within-subjects) factorial design measures all participants under <em>every</em> combination of <em>both</em> factors. In movement science, this might arise when participants complete tasks under multiple difficulty levels (Factor A: easy, medium, hard) on multiple occasions (Factor B: Day 1, Day 7, Day 14). Each participant contributes a data point to every one of the <span class="math inline">\(a \times b\)</span> cells.</p>
+<p>The appeal is statistical power: because individual differences are removed for every source of variance, both main effects and the interaction benefit from the within-subject error terms. The limitation is practical feasibility — participants must complete all condition combinations, raising concerns about fatigue, learning, and carryover effects that can corrupt the independence assumption. Counterbalancing (randomizing the order of conditions) is essential in within-within designs<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p>Variance partitioning in the within-within design produces separate within-subject error terms for each source of variance: <span class="math inline">\(SS_{\text{A} \times \text{Subjects}}\)</span> for Factor A, <span class="math inline">\(SS_{\text{B} \times \text{Subjects}}\)</span> for Factor B, and <span class="math inline">\(SS_{\text{A} \times \text{B} \times \text{Subjects}}\)</span> for the interaction. The sphericity assumption must be evaluated for every within-subjects factor with three or more levels, and corrections applied as needed. Because of this complexity, SPSS’s General Linear Model → Repeated Measures module handles within-within designs using the same interface as the one-way repeated measures ANOVA from Chapter 15 — simply define both within-subjects factors when setting up the model.</p>
+</section>
+<section id="effect-sizes-for-factorial-designs" class="level2" data-number="16.10">
+<h2 data-number="16.10" class="anchored" data-anchor-id="effect-sizes-for-factorial-designs"><span class="header-section-number">16.10</span> Effect sizes for factorial designs</h2>
+<section id="partial-eta-squared-and-partial-omega-squared" class="level3" data-number="16.10.1">
+<h3 data-number="16.10.1" class="anchored" data-anchor-id="partial-eta-squared-and-partial-omega-squared"><span class="header-section-number">16.10.1</span> Partial eta-squared and partial omega-squared</h3>
+<p>As in the one-way ANOVA (Chapter 14) and repeated measures ANOVA (Chapter 15), the recommended effect size measures for factorial designs are <strong>partial eta-squared</strong> (η²_p) and the less-biased <strong>partial omega-squared</strong> (ω²_p). The <em>partial</em> qualifier is critical: each effect’s η²_p is computed using only that effect’s SS and the error SS, ignoring the SS from other effects. This makes partial η²_p appropriately reflect each effect’s size <em>holding other effects constant</em>, rather than as a proportion of total variance<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">10</a>]</sup></span>.</p>
+<p><span class="math display">\[\eta^2_p = \frac{SS_{\text{effect}}}{SS_{\text{effect}} + SS_{\text{error}}}\]</span></p>
+<p>For a mixed ANOVA, the “error” in the formula differs by effect type: the between-subjects error (<span class="math inline">\(SS_{\text{Subjects/Group}}\)</span>) is used for the Group main effect, while the within-subjects error (<span class="math inline">\(SS_{\text{Time} \times \text{Subjects/Group}}\)</span>) is used for the Time main effect and the interaction.</p>
+<p>Partial omega-squared corrects for positive bias by adjusting both the numerator and denominator:</p>
+<p><span class="math display">\[\omega^2_p = \frac{SS_{\text{effect}} - df_{\text{effect}} \cdot MS_{\text{error}}}{SS_{\text{effect}} + (N \cdot p - df_{\text{effect}}) \cdot MS_{\text{error}}}\]</span></p>
+<p>where <span class="math inline">\(p\)</span> is the number of within-subjects levels (for within-subject terms) or 1 (for between-subjects terms), and <span class="math inline">\(N\)</span> is the total number of participants<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">10</a>]</sup></span>.</p>
+<p>Common benchmarks for partial η²_p from<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">9</a>]</sup></span>: small ≈ .01, medium ≈ .06, large ≥ .14. These benchmarks apply cautiously in movement science contexts, where large effects (η²_p &gt; .50) are common in well-controlled laboratory training studies with physiological outcome variables, but rare in field studies with noisy measurement.</p>
+</section>
+<section id="cohens-f-for-power-calculations" class="level3" data-number="16.10.2">
+<h3 data-number="16.10.2" class="anchored" data-anchor-id="cohens-f-for-power-calculations"><span class="header-section-number">16.10.2</span> Cohen’s <em>f</em> for power calculations</h3>
+<p>For factorial ANOVA power planning in G*Power, the required effect size metric is <strong>Cohen’s <em>f</em></strong> rather than η²_p.&nbsp;The conversion is:</p>
+<p><span class="math display">\[f = \sqrt{\frac{\eta^2_p}{1 - \eta^2_p}}\]</span></p>
+<p>For the Group × Time interaction (η²_p = .513): <span class="math inline">\(f = \sqrt{.513 / .487} = \sqrt{1.053} = 1.03\)</span> — a very large effect. For the between-subjects Group effect (η²_p = .042): <span class="math inline">\(f = \sqrt{.042 / .958} = 0.21\)</span> — a small-to-medium effect. These values reflect the fundamental asymmetry of the mixed design: within-subject effects enjoy far better statistical power than between-subject effects, because the former are tested against a much smaller error term.</p>
+</section>
+</section>
+<section id="sample-size-and-power-for-factorial-designs" class="level2" data-number="16.11">
+<h2 data-number="16.11" class="anchored" data-anchor-id="sample-size-and-power-for-factorial-designs"><span class="header-section-number">16.11</span> Sample size and power for factorial designs</h2>
+<p>Power planning for factorial ANOVAs in G<em>Power follows the same logic as for one-way ANOVA (Chapter 14), using the </em>F-test: ANOVA: Fixed effects, special, main effects, and interactions* option. The key inputs for each effect are: the effect size <em>f</em>, the desired power (typically .80 or .90), the alpha level (.05), the numerator degrees of freedom for the effect being planned, and the total sample size.</p>
+<p>For a mixed ANOVA, power calculations for the Group main effect and for the Group × Time interaction require different approaches because they use different error terms. G<em>Power’s </em>ANOVA: Repeated Measures, between-within interaction* option handles this automatically and is the recommended starting point for planning mixed factorial studies. The critical additional input is the <em>correlation among repeated measures</em> — the expected correlation between time-point scores within the same participant. As discussed in Chapter 15, higher within-subject correlation increases the power of within-subjects tests by reducing the within-subjects error. In training studies using the <code>core_session.csv</code> dataset, the pre-mid-post correlations in strength are approximately <em>r</em> = .96 to .98, explaining the extremely high power of the Time and interaction effects in this example.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>G*Power and SPSS for factorial power planning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For between-subjects factorial designs, use G<em>Power → </em>F-test: ANOVA: Fixed effects, omnibus, one-way* (treating each effect as a planned comparison) or the <em>special main effects</em> option. For mixed designs, use G<em>Power → </em>F-test: ANOVA: Repeated Measures, between-within interaction<em>. SPSS 31 and later include a built-in power analysis module (</em>Analyze → Power Analysis → One-way ANOVA* or <em>General Linear Model</em>) that can estimate power for each effect in a factorial design directly from pilot data. The Statistical Calculators appendix also includes an interactive power tool for exploration.</p>
+</div>
+</div>
+</section>
+<section id="reporting-factorial-anova-in-apa-style" class="level2" data-number="16.12">
+<h2 data-number="16.12" class="anchored" data-anchor-id="reporting-factorial-anova-in-apa-style"><span class="header-section-number">16.12</span> Reporting factorial ANOVA in APA style</h2>
+<section id="template" class="level3" data-number="16.12.1">
+<h3 data-number="16.12.1" class="anchored" data-anchor-id="template"><span class="header-section-number">16.12.1</span> Template</h3>
+<p>A two-way between-subjects ANOVA revealed no significant interaction between [Factor A] and [Factor B], <em>F</em>(<em>df1</em>, <em>df2</em>) = [value], <em>p</em> = [value], η²_p = [value], suggesting that the effect of [Factor B] did not differ by [Factor A]. There was a significant main effect of [Factor B], <em>F</em>(<em>df1</em>, <em>df2</em>) = [value], <em>p</em> = [value], η²_p = [value], ω²_p = [value], with the [level] group (<em>M</em> = [value], <em>SD</em> = [value]) scoring higher than the [level] group (<em>M</em> = [value], <em>SD</em> = [value]).</p>
+<p>For a mixed ANOVA with a significant interaction:</p>
+<p>A 2(Group) × 3(Time) mixed ANOVA revealed a significant Group × Time interaction, <em>F</em>(2, 116) = 61.00, <em>p</em> &lt; .001, η²_p = .51, ω²_p = .40. Simple effects analysis indicated that strength increased significantly across time in the training group ([pre → post reporting here]) but not in the control group. The main effect of Time was significant, <em>F</em>(2, 116) = 108.55, <em>p</em> &lt; .001, η²_p = .65, and the main effect of Group was not significant, <em>F</em>(1, 58) = 2.52, <em>p</em> = .117, η²_p = .04.</p>
+</section>
+<section id="full-apa-example-group-time-mixed-anova" class="level3" data-number="16.12.2">
+<h3 data-number="16.12.2" class="anchored" data-anchor-id="full-apa-example-group-time-mixed-anova"><span class="header-section-number">16.12.2</span> Full APA example: Group × Time mixed ANOVA</h3>
+<blockquote class="blockquote">
+<p>A 2 (Group: control, training) × 3 (Time: pre, mid, post) mixed ANOVA was conducted with <code>strength_kg</code> as the dependent variable. Mauchly’s test of sphericity indicated that the sphericity assumption was not violated, <em>W</em> = .93, <em>p</em> = .059. The Group × Time interaction was statistically significant, <em>F</em>(2, 116) = 61.00, <em>p</em> &lt; .001, η²_p = .51, ω²_p = .40, indicating that the two groups followed different strength trajectories across the 12-week program. Simple effects analysis revealed a significant effect of Time within the training group, with progressive gains from pre-test (<em>M</em> = 79.67 kg, <em>SD</em> = 12.26) to mid-test (<em>M</em> = 81.69 kg, <em>SD</em> = 12.26) and post-test (<em>M</em> = 85.06 kg, <em>SD</em> = 12.48), consistent with the repeated measures analysis reported in Chapter 15. The effect of Time was not significant within the control group, which remained essentially unchanged across the three assessments (76.34, 76.85, 77.14 kg). The main effect of Time was significant, <em>F</em>(2, 116) = 108.55, <em>p</em> &lt; .001, η²_p = .65, and the main effect of Group was not significant, <em>F</em>(1, 58) = 2.52, <em>p</em> = .117, η²_p = .04.</p>
+</blockquote>
+</section>
+</section>
+<section id="common-pitfalls-and-best-practices" class="level2" data-number="16.13">
+<h2 data-number="16.13" class="anchored" data-anchor-id="common-pitfalls-and-best-practices"><span class="header-section-number">16.13</span> Common pitfalls and best practices</h2>
+<section id="pitfall-1-interpreting-main-effects-when-the-interaction-is-significant" class="level3" data-number="16.13.1">
+<h3 data-number="16.13.1" class="anchored" data-anchor-id="pitfall-1-interpreting-main-effects-when-the-interaction-is-significant"><span class="header-section-number">16.13.1</span> Pitfall 1: Interpreting main effects when the interaction is significant</h3>
+<p>Perhaps the most frequent mistake in factorial ANOVA reporting is stating a significant main effect without acknowledging — or even examining — the interaction. If a 2 × 2 ANOVA yields significant main effects of both Sex and Group but also a significant Sex × Group interaction, the “main effect of Group” averaged across both sexes is a statistical fiction: it accurately describes neither the male pattern nor the female pattern, but only an average of two different patterns. Always test the interaction first, and if it is significant, decompose it before making any statements about main effects.</p>
+</section>
+<section id="pitfall-2-confusing-no-significant-interaction-with-no-interaction" class="level3" data-number="16.13.2">
+<h3 data-number="16.13.2" class="anchored" data-anchor-id="pitfall-2-confusing-no-significant-interaction-with-no-interaction"><span class="header-section-number">16.13.2</span> Pitfall 2: Confusing “no significant interaction” with “no interaction”</h3>
+<p>When Mauchly’s test or the interaction F-ratio is non-significant, students sometimes conclude that “there is no interaction” and proceed as though the parallel-lines assumption is perfectly supported. The correct statement is that the data are consistent with the absence of an interaction — but a study with low power cannot distinguish a small interaction from no interaction. Report the η²_p for the interaction even when <em>p</em> &gt; .05, and note whether the study was adequately powered to detect a small interaction<span class="citation" data-cites="button2013"><sup>[<a href="references.html#ref-button2013" role="doc-biblioref">11</a>]</sup></span>.</p>
+</section>
+<section id="pitfall-3-using-the-wrong-error-term-in-a-mixed-anova" class="level3" data-number="16.13.3">
+<h3 data-number="16.13.3" class="anchored" data-anchor-id="pitfall-3-using-the-wrong-error-term-in-a-mixed-anova"><span class="header-section-number">16.13.3</span> Pitfall 3: Using the wrong error term in a mixed ANOVA</h3>
+<p>The between-subjects Group effect and the within-subjects Time effect in a mixed ANOVA are tested against different error terms. If you compute F values manually (or modify syntax in SPSS), using the within-subjects error for the Group effect will produce an artificially large F, because <span class="math inline">\(MS_{\text{within error}}\)</span> is much smaller than <span class="math inline">\(MS_{\text{Subjects/Group}}\)</span>. SPSS handles this automatically in the Repeated Measures GLM — but understanding which error term each F uses is essential for interpreting the output correctly.</p>
+</section>
+<section id="pitfall-4-failing-to-report-effect-sizes-for-all-effects" class="level3" data-number="16.13.4">
+<h3 data-number="16.13.4" class="anchored" data-anchor-id="pitfall-4-failing-to-report-effect-sizes-for-all-effects"><span class="header-section-number">16.13.4</span> Pitfall 4: Failing to report effect sizes for all effects</h3>
+<p>Journals in movement science and kinesiology increasingly require effect size reporting for every source of variance, not just the primary outcome. Report η²_p (and ideally ω²_p) for the main effect of Group, the main effect of Time, and the interaction. Readers need all three to evaluate whether a non-significant Group effect, for example, was simply underpowered or was genuinely trivial<span class="citation" data-cites="lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">12</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="16.14">
+<h2 data-number="16.14" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">16.14</span> Chapter summary</h2>
+<p>Factorial ANOVA extends the one-way framework to situations where two or more independent variables operate simultaneously on a single outcome. The central conceptual contribution of the factorial design is the <strong>interaction effect</strong>: evidence that the influence of one factor depends on the level of another. Interactions are among the most important and scientifically interesting findings in movement science research, and detecting them requires simultaneous manipulation or observation of multiple factors — something that a series of one-way ANOVAs cannot accomplish.</p>
+<p>The <strong>between-subjects factorial ANOVA</strong> is appropriate when participants are randomly assigned to or naturally classified into cells defined by unique combinations of factor levels, and every cell is tested against a single pooled error term. The <strong>mixed factorial ANOVA</strong> is the workhorse of longitudinal intervention research: it separates the large variability among individuals (the between-subjects error) from the much smaller variability in how participants change over time (the within-subjects error), yielding powerful tests of training trajectories and Group × Time interactions. The worked example in this chapter — training group versus control across three time points on <code>strength_kg</code> — produced a Group × Time interaction of η²_p = .51, demonstrating that the training program not only improved strength but did so with a trajectory that was fundamentally different from the control group’s stable baseline<span class="citation" data-cites="maxwell2008 olejnik2003"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>,<a href="references.html#ref-olejnik2003" role="doc-biblioref">10</a>]</sup></span>.</p>
+<p>Effect size reporting using η²_p and ω²_p is essential for every factorial source, and partial effect sizes are the appropriate choice because they express each effect’s magnitude relative to its own error term. Power planning, whether through G*Power or SPSS’s built-in module, must account for the asymmetry between between-subjects and within-subjects tests: the interaction in a mixed design is typically much better powered than the between-subjects main effect, and sample size decisions must reflect which effect is the primary focus of inference. Chapter 17 extends the analysis of covariance framework, adding a continuous covariate to the between-groups model to improve precision and control for baseline differences — a natural complement to the designs developed here.</p>
+</section>
+<section id="key-terms" class="level2" data-number="16.15">
+<h2 data-number="16.15" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">16.15</span> Key terms</h2>
+<p>factorial design; factor; levels; cell; main effect; interaction effect; between-subjects factorial ANOVA; mixed factorial ANOVA; within-within ANOVA; interaction plot; quantitative interaction; qualitative interaction; simple effects analysis; partial eta-squared; partial omega-squared; Cohen’s <em>f</em>; between-subjects error; within-subjects error; sphericity; Type III sums of squares</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="16.16">
+<h2 data-number="16.16" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">16.16</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>What distinguishes a factorial ANOVA from running two separate one-way
+ANOVAs?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>Running two separate one-way ANOVAs tests each factor in isolation and cannot detect whether the effect of one factor depends on the level of another — the interaction. Factorial ANOVA simultaneously estimates main effects and the interaction while using a single model, keeping the familywise error rate under control. Additionally, the factorial approach often uses a smaller error term than separate one-way tests, because variance attributable to all factors is removed before estimating error, yielding more powerful tests. The interaction is the exclusive contribution of the factorial design — it simply does not exist in a series of separate analyses.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>In the Group × Time mixed ANOVA, why is the Time F-ratio so much larger
+than the Group F-ratio?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>In a mixed factorial ANOVA, Group (a between-subjects factor) and Time (a within-subjects factor) are evaluated against different error terms. The Group F uses the between-subjects error — the variance among individual participant means, which includes all stable individual differences in strength. This is a large and noisy error term. The Time F uses the within-subjects error — the variance in how individuals change across time points relative to their own trajectories — which is far smaller. Because the same MS_effect is divided by a much smaller denominator, within-subjects F-ratios are typically larger than between-subjects F-ratios even when the underlying effect sizes are comparable. Always compare effects using η²_p or ω²_p, not F values, when they come from different error terms.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>The Group × Time interaction is significant. Does this mean the Group
+main effect is wrong?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>Not wrong — technically accurate, but substantively incomplete. The main effect of Group in this analysis (<em>p</em> = .117) averages across all three time points. Because the training and control groups start at similar strength levels and only diverge over time, their time-averaged means are not dramatically different, yielding a non-significant omnibus Group comparison. The interaction reveals the more informative pattern: the <em>change trajectories</em> diverge significantly. In factorial designs with significant interactions, main effects describe a simplified picture that may be misleading without the interaction context. The recommended practice is to interpret the interaction first, then report the main effects with explicit acknowledgment that they must be understood in light of the interaction.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>How would you decide which factor to place on the x-axis of an
+interaction plot?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>The conventional choice is to place the factor with more levels on the x-axis and use separate lines for the factor with fewer levels — this maximizes the visual resolution of the interaction pattern. In a Group × Time design with 2 groups and 3 time points, placing Time on the x-axis and drawing separate lines for Control and Training produces a clear picture of how trajectories diverge over time. If both factors have the same number of levels, the theoretically primary factor (the one whose moderation is of greatest interest) typically goes on the x-axis. The goal of the interaction plot is to make the presence or absence of an interaction maximally visible, so any arrangement that clearly shows whether the lines are parallel or diverging is defensible.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>A researcher reports “a significant main effect of Training Group,
+<em>F</em>(1, 56) = 5.22, <em>p</em> = .026, η²_p = .085.” What
+information is missing from this report?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>Several elements are missing for a complete factorial ANOVA report. First, the interaction test result and its effect size should be reported before interpreting the main effect — η²_p = .085 for Group is only interpretable if the interaction is non-significant. Second, the main effect of Sex (the other factor) should be reported. Third, descriptive statistics — means and standard deviations for each group — should accompany the omnibus F-test. Fourth, partial omega-squared (ω²_p) provides a less biased effect size estimate and should ideally accompany η²_p.&nbsp;A complete report would state: “The Sex × Group interaction was not significant, <em>F</em>(1, 56) = 0.56, <em>p</em> = .457, η²_p = .010. The main effect of Group was significant, <em>F</em>(1, 56) = 5.22, <em>p</em> = .026, η²_p = .085, ω²_p = .069, with the training group (<em>M</em> = 85.06 kg, <em>SD</em> = 12.48) exceeding the control group (<em>M</em> = 77.14 kg, <em>SD</em> = 13.98).”</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>A 2 × 3 mixed ANOVA yields a significant interaction. The researcher
+then runs six independent t-tests comparing Control vs.&nbsp;Training at each
+combination of time and sex. Is this appropriate?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>No — this approach is problematic on two counts. First, it creates an inflated familywise Type I error rate: six tests at α = .05 raises the probability of at least one false positive to approximately 26%. Second, if sex is not one of the factors in the model, comparing training and control groups separately by sex adds a variable that was never modeled, making the results uninterpretable in the context of the original ANOVA. The appropriate procedure is simple effects analysis within the ANOVA framework: test the effect of Group at each level of Time (or vice versa) using the same error term as the original model, with Bonferroni correction applied across the simple effects comparisons. This keeps Type I error controlled and ensures interpretive consistency with the omnibus test.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For an authoritative treatment of factorial ANOVA in experimental research, including extended coverage of mixed designs and power planning, see<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">1</a>]</sup></span>.<span class="citation" data-cites="field_discovering"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">2</a>]</sup></span> provides a software-focused introduction with detailed SPSS and R walkthroughs. For effect size reporting guidance specific to repeated-measures and factorial designs,<span class="citation" data-cites="olejnik2003"><sup>[<a href="references.html#ref-olejnik2003" role="doc-biblioref">10</a>]</sup></span> is the primary methodological reference, and<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">9</a>]</sup></span> remains the foundational source on statistical power and the <em>f</em> metric.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chapter 17 introduces <strong>Analysis of Covariance (ANCOVA)</strong>, which adds a continuous covariate to the ANOVA framework to statistically control for pre-existing differences among groups. ANCOVA is especially valuable in pre-test/post-test designs where randomization does not perfectly equate groups at baseline — a common situation in applied exercise science and rehabilitation research.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-maxwell2008" class="csl-entry" role="listitem">
+1. Maxwell, S. E., Delaney, H. D., &amp; Kelley, K. (2018). <em>Designing experiments and analyzing data: A model comparison perspective</em> (3rd ed.). Routledge.
+</div>
+<div id="ref-field_discovering" class="csl-entry" role="listitem">
+2. Field, A. (2018). <em>Discovering statistics using IBM SPSS statistics</em> (5th ed.). SAGE Publications.
+</div>
+<div id="ref-thomas2015" class="csl-entry" role="listitem">
+3. Thomas, L. (2015). How to estimate power and sample size. <em>Trauma Surgery &amp; Acute Care Open</em>, <em>1</em>(1), e000005. <a href="https://doi.org/10.1136/tsaco-2015-000005">https://doi.org/10.1136/tsaco-2015-000005</a>
+</div>
+<div id="ref-vincent2005" class="csl-entry" role="listitem">
+4. Vincent, W. J. (2005). <em>Statistics in kinesiology</em>.
+</div>
+<div id="ref-tukey1949" class="csl-entry" role="listitem">
+5. Tukey, J. W. (1949). Comparing individual means in the analysis of variance. <em>Biometrics</em>, <em>5</em>(2), 99–114. <a href="https://doi.org/10.2307/3001913">https://doi.org/10.2307/3001913</a>
+</div>
+<div id="ref-girden1992" class="csl-entry" role="listitem">
+6. Girden, E. R. (1992). <em>ANOVA: Repeated measures</em>. Sage.
+</div>
+<div id="ref-greenhouse1959" class="csl-entry" role="listitem">
+7. Greenhouse, S. W., &amp; Geisser, S. (1959). On methods in the analysis of profile data. <em>Psychometrika</em>, <em>24</em>(2), 95–112. <a href="https://doi.org/10.1007/BF02289823">https://doi.org/10.1007/BF02289823</a>
+</div>
+<div id="ref-huynh1976" class="csl-entry" role="listitem">
+8. Huynh, H., &amp; Feldt, L. S. (1976). Estimation of the box correction for degrees of freedom from sample data in randomized block and split-plot designs. <em>Journal of Educational Statistics</em>, <em>1</em>(1), 69–82. <a href="https://doi.org/10.3102/10769986001001069">https://doi.org/10.3102/10769986001001069</a>
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+9. Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Lawrence Erlbaum Associates.
+</div>
+<div id="ref-olejnik2003" class="csl-entry" role="listitem">
+10. Olejnik, S., &amp; Algina, J. (2003). Generalized eta and omega squared statistics: Measures of effect size for some common research designs. <em>Psychological Methods</em>, <em>8</em>(4), 434–447. <a href="https://doi.org/10.1037/1082-989X.8.4.434">https://doi.org/10.1037/1082-989X.8.4.434</a>
+</div>
+<div id="ref-button2013" class="csl-entry" role="listitem">
+11. Button, K. S., Ioannidis, J. P. A., Mokrysz, C., Nosek, B. A., Flint, J., Robinson, E. S. J., &amp; Munafò, M. R. (2013). Power failure: Why small sample size undermines the reliability of neuroscience. <em>Nature Reviews Neuroscience</em>, <em>14</em>, 365–376. <a href="https://doi.org/10.1038/nrn3475">https://doi.org/10.1038/nrn3475</a>
+</div>
+<div id="ref-lakens2013" class="csl-entry" role="listitem">
+12. Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for t-tests and ANOVAs. <em>Frontiers in Psychology</em>, <em>4</em>, 863. <a href="https://doi.org/10.3389/fpsyg.2013.00863">https://doi.org/10.3389/fpsyg.2013.00863</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch15-repeated-measures.html" class="pagination-link" aria-label="Repeated Measures Designs">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch17-ancova.html" class="pagination-link" aria-label="Analysis of Covariance">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

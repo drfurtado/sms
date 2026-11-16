@@ -1,0 +1,176 @@
+{
+  "index.qmd": {
+    "index.html": "786b7a3e"
+  },
+  "part-measurement.qmd": {
+    "part-measurement.html": "7efb0b85"
+  },
+  "ch01-measurement.qmd": {
+    "ch01-measurement.html": "4dab1c26"
+  },
+  "ch02-data-types.qmd": {
+    "ch02-data-types.html": "d9f388fb"
+  },
+  "part-describing-data.qmd": {
+    "part-describing-data.html": "6bbb281f"
+  },
+  "ch03-data-visualization.qmd": {
+    "ch03-data-visualization.html": "c71eec0b"
+  },
+  "ch04-central-tendency.qmd": {
+    "ch04-central-tendency.html": "d81916e0"
+  },
+  "ch05-variability.qmd": {
+    "ch05-variability.html": "301b05c7"
+  },
+  "ch06-percentiles-standard-scores.qmd": {
+    "ch06-percentiles-standard-scores.html": "1d5a036b"
+  },
+  "ch07-normal-distribution.qmd": {
+    "ch07-normal-distribution.html": "7faffc9a"
+  },
+  "part-inference.qmd": {
+    "part-inference.html": "2dd9dca7"
+  },
+  "ch08-probability-sampling-error.qmd": {
+    "ch08-probability-sampling-error.html": "1221e090"
+  },
+  "ch09-confidence-intervals.qmd": {
+    "ch09-confidence-intervals.html": "d9d733a0"
+  },
+  "ch10-hypothesis-testing.qmd": {
+    "ch10-hypothesis-testing.html": "10074bc4"
+  },
+  "part-relationships.qmd": {
+    "part-relationships.html": "91234f23"
+  },
+  "ch11-correlation-regression.qmd": {
+    "ch11-correlation-regression.html": "f796fc28"
+  },
+  "ch12-multiple-regression.qmd": {
+    "ch12-multiple-regression.html": "9da5e2fd"
+  },
+  "part-comparing-means.qmd": {
+    "part-comparing-means.html": "87431ad2"
+  },
+  "ch13-comparing-two-means.qmd": {
+    "ch13-comparing-two-means.html": "3229b660"
+  },
+  "ch14-anova.qmd": {
+    "ch14-anova.html": "7a3f03ce"
+  },
+  "ch15-repeated-measures.qmd": {
+    "ch15-repeated-measures.html": "2ef07953"
+  },
+  "ch16-factorial-anova.qmd": {
+    "ch16-factorial-anova.html": "373d4cb5"
+  },
+  "ch17-ancova.qmd": {
+    "ch17-ancova.html": "12451c3a"
+  },
+  "ch18-reliability.qmd": {
+    "ch18-reliability.html": "06d6c8a0"
+  },
+  "ch19-nonparametric.qmd": {
+    "ch19-nonparametric.html": "ead84efd"
+  },
+  "ch20-clinical-measures.qmd": {
+    "ch20-clinical-measures.html": "4939067f"
+  },
+  "ch21-software.qmd": {
+    "ch21-software.html": "6c47b58d"
+  },
+  "ch22-reporting.qmd": {
+    "ch22-reporting.html": "6d94727e"
+  },
+  "ch23-ethics.qmd": {
+    "ch23-ethics.html": "bcf54a81"
+  },
+  "references.qmd": {
+    "references.html": "52bfbf84"
+  },
+  "about-the-author.qmd": {
+    "about-the-author.html": "4ac110a4"
+  },
+  "appendix-core-dataset-overview.qmd": {
+    "appendix-core-dataset-overview.html": "619cd121"
+  },
+  "appendix-core-dataset-codebook.qmd": {
+    "appendix-core-dataset-codebook.html": "12c07121"
+  },
+  "appendix-statistical-tables.qmd": {
+    "appendix-statistical-tables.html": "7a788891"
+  },
+  "appendix-effect-size-benchmarks.qmd": {
+    "appendix-effect-size-benchmarks.html": "7b48b2f3"
+  },
+  "appendix-statistical-calculators.qmd": {
+    "appendix-statistical-calculators.html": "4a9d8722"
+  },
+  "appendix-factorial-anova-decision-tool.qmd": {
+    "appendix-factorial-anova-decision-tool.html": "1bb312ed"
+  },
+  "appendix-apa-tables.qmd": {
+    "appendix-apa-tables.html": "ea1d523b"
+  },
+  "appendix-apa-reporting.qmd": {
+    "appendix-apa-reporting.html": "5eda156b"
+  },
+  "appendix-spss-getting-started.qmd": {
+    "appendix-spss-getting-started.html": "2da05524"
+  },
+  "appendix-spss-data-visualization.qmd": {
+    "appendix-spss-data-visualization.html": "e5c3d93b"
+  },
+  "appendix-spss-central-tendency.qmd": {
+    "appendix-spss-central-tendency.html": "60b704f1"
+  },
+  "appendix-spss-variability.qmd": {
+    "appendix-spss-variability.html": "539f4b97"
+  },
+  "appendix-spss-percentiles-z-scores.qmd": {
+    "appendix-spss-percentiles-z-scores.html": "4b67bb8c"
+  },
+  "appendix-spss-normality.qmd": {
+    "appendix-spss-normality.html": "9582e6aa"
+  },
+  "appendix-spss-sampling.qmd": {
+    "appendix-spss-sampling.html": "dfda15f3"
+  },
+  "appendix-spss-confidence-intervals.qmd": {
+    "appendix-spss-confidence-intervals.html": "7f91f4b7"
+  },
+  "appendix-spss-hypothesis-testing.qmd": {
+    "appendix-spss-hypothesis-testing.html": "6eb904b1"
+  },
+  "appendix-spss-comparing-means.qmd": {
+    "appendix-spss-comparing-means.html": "b5da6477"
+  },
+  "appendix-spss-anova.qmd": {
+    "appendix-spss-anova.html": "19f846ea"
+  },
+  "appendix-spss-repeated-measures.qmd": {
+    "appendix-spss-repeated-measures.html": "c58163a5"
+  },
+  "appendix-spss-factorial-anova.qmd": {
+    "appendix-spss-factorial-anova.html": "d5101d7b"
+  },
+  "appendix-spss-ancova.qmd": {
+    "appendix-spss-ancova.html": "84192976"
+  },
+  "appendix-spss-reliability.qmd": {
+    "appendix-spss-reliability.html": "86153d4d"
+  },
+  "appendix-spss-nonparametric.qmd": {
+    "appendix-spss-nonparametric.html": "75ff6429"
+  },
+  "appendix-spss-clinical-measures.qmd": {
+    "appendix-spss-clinical-measures.html": "ec9fc3a1"
+  },
+  "appendix-spss-correlation-regression.qmd": {
+    "appendix-spss-correlation-regression.html": "da97d0c1"
+  },
+  "appendix-spss-multiple-regression.qmd": {
+    "appendix-spss-multiple-regression.html": "969badc3"
+  }
+}

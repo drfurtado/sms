@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>4&nbsp; Measures of Central Tendency – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch05-variability.html" rel="next">
+<link href="./ch03-data-visualization.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-describing-data.html">Part II: Describing Data</a></li><li class="breadcrumb-item"><a href="./ch04-central-tendency.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">4.1</span> Chapter roadmap</a></li>
+  <li><a href="#workflow-used-throughout-part-ii" id="toc-workflow-used-throughout-part-ii" class="nav-link" data-scroll-target="#workflow-used-throughout-part-ii"><span class="header-section-number">4.2</span> Workflow used throughout Part II</a></li>
+  <li><a href="#why-we-summarize" id="toc-why-we-summarize" class="nav-link" data-scroll-target="#why-we-summarize"><span class="header-section-number">4.3</span> Why we summarize</a></li>
+  <li><a href="#the-mode" id="toc-the-mode" class="nav-link" data-scroll-target="#the-mode"><span class="header-section-number">4.4</span> The mode</a>
+  <ul class="collapse">
+  <li><a href="#when-the-mode-is-informative" id="toc-when-the-mode-is-informative" class="nav-link" data-scroll-target="#when-the-mode-is-informative"><span class="header-section-number">4.4.1</span> When the mode is informative</a></li>
+  <li><a href="#when-the-mode-is-not-informative" id="toc-when-the-mode-is-not-informative" class="nav-link" data-scroll-target="#when-the-mode-is-not-informative"><span class="header-section-number">4.4.2</span> When the mode is not informative</a></li>
+  </ul></li>
+  <li><a href="#the-median" id="toc-the-median" class="nav-link" data-scroll-target="#the-median"><span class="header-section-number">4.5</span> The median</a>
+  <ul class="collapse">
+  <li><a href="#how-to-find-the-median-with-10-observations" id="toc-how-to-find-the-median-with-10-observations" class="nav-link" data-scroll-target="#how-to-find-the-median-with-10-observations"><span class="header-section-number">4.5.1</span> How to find the median with 10 observations</a></li>
+  <li><a href="#when-the-median-is-a-strong-choice" id="toc-when-the-median-is-a-strong-choice" class="nav-link" data-scroll-target="#when-the-median-is-a-strong-choice"><span class="header-section-number">4.5.2</span> When the median is a strong choice</a></li>
+  <li><a href="#median-as-typical-participant" id="toc-median-as-typical-participant" class="nav-link" data-scroll-target="#median-as-typical-participant"><span class="header-section-number">4.5.3</span> Median as “typical participant”</a></li>
+  </ul></li>
+  <li><a href="#the-mean" id="toc-the-mean" class="nav-link" data-scroll-target="#the-mean"><span class="header-section-number">4.6</span> The mean</a>
+  <ul class="collapse">
+  <li><a href="#how-to-find-the-mean-with-10-observations" id="toc-how-to-find-the-mean-with-10-observations" class="nav-link" data-scroll-target="#how-to-find-the-mean-with-10-observations"><span class="header-section-number">4.6.1</span> How to find the mean with 10 observations</a></li>
+  <li><a href="#when-the-mean-is-appropriate" id="toc-when-the-mean-is-appropriate" class="nav-link" data-scroll-target="#when-the-mean-is-appropriate"><span class="header-section-number">4.6.2</span> When the mean is appropriate</a></li>
+  <li><a href="#mean-and-sample-size" id="toc-mean-and-sample-size" class="nav-link" data-scroll-target="#mean-and-sample-size"><span class="header-section-number">4.6.3</span> Mean and sample size</a></li>
+  </ul></li>
+  <li><a href="#how-distribution-shape-affects-mean-median-and-mode" id="toc-how-distribution-shape-affects-mean-median-and-mode" class="nav-link" data-scroll-target="#how-distribution-shape-affects-mean-median-and-mode"><span class="header-section-number">4.7</span> How distribution shape affects mean, median, and mode</a></li>
+  <li><a href="#when-the-mean-lies-to-you" id="toc-when-the-mean-lies-to-you" class="nav-link" data-scroll-target="#when-the-mean-lies-to-you"><span class="header-section-number">4.8</span> When the mean lies to you</a>
+  <ul class="collapse">
+  <li><a href="#outliers" id="toc-outliers" class="nav-link" data-scroll-target="#outliers"><span class="header-section-number">4.8.1</span> Outliers</a></li>
+  <li><a href="#skewed-distributions" id="toc-skewed-distributions" class="nav-link" data-scroll-target="#skewed-distributions"><span class="header-section-number">4.8.2</span> Skewed distributions</a></li>
+  <li><a href="#bounded-scales-and-ceiling-effects" id="toc-bounded-scales-and-ceiling-effects" class="nav-link" data-scroll-target="#bounded-scales-and-ceiling-effects"><span class="header-section-number">4.8.3</span> Bounded scales and ceiling effects</a></li>
+  <li><a href="#mixtures-of-subgroups" id="toc-mixtures-of-subgroups" class="nav-link" data-scroll-target="#mixtures-of-subgroups"><span class="header-section-number">4.8.4</span> Mixtures of subgroups</a></li>
+  <li><a href="#averaging-across-time-points" id="toc-averaging-across-time-points" class="nav-link" data-scroll-target="#averaging-across-time-points"><span class="header-section-number">4.8.5</span> Averaging across time points</a></li>
+  </ul></li>
+  <li><a href="#optional-tools-trimmed-means-and-winsorized-means" id="toc-optional-tools-trimmed-means-and-winsorized-means" class="nav-link" data-scroll-target="#optional-tools-trimmed-means-and-winsorized-means"><span class="header-section-number">4.9</span> Optional tools: trimmed means and winsorized means</a></li>
+  <li><a href="#log-transformations-and-the-geometric-mean" id="toc-log-transformations-and-the-geometric-mean" class="nav-link" data-scroll-target="#log-transformations-and-the-geometric-mean"><span class="header-section-number">4.10</span> Log transformations and the geometric mean</a>
+  <ul class="collapse">
+  <li><a href="#what-a-log-transform-does-conceptually" id="toc-what-a-log-transform-does-conceptually" class="nav-link" data-scroll-target="#what-a-log-transform-does-conceptually"><span class="header-section-number">4.10.1</span> What a log transform does conceptually</a></li>
+  <li><a href="#the-geometric-mean" id="toc-the-geometric-mean" class="nav-link" data-scroll-target="#the-geometric-mean"><span class="header-section-number">4.10.2</span> The geometric mean</a></li>
+  </ul></li>
+  <li><a href="#reporting-central-tendency-responsibly" id="toc-reporting-central-tendency-responsibly" class="nav-link" data-scroll-target="#reporting-central-tendency-responsibly"><span class="header-section-number">4.11</span> Reporting central tendency responsibly</a></li>
+  <li><a href="#worked-example-using-the-core-dataset" id="toc-worked-example-using-the-core-dataset" class="nav-link" data-scroll-target="#worked-example-using-the-core-dataset"><span class="header-section-number">4.12</span> Worked example using the Core Dataset</a>
+  <ul class="collapse">
+  <li><a href="#sprint-time" id="toc-sprint-time" class="nav-link" data-scroll-target="#sprint-time"><span class="header-section-number">4.12.1</span> Sprint time</a></li>
+  <li><a href="#sway-area-or-emg-amplitude" id="toc-sway-area-or-emg-amplitude" class="nav-link" data-scroll-target="#sway-area-or-emg-amplitude"><span class="header-section-number">4.12.2</span> Sway area or EMG amplitude</a></li>
+  <li><a href="#pain-rating-or-rpe" id="toc-pain-rating-or-rpe" class="nav-link" data-scroll-target="#pain-rating-or-rpe"><span class="header-section-number">4.12.3</span> Pain rating or RPE</a></li>
+  <li><a href="#function-score" id="toc-function-score" class="nav-link" data-scroll-target="#function-score"><span class="header-section-number">4.12.4</span> Function score</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">4.13</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">4.14</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">4.15</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-describing-data.html">Part II: Describing Data</a></li><li class="breadcrumb-item"><a href="./ch04-central-tendency.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></h1>
+<p class="subtitle lead">Mode, median, mean, and when a typical value is not typical</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 SPSS Tutorial Available
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn how to calculate measures of central tendency in SPSS! See the <strong><a href="./appendix-spss-central-tendency.html">SPSS Tutorial: Calculating Measures of Central Tendency</a></strong> in the appendix for step-by-step instructions on using the Frequencies and Descriptives procedures, interpreting output, and reporting results in APA format.</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">4.1</span> Chapter roadmap</h2>
+<p>Central tendency is about choosing a single value to represent the “typical” outcome. That sounds simple until you work with real Movement Science data, where the meaning of “typical” depends on both the measurement scale and the shape of the distribution. Some variables are skewed (EMG amplitude, sway area), so a few large values can pull the mean toward the extremes<span class="citation" data-cites="vonhippel2005 moore_ips"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. Some variables are bounded (function scores), which can create ceiling effects that make averages hard to interpret. Some variables are ordinal (e.g., pain ratings, RPE), in which equal numerical steps do not necessarily reflect equal changes in the underlying experience. Other variables reflect mixtures of subgroups (training vs.&nbsp;control, different movement strategies, or responders vs.&nbsp;non-responders), where a single overall average would describe no one in the dataset<span class="citation" data-cites="tukey_eda"><sup>[<a href="references.html#ref-tukey_eda" role="doc-biblioref">3</a>]</sup></span>. In these situations, choosing the wrong “typical value” can hide the real pattern, distort comparisons, and lead to conclusions that sound precise but are not faithful to the data. Robust and resistant summaries (for example, the median or trimmed means) are common alternatives when outliers or skew are influential<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Define and interpret the mode, median, and mean.</li>
+<li>Explain how the distribution shape affects each measure.</li>
+<li>Recognize situations where the mean is misleading.</li>
+<li>Choose a defensible measure of central tendency for Movement Science variables.</li>
+<li>Explain log transformations and the geometric mean at a conceptual level.</li>
+</ul>
+</section>
+<section id="workflow-used-throughout-part-ii" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="workflow-used-throughout-part-ii"><span class="header-section-number">4.2</span> Workflow used throughout Part II</h2>
+<p>Use this sequence whenever you summarize data:</p>
+<ol type="1">
+<li>Identify the variable type and measurement scale.</li>
+<li>Visualize the distribution (at least once).</li>
+<li>Choose a measure of center that matches the distribution and the purpose.</li>
+<li>Pair center with spread (you will formalize spread in the next chapter).</li>
+<li>Write a one-sentence justification for your choice.&nbsp;</li>
+</ol>
+</section>
+<section id="why-we-summarize" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="why-we-summarize"><span class="header-section-number">4.3</span> Why we summarize</h2>
+<p>A single number can be helpful because it reduces complexity. In Movement Science, this is often the first step before comparing groups, evaluating change over time, or building prediction models. However, a summary is only useful if it represents something meaningful.</p>
+<p>A key idea in this book is that “typical” depends on your purpose. If you are describing typical sprint performance, a mean may be appropriate when sprint times are roughly symmetric. If you are describing typical sway area or EMG amplitude, the median often better reflects the typical participant because these variables are often right-skewed.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: same study, different shapes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the Core Dataset, sprint time often behaves differently than sway area or EMG amplitude.</p>
+<ul>
+<li>Sprint times often appear more symmetric, so the mean may well describe a typical value.</li>
+<li>Sway area and EMG amplitude are often right-skewed, so the median may better describe a typical participant.</li>
+</ul>
+<p>The correct choice depends on the distribution and the question.</p>
+</div>
+</div>
+</section>
+<section id="the-mode" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="the-mode"><span class="header-section-number">4.4</span> The mode</h2>
+<p>The mode is the most <em>frequently</em> occurring value, meaning it identifies the single value or category that appears most often in the dataset<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. It is especially intuitive for categorical outcomes because it answers a simple question: which label appears most often? For numeric variables, the mode can be helpful when measurements naturally repeat (such as integer counts), but it can be unstable when values are recorded with high precision and most observations are unique.</p>
+<ul>
+<li>For nominal variables, the mode is often meaningful (the most common category).</li>
+<li>For discrete count variables, the mode can also be meaningful.</li>
+<li>For continuous variables with many unique values, the mode may be unstable or uninformative.</li>
+</ul>
+<p>In Movement Science, the mode is most useful when the variable is categorical (for example, group membership, injury status) or when the data have a small set of repeated numeric values. Some datasets are also <strong>multimodal</strong>, meaning they can have more than one mode. Multiple modes can occur when there are clear subgroups (for example, two common strategies that produce two clusters of values), when values are rounded or “heaped” (for example many observations at whole numbers), or when measurements come from mixed conditions that should have been separated.</p>
+<section id="when-the-mode-is-informative" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="when-the-mode-is-informative"><span class="header-section-number">4.4.1</span> When the mode is informative</h3>
+<ul>
+<li>The most common category in a sample (for example, the most common sport).</li>
+<li>The most common pain rating is when people use the same few integers.</li>
+<li>The most common count of balance errors.</li>
+</ul>
+</section>
+<section id="when-the-mode-is-not-informative" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="when-the-mode-is-not-informative"><span class="header-section-number">4.4.2</span> When the mode is not informative</h3>
+<p>If sprint times are recorded to the thousandth of a second, most values are unique. In that case, the “most common value” may occur only once, which does not feel like a meaningful summary.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reporting a mode for a continuous variable with many unique values can create the illusion of a “most common value” that does not exist in a practical sense.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-median" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="the-median"><span class="header-section-number">4.5</span> The median</h2>
+<p>The median is the middle value when the data are ordered. Half the observations are below it, and half are above it. Another way to say this is that the median is the 50th percentile, meaning it marks the point where 50 percent of the sample lies at or below that value and 50 percent lies at or above it<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>.</p>
+<p>A major strength of the median is robustness. Because the median depends on rank order rather than the exact magnitude of every observation, a few extreme values can shift the mean substantially but have much less influence on the median<span class="citation" data-cites="moore_ips wilcox_robust"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>. This is especially useful in Movement Science outcomes that are commonly right-skewed (for example, EMG amplitude and sway area), or that occasionally include unusual trials (for example, a slip during a sprint). In those situations, the median often describes a typical participant more faithfully than the mean, and it supports an exploratory mindset where you summarize what the data are actually doing before imposing stronger modeling assumptions<span class="citation" data-cites="tukey_eda"><sup>[<a href="references.html#ref-tukey_eda" role="doc-biblioref">3</a>]</sup></span>.</p>
+<section id="how-to-find-the-median-with-10-observations" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="how-to-find-the-median-with-10-observations"><span class="header-section-number">4.5.1</span> How to find the median with 10 observations</h3>
+<p>When the sample size is even (like 10 observations), there is no single middle value. The median is defined as the value halfway between the two central ordered observations.</p>
+<p>Use this example dataset of 10 observations (unsorted):</p>
+<p><span class="math display">\[
+12,\ 9,\ 15,\ 8,\ 10,\ 14,\ 7,\ 11,\ 13,\ 9
+\]</span></p>
+<p>First, sort the values:</p>
+<p><span class="math display">\[
+7,\ 8,\ 9,\ 9,\ 10,\ 11,\ 12,\ 13,\ 14,\ 15
+\]</span></p>
+<p>Method 1: Middle two and average (most common)</p>
+<ul>
+<li>With 10 values, the middle two are the 5th and 6th values in the sorted list.</li>
+<li>The 5th value is 10 and the 6th value is 11.</li>
+<li>Median = ((10 + 11)/2 = 10.5).</li>
+</ul>
+<p>Method 2: Position rule ((n+1)/2) (equivalent)</p>
+<ul>
+<li>Compute the median position: ((n+1)/2 = (10+1)/2 = 5.5).</li>
+<li>A position of 5.5 means the median is halfway between the 5th and 6th ordered values.</li>
+<li>So the median is the average of 10 and 11, which is 10.5.</li>
+</ul>
+</section>
+<section id="when-the-median-is-a-strong-choice" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="when-the-median-is-a-strong-choice"><span class="header-section-number">4.5.2</span> When the median is a strong choice</h3>
+<ul>
+<li>Right-skewed variables such as sway area and EMG amplitude.</li>
+<li>Ordinal scales such as pain ratings and RPE.</li>
+<li>Outcomes with occasional extreme values (for example, rare, very slow sprint times due to a slip).</li>
+</ul>
+</section>
+<section id="median-as-typical-participant" class="level3" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="median-as-typical-participant"><span class="header-section-number">4.5.3</span> Median as “typical participant”</h3>
+<p>For skewed distributions, the median often matches the value that feels typical when you look at the data. In that sense, it can be a better representation of a typical person’s outcome than the mean.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: ordinal summaries
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For pain ratings (0–10) and RPE (6–20), the median is often more interpretable than the mean because the scales are ordinal and people cluster around a few values.</p>
+<p>A common reporting pair is:</p>
+<ul>
+<li>median with an interquartile range (IQR)</li>
+</ul>
+<p>You will study IQR in the variability chapter.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-mean" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="the-mean"><span class="header-section-number">4.6</span> The mean</h2>
+<p>The mean is the arithmetic average, computed by adding all observed values and dividing by the number of observations<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. Conceptually, you can think of the mean as the “balance point” of the distribution: if each observation were a weight placed on a number line, the mean is where the distribution would balance<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. This balance-point property helps explain both why the mean is useful and why it can mislead. Because every value contributes to the sum, extreme values and long tails pull the mean toward them, sometimes producing a “typical” value that few participants actually show<span class="citation" data-cites="vonhippel2005"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>]</sup></span>. In many Movement Science variables that are approximately symmetric, the mean is an efficient and widely used summary, but when skew or outliers are influential, you should visualize and consider resistant alternatives (such as the median or trimmed means) before treating the mean as typical<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>.</p>
+<p><span class="math display">\[
+\bar{x} = \frac{\sum x}{n}
+\]</span></p>
+<p>The mean is widely used because it has useful mathematical properties that make later methods work smoothly. Many inferential procedures are built around means and mean differences because the mean naturally connects with ideas such as sampling distributions, standard errors, confidence intervals, and hypothesis tests in common models<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. At the same time, the mean uses every value in the dataset, so it is sensitive to extreme observations and to long tails. This sensitivity is not a flaw when the distribution is roughly symmetric, but it becomes a practical problem when a small number of unusually large or small values pull the mean away from where most observations lie<span class="citation" data-cites="vonhippel2005"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>]</sup></span>. For that reason, the mean should be treated as a default only after you have inspected the distribution and judged whether outliers or skew are influential, and you should be ready to report resistant summaries (such as the median) when they better represent a typical participant<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>.</p>
+<section id="how-to-find-the-mean-with-10-observations" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="how-to-find-the-mean-with-10-observations"><span class="header-section-number">4.6.1</span> How to find the mean with 10 observations</h3>
+<p>Use this example dataset of 10 observations (unsorted):</p>
+<p><span class="math display">\[
+12,\ 9,\ 15,\ 8,\ 10,\ 14,\ 7,\ 11,\ 13,\ 9
+\]</span></p>
+<p>Step 1: Add the values</p>
+<p><span class="math display">\[
+12 + 9 + 15 + 8 + 10 + 14 + 7 + 11 + 13 + 9 = 108
+\]</span></p>
+<p>Step 2: Divide by the number of observations</p>
+<ul>
+<li>Here, (n = 10)</li>
+</ul>
+<p><span class="math display">\[
+\bar{x} = \frac{108}{10} = 10.8
+\]</span></p>
+<p>Interpretation</p>
+<ul>
+<li>The mean is 10.8, which does not need to be a value in the dataset.</li>
+<li>If this variable were sprint time (seconds), a mean of 10.8 seconds could represent typical performance when the distribution is roughly symmetric.</li>
+</ul>
+<p>A quick sensitivity check (why the mean can shift)</p>
+<p>If a single observation is unusually large, the mean can move noticeably. For example, if the value 15 were replaced by 25 (an extreme performance or a recording error), the new sum would be 118 and the new mean would be:</p>
+<p><span class="math display">\[
+\bar{x}_{new} = \frac{118}{10} = 11.8
+\]</span></p>
+<p>That is a full 1.0 unit increase from changing only one of the ten values. This illustrates why the mean should be paired with a visualization and why resistant summaries (such as the median) can be more stable when outliers are influential<span class="citation" data-cites="moore_ips vonhippel2005"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+<section id="when-the-mean-is-appropriate" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="when-the-mean-is-appropriate"><span class="header-section-number">4.6.2</span> When the mean is appropriate</h3>
+<ul>
+<li>Quantitative variables that are roughly symmetric and unimodal.</li>
+<li>Situations where extreme values are rare and not overly influential.</li>
+<li>When you need compatibility with methods built around means (for example, certain ANOVA models), as long as the assumptions are reasonable.</li>
+</ul>
+</section>
+<section id="mean-and-sample-size" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="mean-and-sample-size"><span class="header-section-number">4.6.3</span> Mean and sample size</h3>
+<p>With small samples, the mean can bounce around from sample to sample because a single unusual value has a large influence. This does not mean you should never report a mean, but it does mean you should visualize and report uncertainty.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reporting the mean for a heavily skewed variable without showing a distribution plot can make results look cleaner and more stable than they really are.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="how-distribution-shape-affects-mean-median-and-mode" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="how-distribution-shape-affects-mean-median-and-mode"><span class="header-section-number">4.7</span> How distribution shape affects mean, median, and mode</h2>
+<p>When a distribution is roughly symmetric and unimodal, the mean, median, and mode tend to be similar. When the distribution is skewed, the tail pulls the mean toward the tail.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 29%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distribution shape</th>
+<th>Typical ordering</th>
+<th>Why it happens</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Symmetric, unimodal</td>
+<td>mean ≈ median ≈ mode</td>
+<td>no long tail pulling the mean</td>
+</tr>
+<tr class="even">
+<td>Right-skewed</td>
+<td>mean &gt; median &gt; mode</td>
+<td>high tail pulls mean upward</td>
+</tr>
+<tr class="odd">
+<td>Left-skewed</td>
+<td>mean &lt; median &lt; mode</td>
+<td>low tail pulls mean downward</td>
+</tr>
+</tbody>
+</table>
+<p>This ordering is a quick diagnostic, not proof. You should still visualize the distribution.</p>
+</section>
+<section id="when-the-mean-lies-to-you" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="when-the-mean-lies-to-you"><span class="header-section-number">4.8</span> When the mean lies to you</h2>
+<p>The mean “lies” when it suggests a typical value that does not represent most observations. The number is still mathematically correct, but the story it tells can be misleading if you treat it as the typical participant. This is why experienced analysts routinely pair means with distribution plots and why resistant summaries (like the median) are often preferred when skew or outliers are influential<span class="citation" data-cites="moore_ips wilcox_robust"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>.</p>
+<p>A helpful way to think about it is this: the mean answers “what is the balance point of the data?” not necessarily “what value do most people have?”<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. Those can be the same in a roughly symmetric distribution, but they can diverge sharply in the situations below.</p>
+<section id="outliers" class="level3" data-number="4.8.1">
+<h3 data-number="4.8.1" class="anchored" data-anchor-id="outliers"><span class="header-section-number">4.8.1</span> Outliers</h3>
+<p>One extreme value can shift the mean noticeably, especially with small samples, because that single value contributes directly to the total sum. In performance testing, an unusual value might reflect a true event (slip, missed start, distraction), a protocol issue (inconsistent warm-up), or a recording problem (timing gate error). Either way, the mean may no longer represent typical performance.</p>
+<p>What to do in practice:</p>
+<ul>
+<li>First, verify whether the outlier is plausible (check notes, units, and the validity of the trial).</li>
+<li>Second, visualize the distribution with the outlier present.</li>
+<li>Third, report a resistant summary (e.g., median) alongside the mean, or justify using a trimmed mean if your goal is still a mean-like summary<span class="citation" data-cites="wilcox_robust"><sup>[<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>.</li>
+</ul>
+</section>
+<section id="skewed-distributions" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="skewed-distributions"><span class="header-section-number">4.8.2</span> Skewed distributions</h3>
+<p>For strongly skewed variables, the mean can exceed what most participants show. In right-skewed variables like sway area and EMG amplitude, a small number of high values can pull the mean upward, producing a “typical” value that sits above the bulk of the data<span class="citation" data-cites="vonhippel2005 moore_ips"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>.</p>
+<p>A quick check is to compare the mean and the median. If the mean is notably higher than the median and the histogram shows a long right tail, the mean is probably describing the tail as much as it is describing typical values<span class="citation" data-cites="vonhippel2005"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>]</sup></span>. In that case, the median (or geometric mean after a log transform) often communicates “typical” more faithfully.</p>
+</section>
+<section id="bounded-scales-and-ceiling-effects" class="level3" data-number="4.8.3">
+<h3 data-number="4.8.3" class="anchored" data-anchor-id="bounded-scales-and-ceiling-effects"><span class="header-section-number">4.8.3</span> Bounded scales and ceiling effects</h3>
+<p>Bounded scales, such as function scores (0–100), can produce ceiling effects. If many participants score near 100, the distribution piles up at the top, and the mean becomes hard to interpret as typical. Two different situations can produce the same mean:</p>
+<ul>
+<li>many participants clustered near 100, with a few lower values</li>
+<li>a wide spread of values across the full range</li>
+</ul>
+<p>A plot is the only fast way to see which situation you have. Also note that ceiling effects can make change look smaller than it is because participants have limited room to improve. In those cases, medians and distribution plots often communicate more than means alone.</p>
+</section>
+<section id="mixtures-of-subgroups" class="level3" data-number="4.8.4">
+<h3 data-number="4.8.4" class="anchored" data-anchor-id="mixtures-of-subgroups"><span class="header-section-number">4.8.4</span> Mixtures of subgroups</h3>
+<p>If your data come from two different subgroups, the overall mean can fall between them and describe nobody. This happens when you combine groups that differ (e.g., training vs.&nbsp;control), or when the sample contains two distinct performance strategies that produce two clusters.</p>
+<p>A simple numeric illustration:</p>
+<ul>
+<li>Group A mean sprint time = 3.20 s</li>
+<li>Group B mean sprint time = 3.80 s</li>
+<li>Combined mean = 3.50 s</li>
+</ul>
+<p>A combined mean of 3.50 s may be a value that few, if any, participants actually demonstrate. In this setting, the meaningful summaries are usually group-specific (means or medians within each group) plus a visualization that shows separation or overlap between subgroups<span class="citation" data-cites="tukey_eda"><sup>[<a href="references.html#ref-tukey_eda" role="doc-biblioref">3</a>]</sup></span>.</p>
+</section>
+<section id="averaging-across-time-points" class="level3" data-number="4.8.5">
+<h3 data-number="4.8.5" class="anchored" data-anchor-id="averaging-across-time-points"><span class="header-section-number">4.8.5</span> Averaging across time points</h3>
+<p>Averaging pre, mid, and post values into one mean can hide the very phenomenon you are studying. If the scientific question is adaptation over time, collapsing across time points turns a trajectory into a single number. Two participants could have the same overall mean but very different patterns (steady improvement vs.&nbsp;improvement followed by regression). For repeated-measures designs, it is usually more informative to summarize by time point and show change with paired or trajectory plots.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: the grand mean problem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine training participants improve sprint time from pre to post, while control participants stay the same. If you average all time points and both groups together, you create a mean that does not describe any specific group at any specific time. The mean is numerically correct but scientifically unhelpful. A more interpretable approach is to report group-specific summaries at each time point and visualize change over time before moving to inferential comparisons<span class="citation" data-cites="moore_ips tukey_eda"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>,<a href="references.html#ref-tukey_eda" role="doc-biblioref">3</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="optional-tools-trimmed-means-and-winsorized-means" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="optional-tools-trimmed-means-and-winsorized-means"><span class="header-section-number">4.9</span> Optional tools: trimmed means and winsorized means</h2>
+<p>Sometimes the mean is useful, but a few extreme values are overly influential. Two related ideas can reduce the influence of outliers.</p>
+<ul>
+<li>A trimmed mean removes a small percentage of the lowest and highest values, then averages the remaining values.</li>
+<li>A winsorized mean replaces extreme values with less extreme boundary values, then averages them.</li>
+</ul>
+<p>These approaches can help when outliers are mild, and you want a mean-like summary. They do not solve strong skew or mixtures of subgroups. In those cases, changing the summary measure or transforming the variable is usually more defensible.</p>
+</section>
+<section id="log-transformations-and-the-geometric-mean" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="log-transformations-and-the-geometric-mean"><span class="header-section-number">4.10</span> Log transformations and the geometric mean</h2>
+<p>Some variables are better described on a multiplicative scale than an additive one. EMG amplitude and sway area are common examples because values are strictly positive and often show right-skew with occasional very large observations. In these settings, equal <em>ratios</em> can be more meaningful than equal <em>differences</em>. For instance, an increase from 20 to 40 units (a doubling) is often more comparable to an increase from 50 to 100 units (also a doubling) than it is to an increase of “+20 units” in every case. When the scientific story is about proportional change, measurement error is proportional to the size of the value, or the distribution looks approximately log-normal, a logarithmic transformation can reduce skew, stabilize variability, and make mean-based summaries and models behave more reasonably<span class="citation" data-cites="blandaltman1996_transformations limpert2001"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>,<a href="references.html#ref-limpert2001" role="doc-biblioref">6</a>]</sup></span>.</p>
+<p>A quick Movement Science example: suppose sway area values include 8, 9, 10, 11, 40 cm². The arithmetic mean is pulled upward by the 40. On the log scale, the gap between 11 and 40 is compressed, so the “typical” value on the transformed scale is less dominated by the tail. Back-transforming the mean on the log scale yields a geometric mean, which often tracks what you would call a typical participant in this kind of right-skewed data<span class="citation" data-cites="limpert2001"><sup>[<a href="references.html#ref-limpert2001" role="doc-biblioref">6</a>]</sup></span>.</p>
+<section id="what-a-log-transform-does-conceptually" class="level3" data-number="4.10.1">
+<h3 data-number="4.10.1" class="anchored" data-anchor-id="what-a-log-transform-does-conceptually"><span class="header-section-number">4.10.1</span> What a log transform does conceptually</h3>
+<p>A log transform compresses large values more than small values. That compression reduces the influence of a long right tail and can make the distribution easier to summarize with mean-based methods<span class="citation" data-cites="blandaltman1996_transformations"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>]</sup></span>.</p>
+<p>Two practical consequences matter most in Movement Science:</p>
+<ul>
+<li>Values that differ by the same <em>ratio</em> are equally spaced on the log scale. A doubling (for example, 20 → 40) and another doubling (50 → 100) represent the same log change.</li>
+<li>Differences on the log scale correspond to <em>multiplicative</em> differences on the raw scale. This makes it natural to describe changes as percent-like or ratio-like effects rather than as constant additive shifts<span class="citation" data-cites="blandaltman1996_transformations"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>]</sup></span>.</li>
+</ul>
+<p>A brief numeric example (showing compression):</p>
+<ul>
+<li>Raw EMG RMS (µV): 20, 30, 120</li>
+<li>Differences on the raw scale: 30 − 20 = 10, but 120 − 30 = 90</li>
+</ul>
+<p>On a log scale, the second jump is not nine times “bigger” than the first; it is brought closer, which often better matches how variability behaves in these measures.</p>
+<p>Important detail: the choice of log base (log10 vs natural log) changes the scale but not the substantive conclusions. Base choice mainly affects the numeric values you see, not the pattern you interpret.</p>
+<p>A useful interpretation shift is:</p>
+<ul>
+<li>differences on the raw scale become ratios on the log scale</li>
+<li>changes can be described in percent-like terms</li>
+</ul>
+</section>
+<section id="the-geometric-mean" class="level3" data-number="4.10.2">
+<h3 data-number="4.10.2" class="anchored" data-anchor-id="the-geometric-mean"><span class="header-section-number">4.10.2</span> The geometric mean</h3>
+<p>The geometric mean is closely linked to the log transform. One way to define it is:</p>
+<ul>
+<li>Take the log of each value</li>
+<li>Compute the mean on the log scale</li>
+<li>Transform back to the original scale</li>
+</ul>
+<p>Mathematically, for positive values (x_1,,x_n), the geometric mean is:</p>
+<p><span class="math display">\[
+\text{GM} = \left(\prod_{i=1}^{n} x_i\right)^{1/n} = \exp\left(\frac{1}{n}\sum_{i=1}^{n} \ln(x_i)\right)
+\]</span></p>
+<p>The result is the geometric mean. It often represents a more meaningful typical value for right-skewed, approximately log-normal data because it reflects a “central” ratio rather than a “central” difference<span class="citation" data-cites="limpert2001 blandaltman1996_transformations"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>,<a href="references.html#ref-limpert2001" role="doc-biblioref">6</a>]</sup></span>.</p>
+<p>A short example:</p>
+<ul>
+<li>Values: 10, 20, 40</li>
+<li>Arithmetic mean: ((10+20+40)/3 = 23.3)</li>
+<li>Geometric mean: ((10)^{1/3} = (8000)^{1/3} = 20)</li>
+</ul>
+<p>Here, 20 is often closer to what you would call a typical value because the data reflect multiplicative spacing (each step is a doubling). In Movement Science, this logic frequently fits variables such as EMG amplitude, sway area, concentrations, and other positive measures where variability tends to scale with magnitude<span class="citation" data-cites="limpert2001"><sup>[<a href="references.html#ref-limpert2001" role="doc-biblioref">6</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You cannot take the log of zero or negative values. If a variable can be zero (for example, an error count, a symptom count, or a variable that can legitimately be “none”), you need a plan before using logs<span class="citation" data-cites="blandaltman1996_transformations"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>]</sup></span>.</p>
+<p>Examples of reasonable plans:</p>
+<ul>
+<li>Use a different summary that does not require transformation (for example, report the median and IQR for a right-skewed count).</li>
+<li>Use a model designed for counts rather than forcing a normal-based approach.</li>
+<li>If you add a small constant (for example <span class="math inline">\((\log(x+1))\)</span>), state exactly what you added and why, and check whether conclusions are sensitive to that choice.</li>
+</ul>
+<p>Avoid treating a constant-addition trick as automatic. If the dataset contains many zeros, the scientific meaning of “multiplicative change” may not match the structure of the outcome, and a count-focused approach is often more defensible.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="reporting-central-tendency-responsibly" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="reporting-central-tendency-responsibly"><span class="header-section-number">4.11</span> Reporting central tendency responsibly</h2>
+<p>A strong summary communicates both the typical value and enough context to interpret it.</p>
+<p>Practical reporting patterns:</p>
+<ul>
+<li>Categorical variables: counts and percentages</li>
+<li>Roughly symmetric quantitative variables: mean with a variability measure</li>
+<li>Skewed quantitative variables: median with a variability measure</li>
+<li>Log-normal style variables: geometric mean (and a variability measure appropriate for that context)</li>
+</ul>
+<p>Always include units and specify the group and time point when relevant.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Central tendency decision checklist
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before you report a center measure, confirm:</p>
+<ul>
+<li>The variable type and scale make the summary meaningful.</li>
+<li>You have visualized the distribution at least once.</li>
+<li>The chosen center represents a typical value for most participants.</li>
+<li>You did not average across groups or time points in a way that hides the question.</li>
+<li>You paired the center with the spread and included units.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="worked-example-using-the-core-dataset" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="worked-example-using-the-core-dataset"><span class="header-section-number">4.12</span> Worked example using the Core Dataset</h2>
+<p>This worked example emphasizes decision-making rather than computation. The key skill is choosing a summary that matches the variable.</p>
+<section id="sprint-time" class="level3" data-number="4.12.1">
+<h3 data-number="4.12.1" class="anchored" data-anchor-id="sprint-time"><span class="header-section-number">4.12.1</span> Sprint time</h3>
+<p>Sprint time is typically summarized with a mean when the distribution is roughly symmetric. If a few extreme times occur (for example, a slip), the median may be a better representation of typical performance, or you may justify excluding invalid trials with documentation.</p>
+<p>One-sentence justification example: The sprint time distribution is roughly symmetric at pre, so the mean summarizes typical performance, and we will pair it with a variability measure.</p>
+</section>
+<section id="sway-area-or-emg-amplitude" class="level3" data-number="4.12.2">
+<h3 data-number="4.12.2" class="anchored" data-anchor-id="sway-area-or-emg-amplitude"><span class="header-section-number">4.12.2</span> Sway area or EMG amplitude</h3>
+<p>Sway area and EMG amplitude are often right-skewed. A median often better represents the typical participant. If you plan to use mean-based modeling, a log transform and geometric mean may be appropriate.</p>
+<p>One-sentence justification example: Sway area is right-skewed, so the median summarizes typical values more faithfully than the mean.</p>
+</section>
+<section id="pain-rating-or-rpe" class="level3" data-number="4.12.3">
+<h3 data-number="4.12.3" class="anchored" data-anchor-id="pain-rating-or-rpe"><span class="header-section-number">4.12.3</span> Pain rating or RPE</h3>
+<p>Pain ratings and RPE are ordinal scales. The median is usually more interpretable than the mean because the difference between adjacent numbers may not represent equal perceived differences.</p>
+<p>One-sentence justification example: Pain rating is ordinal and clustered, so the median is the most defensible measure of center.</p>
+</section>
+<section id="function-score" class="level3" data-number="4.12.4">
+<h3 data-number="4.12.4" class="anchored" data-anchor-id="function-score"><span class="header-section-number">4.12.4</span> Function score</h3>
+<p>Function scores are bounded and can have ceiling effects. If many participants score near the maximum, the mean may hide the ceiling. The median can be useful, and visualization is essential.</p>
+<p>One-sentence justification example: Function scores show a ceiling cluster, so the median better represents typical performance and highlights the boundary effect.</p>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">4.13</span> Chapter summary</h2>
+<p>Central tendency describes a “typical” value, but what counts as typical depends on the variable’s measurement scale, the distribution’s shape, and the scientific purpose<span class="citation" data-cites="moore_ips tukey_eda"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>,<a href="references.html#ref-tukey_eda" role="doc-biblioref">3</a>]</sup></span>. The mode is most useful for categorical variables and can be informative when data are multimodal, which may signal subgroups, rounding, or mixed conditions. The median is the 50th percentile and is resistant to extreme values because it depends on rank order rather than the magnitude of every observation, making it especially defensible for skewed variables and ordinal scales such as pain ratings and RPE<span class="citation" data-cites="moore_ips wilcox_robust"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>,<a href="references.html#ref-wilcox_robust" role="doc-biblioref">4</a>]</sup></span>. The mean is the balance point of the distribution and underlies many inferential methods, but it can be pulled by outliers, long tails, subgroup mixtures, or inappropriate collapsing across groups or time points, so it should be treated as a default only after you have inspected the data<span class="citation" data-cites="vonhippel2005 moore_ips"><sup>[<a href="references.html#ref-vonhippel2005" role="doc-biblioref">1</a>,<a href="references.html#ref-moore_ips" role="doc-biblioref">2</a>]</sup></span>. When the mean is misleading, you can report resistant alternatives (median, trimmed or winsorized means) or change the scale of analysis. For strictly positive, right-skewed outcomes where proportional differences are meaningful, log transformations can reduce skew and stabilize variability, and the geometric mean often provides a more representative typical value on the original scale<span class="citation" data-cites="blandaltman1996_transformations limpert2001"><sup>[<a href="references.html#ref-blandaltman1996_transformations" role="doc-biblioref">5</a>,<a href="references.html#ref-limpert2001" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="key-terms" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">4.14</span> Key terms</h2>
+<p>central tendency; mode; median; mean; skew; outlier; ceiling effect; grand mean; trimmed mean; winsorized mean; log transformation; geometric mean; log-normal</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">4.15</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>A dataset of sway area values is strongly right-skewed. Which measure of
+center is most defensible and why?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>The median is usually the most defensible first choice because it is resistant to the influence of a small number of very large sway-area values. In a right-skewed distribution, the mean is pulled upward toward the tail and can end up higher than what most participants show. If you need a mean-like summary for modeling, a log transform and geometric mean can also be appropriate for strictly positive, approximately log-normal sway measures.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>You have sprint times for 12 participants, and one participant slipped
+badly, producing an extreme time. Explain how this affects the mean and
+the median.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>The mean increases because the extreme time directly increases the sum of all sprint times, and with only 12 participants that single value can have a noticeable impact. The median changes little (or not at all) because it depends on rank order rather than the magnitude of the extreme value. In practice, you would first verify whether the slipped trial should be treated as invalid (based on protocol rules and notes) and then summarize with both a visualization and a resistant center measure if needed.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>A function score is bounded between 0 and 100, and many participants
+score near 100. Why might the mean be misleading?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>A ceiling effect can cause the mean to hide the distribution’s pile-up near the upper bound. Two datasets can share the same mean even if one is tightly clustered at 95–100 and another is widely spread. Ceiling effects also limit observable improvement, so mean changes can look small even when participants are meaningfully different at baseline. A distribution plot and summaries like the median and IQR often communicate this structure more clearly.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>You summarize a study by reporting a single overall mean that combines
+the training and control groups and all time points. Explain what
+information you may have hidden.</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>You may have hidden group differences, time trends, and group-by-time differences. Collapsing across groups can create a grand mean that describes neither group, and collapsing across time can erase adaptation patterns. Two participants or two groups can have the same overall mean while showing very different trajectories (improve then plateau, improve then regress, no change). A more informative approach is to summarize by group and time point and visualize change before inferential comparisons.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>Why can a geometric mean be more interpretable than an arithmetic mean
+for variables like EMG amplitude?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>EMG amplitude is strictly positive and often right-skewed, with variability that scales with magnitude. In that setting, proportional changes (ratios) are often more meaningful than additive changes. The geometric mean reflects a central tendency on a multiplicative scale, so it is less dominated by extreme high values and can better represent a typical participant when the data are approximately log-normal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Look for short introductions to robust statistics and log-normal data in applied physiology or biomechanics methods texts. The key goal is not advanced math. The goal is to choose summaries that reflect the data’s structure and the scientific question.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The next chapter focuses on variability, including range, variance, standard deviation, and the interquartile range. You will learn why a measure of center without a measure of spread is incomplete.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-vonhippel2005" class="csl-entry" role="listitem">
+1. Hippel, P. T. von. (2005). Mean, median, and skew: Correcting a textbook rule. <em>Journal of Statistics Education</em>, <em>13</em>(2). <a href="https://doi.org/10.1080/10691898.2005.11910570">https://doi.org/10.1080/10691898.2005.11910570</a>
+</div>
+<div id="ref-moore_ips" class="csl-entry" role="listitem">
+2. Moore, D. S., McCabe, G. P., &amp; Craig, B. A. (2021). <em>Introduction to the practice of statistics</em> (10th ed.). W. H. Freeman; Company.
+</div>
+<div id="ref-tukey_eda" class="csl-entry" role="listitem">
+3. Tukey, J. W. (1977). <em>Exploratory data analysis</em>. Addison-Wesley.
+</div>
+<div id="ref-wilcox_robust" class="csl-entry" role="listitem">
+4. Wilcox, R. R. (2017). <em>Introduction to robust estimation and hypothesis testing</em> (4th ed.). Academic Press.
+</div>
+<div id="ref-blandaltman1996_transformations" class="csl-entry" role="listitem">
+5. Bland, J. M., &amp; Altman, D. G. (1996). Transformations, means, and confidence intervals. <em>BMJ</em>, <em>312</em>(7038), 1079. <a href="https://doi.org/10.1136/bmj.312.7038.1079">https://doi.org/10.1136/bmj.312.7038.1079</a>
+</div>
+<div id="ref-limpert2001" class="csl-entry" role="listitem">
+6. Limpert, E., Stahel, W. A., &amp; Abbt, M. (2001). Log-normal distributions across the sciences: Keys and clues. <em>BioScience</em>, <em>51</em>(5), 341–352. <a href="https://doi.org/10.1641/0006-3568(2001)051[0341:LNDATS]2.0.CO;2">https://doi.org/10.1641/0006-3568(2001)051[0341:LNDATS]2.0.CO;2</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch03-data-visualization.html" class="pagination-link" aria-label="Displaying and Visualizing Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch05-variability.html" class="pagination-link" aria-label="Measures of Variability">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

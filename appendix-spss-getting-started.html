@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix I — Getting Started with SPSS – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appendix-spss-data-visualization.html" rel="next">
+<link href="./appendix-apa-reporting.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#purpose-outcomes" id="toc-purpose-outcomes" class="nav-link active" data-scroll-target="#purpose-outcomes"><span class="header-section-number">I.1</span> Purpose &amp; Outcomes</a></li>
+  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters"><span class="header-section-number">I.2</span> Why This Matters</a>
+  <ul class="collapse">
+  <li><a href="#platforms" id="toc-platforms" class="nav-link" data-scroll-target="#platforms"><span class="header-section-number">I.2.1</span> Platforms</a></li>
+  <li><a href="#updates-folders" id="toc-updates-folders" class="nav-link" data-scroll-target="#updates-folders"><span class="header-section-number">I.2.2</span> Updates &amp; Folders</a></li>
+  </ul></li>
+  <li><a href="#project-organization" id="toc-project-organization" class="nav-link" data-scroll-target="#project-organization"><span class="header-section-number">I.3</span> Project Organization</a></li>
+  <li><a href="#spss-interface-tour" id="toc-spss-interface-tour" class="nav-link" data-scroll-target="#spss-interface-tour"><span class="header-section-number">I.4</span> SPSS Interface Tour</a>
+  <ul class="collapse">
+  <li><a href="#chart-builder" id="toc-chart-builder" class="nav-link" data-scroll-target="#chart-builder"><span class="header-section-number">I.4.1</span> Chart Builder</a></li>
+  </ul></li>
+  <li><a href="#datasets-file-types" id="toc-datasets-file-types" class="nav-link" data-scroll-target="#datasets-file-types"><span class="header-section-number">I.5</span> Datasets &amp; File Types</a></li>
+  <li><a href="#data-entry-variable-view" id="toc-data-entry-variable-view" class="nav-link" data-scroll-target="#data-entry-variable-view"><span class="header-section-number">I.6</span> Data Entry &amp; Variable View</a></li>
+  <li><a href="#opening-vs.-importing-data" id="toc-opening-vs.-importing-data" class="nav-link" data-scroll-target="#opening-vs.-importing-data"><span class="header-section-number">I.7</span> Opening vs.&nbsp;Importing Data</a>
+  <ul class="collapse">
+  <li><a href="#opening-data-files" id="toc-opening-data-files" class="nav-link" data-scroll-target="#opening-data-files"><span class="header-section-number">I.7.1</span> Opening Data Files</a></li>
+  <li><a href="#importing-data-files" id="toc-importing-data-files" class="nav-link" data-scroll-target="#importing-data-files"><span class="header-section-number">I.7.2</span> Importing Data Files</a></li>
+  </ul></li>
+  <li><a href="#working-with-csv-files" id="toc-working-with-csv-files" class="nav-link" data-scroll-target="#working-with-csv-files"><span class="header-section-number">I.8</span> Working with CSV Files</a>
+  <ul class="collapse">
+  <li><a href="#csv-import-steps" id="toc-csv-import-steps" class="nav-link" data-scroll-target="#csv-import-steps"><span class="header-section-number">I.8.1</span> CSV Import Steps</a></li>
+  </ul></li>
+  <li><a href="#working-with-excel-files" id="toc-working-with-excel-files" class="nav-link" data-scroll-target="#working-with-excel-files"><span class="header-section-number">I.9</span> Working with Excel Files</a>
+  <ul class="collapse">
+  <li><a href="#excel-import" id="toc-excel-import" class="nav-link" data-scroll-target="#excel-import"><span class="header-section-number">I.9.1</span> Excel Import</a></li>
+  <li><a href="#define-variable-properties" id="toc-define-variable-properties" class="nav-link" data-scroll-target="#define-variable-properties"><span class="header-section-number">I.9.2</span> Define Variable Properties</a></li>
+  </ul></li>
+  <li><a href="#sample-datasets" id="toc-sample-datasets" class="nav-link" data-scroll-target="#sample-datasets"><span class="header-section-number">I.10</span> Sample Datasets</a></li>
+  <li><a href="#saving-exporting" id="toc-saving-exporting" class="nav-link" data-scroll-target="#saving-exporting"><span class="header-section-number">I.11</span> Saving &amp; Exporting</a>
+  <ul class="collapse">
+  <li><a href="#save-dataset" id="toc-save-dataset" class="nav-link" data-scroll-target="#save-dataset"><span class="header-section-number">I.11.1</span> Save Dataset</a></li>
+  <li><a href="#export-output" id="toc-export-output" class="nav-link" data-scroll-target="#export-output"><span class="header-section-number">I.11.2</span> Export Output</a></li>
+  <li><a href="#apa-basics" id="toc-apa-basics" class="nav-link" data-scroll-target="#apa-basics"><span class="header-section-number">I.11.3</span> APA Basics</a></li>
+  </ul></li>
+  <li><a href="#chart-builder-primer" id="toc-chart-builder-primer" class="nav-link" data-scroll-target="#chart-builder-primer"><span class="header-section-number">I.12</span> Chart Builder Primer</a>
+  <ul class="collapse">
+  <li><a href="#common-chart-types" id="toc-common-chart-types" class="nav-link" data-scroll-target="#common-chart-types"><span class="header-section-number">I.12.1</span> Common Chart Types</a></li>
+  <li><a href="#steps" id="toc-steps" class="nav-link" data-scroll-target="#steps"><span class="header-section-number">I.12.2</span> Steps</a></li>
+  </ul></li>
+  <li><a href="#basic-transformations" id="toc-basic-transformations" class="nav-link" data-scroll-target="#basic-transformations"><span class="header-section-number">I.13</span> Basic Transformations</a>
+  <ul class="collapse">
+  <li><a href="#compute-variable" id="toc-compute-variable" class="nav-link" data-scroll-target="#compute-variable"><span class="header-section-number">I.13.1</span> Compute Variable</a></li>
+  <li><a href="#recode-into-different-variables" id="toc-recode-into-different-variables" class="nav-link" data-scroll-target="#recode-into-different-variables"><span class="header-section-number">I.13.2</span> Recode Into Different Variables</a></li>
+  <li><a href="#reverse-scoring" id="toc-reverse-scoring" class="nav-link" data-scroll-target="#reverse-scoring"><span class="header-section-number">I.13.3</span> Reverse-Scoring</a></li>
+  </ul></li>
+  <li><a href="#syntax-basics" id="toc-syntax-basics" class="nav-link" data-scroll-target="#syntax-basics"><span class="header-section-number">I.14</span> Syntax Basics</a>
+  <ul class="collapse">
+  <li><a href="#why-use-syntax" id="toc-why-use-syntax" class="nav-link" data-scroll-target="#why-use-syntax"><span class="header-section-number">I.14.1</span> Why Use Syntax?</a></li>
+  <li><a href="#creating-syntax" id="toc-creating-syntax" class="nav-link" data-scroll-target="#creating-syntax"><span class="header-section-number">I.14.2</span> Creating Syntax</a></li>
+  <li><a href="#running-syntax" id="toc-running-syntax" class="nav-link" data-scroll-target="#running-syntax"><span class="header-section-number">I.14.3</span> Running Syntax</a></li>
+  <li><a href="#annotation" id="toc-annotation" class="nav-link" data-scroll-target="#annotation"><span class="header-section-number">I.14.4</span> Annotation</a></li>
+  </ul></li>
+  <li><a href="#data-integrity-checks" id="toc-data-integrity-checks" class="nav-link" data-scroll-target="#data-integrity-checks"><span class="header-section-number">I.15</span> Data Integrity Checks</a>
+  <ul class="collapse">
+  <li><a href="#check-ranges" id="toc-check-ranges" class="nav-link" data-scroll-target="#check-ranges"><span class="header-section-number">I.15.1</span> Check Ranges</a></li>
+  <li><a href="#missing-data-patterns" id="toc-missing-data-patterns" class="nav-link" data-scroll-target="#missing-data-patterns"><span class="header-section-number">I.15.2</span> Missing Data Patterns</a></li>
+  <li><a href="#identify-duplicates" id="toc-identify-duplicates" class="nav-link" data-scroll-target="#identify-duplicates"><span class="header-section-number">I.15.3</span> Identify Duplicates</a></li>
+  <li><a href="#sort-and-select-cases" id="toc-sort-and-select-cases" class="nav-link" data-scroll-target="#sort-and-select-cases"><span class="header-section-number">I.15.4</span> Sort and Select Cases</a></li>
+  </ul></li>
+  <li><a href="#preferences-defaults" id="toc-preferences-defaults" class="nav-link" data-scroll-target="#preferences-defaults"><span class="header-section-number">I.16</span> Preferences &amp; Defaults</a>
+  <ul class="collapse">
+  <li><a href="#display-options" id="toc-display-options" class="nav-link" data-scroll-target="#display-options"><span class="header-section-number">I.16.1</span> Display Options</a></li>
+  <li><a href="#file-paths" id="toc-file-paths" class="nav-link" data-scroll-target="#file-paths"><span class="header-section-number">I.16.2</span> File Paths</a></li>
+  <li><a href="#output-style" id="toc-output-style" class="nav-link" data-scroll-target="#output-style"><span class="header-section-number">I.16.3</span> Output Style</a></li>
+  </ul></li>
+  <li><a href="#quick-practice-tasks" id="toc-quick-practice-tasks" class="nav-link" data-scroll-target="#quick-practice-tasks"><span class="header-section-number">I.17</span> Quick Practice Tasks</a></li>
+  <li><a href="#common-pitfalls" id="toc-common-pitfalls" class="nav-link" data-scroll-target="#common-pitfalls"><span class="header-section-number">I.18</span> Common Pitfalls</a></li>
+  <li><a href="#readiness-checklist" id="toc-readiness-checklist" class="nav-link" data-scroll-target="#readiness-checklist"><span class="header-section-number">I.19</span> Readiness Checklist</a></li>
+  <li><a href="#sec-using-apporto" id="toc-sec-using-apporto" class="nav-link" data-scroll-target="#sec-using-apporto"><span class="header-section-number">I.20</span> Using SPSS 31 in Apporto</a>
+  <ul class="collapse">
+  <li><a href="#what-is-apporto" id="toc-what-is-apporto" class="nav-link" data-scroll-target="#what-is-apporto"><span class="header-section-number">I.20.1</span> What is Apporto?</a></li>
+  <li><a href="#accessing-apporto" id="toc-accessing-apporto" class="nav-link" data-scroll-target="#accessing-apporto"><span class="header-section-number">I.20.2</span> Accessing Apporto</a></li>
+  <li><a href="#launching-spss-31" id="toc-launching-spss-31" class="nav-link" data-scroll-target="#launching-spss-31"><span class="header-section-number">I.20.3</span> Launching SPSS 31</a></li>
+  <li><a href="#working-with-files" id="toc-working-with-files" class="nav-link" data-scroll-target="#working-with-files"><span class="header-section-number">I.20.4</span> Working with Files</a></li>
+  <li><a href="#saving-your-work" id="toc-saving-your-work" class="nav-link" data-scroll-target="#saving-your-work"><span class="header-section-number">I.20.5</span> Saving Your Work</a></li>
+  <li><a href="#downloading-and-uploading-files" id="toc-downloading-and-uploading-files" class="nav-link" data-scroll-target="#downloading-and-uploading-files"><span class="header-section-number">I.20.6</span> Downloading and Uploading Files</a></li>
+  <li><a href="#best-practices" id="toc-best-practices" class="nav-link" data-scroll-target="#best-practices"><span class="header-section-number">I.20.7</span> Best Practices</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting"><span class="header-section-number">I.20.8</span> Troubleshooting</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">I.20.9</span> Additional Resources</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix I — Getting Started with SPSS</h1>
+<p class="subtitle lead">Installation, Interface, and Basic Workflows</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="purpose-outcomes" class="level2" data-number="I.1">
+<h2 data-number="I.1" class="anchored" data-anchor-id="purpose-outcomes"><span class="header-section-number">I.1</span> Purpose &amp; Outcomes</h2>
+<p>This chapter orients you to SPSS 31 fundamentals. By the end, you will be able to navigate the SPSS interface including the Data Editor, Variable View, Output Viewer, and Syntax Editor. You will learn to set up organized project folders and create reproducible workflows. The chapter covers how to import and enter data with proper metadata, perform basic transformations such as computing new variables and recoding values, and build and export professional charts. You will also learn to run and annotate syntax scripts, conduct essential data integrity checks, and export APA-ready tables and figures for your assignments and research papers.</p>
+</section>
+<section id="why-this-matters" class="level2" data-number="I.2">
+<h2 data-number="I.2" class="anchored" data-anchor-id="why-this-matters"><span class="header-section-number">I.2</span> Why This Matters</h2>
+<p>This chapter establishes foundational practices for data management and reproducibility that form the backbone of professional statistical work. The habits you develop here—organizing files systematically, documenting your work, maintaining clean data, and creating reproducible workflows—will serve you throughout your academic career and beyond, regardless of your field or the scale of your projects.</p>
+<section id="platforms" class="level3" data-number="I.2.1">
+<h3 data-number="I.2.1" class="anchored" data-anchor-id="platforms"><span class="header-section-number">I.2.1</span> Platforms</h3>
+<p>SPSS 31 is available for both Windows and macOS. When installing on Windows, run the installer executable and follow the installation wizard, ensuring you have administrator privileges if required. On macOS, follow the standard installation steps and confirm that your system architecture is compatible (Intel or Apple Silicon). On first launch, regardless of platform, you may need to grant necessary permissions for the application to access your files. The license verification screen will appear on the splash screen when you open SPSS for the first time.</p>
+<p>SPSS uses either a site license (common for universities) or an individual authorization code. You’ll configure the license manager during initial setup. Be aware of offline grace periods if you need to work without internet access, and understand the renewal process for your institution’s license.</p>
+</section>
+<section id="updates-folders" class="level3" data-number="I.2.2">
+<h3 data-number="I.2.2" class="anchored" data-anchor-id="updates-folders"><span class="header-section-number">I.2.2</span> Updates &amp; Folders</h3>
+<p>You can check for software patches and updates by going to Help &gt; Check for Updates in the menu bar. SPSS stores default user files in locations like Documents/SPSS or similar folders on your system. Understanding where templates and output files are saved will help you locate your work quickly.</p>
+</section>
+</section>
+<section id="project-organization" class="level2" data-number="I.3">
+<h2 data-number="I.3" class="anchored" data-anchor-id="project-organization"><span class="header-section-number">I.3</span> Project Organization</h2>
+<p>Good file organization is fundamental to successful data analysis. Start by creating a dedicated project folder where you can store all your work in one place. Within this main folder, create subfolders to organize your materials logically: one for raw data files, one for syntax scripts, one for output files, and one for figures and results. This structure makes it easy to locate files months later and simplifies sharing your work with collaborators. Use descriptive file names that clearly indicate content and version—for example, <code>analysis_main.sps</code> for your primary syntax file or <code>results_v02_final.spv</code> for saved output. Include dates in filenames when tracking iterations: <code>data_cleaned_20250110.sav</code>. Establish a consistent naming convention and stick to it throughout your project. Finally, save your work frequently to prevent data loss from unexpected software crashes or computer failures.</p>
+</section>
+<section id="spss-interface-tour" class="level2" data-number="I.4">
+<h2 data-number="I.4" class="anchored" data-anchor-id="spss-interface-tour"><span class="header-section-number">I.4</span> SPSS Interface Tour</h2>
+<p>The Data Editor has two main views that you’ll switch between frequently. <strong>Data View</strong> shows your actual data arranged in rows and columns, where each row represents a case (like a participant) and each column represents a variable (like age or test score). <strong>Variable View</strong> displays the metadata for each variable, allowing you to define properties like variable type, labels, and missing values.</p>
+<div id="fig-data-variable-view" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="SPSS Data and Variable View">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-data-variable-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-01-ui-data-view.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;I.1: Data View"><img src="assets/images/ch01/ch01-01-ui-data-view.png" class="img-fluid figure-img" style="text-align: center" alt="SPSS Data and Variable View"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-data-variable-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.1: Data View
+</figcaption>
+</figure>
+</div>
+<div id="fig-variable-view" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="SPSS Variable View">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-variable-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-02-ui-variable-view.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;I.2: Variable View"><img src="assets/images/ch01/ch01-02-ui-variable-view.png" class="img-fluid figure-img" style="text-align: center" alt="SPSS Variable View"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-variable-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.2: Variable View
+</figcaption>
+</figure>
+</div>
+<div id="fig-output-viewer" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="SPSS Output Viewer window">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-output-viewer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-03-ui-output-view.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;I.3: Output Viewer"><img src="assets/images/ch01/ch01-03-ui-output-view.png" class="img-fluid figure-img" style="text-align: center" alt="SPSS Output Viewer window"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-output-viewer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.3: Output Viewer
+</figcaption>
+</figure>
+</div>
+<div id="fig-syntax-editor" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="SPSS Syntax Editor">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-syntax-editor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-04-ui-syntax-editor.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;I.4: Syntax Editor"><img src="assets/images/ch01/ch01-04-ui-syntax-editor.png" class="img-fluid figure-img" style="text-align: center" alt="SPSS Syntax Editor"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-syntax-editor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.4: Syntax Editor
+</figcaption>
+</figure>
+</div>
+<section id="chart-builder" class="level3" data-number="I.4.1">
+<h3 data-number="I.4.1" class="anchored" data-anchor-id="chart-builder"><span class="header-section-number">I.4.1</span> Chart Builder</h3>
+<p>The Chart Builder uses an intuitive drag-and-drop interface that makes creating visualizations straightforward. You can preview how your chart will look and customize various elements like colors, labels, and formatting before generating the final version. While SPSS also maintains Legacy Dialogs for creating charts (found under Graphs &gt; Legacy Dialogs), the Chart Builder offers a more visual and user-friendly approach with better preview capabilities. The legacy dialogs are still available for users who prefer the older interface or need specific chart types not yet available in Chart Builder, but for most purposes, Chart Builder provides greater flexibility and easier customization.</p>
+<div id="fig-chart-builder-home" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="SPSS Chart Builder home screen">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chart-builder-home-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-05-ui-chart-builder-home.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;I.5: Chart Builder Home"><img src="assets/images/ch01/ch01-05-ui-chart-builder-home.png" class="img-fluid figure-img" style="text-align: center" alt="SPSS Chart Builder home screen"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chart-builder-home-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.5: Chart Builder Home
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="datasets-file-types" class="level2" data-number="I.5">
+<h2 data-number="I.5" class="anchored" data-anchor-id="datasets-file-types"><span class="header-section-number">I.5</span> Datasets &amp; File Types</h2>
+<p>SPSS works with native <code>.sav</code>/<code>.zsav</code> files and imports <code>.csv</code>, <code>.xlsx</code>, and <code>.txt</code>. Output is saved as <code>.spv</code> and can be exported to common formats like <code>.pdf</code>, <code>.docx</code>, <code>.png</code>, and <code>.html</code>.</p>
+</section>
+<section id="data-entry-variable-view" class="level2" data-number="I.6">
+<h2 data-number="I.6" class="anchored" data-anchor-id="data-entry-variable-view"><span class="header-section-number">I.6</span> Data Entry &amp; Variable View</h2>
+<p>Use Variable View to define types, labels, and missing codes. Data View shows cases and variables; switch between them as you edit and review your dataset.</p>
+</section>
+<section id="opening-vs.-importing-data" class="level2" data-number="I.7">
+<h2 data-number="I.7" class="anchored" data-anchor-id="opening-vs.-importing-data"><span class="header-section-number">I.7</span> Opening vs.&nbsp;Importing Data</h2>
+<p>SPSS distinguishes between <strong>opening</strong> data files and <strong>importing</strong> data files, and understanding this difference is important for working efficiently.</p>
+<section id="opening-data-files" class="level3" data-number="I.7.1">
+<h3 data-number="I.7.1" class="anchored" data-anchor-id="opening-data-files"><span class="header-section-number">I.7.1</span> Opening Data Files</h3>
+<p>Use <strong>File &gt; Open &gt; Data</strong> when working with files that are already in SPSS format (<code>.sav</code> or <code>.zsav</code>) or when opening simple data files like CSV where SPSS can automatically handle the conversion. When you open a CSV file this way, SPSS recognizes the file format and launches the Text Import Wizard to help you configure how the data should be read. This is the most common approach for everyday data work.</p>
+</section>
+<section id="importing-data-files" class="level3" data-number="I.7.2">
+<h3 data-number="I.7.2" class="anchored" data-anchor-id="importing-data-files"><span class="header-section-number">I.7.2</span> Importing Data Files</h3>
+<p>Use <strong>File &gt; Import Data</strong> when you need more control over how data from other formats (Excel, databases, text files with complex structures) are brought into SPSS. The Import Data menu provides specialized wizards for different file types:</p>
+<ul>
+<li><strong>Excel</strong>: Handles <code>.xlsx</code> and <code>.xls</code> files with multiple worksheets</li>
+<li><strong>Text Data</strong>: For delimited or fixed-width text files requiring specific configuration</li>
+<li><strong>Database</strong>: Connects to external databases like SQL Server or Oracle</li>
+<li><strong>Other formats</strong>: SAS, Stata, and other statistical software formats</li>
+</ul>
+<p>The key distinction: <strong>Open</strong> is simpler and works for most common situations, while <strong>Import</strong> offers specialized tools for complex data sources.</p>
+</section>
+</section>
+<section id="working-with-csv-files" class="level2" data-number="I.8">
+<h2 data-number="I.8" class="anchored" data-anchor-id="working-with-csv-files"><span class="header-section-number">I.8</span> Working with CSV Files</h2>
+<section id="csv-import-steps" class="level3" data-number="I.8.1">
+<h3 data-number="I.8.1" class="anchored" data-anchor-id="csv-import-steps"><span class="header-section-number">I.8.1</span> CSV Import Steps</h3>
+<p>To open a CSV file, go to <strong>File &gt; Open &gt; Data</strong> and browse to your CSV file. SPSS automatically recognizes CSV files and launches the Text Import Wizard. The wizard asks you to select the delimiter that separates values in your file—usually this is a comma, but it could be a tab, semicolon, or other character. Make sure to specify that the first row contains variable names so SPSS uses those as column headers. Take time to preview the data and confirm that SPSS has correctly identified each variable’s data type (numeric, string, etc.). Once everything looks correct, save your imported data as a <code>.sav</code> or <code>.zsav</code> file so you have a native SPSS version to work with.</p>
+<div id="fig-import-dialog" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Text Data Import wizard">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-import-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-06-import-dialog.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;I.6: Import Dialog"><img src="assets/images/ch01/ch01-06-import-dialog.png" class="img-fluid figure-img" style="text-align: center" alt="Text Data Import wizard"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-import-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.6: Import Dialog
+</figcaption>
+</figure>
+</div>
+<div id="fig-import-data-view" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Data View after CSV import">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-import-data-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-08-import-data-view.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;I.7: Data View After Import"><img src="assets/images/ch01/ch01-08-import-data-view.png" class="img-fluid figure-img" style="text-align: center" alt="Data View after CSV import"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-import-data-view-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.7: Data View After Import
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="working-with-excel-files" class="level2" data-number="I.9">
+<h2 data-number="I.9" class="anchored" data-anchor-id="working-with-excel-files"><span class="header-section-number">I.9</span> Working with Excel Files</h2>
+<section id="excel-import" class="level3" data-number="I.9.1">
+<h3 data-number="I.9.1" class="anchored" data-anchor-id="excel-import"><span class="header-section-number">I.9.1</span> Excel Import</h3>
+<p>For Excel files, use <strong>File &gt; Import Data &gt; Excel</strong> to start the import wizard. You’ll need to select which worksheet contains your data if the Excel file has multiple sheets. The wizard allows you to specify the range of cells to import and whether the first row contains variable names. Pay special attention to columns that might contain mixed types of data (both numbers and text), as these can cause import problems if not handled correctly. Excel files with complex formatting, merged cells, or formulas may require cleanup before importing.</p>
+</section>
+<section id="define-variable-properties" class="level3" data-number="I.9.2">
+<h3 data-number="I.9.2" class="anchored" data-anchor-id="define-variable-properties"><span class="header-section-number">I.9.2</span> Define Variable Properties</h3>
+<p>After importing data from any source, SPSS offers a helpful tool at <strong>Data &gt; Define Variable Properties</strong> that can save you time. This feature scans through your data values and suggests appropriate variable types, labels, and missing value codes based on what it finds. Review these suggestions carefully and apply the ones that make sense for your dataset.</p>
+</section>
+</section>
+<section id="sample-datasets" class="level2" data-number="I.10">
+<h2 data-number="I.10" class="anchored" data-anchor-id="sample-datasets"><span class="header-section-number">I.10</span> Sample Datasets</h2>
+<p>You can download the practice datasets directly below:</p>
+<ol type="1">
+<li><strong>athletes.csv</strong> — Instructor demonstration file</li>
+</ol>
+<ul>
+<li>Download: <a href="assets/data/ch01/athletes.csv">athletes.csv</a></li>
+<li>Variables: id, sex, age, group, height_cm, mass_kg, pre_score, post_score</li>
+<li>20 cases; includes pre/post scores for transformation demos</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>participants.csv</strong> — Demographics and anthropometric data</li>
+</ol>
+<ul>
+<li>Download: <a href="assets/data/ch01/participants.csv">participants.csv</a></li>
+<li>Variables: id, sex, age, group, height_cm, mass_kg</li>
+<li>24 cases; balanced groups</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>pre_post_scores.csv</strong> — Pre/post intervention scores</li>
+</ol>
+<ul>
+<li>Download: <a href="assets/data/ch01/pre_post_scores.csv">pre_post_scores.csv</a></li>
+<li>Variables: id, group, pre_score, post_score</li>
+<li>26 cases; includes missing values for practice</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>reaction_time_trials.csv</strong> — Repeated measures reaction times</li>
+</ol>
+<ul>
+<li>Download: <a href="assets/data/ch01/reaction_time_trials.csv">reaction_time_trials.csv</a></li>
+<li>Variables: id, condition, rt_t1_ms, rt_t2_ms, rt_t3_ms</li>
+<li>20 cases; wide format for within-subjects analysis</li>
+</ul>
+</section>
+<section id="saving-exporting" class="level2" data-number="I.11">
+<h2 data-number="I.11" class="anchored" data-anchor-id="saving-exporting"><span class="header-section-number">I.11</span> Saving &amp; Exporting</h2>
+<section id="save-dataset" class="level3" data-number="I.11.1">
+<h3 data-number="I.11.1" class="anchored" data-anchor-id="save-dataset"><span class="header-section-number">I.11.1</span> Save Dataset</h3>
+<p>Once you’ve organized your data and performed initial transformations, it’s important to save your work in SPSS’s native format. Navigate to File &gt; Save As and choose between <code>.sav</code> (standard SPSS file) and <code>.zsav</code> (compressed format that takes less disk space). Use descriptive filenames that include version information, such as <code>participants_v01_cleaned.sav</code> or <code>study_data_20250110.sav</code>, so you can track different iterations of your dataset as you work through analyses.</p>
+</section>
+<section id="export-output" class="level3" data-number="I.11.2">
+<h3 data-number="I.11.2" class="anchored" data-anchor-id="export-output"><span class="header-section-number">I.11.2</span> Export Output</h3>
+<p>When you’re ready to share results or include them in papers and assignments, SPSS makes it easy to export your work in multiple formats. For statistical tables and summary statistics, use File &gt; Export and select Word, PDF, or Excel format depending on your needs. For charts and figures, right-click directly on the chart in the Output Viewer and choose Export; PNG format is recommended for print publications and presentations because it maintains high quality at various sizes.</p>
+</section>
+<section id="apa-basics" class="level3" data-number="I.11.3">
+<h3 data-number="I.11.3" class="anchored" data-anchor-id="apa-basics"><span class="header-section-number">I.11.3</span> APA Basics</h3>
+<p>Whether you’re creating tables for a paper or assignment, follow these APA formatting conventions to ensure professional appearance. Place table titles above the table (centered and bold) and any explanatory notes below in smaller text. Keep numerical values consistent by rounding to 2 decimal places throughout your table—this creates visual consistency and makes patterns easier to spot. Use clear, descriptive variable labels rather than cryptic abbreviations, and avoid unnecessary visual elements like gridlines, excessive colors, or 3D effects that distract from the data itself.</p>
+<div id="fig-export-dialog" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Export output dialog">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-export-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-20-export-dialog.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;I.8: Export Dialog"><img src="assets/images/ch01/ch01-20-export-dialog.png" class="img-fluid figure-img" style="text-align: center" alt="Export output dialog"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-export-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.8: Export Dialog
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="chart-builder-primer" class="level2" data-number="I.12">
+<h2 data-number="I.12" class="anchored" data-anchor-id="chart-builder-primer"><span class="header-section-number">I.12</span> Chart Builder Primer</h2>
+<p>SPSS’s Chart Builder provides an intuitive, drag-and-drop interface for creating professional visualizations. Rather than memorizing specific menu paths for each type of chart, you can experiment with different chart types and see previews in real time. This visual approach helps you choose the most appropriate visualization for your data and makes it easy to modify charts after they’re created.</p>
+<section id="common-chart-types" class="level3" data-number="I.12.1">
+<h3 data-number="I.12.1" class="anchored" data-anchor-id="common-chart-types"><span class="header-section-number">I.12.1</span> Common Chart Types</h3>
+<p>Different chart types serve different purposes depending on your data and what you want to communicate. Use a <strong>Histogram</strong> when you want to visualize the distribution of a single continuous variable—it shows you whether your data is normally distributed or skewed. A <strong>Boxplot</strong> is excellent for comparing distributions across groups; it displays the median, quartiles, and outliers all in one compact graphic. <strong>Bar Charts</strong> are useful for showing counts or mean values broken down by categories, making it easy to compare groups at a glance. A <strong>Scatterplot</strong> is the standard choice when you want to show the relationship between two continuous variables and help readers see patterns or correlations.</p>
+</section>
+<section id="steps" class="level3" data-number="I.12.2">
+<h3 data-number="I.12.2" class="anchored" data-anchor-id="steps"><span class="header-section-number">I.12.2</span> Steps</h3>
+<p>To create any chart, start by selecting Graphs &gt; Chart Builder from the menu. You’ll see a gallery of chart types on the left; drag your chosen chart type onto the canvas in the center. Assign your variables to the appropriate axes by dragging them from the Variables list. Once the basic structure is in place, customize the appearance by adding titles, axis labels, changing colors, and adjusting fonts to match your preferences. Finally, click OK to generate the chart in the Output Viewer, where you can further refine it if needed.</p>
+<div id="fig-chart-builder-layout" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Chart Builder layout with variables assigned">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-chart-builder-layout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-12-chart-builder-layout.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;I.9: Chart Builder Layout"><img src="assets/images/ch01/ch01-12-chart-builder-layout.png" class="img-fluid figure-img" style="text-align: center" alt="Chart Builder layout with variables assigned"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chart-builder-layout-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.9: Chart Builder Layout
+</figcaption>
+</figure>
+</div>
+<div id="fig-histogram-output" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Histogram output in SPSS">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histogram-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-13-histogram-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;I.10: Histogram Output"><img src="assets/images/ch01/ch01-13-histogram-output.png" class="img-fluid figure-img" style="text-align: center" alt="Histogram output in SPSS"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histogram-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.10: Histogram Output
+</figcaption>
+</figure>
+</div>
+<div id="fig-boxplot-output" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Boxplot output in SPSS">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-14-boxplot-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;I.11: Boxplot Output"><img src="assets/images/ch01/ch01-14-boxplot-output.png" class="img-fluid figure-img" style="text-align: center" alt="Boxplot output in SPSS"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.11: Boxplot Output
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Further reading</strong>: To learn more about effective data visualization, click <a href="https://drfurtado.github.io/randomstats/posts/01012023-displaying-data/">here</a></p>
+</div>
+</div>
+</section>
+</section>
+<section id="basic-transformations" class="level2" data-number="I.13">
+<h2 data-number="I.13" class="anchored" data-anchor-id="basic-transformations"><span class="header-section-number">I.13</span> Basic Transformations</h2>
+<section id="compute-variable" class="level3" data-number="I.13.1">
+<h3 data-number="I.13.1" class="anchored" data-anchor-id="compute-variable"><span class="header-section-number">I.13.1</span> Compute Variable</h3>
+<p>Often you need to create new variables based on calculations involving existing ones. SPSS’s Compute Variable feature lets you define mathematical expressions that transform your data. Access it through Transform &gt; Compute Variable, where you can build new variables from existing ones. Common uses include creating z-scores (standardized values for comparison across variables), calculating difference or change scores (useful for pre-post designs), or summing items into composite scales. Once you define your expression, SPSS applies it to all cases in your dataset, creating a new column with the computed values.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>* Compute z-score.</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>COMPUTE z_mass = (mass_kg - 75) / 12.</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>* Compute change score.</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>COMPUTE change = post_score - pre_score.</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-compute-dialog" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Compute Variable dialog">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-compute-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-15-compute-z-score.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;I.12: Compute Dialog"><img src="assets/images/ch01/ch01-15-compute-z-score.png" class="img-fluid figure-img" style="text-align: center" alt="Compute Variable dialog"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-compute-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.12: Compute Dialog
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="recode-into-different-variables" class="level3" data-number="I.13.2">
+<h3 data-number="I.13.2" class="anchored" data-anchor-id="recode-into-different-variables"><span class="header-section-number">I.13.2</span> Recode Into Different Variables</h3>
+<p>Recoding allows you to group continuous values into categories or change coding schemes while preserving your original data intact. Use Transform &gt; Recode into Different Variables to specify how old values should map to new values. For example, you might recode age into age groups (18-25, 26-35, etc.) or recode a 5-point Likert scale into broader categories. Because you’re recoding “into different variables,” your original variable remains unchanged—SPSS creates a new variable with the recoded values, which is safer than overwriting your raw data.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>* Recode age into groups.</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>RECODE age (18 thru 25=1) (26 thru 35=2) (36 thru 45=3) INTO age_group.</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>VALUE LABELS age_group 1 '18-25' 2 '26-35' 3 '36-45'.</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-recode-dialog" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Recode into Different Variables dialog - step 1">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-recode-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-16-recode-dialog1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;I.13: Recode Dialog"><img src="assets/images/ch01/ch01-16-recode-dialog1.png" class="img-fluid figure-img" style="text-align: center" alt="Recode into Different Variables dialog - step 1"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-recode-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.13: Recode Dialog
+</figcaption>
+</figure>
+</div>
+<div id="fig-recode-dialog" class="quarto-float quarto-figure quarto-figure-center anchored" style="text-align: center" alt="Recode into Different Variables dialog - step 2">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-recode-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="assets/images/ch01/ch01-16-recode-dialog2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;I.14: Recode Dialog"><img src="assets/images/ch01/ch01-16-recode-dialog2.png" class="img-fluid figure-img" style="text-align: center" alt="Recode into Different Variables dialog - step 2"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-recode-dialog-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;I.14: Recode Dialog
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="reverse-scoring" class="level3" data-number="I.13.3">
+<h3 data-number="I.13.3" class="anchored" data-anchor-id="reverse-scoring"><span class="header-section-number">I.13.3</span> Reverse-Scoring</h3>
+<p>When creating composite scales from multiple items, you sometimes encounter items that are worded in the opposite direction—these need to be reverse-scored so that all items measure the construct in the same direction. For example, if your scale ranges from 1 to 5, reverse scoring an item means subtracting its value from 6 (one point higher than your maximum). This flips the scale so that a 1 becomes a 5 and vice versa. Always create a new variable with the reverse-scored values rather than overwriting the original item, so you maintain a record of your raw data. You can accomplish this with a simple Compute Variable expression:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>* Reverse score (assuming 1-5 scale).</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>COMPUTE item1_rev = 6 - item1.</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="syntax-basics" class="level2" data-number="I.14">
+<h2 data-number="I.14" class="anchored" data-anchor-id="syntax-basics"><span class="header-section-number">I.14</span> Syntax Basics</h2>
+<p>While SPSS’s menu-driven interface is user-friendly, syntax—the command language underlying SPSS—is essential for serious data analysis. Learning syntax might seem intimidating at first, but it offers powerful advantages that make your work more professional and reliable.</p>
+<section id="why-use-syntax" class="level3" data-number="I.14.1">
+<h3 data-number="I.14.1" class="anchored" data-anchor-id="why-use-syntax"><span class="header-section-number">I.14.1</span> Why Use Syntax?</h3>
+<p>Syntax creates a permanent record of every step you took, allowing you to reproduce your exact analyses weeks or months later—critical when you need to verify results or make small adjustments to your work. You can also document your thinking by adding comments throughout your syntax file, explaining why you chose specific approaches or noting data issues you discovered. Beyond reproducibility, syntax lets you batch process multiple operations at once, saving time when you have repetitive tasks or need to apply the same transformations to multiple variables.</p>
+</section>
+<section id="creating-syntax" class="level3" data-number="I.14.2">
+<h3 data-number="I.14.2" class="anchored" data-anchor-id="creating-syntax"><span class="header-section-number">I.14.2</span> Creating Syntax</h3>
+<p>There are several ways to build a syntax file. The easiest approach for beginners is to use the menu system as you normally would, but instead of clicking OK to execute the command, click Paste. This copies the equivalent syntax command to a syntax editor window, where you can review, modify, and save it. As you become more comfortable with syntax, you can also type commands directly into the Syntax Editor, and many experienced users find this faster than navigating menus. Always save your syntax files with a <code>.sps</code> extension so they’re easy to identify and can be opened reliably on any system.</p>
+</section>
+<section id="running-syntax" class="level3" data-number="I.14.3">
+<h3 data-number="I.14.3" class="anchored" data-anchor-id="running-syntax"><span class="header-section-number">I.14.3</span> Running Syntax</h3>
+<p>To run your syntax commands, highlight the lines you want to execute (or leave everything highlighted to run the entire file), then click the Run button (green arrow) in the toolbar or use the keyboard shortcut Cmd+R on Mac or Ctrl+R on Windows. SPSS will process your commands in order and generate output in the Output Viewer. An important note: after any commands that modify your data (like Compute, Recode, or Select If), include the <code>EXECUTE.</code> statement to tell SPSS to finalize the changes before moving to the next step. Some users add <code>EXECUTE.</code> at the end of every section for extra clarity.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>* Load dataset.</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>GET FILE='assets/data/ch01/participants.sav'.</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>DATASET NAME participants.</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>* Descriptive statistics.</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>DESCRIPTIVES VARIABLES=height_cm mass_kg</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  /STATISTICS=MEAN STDDEV MIN MAX.</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="annotation" class="level3" data-number="I.14.4">
+<h3 data-number="I.14.4" class="anchored" data-anchor-id="annotation"><span class="header-section-number">I.14.4</span> Annotation</h3>
+<p>Good comments are invaluable when you return to your syntax weeks later or when a colleague needs to understand your work. Use a single asterisk <code>*</code> at the beginning of a line for single-line comments (SPSS will ignore everything from the asterisk to the period). For longer explanations that span multiple lines, use <code>/* */</code> to wrap your comment. At the very top of your syntax file, always include a header documenting the purpose of the analysis, the date it was created or last modified, and who wrote it. These simple practices make your work look professional and help prevent confusion or mistakes when revisiting old analyses.</p>
+</section>
+</section>
+<section id="data-integrity-checks" class="level2" data-number="I.15">
+<h2 data-number="I.15" class="anchored" data-anchor-id="data-integrity-checks"><span class="header-section-number">I.15</span> Data Integrity Checks</h2>
+<p>Before you begin any analysis, it’s essential to verify that your data has been entered and imported correctly. Data integrity checks help you catch errors early—before they compromise your results. These checks typically look for out-of-range values, suspicious patterns, and missing data issues.</p>
+<section id="check-ranges" class="level3" data-number="I.15.1">
+<h3 data-number="I.15.1" class="anchored" data-anchor-id="check-ranges"><span class="header-section-number">I.15.1</span> Check Ranges</h3>
+<p>Run a simple Descriptive Statistics command to see the minimum and maximum values for your numeric variables. This is your first line of defense against data entry errors. Look carefully at these values—if someone entered a height of 999 cm or an age of -5, these errors will be obvious:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DESCRIPTIVES VARIABLES=age height_cm mass_kg</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  /STATISTICS=MIN MAX.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Any impossible values should be investigated. They might be legitimate outliers, data entry errors, or missing value codes that weren’t properly configured.</p>
+</section>
+<section id="missing-data-patterns" class="level3" data-number="I.15.2">
+<h3 data-number="I.15.2" class="anchored" data-anchor-id="missing-data-patterns"><span class="header-section-number">I.15.2</span> Missing Data Patterns</h3>
+<p>Understanding patterns of missing data is crucial because they can affect your analyses in subtle ways. Use the Frequencies command to examine which cases have missing values and whether the missingness follows any pattern:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>FREQUENCIES VARIABLES=pre_score post_score</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  /FORMAT=NOTABLE</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  /STATISTICS=MISSING.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For example, if all missing values in a post_score variable come from one group, that suggests a systematic problem rather than random missing data. This information will help you decide whether to use listwise deletion, imputation, or other strategies for handling missing values.</p>
+</section>
+<section id="identify-duplicates" class="level3" data-number="I.15.3">
+<h3 data-number="I.15.3" class="anchored" data-anchor-id="identify-duplicates"><span class="header-section-number">I.15.3</span> Identify Duplicates</h3>
+<p>Occasionally you may have duplicate rows in your dataset—cases that were entered twice by mistake. SPSS provides a tool at Data &gt; Identify Duplicate Cases that scans your data and highlights potential duplicates. Specify your ID variable so SPSS knows how to match cases, and it will flag duplicates for your review. You then decide whether to keep the first occurrence, the last occurrence, or review each duplicate manually to determine which version is correct. This step is particularly important if you’ve merged multiple data sources.</p>
+</section>
+<section id="sort-and-select-cases" class="level3" data-number="I.15.4">
+<h3 data-number="I.15.4" class="anchored" data-anchor-id="sort-and-select-cases"><span class="header-section-number">I.15.4</span> Sort and Select Cases</h3>
+<p>As you work with your data, you may want to organize it by certain variables or focus on a subset of cases. Use the Sort Cases command to arrange your data in a specific order, which is helpful for spotting patterns or preparing data for specific analyses. When you only want to analyze a portion of your data (for example, just the training group), use Select If to temporarily filter the dataset:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>* Sort by ID.</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>SORT CASES BY id.</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>* Select cases for analysis.</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>SELECT IF (group = 'training').</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Note that Select If doesn’t delete cases—it just marks them as excluded from analyses. You can always clear the selection later to work with the full dataset again.</p>
+</section>
+</section>
+<section id="preferences-defaults" class="level2" data-number="I.16">
+<h2 data-number="I.16" class="anchored" data-anchor-id="preferences-defaults"><span class="header-section-number">I.16</span> Preferences &amp; Defaults</h2>
+<p>SPSS offers extensive customization options to tailor the interface and output to your preferences and workflow. Taking time to configure these settings will save you effort throughout the course.</p>
+<section id="display-options" class="level3" data-number="I.16.1">
+<h3 data-number="I.16.1" class="anchored" data-anchor-id="display-options"><span class="header-section-number">I.16.1</span> Display Options</h3>
+<p>Navigate to Edit &gt; Options &gt; Output to control how SPSS displays your results. You can choose whether tables show variable names (compact but cryptic) or variable labels (more readable if you’ve entered descriptive labels). Set your default number of decimal places displayed—this affects readability and follows conventions (typically 2 decimals for most statistical output). You can also adjust the scientific notation threshold, which determines when SPSS switches to exponential notation for very large or very small numbers.</p>
+</section>
+<section id="file-paths" class="level3" data-number="I.16.2">
+<h3 data-number="I.16.2" class="anchored" data-anchor-id="file-paths"><span class="header-section-number">I.16.2</span> File Paths</h3>
+<p>Use Edit &gt; Options to set your default locations for opening and saving files. This saves you from repeatedly navigating to the same folder. In your syntax files, use relative paths (like <code>assets/data/ch01/participants.sav</code>) rather than absolute paths (like <code>/Users/yourname/Documents/...</code>). Relative paths are portable—if you move your project folder to a different location or share it with someone else, the syntax will still work.</p>
+</section>
+<section id="output-style" class="level3" data-number="I.16.3">
+<h3 data-number="I.16.3" class="anchored" data-anchor-id="output-style"><span class="header-section-number">I.16.3</span> Output Style</h3>
+<p>Edit &gt; Options &gt; Pivot Tables lets you customize how tables appear in your output. SPSS includes an APA style option that automatically formats tables according to American Psychological Association standards—this is ideal for coursework and research papers. You can also adjust fonts and cell formatting to suit your preferences or match a specific publication style.</p>
+</section>
+</section>
+<section id="quick-practice-tasks" class="level2" data-number="I.17">
+<h2 data-number="I.17" class="anchored" data-anchor-id="quick-practice-tasks"><span class="header-section-number">I.17</span> Quick Practice Tasks</h2>
+<p>These hands-on exercises will help you apply the concepts covered in this chapter. Work through each task systematically, documenting your steps as you go. These tasks build on each other, so complete them in order.</p>
+<ol type="1">
+<li><strong>Project Setup with Google Drive</strong>: Create a well-organized folder structure in your Google Drive to maintain all course materials in one centralized, accessible location. In your Google Drive, create a main folder called <code>SPSS_Course</code> (or similar). Inside this main folder, create four subfolders: <code>data</code> (for raw and processed data files), <code>syntax</code> (for your .sps script files), <code>output</code> (for saved SPSS output files), and <code>figures</code> (for exported charts and graphs).</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Optional: Install Google Drive for Desktop (Recommended)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Install Google Drive for Desktop on your computer so these folders sync automatically and appear as a regular folder on your Mac/PC. Once synced, you can access these folders through Finder (Mac) or File Explorer (Windows) just like any other local folder. In SPSS, this synced folder by going to File &gt; Change Working Directory, thenset your working directory to point to this synced folder by going to File &gt; Change Working Directory and navigating to the Google Drive folder on your computer. This setup ensures your work is automatically backed up to the cloud and accessible from any device.</p>
+</div>
+</div>
+<ol start="2" type="1">
+<li><p><strong>Data Import and Initial Inspection</strong>: Download the <code>athletes.csv</code> file provided above and save it to your <code>data</code> subfolder within your Google Drive SPSS_Course folder. Open SPSS and import this file using File &gt; Open &gt; Data, selecting the CSV format. After importing, examine the Data View to ensure all variables loaded correctly. Check that numeric variables appear as numbers (not text) and that there are no obvious formatting issues. Save the file as <code>athletes.sav</code> in your <code>data</code> folder.</p></li>
+<li><p><strong>Configure Metadata</strong>: Switch to Variable View and systematically define metadata for all variables. Add meaningful variable labels that describe what each variable measures (e.g., “Athlete height in centimeters” for <code>height_cm</code>, “Pre-test score” for <code>pre_score</code>, “Post-test score” for <code>post_score</code>). For categorical variables like <code>sex</code> and <code>group</code>, define value labels (M = ‘Male’, F = ‘Female’ for sex; control = ‘Control’, training = ‘Training’ for group). Set the appropriate measurement level for each variable: Scale for continuous variables, Ordinal for ordered categories, and Nominal for unordered categories.</p></li>
+<li><p><strong>Data Transformation</strong>: Create two new computed variables. First, create <code>bmi</code> from height and mass using the formula: BMI = mass_kg / (height_cm/100)². Second, create a <code>change_score</code> variable by subtracting pre_score from post_score to see training improvements. Use Transform &gt; Compute Variable for both. Then, use Transform &gt; Recode into Different Variables to create age groups from the continuous <code>age</code> variable. Create categories: 18-25, 26-35, 36-45, 46+. Remember to add value labels to your new <code>age_group</code> variable.</p></li>
+<li><p><strong>Visual Data Exploration</strong>: Open the Chart Builder (Graphs &gt; Chart Builder) and create two visualizations. First, create a histogram of the <code>mass_kg</code> variable to examine its distribution—look for whether it appears normally distributed or skewed. Second, create a boxplot comparing <code>mass_kg</code> across the <code>group</code> variable to see if there are differences between control and training groups. Export both charts as image files to your <code>figures</code> folder using File &gt; Export after right-clicking each chart.</p></li>
+<li><p><strong>Syntax Documentation</strong>: This is crucial for reproducibility. Open a new Syntax Editor (File &gt; New &gt; Syntax). Go back through each of the steps above (import, compute, recode, chart) and use the Paste button instead of OK to capture the syntax for each operation. Organize your syntax file with clear comments explaining each section. Add <code>EXECUTE.</code> commands after data transformations. Save this file as <code>chapter01_practice.sps</code> in your <code>syntax</code> folder. Close your dataset without saving, then run your entire syntax file from start to finish to verify it reproduces all your work.</p></li>
+<li><p><strong>Data Quality Control</strong>: Run comprehensive data integrity checks. Use Descriptive Statistics to examine the minimum and maximum values for <code>age</code>, <code>height_cm</code>, and <code>mass_kg</code>—verify that all values fall within plausible ranges (e.g., height between 140-210 cm). Use Frequencies to check for missing data patterns. Finally, use Data &gt; Identify Duplicate Cases with the <code>id</code> variable to ensure no participants were entered twice. Document any issues you find and how you resolved them.</p></li>
+</ol>
+<div id="practice-solutions" style="display:none;">
+<h2 style="margin-top: 1em; font-size: 1.5em; font-weight: bold;" class="anchored">
+Practice Solutions
+</h2>
+<p><strong>Task 1: Project Setup with Google Drive</strong></p>
+<ol type="1">
+<li>Open your web browser and go to <a href="https://drive.google.com">drive.google.com</a></li>
+<li>Sign in with your Google account (or create one if needed)</li>
+<li>Click the <strong>+ New</strong> button on the left side</li>
+<li>Select <strong>New folder</strong></li>
+<li>Name it <code>SPSS_Course</code> and click <strong>Create</strong></li>
+<li>Click into the newly created <code>SPSS_Course</code> folder</li>
+<li>Create four subfolders by repeating the New folder process:
+<ul>
+<li><code>data</code></li>
+<li><code>syntax</code></li>
+<li><code>output</code></li>
+<li><code>figures</code></li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Optional: Install Google Drive for Desktop (Recommended)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Installing Google Drive for Desktop allows you to access your Google Drive files directly through Finder (Mac) or File Explorer (Windows), making it much easier to work with SPSS. Files sync automatically between your computer and the cloud.</p>
+<ol type="1">
+<li>Visit <a href="https://www.google.com/drive/download/">google.com/drive/download</a></li>
+<li>Download the appropriate version for your operating system</li>
+<li>Run the installer and follow the on-screen instructions</li>
+<li>Sign in with the same Google account you used to create the folders</li>
+<li>In the settings, ensure “Stream files” or “Mirror files” is enabled (Mirror is recommended for SPSS work)</li>
+<li>Once installed, Google Drive will appear in your Finder (Mac) or File Explorer (Windows) sidebar</li>
+<li>Navigate to Google Drive &gt; SPSS_Course to see your synced folders</li>
+</ol>
+<p><strong>Benefits</strong>: Any files you save to the SPSS_Course folder will automatically sync to the cloud. You can access these files from any computer or through the Google Drive website. If you work on a different computer, just install Google Drive for Desktop there and sign in with the same account—all your files will be available.</p>
+</div>
+</div>
+</div>
+<ol start="8" type="1">
+<li>Open SPSS</li>
+<li>Go to <strong>File &gt; Change Working Directory</strong></li>
+<li>Navigate to your Google Drive folder:
+<ul>
+<li>If you installed Google Drive for Desktop: <code>/Users/[YourName]/Google Drive/SPSS_Course</code> on Mac or <code>G:\My Drive\SPSS_Course</code> on Windows</li>
+<li>If using browser-only: Download files from Google Drive to a local folder and navigate to that folder</li>
+</ul></li>
+<li>Click <strong>OK</strong> to set this as your working directory</li>
+<li>To verify, check that the SPSS title bar or status shows your chosen path</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>* No syntax needed - this is folder and system setup</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>* Working directory can be set via File &gt; Change Working Directory</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>* Or you can use CD command:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>CD '/Users/[YourName]/Google Drive/SPSS_Course'.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>Task 2: Data Import</strong></p>
+<ol type="1">
+<li>Open SPSS and go to <strong>File &gt; Open &gt; Data</strong></li>
+<li>Navigate to your <code>data</code> subfolder and select <code>athletes.csv</code></li>
+<li>The Text Import Wizard will open automatically</li>
+<li>In Step 1, verify that “Delimited” is selected and click <strong>Next</strong></li>
+<li>In Step 2, check “Comma” as the delimiter and ensure “First case of data starts on line” is set to <strong>2</strong> (since row 1 contains variable names)</li>
+<li>In Step 3, verify the variable names are correct (id, sex, age, group, height_cm, mass_kg, pre_score, post_score)</li>
+<li>In Step 4, review the data preview to ensure all columns look correct</li>
+<li>Click <strong>Finish</strong> to import the data</li>
+<li>Immediately go to <strong>File &gt; Save As</strong>, choose “SPSS Statistics (*.sav)” as the file type, name it <code>athletes.sav</code>, and save it in your <code>data</code> folder</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>GET DATA</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  /TYPE=TXT</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  /FILE='data/athletes.csv'</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  /DELIMITERS="," </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  /QUALIFIER='"'</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  /ARRANGEMENT=DELIMITED</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  /FIRSTCASE=2</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  /VARIABLES=</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  id F3.0</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  sex A1</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  age F2.0</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  group A8</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  height_cm F5.0</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  mass_kg F5.0</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  pre_score F4.1</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  post_score F4.1.</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>CACHE.</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>SAVE OUTFILE='data/athletes.sav'</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  /COMPRESSED.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>Task 3: Configure Metadata</strong></p>
+<ol type="1">
+<li>Click the <strong>Variable View</strong> tab at the bottom of the Data Editor window</li>
+<li>For each variable, click in the <strong>Label</strong> column and add descriptive labels:
+<ul>
+<li>id: “Athlete identification number”</li>
+<li>sex: “Biological sex”</li>
+<li>age: “Age in years”</li>
+<li>group: “Experimental group assignment”</li>
+<li>height_cm: “Height in centimeters”</li>
+<li>mass_kg: “Body mass in kilograms”</li>
+<li>pre_score: “Pre-test performance score”</li>
+<li>post_score: “Post-test performance score”</li>
+</ul></li>
+<li>For the <code>sex</code> variable, click in the <strong>Values</strong> column, then click the small button that appears</li>
+<li>In the Value Labels dialog, add: Value = M, Label = “Male”, click <strong>Add</strong>; then Value = F, Label = “Female”, click <strong>Add</strong>, then <strong>OK</strong></li>
+<li>For the <code>group</code> variable, repeat: Value = control, Label = “Control”, click <strong>Add</strong>; Value = training, Label = “Training”, click <strong>Add</strong>, then <strong>OK</strong></li>
+<li>For the <strong>Measure</strong> column, set:
+<ul>
+<li>id, age, height_cm, mass_kg, pre_score, post_score: <strong>Scale</strong></li>
+<li>sex, group: <strong>Nominal</strong></li>
+</ul></li>
+<li>Save your file (<strong>Ctrl+S</strong> or <strong>Cmd+S</strong>)</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>VARIABLE LABELS</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  id 'Athlete identification number'</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  sex 'Biological sex'</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  age 'Age in years'</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  group 'Experimental group assignment'</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  height_cm 'Height in centimeters'</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  mass_kg 'Body mass in kilograms'</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  pre_score 'Pre-test performance score'</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  post_score 'Post-test performance score'.</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>VALUE LABELS</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  sex 'M' 'Male' 'F' 'Female'</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  /group 'control' 'Control' 'training' 'Training'.</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>VARIABLE LEVEL</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  id age height_cm mass_kg pre_score post_score (SCALE)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  /sex group (NOMINAL).</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>Task 4: Data Transformation</strong></p>
+<p><em>Creating the BMI variable:</em> 1. Go to <strong>Transform &gt; Compute Variable</strong> 2. In the <strong>Target Variable</strong> box, type: <code>bmi</code> 3. In the <strong>Numeric Expression</strong> box, type: <code>mass_kg / ((height_cm/100) ** 2)</code> 4. Click <strong>OK</strong> 5. Switch to <strong>Variable View</strong>, find the new <code>bmi</code> variable, and add the label “Body Mass Index” in the Label column</p>
+<p><em>Creating the change score variable:</em> 1. Go to <strong>Transform &gt; Compute Variable</strong> again 2. In the <strong>Target Variable</strong> box, type: <code>change_score</code> 3. In the <strong>Numeric Expression</strong> box, type: <code>post_score - pre_score</code> 4. Click <strong>OK</strong> 5. Switch to <strong>Variable View</strong>, find the new <code>change_score</code> variable, and add the label “Change in performance score” in the Label column</p>
+<p><em>Creating age groups:</em> 1. Go to <strong>Transform &gt; Recode into Different Variables</strong> 2. Select <code>age</code> from the left list and move it to the <strong>Input Variable -&gt; Output Variable</strong> box 3. In the <strong>Output Variable</strong> section, type <code>age_group</code> as the <strong>Name</strong> 4. Click <strong>Change</strong> to confirm the new variable name 5. Click <strong>Old and New Values</strong> 6. In the <strong>Old Value</strong> section, select “Range” and enter 18 through 25, then in <strong>New Value</strong> enter 1, click <strong>Add</strong> 7. Repeat for: 26 through 35 = 2, 36 through 45 = 3, 46 through Highest = 4 8. Click <strong>Continue</strong>, then <strong>OK</strong> 9. Switch to <strong>Variable View</strong>, find <code>age_group</code>, and add the label “Age group category” 10. In the <strong>Values</strong> column for <code>age_group</code>, add: 1=‘18-25’, 2=‘26-35’, 3=‘36-45’, 4=‘46+’ 11. Set <strong>Measure</strong> to <strong>Ordinal</strong></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>COMPUTE bmi = mass_kg / ((height_cm/100) ** 2).</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>VARIABLE LABELS bmi 'Body Mass Index'.</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>COMPUTE change_score = post_score - pre_score.</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>VARIABLE LABELS change_score 'Change in performance score'.</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>RECODE age (18 thru 25=1) (26 thru 35=2) (36 thru 45=3) (46 thru HIGHEST=4)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  INTO age_group.</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>VARIABLE LABELS age_group 'Age group category'.</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>VALUE LABELS age_group</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  1 '18-25'</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  2 '26-35'</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  3 '36-45'</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  4 '46+'.</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>VARIABLE LEVEL age_group (ORDINAL).</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>Task 5: Visual Data Exploration</strong></p>
+<p><em>Creating a histogram:</em> 1. Go to <strong>Graphs &gt; Chart Builder</strong> 2. If prompted, click <strong>OK</strong> on the variable properties dialog 3. In the <strong>Gallery</strong> tab on the left, select <strong>Histogram</strong> 4. Drag the simple histogram icon to the canvas area 5. From the <strong>Variables</strong> list, drag <code>mass_kg</code> to the X-Axis drop zone 6. Click <strong>OK</strong> to generate the chart 7. In the Output Viewer, right-click the histogram and select <strong>Export</strong> 8. Choose PNG format, navigate to your <code>figures</code> folder, name it <code>histogram_mass.png</code>, and click <strong>Save</strong></p>
+<p><em>Creating a boxplot:</em> 1. Go to <strong>Graphs &gt; Chart Builder</strong> 2. In the <strong>Gallery</strong>, select <strong>Boxplot</strong> 3. Drag the simple boxplot icon to the canvas 4. Drag <code>mass_kg</code> to the Y-Axis drop zone 5. Drag <code>group</code> to the X-Axis drop zone 6. Click <strong>OK</strong> to generate the chart 7. Right-click the boxplot in the Output Viewer, select <strong>Export</strong> 8. Save as PNG in your <code>figures</code> folder with the name <code>boxplot_mass_by_group.png</code></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>GRAPH</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  /HISTOGRAM=mass_kg</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  /TITLE='Distribution of Body Mass'.</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>GRAPH</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  /BOXPLOT=mass_kg BY group</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  /TITLE='Body Mass by Group'.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<p><strong>Task 6: Syntax Documentation</strong></p>
+<ol type="1">
+<li><p>Go to <strong>File &gt; New &gt; Syntax</strong></p></li>
+<li><p>In the empty syntax editor, create a header with comments:</p>
+<pre><code>* ============================================
+* Chapter 1 Practice Exercises
+* Author: [Your Name]
+* Date: [Today's Date]
+* Purpose: Complete workflow from import to QC
+* ============================================</code></pre></li>
+<li><p>Now, repeat each of the previous tasks (import, compute, recode, charts) but instead of clicking <strong>OK</strong> in each dialog, click <strong>Paste</strong></p></li>
+<li><p>The syntax will be copied to your syntax editor window</p></li>
+<li><p>Add comments using <code>*</code> before each section to explain what you’re doing</p></li>
+<li><p>Add <code>EXECUTE.</code> after any data transformation commands</p></li>
+<li><p>Save the syntax file as <code>chapter01_practice.sps</code> in your <code>syntax</code> folder (<strong>File &gt; Save As</strong>)</p></li>
+<li><p>To test it: Close your data file without saving changes (if asked)</p></li>
+<li><p>Highlight all the syntax (Ctrl+A or Cmd+A) and click the green <strong>Run</strong> arrow (or press Ctrl+R / Cmd+R)</p></li>
+<li><p>Verify that all output appears correctly in the Output Viewer</p></li>
+</ol>
+<p><strong>Task 7: Data Quality Control</strong></p>
+<p><em>Checking ranges:</em> 1. Go to <strong>Analyze &gt; Descriptive Statistics &gt; Descriptives</strong> 2. Move <code>age</code>, <code>height_cm</code>, and <code>mass_kg</code> to the <strong>Variable(s)</strong> box 3. Click <strong>Options</strong> and ensure “Mean”, “Std. deviation”, “Minimum”, and “Maximum” are checked 4. Click <strong>Continue</strong>, then <strong>OK</strong> 5. Review the output table—check that minimum and maximum values are within plausible ranges (e.g., age 18-60, height 140-210 cm, mass 45-120 kg)</p>
+<p><em>Checking missing data patterns:</em> 1. Go to <strong>Analyze &gt; Descriptive Statistics &gt; Frequencies</strong> 2. Move all variables to the <strong>Variable(s)</strong> box 3. Click <strong>Statistics</strong> and check “Missing” 4. Uncheck any default statistics you don’t need 5. Click <strong>Continue</strong> 6. Click <strong>Format</strong>, select “Suppress tables with more than N categories” and set to 0 (this hides the frequency tables) 7. Click <strong>Continue</strong>, then <strong>OK</strong> 8. Review the output to see how many missing values exist for each variable</p>
+<p><em>Identifying duplicates:</em> 1. Go to <strong>Data &gt; Identify Duplicate Cases</strong> 2. Move <code>id</code> to the <strong>Define matching cases by</strong> box 3. Select “First case in each group” under <strong>Cases to exclude</strong> 4. Click <strong>OK</strong> 5. SPSS will create a new variable showing whether each case is a duplicate (PrimaryLast) 6. Review the output—if no duplicates exist, all cases should be marked as “Primary” 7. You can delete the PrimaryLast variable after confirming no duplicates exist</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Optional: Syntax Version
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>* Check ranges</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>DESCRIPTIVES VARIABLES=age height_cm mass_kg</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  /STATISTICS=MIN MAX MEAN STDDEV.</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>* Check for missing data</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>FREQUENCIES VARIABLES=ALL</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  /FORMAT=NOTABLE</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  /STATISTICS=MISSING.</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>* Identify duplicate IDs</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>SORT CASES BY id.</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>AGGREGATE</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  /OUTFILE=* MODE=ADDVARIABLES</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  /BREAK=id</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  /id_count=N.</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>FREQUENCIES VARIABLES=id_count.</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>SELECT IF (id_count = 1).</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>EXECUTE.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('keydown', function(e) {
+  // Check for Ctrl+` (backtick)
+  if (e.ctrlKey && e.key === '`') {
+    e.preventDefault();
+    const solutions = document.getElementById('practice-solutions');
+    if (solutions) {
+      solutions.style.display = solutions.style.display === 'none' ? 'block' : 'none';
+    }
+  }
+});
+</script>
+</section>
+<section id="common-pitfalls" class="level2" data-number="I.18">
+<h2 data-number="I.18" class="anchored" data-anchor-id="common-pitfalls"><span class="header-section-number">I.18</span> Common Pitfalls</h2>
+<ul>
+<li><strong>Type Mismatches</strong>: Numbers imported as strings → failed analyses</li>
+<li><strong>Missing Handling</strong>: Treating user-missing as valid; unintended listwise deletion</li>
+<li><strong>Value Labels</strong>: Misaligned codes and labels; inconsistent order</li>
+<li><strong>Paths</strong>: Hard-coded absolute paths break when project moves</li>
+<li><strong>Overwriting</strong>: Recode into same variable without backup</li>
+<li><strong>Manual Edits</strong>: Changing output tables without updating dataset or syntax</li>
+</ul>
+</section>
+<section id="readiness-checklist" class="level2" data-number="I.19">
+<h2 data-number="I.19" class="anchored" data-anchor-id="readiness-checklist"><span class="header-section-number">I.19</span> Readiness Checklist</h2>
+<ul class="task-list">
+<li><label><input type="checkbox">SPSS 31 installed and licensed</label></li>
+<li><label><input type="checkbox">Project folders organized (data, syntax, output, figures)</label></li>
+<li><label><input type="checkbox">Sample datasets imported and saved as <code>.sav</code></label></li>
+<li><label><input type="checkbox">Variable types, labels, and missing values defined</label></li>
+<li><label><input type="checkbox">At least one Compute and one Recode completed</label></li>
+<li><label><input type="checkbox">Histogram and boxplot created and exported</label></li>
+<li><label><input type="checkbox">Master <code>.sps</code> script runs end-to-end without errors</label></li>
+<li><label><input type="checkbox">Range and missing checks performed; no duplicates or invalid values</label></li>
+</ul>
+</section>
+<section id="sec-using-apporto" class="level2" data-number="I.20">
+<h2 data-number="I.20" class="anchored" data-anchor-id="sec-using-apporto"><span class="header-section-number">I.20</span> Using SPSS 31 in Apporto</h2>
+<section id="what-is-apporto" class="level3" data-number="I.20.1">
+<h3 data-number="I.20.1" class="anchored" data-anchor-id="what-is-apporto"><span class="header-section-number">I.20.1</span> What is Apporto?</h3>
+<p>Apporto is a cloud-based virtual desktop platform that provides access to software applications through your web browser. For this course, you’ll use Apporto to run SPSS 31 without needing to install it on your personal computer. This ensures everyone has access to the same version of SPSS regardless of their device (Windows, Mac, Chromebook, etc.).</p>
+</section>
+<section id="accessing-apporto" class="level3" data-number="I.20.2">
+<h3 data-number="I.20.2" class="anchored" data-anchor-id="accessing-apporto"><span class="header-section-number">I.20.2</span> Accessing Apporto</h3>
+<ol type="1">
+<li>Open your web browser and navigate to the Apporto login page link provided in Canvas</li>
+<li>Log in using your institutional credentials</li>
+<li>Once logged in, you’ll see a virtual desktop environment</li>
+</ol>
+</section>
+<section id="launching-spss-31" class="level3" data-number="I.20.3">
+<h3 data-number="I.20.3" class="anchored" data-anchor-id="launching-spss-31"><span class="header-section-number">I.20.3</span> Launching SPSS 31</h3>
+<ol type="1">
+<li>On the Apporto desktop, look for the SPSS icon (it may be in a folder labeled “Statistics” or “Software”)</li>
+<li>Double-click the SPSS 31 icon to launch the application</li>
+<li>SPSS may take a moment to load - be patient during the initial startup</li>
+</ol>
+</section>
+<section id="working-with-files" class="level3" data-number="I.20.4">
+<h3 data-number="I.20.4" class="anchored" data-anchor-id="working-with-files"><span class="header-section-number">I.20.4</span> Working with Files</h3>
+<ul>
+<li><strong>Opening Files</strong>: Use File → Open → Data to load SPSS data files (.sav)</li>
+<li><strong>Importing Data</strong>: Use File → Import Data for Excel, CSV, or other formats</li>
+<li><strong>Creating New Files</strong>: Start with a blank dataset using File → New → Data</li>
+</ul>
+</section>
+<section id="saving-your-work" class="level3" data-number="I.20.5">
+<h3 data-number="I.20.5" class="anchored" data-anchor-id="saving-your-work"><span class="header-section-number">I.20.5</span> Saving Your Work</h3>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Always save your work regularly! Apporto sessions may timeout, and unsaved work will be lost.</p>
+</div>
+</div>
+<ol type="1">
+<li>Use File → Save As to save your SPSS data file (.sav)</li>
+<li>Save output files (.spv) separately using File → Export in the Output Viewer</li>
+<li>Files are typically saved to your personal network drive or OneDrive within Apporto</li>
+</ol>
+</section>
+<section id="downloading-and-uploading-files" class="level3" data-number="I.20.6">
+<h3 data-number="I.20.6" class="anchored" data-anchor-id="downloading-and-uploading-files"><span class="header-section-number">I.20.6</span> Downloading and Uploading Files</h3>
+<section id="uploading-files-to-apporto" class="level4" data-number="I.20.6.1">
+<h4 data-number="I.20.6.1" class="anchored" data-anchor-id="uploading-files-to-apporto"><span class="header-section-number">I.20.6.1</span> Uploading Files to Apporto</h4>
+<p>To transfer files from your local computer to Apporto:</p>
+<ol type="1">
+<li>In the Apporto interface, the file manager opens to your Desktop by default</li>
+<li>Click the <strong>Upload</strong> button on the main top toolbar (it looks like an upward arrow)</li>
+<li>In the file picker dialog that opens, select the file(s) from your local computer</li>
+<li>Wait for the upload to complete - you’ll see a progress indicator</li>
+<li>Once uploaded, you can open the file in SPSS using File → Open → Data</li>
+</ol>
+</section>
+<section id="downloading-files-from-apporto" class="level4" data-number="I.20.6.2">
+<h4 data-number="I.20.6.2" class="anchored" data-anchor-id="downloading-files-from-apporto"><span class="header-section-number">I.20.6.2</span> Downloading Files from Apporto</h4>
+<p>To transfer files from Apporto to your local computer:</p>
+<ol type="1">
+<li>In the Apporto interface, the file manager opens to your Desktop by default (where your files are typically saved)</li>
+<li>Select the SPSS data file (.sav) or output file (.spv) you want to download</li>
+<li>Click the <strong>Download</strong> button on the main top toolbar (it looks like a downward arrow)</li>
+<li>The file will be saved to your local computer’s Downloads folder</li>
+<li>You can then move the file to your preferred location on your computer</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Keep your files organized by creating assignment-specific folders in Apporto. This makes it easier to find and manage your work.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="best-practices" class="level3" data-number="I.20.7">
+<h3 data-number="I.20.7" class="anchored" data-anchor-id="best-practices"><span class="header-section-number">I.20.7</span> Best Practices</h3>
+<ul>
+<li><strong>Browser Compatibility</strong>: Use Chrome, Firefox, or Edge for best performance</li>
+<li><strong>Internet Connection</strong>: A stable internet connection is essential</li>
+<li><strong>Session Timeouts</strong>: Apporto sessions may disconnect after periods of inactivity</li>
+<li><strong>File Organization</strong>: Create folders for each assignment to keep your work organized</li>
+</ul>
+</section>
+<section id="troubleshooting" class="level3" data-number="I.20.8">
+<h3 data-number="I.20.8" class="anchored" data-anchor-id="troubleshooting"><span class="header-section-number">I.20.8</span> Troubleshooting</h3>
+<ul>
+<li><strong>SPSS Won’t Launch</strong>: Try refreshing your browser or restarting your Apporto session</li>
+<li><strong>Slow Performance</strong>: Close unnecessary applications in Apporto</li>
+<li><strong>File Access Issues</strong>: Ensure you’re saving to the correct location (usually your network drive)</li>
+<li><strong>Connection Problems</strong>: Check your internet connection and try reconnecting to Apporto</li>
+</ul>
+<p>If you encounter persistent issues, contact your instructor or IT support for assistance.</p>
+</section>
+<section id="additional-resources" class="level3" data-number="I.20.9">
+<h3 data-number="I.20.9" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">I.20.9</span> Additional Resources</h3>
+<ul>
+<li>Apporto User Guide (available through your institution)</li>
+<li>SPSS Help: Press F1 within SPSS for context-sensitive help</li>
+<li>Course materials and video tutorials on SPSS usage</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./appendix-apa-reporting.html" class="pagination-link" aria-label="APA Style Results Reporting">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appendix-spss-data-visualization.html" class="pagination-link" aria-label="Data Visualizations">
+        <span class="nav-page-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

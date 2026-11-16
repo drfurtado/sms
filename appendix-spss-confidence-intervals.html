@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Appendix P — SPSS Tutorial: Confidence Intervals – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./appendix-spss-hypothesis-testing.html" rel="next">
+<link href="./appendix-spss-sampling.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-confidence-intervals.html"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">P.1</span> Overview</a></li>
+  <li><a href="#dataset-for-this-tutorial" id="toc-dataset-for-this-tutorial" class="nav-link" data-scroll-target="#dataset-for-this-tutorial"><span class="header-section-number">P.2</span> Dataset for this tutorial</a></li>
+  <li><a href="#part-1-confidence-interval-for-a-single-mean" id="toc-part-1-confidence-interval-for-a-single-mean" class="nav-link" data-scroll-target="#part-1-confidence-interval-for-a-single-mean"><span class="header-section-number">P.3</span> Part 1: Confidence interval for a single mean</a>
+  <ul class="collapse">
+  <li><a href="#example-mean-vo₂max-at-baseline" id="toc-example-mean-vo₂max-at-baseline" class="nav-link" data-scroll-target="#example-mean-vo₂max-at-baseline"><span class="header-section-number">P.3.1</span> Example: Mean VO₂max at baseline</a></li>
+  <li><a href="#procedure-using-explore" id="toc-procedure-using-explore" class="nav-link" data-scroll-target="#procedure-using-explore"><span class="header-section-number">P.3.2</span> Procedure: Using Explore</a></li>
+  <li><a href="#interpreting-the-output" id="toc-interpreting-the-output" class="nav-link" data-scroll-target="#interpreting-the-output"><span class="header-section-number">P.3.3</span> Interpreting the output</a></li>
+  <li><a href="#changing-the-confidence-level" id="toc-changing-the-confidence-level" class="nav-link" data-scroll-target="#changing-the-confidence-level"><span class="header-section-number">P.3.4</span> Changing the confidence level</a></li>
+  </ul></li>
+  <li><a href="#part-2-confidence-intervals-for-independent-samples-two-groups" id="toc-part-2-confidence-intervals-for-independent-samples-two-groups" class="nav-link" data-scroll-target="#part-2-confidence-intervals-for-independent-samples-two-groups"><span class="header-section-number">P.4</span> Part 2: Confidence intervals for independent samples (two groups)</a>
+  <ul class="collapse">
+  <li><a href="#example-comparing-sprint-time-between-training-and-control-groups" id="toc-example-comparing-sprint-time-between-training-and-control-groups" class="nav-link" data-scroll-target="#example-comparing-sprint-time-between-training-and-control-groups"><span class="header-section-number">P.4.1</span> Example: Comparing sprint time between training and control groups</a></li>
+  <li><a href="#procedure-independent-samples-t-test" id="toc-procedure-independent-samples-t-test" class="nav-link" data-scroll-target="#procedure-independent-samples-t-test"><span class="header-section-number">P.4.2</span> Procedure: Independent-Samples T Test</a></li>
+  <li><a href="#interpreting-the-output-1" id="toc-interpreting-the-output-1" class="nav-link" data-scroll-target="#interpreting-the-output-1"><span class="header-section-number">P.4.3</span> Interpreting the output</a></li>
+  <li><a href="#reporting" id="toc-reporting" class="nav-link" data-scroll-target="#reporting"><span class="header-section-number">P.4.4</span> Reporting</a></li>
+  </ul></li>
+  <li><a href="#part-3-confidence-intervals-for-paired-samples-within-subjects" id="toc-part-3-confidence-intervals-for-paired-samples-within-subjects" class="nav-link" data-scroll-target="#part-3-confidence-intervals-for-paired-samples-within-subjects"><span class="header-section-number">P.5</span> Part 3: Confidence intervals for paired samples (within-subjects)</a>
+  <ul class="collapse">
+  <li><a href="#example-pre-post-sprint-time-comparison" id="toc-example-pre-post-sprint-time-comparison" class="nav-link" data-scroll-target="#example-pre-post-sprint-time-comparison"><span class="header-section-number">P.5.1</span> Example: Pre-post sprint time comparison</a></li>
+  <li><a href="#procedure-paired-samples-t-test" id="toc-procedure-paired-samples-t-test" class="nav-link" data-scroll-target="#procedure-paired-samples-t-test"><span class="header-section-number">P.5.2</span> Procedure: Paired-Samples T Test</a></li>
+  <li><a href="#interpreting-the-output-2" id="toc-interpreting-the-output-2" class="nav-link" data-scroll-target="#interpreting-the-output-2"><span class="header-section-number">P.5.3</span> Interpreting the output</a></li>
+  </ul></li>
+  <li><a href="#part-4-visualizing-confidence-intervals-with-error-bars" id="toc-part-4-visualizing-confidence-intervals-with-error-bars" class="nav-link" data-scroll-target="#part-4-visualizing-confidence-intervals-with-error-bars"><span class="header-section-number">P.6</span> Part 4: Visualizing confidence intervals with error bars</a>
+  <ul class="collapse">
+  <li><a href="#procedure-creating-error-bar-plots" id="toc-procedure-creating-error-bar-plots" class="nav-link" data-scroll-target="#procedure-creating-error-bar-plots"><span class="header-section-number">P.6.1</span> Procedure: Creating error bar plots</a></li>
+  <li><a href="#example-output" id="toc-example-output" class="nav-link" data-scroll-target="#example-output"><span class="header-section-number">P.6.2</span> Example output</a></li>
+  <li><a href="#enhancing-plots-for-publication" id="toc-enhancing-plots-for-publication" class="nav-link" data-scroll-target="#enhancing-plots-for-publication"><span class="header-section-number">P.6.3</span> Enhancing plots for publication</a></li>
+  </ul></li>
+  <li><a href="#part-5-confidence-intervals-for-proportions" id="toc-part-5-confidence-intervals-for-proportions" class="nav-link" data-scroll-target="#part-5-confidence-intervals-for-proportions"><span class="header-section-number">P.7</span> Part 5: Confidence intervals for proportions</a>
+  <ul class="collapse">
+  <li><a href="#manual-calculation-example" id="toc-manual-calculation-example" class="nav-link" data-scroll-target="#manual-calculation-example"><span class="header-section-number">P.7.1</span> Manual calculation example</a></li>
+  <li><a href="#using-spss-syntax-for-proportions" id="toc-using-spss-syntax-for-proportions" class="nav-link" data-scroll-target="#using-spss-syntax-for-proportions"><span class="header-section-number">P.7.2</span> Using SPSS syntax for proportions</a></li>
+  </ul></li>
+  <li><a href="#part-6-understanding-factors-affecting-confidence-interval-width" id="toc-part-6-understanding-factors-affecting-confidence-interval-width" class="nav-link" data-scroll-target="#part-6-understanding-factors-affecting-confidence-interval-width"><span class="header-section-number">P.8</span> Part 6: Understanding factors affecting confidence interval width</a>
+  <ul class="collapse">
+  <li><a href="#effect-of-sample-size" id="toc-effect-of-sample-size" class="nav-link" data-scroll-target="#effect-of-sample-size"><span class="header-section-number">P.8.1</span> Effect of sample size</a></li>
+  <li><a href="#effect-of-confidence-level" id="toc-effect-of-confidence-level" class="nav-link" data-scroll-target="#effect-of-confidence-level"><span class="header-section-number">P.8.2</span> Effect of confidence level</a></li>
+  <li><a href="#effect-of-variability" id="toc-effect-of-variability" class="nav-link" data-scroll-target="#effect-of-variability"><span class="header-section-number">P.8.3</span> Effect of variability</a></li>
+  </ul></li>
+  <li><a href="#part-7-common-mistakes-and-troubleshooting" id="toc-part-7-common-mistakes-and-troubleshooting" class="nav-link" data-scroll-target="#part-7-common-mistakes-and-troubleshooting"><span class="header-section-number">P.9</span> Part 7: Common mistakes and troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#mistake-1-interpreting-cis-as-95-of-data-fall-in-this-range" id="toc-mistake-1-interpreting-cis-as-95-of-data-fall-in-this-range" class="nav-link" data-scroll-target="#mistake-1-interpreting-cis-as-95-of-data-fall-in-this-range"><span class="header-section-number">P.9.1</span> Mistake 1: Interpreting CIs as “95% of data fall in this range”</a></li>
+  <li><a href="#mistake-2-concluding-no-difference-from-overlapping-cis" id="toc-mistake-2-concluding-no-difference-from-overlapping-cis" class="nav-link" data-scroll-target="#mistake-2-concluding-no-difference-from-overlapping-cis"><span class="header-section-number">P.9.2</span> Mistake 2: Concluding “no difference” from overlapping CIs</a></li>
+  <li><a href="#mistake-3-reporting-only-significant-without-the-ci" id="toc-mistake-3-reporting-only-significant-without-the-ci" class="nav-link" data-scroll-target="#mistake-3-reporting-only-significant-without-the-ci"><span class="header-section-number">P.9.3</span> Mistake 3: Reporting only “significant” without the CI</a></li>
+  <li><a href="#mistake-4-using-z-values-instead-of-t-values-for-small-samples" id="toc-mistake-4-using-z-values-instead-of-t-values-for-small-samples" class="nav-link" data-scroll-target="#mistake-4-using-z-values-instead-of-t-values-for-small-samples"><span class="header-section-number">P.9.4</span> Mistake 4: Using z-values instead of t-values for small samples</a></li>
+  </ul></li>
+  <li><a href="#part-8-exporting-and-reporting-confidence-intervals" id="toc-part-8-exporting-and-reporting-confidence-intervals" class="nav-link" data-scroll-target="#part-8-exporting-and-reporting-confidence-intervals"><span class="header-section-number">P.10</span> Part 8: Exporting and reporting confidence intervals</a>
+  <ul class="collapse">
+  <li><a href="#apa-style-reporting-template" id="toc-apa-style-reporting-template" class="nav-link" data-scroll-target="#apa-style-reporting-template"><span class="header-section-number">P.10.1</span> APA-style reporting template</a></li>
+  <li><a href="#creating-a-summary-table" id="toc-creating-a-summary-table" class="nav-link" data-scroll-target="#creating-a-summary-table"><span class="header-section-number">P.10.2</span> Creating a summary table</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">P.11</span> Summary</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">P.12</span> Additional resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item">Appendices</li><li class="breadcrumb-item"><a href="./appendix-spss-getting-started.html">SPSS Tutorials</a></li><li class="breadcrumb-item"><a href="./appendix-spss-confidence-intervals.html"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Appendix P — SPSS Tutorial: Confidence Intervals</h1>
+<p class="subtitle lead">Computing and interpreting confidence intervals for means, differences, and proportions</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Learning Objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>By the end of this tutorial, you will be able to:</p>
+<ul>
+<li>Compute confidence intervals for a single mean using SPSS</li>
+<li>Interpret confidence interval output in the context of Movement Science research</li>
+<li>Calculate confidence intervals for the difference between two independent means</li>
+<li>Compute confidence intervals for paired (dependent) samples</li>
+<li>Understand how sample size affects confidence interval width</li>
+<li>Visualize confidence intervals using error bar plots</li>
+<li>Report confidence intervals following APA guidelines</li>
+</ul>
+</div>
+</div>
+<section id="overview" class="level2" data-number="P.1">
+<h2 data-number="P.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">P.1</span> Overview</h2>
+<p>Confidence intervals (CIs) are essential for quantifying uncertainty and communicating the precision of estimates. While point estimates (e.g., sample means) provide single “best guess” values, confidence intervals acknowledge that sample-based estimates vary due to sampling error. A 95% confidence interval provides a range of plausible values for the population parameter, constructed such that if we repeated the study many times, approximately 95% of the intervals would contain the true population value.</p>
+<p>SPSS provides confidence intervals automatically in many statistical procedures, but understanding how to access, interpret, and visualize them is critical for responsible statistical practice. This tutorial demonstrates:</p>
+<ul>
+<li>How to obtain 95% and 99% confidence intervals</li>
+<li>How to interpret CI width as a measure of precision</li>
+<li>How to use CIs for assessing statistical and practical significance</li>
+<li>How to create publication-ready error bar plots</li>
+</ul>
+<p><strong>Prerequisites:</strong> Familiarity with SPSS data entry, descriptive statistics, and basic data management.</p>
+</section>
+<section id="dataset-for-this-tutorial" class="level2" data-number="P.2">
+<h2 data-number="P.2" class="anchored" data-anchor-id="dataset-for-this-tutorial"><span class="header-section-number">P.2</span> Dataset for this tutorial</h2>
+<p>We will use the <strong>Core Dataset</strong> (<code>core_session.csv</code>), filtered to pre-training (<em>N</em> = 60) unless otherwise noted. Download it here: <a href="data/core_session.csv">core_session.csv</a></p>
+<p>Key variables used in this tutorial:</p>
+<ul>
+<li><code>sprint_20m_s</code> — 20-meter sprint time in seconds</li>
+<li><code>vo2_mlkgmin</code> — VO₂max (mL·kg⁻¹·min⁻¹)</li>
+<li><code>group</code> — training vs.&nbsp;control</li>
+</ul>
+</section>
+<section id="part-1-confidence-interval-for-a-single-mean" class="level2" data-number="P.3">
+<h2 data-number="P.3" class="anchored" data-anchor-id="part-1-confidence-interval-for-a-single-mean"><span class="header-section-number">P.3</span> Part 1: Confidence interval for a single mean</h2>
+<p>Let’s start with the most basic scenario: computing a 95% confidence interval for a population mean based on a single sample.</p>
+<section id="example-mean-vo₂max-at-baseline" class="level3" data-number="P.3.1">
+<h3 data-number="P.3.1" class="anchored" data-anchor-id="example-mean-vo₂max-at-baseline"><span class="header-section-number">P.3.1</span> Example: Mean VO₂max at baseline</h3>
+<p>We measure aerobic capacity (<code>vo2_mlkgmin</code>) in 60 participants at baseline and want to estimate the population mean with a confidence interval.</p>
+</section>
+<section id="procedure-using-explore" class="level3" data-number="P.3.2">
+<h3 data-number="P.3.2" class="anchored" data-anchor-id="procedure-using-explore"><span class="header-section-number">P.3.2</span> Procedure: Using Explore</h3>
+<p>The simplest way to obtain a confidence interval for a mean is through the <strong>Explore</strong> procedure.</p>
+<ol type="1">
+<li><strong>Analyze → Descriptive Statistics → Explore…</strong></li>
+<li>Move your variable (e.g., <code>vo2_mlkgmin</code>) to <strong>Dependent List</strong></li>
+<li>Click <strong>Statistics…</strong>
+<ul>
+<li>✓ Check <strong>Descriptives</strong> (if not already selected)</li>
+<li>Confidence Interval for Mean: <strong>95%</strong> (default)</li>
+</ul></li>
+<li><strong>Continue</strong></li>
+<li><strong>Display</strong>: Select <strong>Statistics</strong></li>
+<li><strong>OK</strong></li>
+</ol>
+</section>
+<section id="interpreting-the-output" class="level3" data-number="P.3.3">
+<h3 data-number="P.3.3" class="anchored" data-anchor-id="interpreting-the-output"><span class="header-section-number">P.3.3</span> Interpreting the output</h3>
+<p>SPSS will produce a table labeled <strong>Descriptives</strong> that includes:</p>
+<pre><code>Descriptives
+                               Statistic    Std. Error
+vo2_mlkgmin  Mean              41.340       0.880
+             95% Confidence    Lower Bound  39.579
+             Interval for Mean Upper Bound  43.101
+             Median            41.550
+             Variance          46.477
+             Std. Deviation    6.817
+             Minimum           26.9
+             Maximum           56.5
+             Range             29.6
+             Interquartile Range 9.8
+             Skewness          -0.040       0.309
+             Kurtosis          -0.563       0.608</code></pre>
+<p><strong>Key information:</strong></p>
+<ul>
+<li><strong>Mean = 41.34 mL·kg⁻¹·min⁻¹</strong>: Point estimate of population mean</li>
+<li><strong>95% CI [39.58, 43.10]</strong>: We are 95% confident that the true population mean VO₂max lies between 39.58 and 43.10 mL·kg⁻¹·min⁻¹</li>
+<li><strong>Std. Error = 0.880</strong>: Standard error of the mean (SE = SD / √n = 6.817 / √60)</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Interpretation in context
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Report: “Mean VO₂max was 41.34 mL·kg⁻¹·min⁻¹, 95% CI [39.58, 43.10], based on 60 participants at pre-training.”</p>
+<p>The interval width (3.52 mL·kg⁻¹·min⁻¹) reflects moderate precision given the relatively high variability (SD = 6.82).</p>
+</div>
+</div>
+</section>
+<section id="changing-the-confidence-level" class="level3" data-number="P.3.4">
+<h3 data-number="P.3.4" class="anchored" data-anchor-id="changing-the-confidence-level"><span class="header-section-number">P.3.4</span> Changing the confidence level</h3>
+<p>To compute a 99% confidence interval (wider, more conservative):</p>
+<ol type="1">
+<li><strong>Analyze → Descriptive Statistics → Explore…</strong></li>
+<li><strong>Statistics</strong> button</li>
+<li>Change <strong>Confidence Interval for Mean</strong> to <strong>99</strong></li>
+<li><strong>Continue → OK</strong></li>
+</ol>
+<p>The 99% CI will be wider than the 95% CI because we are demanding greater certainty.</p>
+<p><strong>Example output (approximate):</strong></p>
+<ul>
+<li><strong>95% CI: [39.58, 43.10]</strong> (width = 3.52)</li>
+<li><strong>99% CI: [38.99, 43.69]</strong> (width = 4.70)</li>
+</ul>
+<p>Notice the interval is wider with 99% confidence, reflecting the trade-off between confidence level and precision.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why use 99% vs 95%?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>95% CI</strong> is standard in most research.</li>
+<li><strong>99% CI</strong> is appropriate when greater certainty is required (e.g., safety-critical applications, exploratory research with high false-positive risk).</li>
+<li><strong>90% CI</strong> may be used in exploratory or preliminary studies where narrower intervals are acceptable.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="part-2-confidence-intervals-for-independent-samples-two-groups" class="level2" data-number="P.4">
+<h2 data-number="P.4" class="anchored" data-anchor-id="part-2-confidence-intervals-for-independent-samples-two-groups"><span class="header-section-number">P.4</span> Part 2: Confidence intervals for independent samples (two groups)</h2>
+<p>When comparing two independent groups (e.g., training vs.&nbsp;control), we want a confidence interval for the <strong>difference in means</strong>.</p>
+<section id="example-comparing-sprint-time-between-training-and-control-groups" class="level3" data-number="P.4.1">
+<h3 data-number="P.4.1" class="anchored" data-anchor-id="example-comparing-sprint-time-between-training-and-control-groups"><span class="header-section-number">P.4.1</span> Example: Comparing sprint time between training and control groups</h3>
+<p>We compare 20-m sprint time (<code>sprint_20m_s</code>) between the training (n = 30) and control (n = 30) groups at pre-training.</p>
+</section>
+<section id="procedure-independent-samples-t-test" class="level3" data-number="P.4.2">
+<h3 data-number="P.4.2" class="anchored" data-anchor-id="procedure-independent-samples-t-test"><span class="header-section-number">P.4.2</span> Procedure: Independent-Samples T Test</h3>
+<p>SPSS produces confidence intervals for mean differences through the <strong>Independent-Samples T Test</strong> procedure.</p>
+<ol type="1">
+<li><strong>Analyze → Compare Means → Independent-Samples T Test…</strong></li>
+<li>Move <code>sprint_20m_s</code> to <strong>Test Variable(s)</strong></li>
+<li>Move <code>group</code> to <strong>Grouping Variable</strong></li>
+<li>Click <strong>Define Groups…</strong> and enter <code>control</code> and <code>training</code></li>
+<li><strong>Continue → OK</strong></li>
+</ol>
+</section>
+<section id="interpreting-the-output-1" class="level3" data-number="P.4.3">
+<h3 data-number="P.4.3" class="anchored" data-anchor-id="interpreting-the-output-1"><span class="header-section-number">P.4.3</span> Interpreting the output</h3>
+<p>SPSS will produce two tables:</p>
+<p><strong>Group Statistics:</strong></p>
+<pre><code>Group Statistics
+              group      N    Mean   Std. Deviation   Std. Error Mean
+sprint_20m_s  control   30   3.811  .340             .062
+              training  30   3.772  .373             .068</code></pre>
+<p><strong>Independent Samples Test:</strong></p>
+<pre><code>Independent Samples Test
+                                        t       df    Sig.     Mean        95% CI of the Difference
+                                                             Difference    Lower      Upper
+sprint_20m_s   Equal variances assumed  0.429   58    .669     .039        -.145      .224</code></pre>
+<p><strong>Key information:</strong></p>
+<ul>
+<li><strong>Mean difference = 0.039 s</strong>: Groups differ by less than 1/25 of a second on average</li>
+<li><strong>95% CI [−0.145, 0.224]</strong>: The CI <strong>includes zero</strong>, indicating <strong>no significant difference</strong> at α = 0.05</li>
+<li><strong>p = .669</strong>: Consistent with the CI conclusion</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Practical interpretation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The confidence interval tells us:</p>
+<ol type="1">
+<li><strong>Statistical significance</strong>: Because zero is in the interval, we conclude the two groups did not differ significantly at baseline.</li>
+<li><strong>Effect magnitude</strong>: The true difference is plausibly anywhere from −0.145 s to +0.224 s — both very small.</li>
+<li><strong>Precision</strong>: The interval width (0.369 s) is moderate; larger samples would narrow it further.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="reporting" class="level3" data-number="P.4.4">
+<h3 data-number="P.4.4" class="anchored" data-anchor-id="reporting"><span class="header-section-number">P.4.4</span> Reporting</h3>
+<p>“Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34) and training groups (M = 3.77 s, SD = 0.37), mean difference = 0.04 s, 95% CI [−0.15, 0.22], t(58) = 0.43, p = .669.”</p>
+</section>
+</section>
+<section id="part-3-confidence-intervals-for-paired-samples-within-subjects" class="level2" data-number="P.5">
+<h2 data-number="P.5" class="anchored" data-anchor-id="part-3-confidence-intervals-for-paired-samples-within-subjects"><span class="header-section-number">P.5</span> Part 3: Confidence intervals for paired samples (within-subjects)</h2>
+<p>For paired or repeated-measures designs (e.g., pre-test vs.&nbsp;post-test), we use <strong>Paired-Samples T Test</strong>.</p>
+<section id="example-pre-post-sprint-time-comparison" class="level3" data-number="P.5.1">
+<h3 data-number="P.5.1" class="anchored" data-anchor-id="example-pre-post-sprint-time-comparison"><span class="header-section-number">P.5.1</span> Example: Pre-post sprint time comparison</h3>
+<p>We compare sprint time at pre-training vs.&nbsp;post-training across all 55 participants with complete data.</p>
+</section>
+<section id="procedure-paired-samples-t-test" class="level3" data-number="P.5.2">
+<h3 data-number="P.5.2" class="anchored" data-anchor-id="procedure-paired-samples-t-test"><span class="header-section-number">P.5.2</span> Procedure: Paired-Samples T Test</h3>
+<ol type="1">
+<li><strong>Analyze → Compare Means → Paired-Samples T Test…</strong></li>
+<li>Select the two variables (e.g., <code>sprint_pre</code> and <code>sprint_post</code>) and move them to <strong>Paired Variables</strong></li>
+<li>Click <strong>Options… → Continue</strong></li>
+<li><strong>OK</strong></li>
+</ol>
+</section>
+<section id="interpreting-the-output-2" class="level3" data-number="P.5.3">
+<h3 data-number="P.5.3" class="anchored" data-anchor-id="interpreting-the-output-2"><span class="header-section-number">P.5.3</span> Interpreting the output</h3>
+<p><strong>Paired Samples Statistics:</strong></p>
+<pre><code>Paired Samples Statistics
+                 Mean     N     Std. Deviation   Std. Error Mean
+Pair 1  sprint_pre  3.802   55    .365             .049
+        sprint_post 3.792   55    .402             .054</code></pre>
+<p><strong>Paired Samples Test:</strong></p>
+<pre><code>Paired Samples Test
+                                 Mean      Std.        95% CI of the Difference      t       df    Sig.
+                                 Difference Deviation  Lower       Upper
+Pair 1  sprint_pre - sprint_post  .010      .158       -.033       .053             0.469   54    .641</code></pre>
+<p><strong>Key information:</strong></p>
+<ul>
+<li><strong>Mean difference = 0.010 s</strong>: Sprint time barely changed from pre to post</li>
+<li><strong>95% CI [−0.033, +0.053]</strong>: CI includes zero; change is non-significant</li>
+<li>The CI excludes practically meaningful change, confirming minimal intervention effect on sprint time across the full sample</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Reporting paired comparisons
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Sprint time did not change significantly from pre-training (M = 3.80 s, SD = 0.37) to post-training (M = 3.79 s, SD = 0.40), mean change = 0.01 s, 95% CI [−0.03, 0.05], t(54) = 0.47, p = .641.”</p>
+<p>The confidence interval shows the true population change is plausibly between −0.033 and +0.053 seconds — practically negligible in either direction.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="part-4-visualizing-confidence-intervals-with-error-bars" class="level2" data-number="P.6">
+<h2 data-number="P.6" class="anchored" data-anchor-id="part-4-visualizing-confidence-intervals-with-error-bars"><span class="header-section-number">P.6</span> Part 4: Visualizing confidence intervals with error bars</h2>
+<p>Error bar plots are effective for displaying means with confidence intervals across groups or conditions.</p>
+<section id="procedure-creating-error-bar-plots" class="level3" data-number="P.6.1">
+<h3 data-number="P.6.1" class="anchored" data-anchor-id="procedure-creating-error-bar-plots"><span class="header-section-number">P.6.1</span> Procedure: Creating error bar plots</h3>
+<ol type="1">
+<li><strong>Graphs → Legacy Dialogs → Error Bar…</strong></li>
+<li>Select <strong>Simple</strong> and <strong>Define</strong></li>
+<li><strong>Bars Represent</strong>: Select <strong>Confidence interval for mean</strong>
+<ul>
+<li><strong>Level (%)</strong>: 95 (or desired confidence level)</li>
+</ul></li>
+<li>Move your continuous variable (e.g., <code>JumpHeight</code>) to <strong>Variable</strong></li>
+<li>Move your grouping variable (e.g., <code>TrainingGroup</code>) to <strong>Category Axis</strong></li>
+<li><strong>OK</strong></li>
+</ol>
+</section>
+<section id="example-output" class="level3" data-number="P.6.2">
+<h3 data-number="P.6.2" class="anchored" data-anchor-id="example-output"><span class="header-section-number">P.6.2</span> Example output</h3>
+<p>SPSS will produce a plot with:</p>
+<ul>
+<li>Group means displayed as points or bars</li>
+<li>Error bars extending ±95% CI from each mean</li>
+<li>Y-axis labeled with the variable name and units</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpreting error bar plots
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Non-overlapping error bars</strong> suggest a statistically significant difference (though formal testing is required).</li>
+<li><strong>Wide error bars</strong> indicate high uncertainty/low precision.</li>
+<li><strong>Narrow error bars</strong> indicate high precision (large sample, low variability).</li>
+</ul>
+<p><strong>Caution:</strong> Overlapping CIs do not necessarily mean “no difference.” Always examine the confidence interval for the <strong>difference</strong>, not just overlap of individual group CIs.</p>
+</div>
+</div>
+</section>
+<section id="enhancing-plots-for-publication" class="level3" data-number="P.6.3">
+<h3 data-number="P.6.3" class="anchored" data-anchor-id="enhancing-plots-for-publication"><span class="header-section-number">P.6.3</span> Enhancing plots for publication</h3>
+<p>To improve error bar plots:</p>
+<ol type="1">
+<li>Double-click the chart to enter <strong>Chart Editor</strong></li>
+<li><strong>Elements → Show Data Labels</strong> (optional, for displaying exact means)</li>
+<li><strong>Edit → Properties</strong> to customize colors, fonts, and axis labels</li>
+<li>Export as high-resolution image (<strong>File → Export</strong>)</li>
+</ol>
+</section>
+</section>
+<section id="part-5-confidence-intervals-for-proportions" class="level2" data-number="P.7">
+<h2 data-number="P.7" class="anchored" data-anchor-id="part-5-confidence-intervals-for-proportions"><span class="header-section-number">P.7</span> Part 5: Confidence intervals for proportions</h2>
+<p>While SPSS does not provide confidence intervals for proportions through standard menus, you can compute them manually or use syntax.</p>
+<section id="manual-calculation-example" class="level3" data-number="P.7.1">
+<h3 data-number="P.7.1" class="anchored" data-anchor-id="manual-calculation-example"><span class="header-section-number">P.7.1</span> Manual calculation example</h3>
+<p>Suppose 18 out of 50 recreational runners report an injury during a season.</p>
+<p><strong>Sample proportion:</strong> <span class="math inline">\(\hat{p} = 18/50 = 0.36\)</span></p>
+<p><strong>95% CI:</strong> <span class="math inline">\(\hat{p} \pm 1.96 \times \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\)</span></p>
+<p><span class="math display">\[
+0.36 \pm 1.96 \times \sqrt{\frac{0.36 \times 0.64}{50}} = 0.36 \pm 0.133 = [0.227, 0.493]
+\]</span></p>
+<p><strong>Interpretation:</strong> We are 95% confident that the true injury rate among recreational runners is between 22.7% and 49.3%.</p>
+</section>
+<section id="using-spss-syntax-for-proportions" class="level3" data-number="P.7.2">
+<h3 data-number="P.7.2" class="anchored" data-anchor-id="using-spss-syntax-for-proportions"><span class="header-section-number">P.7.2</span> Using SPSS syntax for proportions</h3>
+<pre class="spss"><code>COMPUTE p = 18/50.
+COMPUTE n = 50.
+COMPUTE SE = SQRT((p * (1 - p)) / n).
+COMPUTE CI_lower = p - 1.96 * SE.
+COMPUTE CI_upper = p + 1.96 * SE.
+EXECUTE.</code></pre>
+<p>Add these commands to a syntax file and run to obtain CI bounds.</p>
+</section>
+</section>
+<section id="part-6-understanding-factors-affecting-confidence-interval-width" class="level2" data-number="P.8">
+<h2 data-number="P.8" class="anchored" data-anchor-id="part-6-understanding-factors-affecting-confidence-interval-width"><span class="header-section-number">P.8</span> Part 6: Understanding factors affecting confidence interval width</h2>
+<section id="effect-of-sample-size" class="level3" data-number="P.8.1">
+<h3 data-number="P.8.1" class="anchored" data-anchor-id="effect-of-sample-size"><span class="header-section-number">P.8.1</span> Effect of sample size</h3>
+<p>To see how sample size affects CI width:</p>
+<ol type="1">
+<li><strong>Split your dataset</strong> into subsets of different sizes (e.g., n = 10, n = 30, n = 100)</li>
+<li>Compute 95% CIs for each subset using <strong>Explore</strong></li>
+<li>Compare interval widths</li>
+</ol>
+<p><strong>Expected result:</strong> Larger samples produce narrower CIs.</p>
+</section>
+<section id="effect-of-confidence-level" class="level3" data-number="P.8.2">
+<h3 data-number="P.8.2" class="anchored" data-anchor-id="effect-of-confidence-level"><span class="header-section-number">P.8.2</span> Effect of confidence level</h3>
+<p>Compute CIs at different confidence levels (90%, 95%, 99%) for the same dataset:</p>
+<ul>
+<li><strong>90% CI</strong>: Narrowest</li>
+<li><strong>95% CI</strong>: Moderate width</li>
+<li><strong>99% CI</strong>: Widest</li>
+</ul>
+<p><strong>Trade-off:</strong> Higher confidence requires wider intervals.</p>
+</section>
+<section id="effect-of-variability" class="level3" data-number="P.8.3">
+<h3 data-number="P.8.3" class="anchored" data-anchor-id="effect-of-variability"><span class="header-section-number">P.8.3</span> Effect of variability</h3>
+<p>Compare CIs for variables with different standard deviations:</p>
+<ul>
+<li>Higher SD → wider CI (more sampling error)</li>
+<li>Lower SD → narrower CI (less sampling error)</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Key takeaways
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Sample size</strong> has the greatest practical impact on precision. Larger samples always improve precision.</li>
+<li><strong>Confidence level</strong> is a choice reflecting desired certainty. 95% is standard but not mandatory.</li>
+<li><strong>Variability</strong> is inherent in the population and cannot be controlled, but precise measurement tools can reduce it.</li>
+</ol>
+</div>
+</div>
+</section>
+</section>
+<section id="part-7-common-mistakes-and-troubleshooting" class="level2" data-number="P.9">
+<h2 data-number="P.9" class="anchored" data-anchor-id="part-7-common-mistakes-and-troubleshooting"><span class="header-section-number">P.9</span> Part 7: Common mistakes and troubleshooting</h2>
+<section id="mistake-1-interpreting-cis-as-95-of-data-fall-in-this-range" class="level3" data-number="P.9.1">
+<h3 data-number="P.9.1" class="anchored" data-anchor-id="mistake-1-interpreting-cis-as-95-of-data-fall-in-this-range"><span class="header-section-number">P.9.1</span> Mistake 1: Interpreting CIs as “95% of data fall in this range”</h3>
+<p><strong>Incorrect:</strong> “95% of participants have jump heights between 55 and 61 cm.”</p>
+<p><strong>Correct:</strong> “We are 95% confident that the population mean jump height is between 55 and 61 cm.”</p>
+<p>The CI estimates the <strong>population parameter</strong> (mean), not the distribution of individual observations.</p>
+</section>
+<section id="mistake-2-concluding-no-difference-from-overlapping-cis" class="level3" data-number="P.9.2">
+<h3 data-number="P.9.2" class="anchored" data-anchor-id="mistake-2-concluding-no-difference-from-overlapping-cis"><span class="header-section-number">P.9.2</span> Mistake 2: Concluding “no difference” from overlapping CIs</h3>
+<p>Two groups with overlapping 95% CIs may still differ significantly. Always compute the <strong>CI for the difference</strong> using Independent-Samples T Test.</p>
+</section>
+<section id="mistake-3-reporting-only-significant-without-the-ci" class="level3" data-number="P.9.3">
+<h3 data-number="P.9.3" class="anchored" data-anchor-id="mistake-3-reporting-only-significant-without-the-ci"><span class="header-section-number">P.9.3</span> Mistake 3: Reporting only “significant” without the CI</h3>
+<p>Report: “Mean difference = 4.3 cm, 95% CI [2.5, 6.1], p &lt; .001”</p>
+<p>Not: “p &lt; .001” alone.</p>
+</section>
+<section id="mistake-4-using-z-values-instead-of-t-values-for-small-samples" class="level3" data-number="P.9.4">
+<h3 data-number="P.9.4" class="anchored" data-anchor-id="mistake-4-using-z-values-instead-of-t-values-for-small-samples"><span class="header-section-number">P.9.4</span> Mistake 4: Using z-values instead of t-values for small samples</h3>
+<p>For small samples (n &lt; 30), use the <strong>t-distribution</strong> (automatic in SPSS procedures). Using z-values (1.96) underestimates uncertainty.</p>
+</section>
+</section>
+<section id="part-8-exporting-and-reporting-confidence-intervals" class="level2" data-number="P.10">
+<h2 data-number="P.10" class="anchored" data-anchor-id="part-8-exporting-and-reporting-confidence-intervals"><span class="header-section-number">P.10</span> Part 8: Exporting and reporting confidence intervals</h2>
+<section id="apa-style-reporting-template" class="level3" data-number="P.10.1">
+<h3 data-number="P.10.1" class="anchored" data-anchor-id="apa-style-reporting-template"><span class="header-section-number">P.10.1</span> APA-style reporting template</h3>
+<p>“[Group 1 description] (M = [mean], SD = [SD], n = [n]) [verb] [Group 2 description] (M = [mean], SD = [SD], n = [n]), mean difference = [diff], 95% CI [lower, upper], t([df]) = [t-value], p = [p-value].”</p>
+<p><strong>Example:</strong></p>
+<p>“Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34, n = 30) and training groups (M = 3.77 s, SD = 0.37, n = 30), mean difference = 0.04 s, 95% CI [−0.15, 0.22], t(58) = 0.43, p = .669.”</p>
+</section>
+<section id="creating-a-summary-table" class="level3" data-number="P.10.2">
+<h3 data-number="P.10.2" class="anchored" data-anchor-id="creating-a-summary-table"><span class="header-section-number">P.10.2</span> Creating a summary table</h3>
+<p>You can copy-paste SPSS output into Word or Excel, or create a custom table:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>n</th>
+<th>Mean (SD)</th>
+<th>95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>VO₂max (mL·kg⁻¹·min⁻¹)</td>
+<td>60</td>
+<td>41.34 (6.82)</td>
+<td>[39.58, 43.10]</td>
+</tr>
+<tr class="even">
+<td>Sprint Time (s) — Control</td>
+<td>30</td>
+<td>3.81 (0.34)</td>
+<td>[3.68, 3.94]</td>
+</tr>
+<tr class="odd">
+<td>Sprint Time (s) — Training</td>
+<td>30</td>
+<td>3.77 (0.37)</td>
+<td>[3.63, 3.91]</td>
+</tr>
+<tr class="even">
+<td><strong>Sprint Difference</strong></td>
+<td>—</td>
+<td><strong>0.04</strong></td>
+<td><strong>[−0.15, 0.22]</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Note.</em> Pre-training time point.</p>
+</section>
+</section>
+<section id="summary" class="level2" data-number="P.11">
+<h2 data-number="P.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">P.11</span> Summary</h2>
+<p>This tutorial covered:</p>
+<ul>
+<li>Computing 95% and 99% CIs for single means using <strong>Explore</strong></li>
+<li>Obtaining CIs for independent-samples comparisons using <strong>Independent-Samples T Test</strong></li>
+<li>Computing CIs for paired-samples comparisons using <strong>Paired-Samples T Test</strong></li>
+<li>Visualizing CIs using <strong>Error Bar</strong> plots</li>
+<li>Understanding how sample size, confidence level, and variability affect CI width</li>
+<li>Avoiding common misinterpretations of confidence intervals</li>
+</ul>
+<p>Confidence intervals are indispensable for responsible statistical reporting. Always report CIs alongside point estimates to communicate uncertainty and precision honestly.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next steps
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Practice computing CIs on your own datasets</li>
+<li>Experiment with different confidence levels to see the trade-off between width and certainty</li>
+<li>Use error bar plots in presentations and manuscripts to visualize uncertainty</li>
+<li>Consult Chapter 9 of the textbook for deeper conceptual understanding of confidence intervals</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="additional-resources" class="level2" data-number="P.12">
+<h2 data-number="P.12" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">P.12</span> Additional resources</h2>
+<ul>
+<li><strong>SPSS manuals</strong>: IBM SPSS Statistics Base documentation</li>
+<li><strong>APA Style (7th ed.)</strong>: Guidelines for reporting confidence intervals</li>
+<li><strong>Cumming, G. (2014). Understanding the New Statistics</strong>: Comprehensive guide to confidence intervals and effect sizes</li>
+<li><strong>Textbook website</strong>: Download practice datasets and syntax files</li>
+</ul>
+<hr>
+<p><strong>Questions or issues?</strong> Refer to the textbook’s online support forum or consult your instructor.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./appendix-spss-sampling.html" class="pagination-link" aria-label="SPSS Tutorial: Simulating Sampling Distributions">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./appendix-spss-hypothesis-testing.html" class="pagination-link" aria-label="SPSS Tutorial: Hypothesis Testing">
+        <span class="nav-page-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

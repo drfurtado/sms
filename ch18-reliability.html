@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>18&nbsp; Quantifying Reliability in Movement Science – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch19-nonparametric.html" rel="next">
+<link href="./ch17-ancova.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch18-reliability.html">Reliability, Nonparametric Methods, and Clinical Interpretation</a></li><li class="breadcrumb-item"><a href="./ch18-reliability.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">18.1</span> Chapter roadmap</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives"><span class="header-section-number">18.2</span> Learning objectives</a></li>
+  <li><a href="#workflow-for-a-reliability-study" id="toc-workflow-for-a-reliability-study" class="nav-link" data-scroll-target="#workflow-for-a-reliability-study"><span class="header-section-number">18.3</span> Workflow for a reliability study</a></li>
+  <li><a href="#reliability-versus-validity" id="toc-reliability-versus-validity" class="nav-link" data-scroll-target="#reliability-versus-validity"><span class="header-section-number">18.4</span> Reliability versus validity</a></li>
+  <li><a href="#sources-of-measurement-error" id="toc-sources-of-measurement-error" class="nav-link" data-scroll-target="#sources-of-measurement-error"><span class="header-section-number">18.5</span> Sources of measurement error</a></li>
+  <li><a href="#intraclass-correlation-coefficient" id="toc-intraclass-correlation-coefficient" class="nav-link" data-scroll-target="#intraclass-correlation-coefficient"><span class="header-section-number">18.6</span> Intraclass Correlation Coefficient</a>
+  <ul class="collapse">
+  <li><a href="#what-icc-measures" id="toc-what-icc-measures" class="nav-link" data-scroll-target="#what-icc-measures"><span class="header-section-number">18.6.1</span> What ICC measures</a></li>
+  <li><a href="#the-icc-taxonomy-choosing-the-right-model" id="toc-the-icc-taxonomy-choosing-the-right-model" class="nav-link" data-scroll-target="#the-icc-taxonomy-choosing-the-right-model"><span class="header-section-number">18.6.2</span> The ICC taxonomy: choosing the right model</a></li>
+  <li><a href="#benchmarks-for-interpreting-icc" id="toc-benchmarks-for-interpreting-icc" class="nav-link" data-scroll-target="#benchmarks-for-interpreting-icc"><span class="header-section-number">18.6.3</span> Benchmarks for interpreting ICC</a></li>
+  <li><a href="#worked-example-icc-for-strength-measurement" id="toc-worked-example-icc-for-strength-measurement" class="nav-link" data-scroll-target="#worked-example-icc-for-strength-measurement"><span class="header-section-number">18.6.4</span> Worked example: ICC for strength measurement</a></li>
+  </ul></li>
+  <li><a href="#standard-error-of-measurement" id="toc-standard-error-of-measurement" class="nav-link" data-scroll-target="#standard-error-of-measurement"><span class="header-section-number">18.7</span> Standard Error of Measurement</a>
+  <ul class="collapse">
+  <li><a href="#what-sem-represents" id="toc-what-sem-represents" class="nav-link" data-scroll-target="#what-sem-represents"><span class="header-section-number">18.7.1</span> What SEM represents</a></li>
+  <li><a href="#worked-example-sem-for-three-variables" id="toc-worked-example-sem-for-three-variables" class="nav-link" data-scroll-target="#worked-example-sem-for-three-variables"><span class="header-section-number">18.7.2</span> Worked example: SEM for three variables</a></li>
+  </ul></li>
+  <li><a href="#minimal-detectable-change" id="toc-minimal-detectable-change" class="nav-link" data-scroll-target="#minimal-detectable-change"><span class="header-section-number">18.8</span> Minimal Detectable Change</a>
+  <ul class="collapse">
+  <li><a href="#from-sem-to-individual-change-detection" id="toc-from-sem-to-individual-change-detection" class="nav-link" data-scroll-target="#from-sem-to-individual-change-detection"><span class="header-section-number">18.8.1</span> From SEM to individual change detection</a></li>
+  <li><a href="#worked-example-mdc₉₅-for-all-three-variables" id="toc-worked-example-mdc₉₅-for-all-three-variables" class="nav-link" data-scroll-target="#worked-example-mdc₉₅-for-all-three-variables"><span class="header-section-number">18.8.2</span> Worked example: MDC₉₅ for all three variables</a></li>
+  </ul></li>
+  <li><a href="#bland-altman-method" id="toc-bland-altman-method" class="nav-link" data-scroll-target="#bland-altman-method"><span class="header-section-number">18.9</span> Bland-Altman method</a>
+  <ul class="collapse">
+  <li><a href="#limits-of-agreement" id="toc-limits-of-agreement" class="nav-link" data-scroll-target="#limits-of-agreement"><span class="header-section-number">18.9.1</span> Limits of agreement</a></li>
+  <li><a href="#interpreting-the-bland-altman-plot" id="toc-interpreting-the-bland-altman-plot" class="nav-link" data-scroll-target="#interpreting-the-bland-altman-plot"><span class="header-section-number">18.9.2</span> Interpreting the Bland-Altman plot</a></li>
+  <li><a href="#worked-example-bland-altman-for-strength" id="toc-worked-example-bland-altman-for-strength" class="nav-link" data-scroll-target="#worked-example-bland-altman-for-strength"><span class="header-section-number">18.9.3</span> Worked example: Bland-Altman for strength</a></li>
+  </ul></li>
+  <li><a href="#comparing-reliability-across-variables" id="toc-comparing-reliability-across-variables" class="nav-link" data-scroll-target="#comparing-reliability-across-variables"><span class="header-section-number">18.10</span> Comparing reliability across variables</a></li>
+  <li><a href="#factors-affecting-reliability" id="toc-factors-affecting-reliability" class="nav-link" data-scroll-target="#factors-affecting-reliability"><span class="header-section-number">18.11</span> Factors affecting reliability</a></li>
+  <li><a href="#reliability-and-statistical-power" id="toc-reliability-and-statistical-power" class="nav-link" data-scroll-target="#reliability-and-statistical-power"><span class="header-section-number">18.12</span> Reliability and statistical power</a></li>
+  <li><a href="#reporting-reliability-in-apa-style" id="toc-reporting-reliability-in-apa-style" class="nav-link" data-scroll-target="#reporting-reliability-in-apa-style"><span class="header-section-number">18.13</span> Reporting reliability in APA style</a>
+  <ul class="collapse">
+  <li><a href="#template" id="toc-template" class="nav-link" data-scroll-target="#template"><span class="header-section-number">18.13.1</span> Template</a></li>
+  <li><a href="#full-apa-example" id="toc-full-apa-example" class="nav-link" data-scroll-target="#full-apa-example"><span class="header-section-number">18.13.2</span> Full APA example</a></li>
+  </ul></li>
+  <li><a href="#common-pitfalls-and-best-practices" id="toc-common-pitfalls-and-best-practices" class="nav-link" data-scroll-target="#common-pitfalls-and-best-practices"><span class="header-section-number">18.14</span> Common pitfalls and best practices</a>
+  <ul class="collapse">
+  <li><a href="#pitfall-1-using-pearson-r-instead-of-icc" id="toc-pitfall-1-using-pearson-r-instead-of-icc" class="nav-link" data-scroll-target="#pitfall-1-using-pearson-r-instead-of-icc"><span class="header-section-number">18.14.1</span> Pitfall 1: Using Pearson <em>r</em> instead of ICC</a></li>
+  <li><a href="#pitfall-2-reporting-icc-without-confidence-intervals" id="toc-pitfall-2-reporting-icc-without-confidence-intervals" class="nav-link" data-scroll-target="#pitfall-2-reporting-icc-without-confidence-intervals"><span class="header-section-number">18.14.2</span> Pitfall 2: Reporting ICC without confidence intervals</a></li>
+  <li><a href="#pitfall-3-ignoring-systematic-bias" id="toc-pitfall-3-ignoring-systematic-bias" class="nav-link" data-scroll-target="#pitfall-3-ignoring-systematic-bias"><span class="header-section-number">18.14.3</span> Pitfall 3: Ignoring systematic bias</a></li>
+  <li><a href="#pitfall-4-applying-group-level-mdc₉₅-to-individual-decisions-without-caution" id="toc-pitfall-4-applying-group-level-mdc₉₅-to-individual-decisions-without-caution" class="nav-link" data-scroll-target="#pitfall-4-applying-group-level-mdc₉₅-to-individual-decisions-without-caution"><span class="header-section-number">18.14.4</span> Pitfall 4: Applying group-level MDC₉₅ to individual decisions without caution</a></li>
+  </ul></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">18.15</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">18.16</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">18.17</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch18-reliability.html">Reliability, Nonparametric Methods, and Clinical Interpretation</a></li><li class="breadcrumb-item"><a href="./ch18-reliability.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></h1>
+<p class="subtitle lead">Measurement precision, ICC, SEM, MDC, and the Bland-Altman method</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 Analytical Software &amp; SPSS Tutorials
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>A Note on By-Hand Calculations:</strong> The purpose of this book is not to teach tedious by-hand statistical calculations. Modern researchers run these analyses using major software packages. While we provide the underlying equations for conceptual understanding, we strongly recommend relying on software for computation to avoid errors and save time.</p>
+<p>Please direct your attention to the <strong><a href="./appendix-spss-reliability.html">SPSS Tutorial: Reliability Analysis</a></strong> in the appendix for step-by-step instructions on computing ICC, SEM, MDC, and Bland-Altman limits of agreement using SPSS output!</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">18.1</span> Chapter roadmap</h2>
+<p>Every statistical procedure in this textbook — from the independent t-test to ANCOVA — rests on a silent assumption that has never been stated explicitly: that the measurements entering the analysis actually measure what they are supposed to measure, and that they do so consistently. A dynamometer reading of 80 kg means nothing if the same athlete tested five minutes later would register 74 kg. A sprint time of 3.82 seconds is uninterpretable if the measurement protocol is so variable that two consecutive trials on the same day routinely differ by half a second. Before researchers can make meaningful inferences about group differences, treatment effects, or individual change, they must establish that their instruments and protocols produce <em>consistent, reproducible</em> results — that is, that their measurements are <em>reliable</em>.</p>
+<p>Reliability is the degree to which a measurement produces the same result when applied repeatedly to the same entity under the same conditions<span class="citation" data-cites="atkinsonneville1998 portney2020"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>]</sup></span>. It is not a fixed property of a measuring instrument in isolation but of an instrument applied through a particular protocol to a particular population. A maximal isometric dynamometer test may be highly reliable when administered by a trained assessor following a standardized warm-up, and poorly reliable when administered ad hoc in a busy clinical setting. Reliability is always estimated from data, never assumed — and it must be reported alongside every set of measurements that will be used for inference.</p>
+<p>This chapter introduces the four core tools for quantifying reliability in movement science: the <strong>Intraclass Correlation Coefficient</strong> (ICC), the <strong>Standard Error of Measurement</strong> (SEM), the <strong>Minimal Detectable Change</strong> (MDC), and the <strong>Bland-Altman method</strong> of limits of agreement. Each tool answers a different question, and together they provide a complete picture of measurement precision. The examples draw on the <code>core_session.csv</code> dataset, using the control group’s pre-test and mid-test assessments as a test-retest dataset — a design in which participants complete the same assessment twice under equivalent conditions with no intervening intervention.</p>
+</section>
+<section id="learning-objectives" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">18.2</span> Learning objectives</h2>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Distinguish between reliability and validity, and explain why both are necessary for valid inference.</li>
+<li>Identify and describe the major sources of measurement error in movement science.</li>
+<li>Select and interpret the appropriate ICC model (ICC(1,1), ICC(2,1), ICC(3,1)) for a given reliability study design.</li>
+<li>Apply the Koo and Li (2016) benchmarks to classify ICC values as poor, moderate, good, or excellent.</li>
+<li>Compute and interpret the SEM and explain what it represents in the original measurement units.</li>
+<li>Calculate and apply the MDC₉₅ to determine whether an observed change in an individual exceeds measurement noise.</li>
+<li>Construct and interpret a Bland-Altman plot, including the bias and limits of agreement.</li>
+<li>Explain how poor reliability attenuates statistical effects and reduces the power of group comparisons.</li>
+<li>Report reliability analyses in APA style.</li>
+</ul>
+</section>
+<section id="workflow-for-a-reliability-study" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="workflow-for-a-reliability-study"><span class="header-section-number">18.3</span> Workflow for a reliability study</h2>
+<p>Use this sequence when quantifying the reliability of a measurement instrument or protocol:</p>
+<ol type="1">
+<li><strong>Design the study</strong> — same participants, same protocol, same assessor (or multiple assessors if inter-rater reliability is the focus), two or more occasions with no intervening intervention.</li>
+<li><strong>Restructure data</strong> to wide format (one column per test occasion).</li>
+<li><strong>Select the appropriate ICC model</strong> based on whether raters are random or fixed, and whether absolute agreement or consistency is the target.</li>
+<li><strong>Run the ICC</strong> in SPSS (<em>Analyze → Scale → Reliability Analysis</em>) and record the ICC value and 95% CI.</li>
+<li><strong>Compute SEM</strong> from the ICC and pooled SD (available from the Statistical Calculators appendix or SPSS 31+).</li>
+<li><strong>Compute MDC₉₅</strong> from the SEM.</li>
+<li><strong>Construct a Bland-Altman plot</strong> to inspect for systematic bias and heteroscedasticity.</li>
+<li><strong>Report</strong> ICC with 95% CI, SEM, MDC₉₅, and Bland-Altman bias and limits of agreement.</li>
+</ol>
+</section>
+<section id="reliability-versus-validity" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="reliability-versus-validity"><span class="header-section-number">18.4</span> Reliability versus validity</h2>
+<p>Reliability and validity are related but distinct properties of a measurement. <strong>Reliability</strong> refers to <em>consistency</em> — does the measurement produce the same result when repeated? <strong>Validity</strong> refers to <em>accuracy</em> — does the measurement actually capture the construct it is intended to measure? A body composition scale that consistently reads 5 kg above a person’s true mass on every weighing is highly reliable (consistent) but not valid (inaccurate). A sport psychologist’s subjective rating of athlete anxiety may have modest reliability (two raters might disagree) but reasonably good construct validity if the ratings correlate strongly with established anxiety questionnaires.</p>
+<p>Reliability is a <em>necessary but not sufficient</em> condition for validity. A measurement that is not reliable cannot be valid — if it gives different results every time, it cannot consistently reflect the true underlying construct. But a reliable measurement can still be invalid if it consistently measures the wrong thing. In movement science, both properties must be evaluated: reliability through test-retest designs or inter-rater agreement studies, and validity through comparisons against gold-standard criteria, construct validation, or logical argument<span class="citation" data-cites="portney2020 atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Reliable but invalid?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resting heart rate measured by palpation (manually counting beats at the wrist) might be highly reliable between two experienced clinicians — both consistently count 68 bpm in the same patient. But if a concurrent Holter monitor recording shows 74 bpm, the palpation method is reliable but systematically biased toward underestimation. Movement science researchers must report both reliability <em>and</em> criterion validity when introducing a new measurement protocol, especially for field assessments that substitute for laboratory gold standards.</p>
+</div>
+</div>
+</section>
+<section id="sources-of-measurement-error" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="sources-of-measurement-error"><span class="header-section-number">18.5</span> Sources of measurement error</h2>
+<p>Every measurement contains some degree of error — the difference between the observed score and the participant’s true underlying value. Measurement error can be broadly classified into two types. <strong>Systematic error</strong> (or bias) shifts all measurements in the same direction by a roughly constant amount: a miscalibrated force plate that reads 5 N higher than true across all trials, or a learning effect that makes performance slightly better on the second test occasion than the first regardless of any intervention. Systematic error affects validity more than reliability — it inflates or deflates scores consistently. <strong>Random error</strong> is unpredictable fluctuation around the true score: biological variability in muscle activation, day-to-day fluctuations in motivation and fatigue, minor changes in equipment positioning, or inconsistencies in the assessor’s technique. Random error directly inflates the error term in statistical analyses and is the primary target of reliability quantification<span class="citation" data-cites="atkinsonneville1998 thomas2015"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-thomas2015" role="doc-biblioref">3</a>]</sup></span>.</p>
+<p>In a pretest–posttest design, poor reliability is particularly damaging. If a strength test has an SEM of 5 kg, then a participant whose true strength improved by 3 kg might appear to have gained anywhere from −7 to +13 kg on measurement alone. This noise not only obscures individual change but inflates the within-group variance used as the error term in ANOVA and ANCOVA, reducing statistical power for every group comparison. The connection is direct and quantitative: as reliability decreases, the correlation between true and observed scores decreases, effect sizes are attenuated toward zero, and sample size requirements increase<span class="citation" data-cites="weir2005 portney2020"><sup>[<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>,<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>]</sup></span>.</p>
+</section>
+<section id="intraclass-correlation-coefficient" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="intraclass-correlation-coefficient"><span class="header-section-number">18.6</span> Intraclass Correlation Coefficient</h2>
+<section id="what-icc-measures" class="level3" data-number="18.6.1">
+<h3 data-number="18.6.1" class="anchored" data-anchor-id="what-icc-measures"><span class="header-section-number">18.6.1</span> What ICC measures</h3>
+<p>The ICC is the primary reliability statistic in movement science. Conceptually, it is the proportion of total observed variance that is attributable to true between-person differences, rather than to measurement error:</p>
+<p><span class="math display">\[\text{ICC} = \frac{\sigma^2_{\text{participants}}}{\sigma^2_{\text{participants}} + \sigma^2_{\text{error}}}\]</span></p>
+<p>When all participants score identically across test occasions (no error), ICC = 1.00. When the variance across occasions is as large as the variance among participants (all noise, no signal), ICC approaches 0. Unlike the Pearson correlation coefficient, ICC takes into account both the correlation <em>between</em> occasions and any systematic differences in <em>level</em> between occasions (bias), making it more sensitive to all forms of measurement inconsistency<span class="citation" data-cites="shrout1979 koo2016"><sup>[<a href="references.html#ref-shrout1979" role="doc-biblioref">5</a>,<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="the-icc-taxonomy-choosing-the-right-model" class="level3" data-number="18.6.2">
+<h3 data-number="18.6.2" class="anchored" data-anchor-id="the-icc-taxonomy-choosing-the-right-model"><span class="header-section-number">18.6.2</span> The ICC taxonomy: choosing the right model</h3>
+<p>Not all ICC values are created equal. The appropriate ICC model depends on the study design, and reporting the wrong model produces a number that appears large but is not trustworthy. The taxonomy follows Shrout and Fleiss (1979)<span class="citation" data-cites="shrout1979"><sup>[<a href="references.html#ref-shrout1979" role="doc-biblioref">5</a>]</sup></span> and is organized around two questions: (1) are the raters (or test occasions) a random sample from a larger population of possible raters, or a fixed set? and (2) is the goal to assess <em>absolute agreement</em> (including any systematic bias) or mere <em>consistency</em> (the correlation between scores, ignoring constant offsets)?</p>
+<p><strong>ICC(1,1) — One-way random, single measures</strong>: Each participant is assessed by a <em>different</em> random set of raters. Used when raters cannot be identified across participants (e.g., different raters in different clinics). This model is generally conservative and rarely appropriate for test-retest reliability of a physical performance measure.</p>
+<p><strong>ICC(2,1) — Two-way random, single measures</strong>: The same raters/occasions assess <em>all</em> participants, and those raters are considered a random sample of possible raters. This is the most commonly used model for test-retest reliability in sport and exercise science, where the same assessor conducts both sessions and the research question is whether results would generalize to other assessors. Report <em>absolute agreement</em> when systematic bias between occasions is a concern; report <em>consistency</em> when you want to know only whether participants maintain their rank ordering.</p>
+<p><strong>ICC(3,1) — Two-way mixed, single measures</strong>: The same raters assess all participants, but those raters are <em>fixed</em> — the researcher is not interested in generalizing to other raters. Used for intra-rater reliability (the same single assessor on two occasions) when the goal is specific to that assessor’s consistency rather than to rater generalizability.</p>
+<p>The distinction between <strong>single measures</strong> and <strong>average measures</strong> ICC parallels the Spearman-Brown logic in classical test theory: averaging across <span class="math inline">\(k\)</span> repeated measurements increases reliability, and the average-measures ICC reflects this. For most movement science applications, the <em>single-measure</em> ICC is the relevant value — it reflects the reliability of the one measurement that will actually be used in the analysis. If protocol allows multiple trials to be averaged, the average-measures ICC is appropriate<span class="citation" data-cites="shrout1979 weir2005"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>,<a href="references.html#ref-shrout1979" role="doc-biblioref">5</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Always report the ICC model, not just the number
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An ICC of .94 means very different things depending on which model produced it. ICC(3,1) consistency will always be ≥ ICC(2,1) consistency ≥ ICC(2,1) absolute agreement. Reporting “ICC = .94” without specifying the model leaves readers unable to evaluate the claim. APA and most movement science journals now require the full model specification: e.g., “ICC(2,1) = .94 (absolute agreement, 95% CI [.88, .97]).”</p>
+</div>
+</div>
+</section>
+<section id="benchmarks-for-interpreting-icc" class="level3" data-number="18.6.3">
+<h3 data-number="18.6.3" class="anchored" data-anchor-id="benchmarks-for-interpreting-icc"><span class="header-section-number">18.6.3</span> Benchmarks for interpreting ICC</h3>
+<p><span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span> provide widely adopted guidelines for interpreting ICC magnitude in clinical and applied research:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>ICC value</th>
+<th>Reliability classification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt; .50</td>
+<td>Poor</td>
+</tr>
+<tr class="even">
+<td>.50 – .74</td>
+<td>Moderate</td>
+</tr>
+<tr class="odd">
+<td>.75 – .90</td>
+<td>Good</td>
+</tr>
+<tr class="even">
+<td>&gt; .90</td>
+<td>Excellent</td>
+</tr>
+</tbody>
+</table>
+<p>These benchmarks should be treated as rough guides, not hard thresholds. An ICC of .88 is “good” by these criteria, but whether it is <em>sufficient</em> depends on the application. For research comparing group means, ICC &gt; .75 is generally acceptable because group comparisons are relatively robust to measurement noise. For clinical decisions about individual patients — deciding whether a rehabilitation patient has genuinely improved — ICC &gt; .90 is typically required, and researchers should also examine the SEM and MDC to determine whether clinically meaningful change can be reliably detected<span class="citation" data-cites="portney2020 weir2005"><sup>[<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>,<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>]</sup></span>.</p>
+</section>
+<section id="worked-example-icc-for-strength-measurement" class="level3" data-number="18.6.4">
+<h3 data-number="18.6.4" class="anchored" data-anchor-id="worked-example-icc-for-strength-measurement"><span class="header-section-number">18.6.4</span> Worked example: ICC for strength measurement</h3>
+<p><strong>Design</strong>: 30 control-group participants assessed for <code>strength_kg</code> at two time points (pre-test and mid-test) with no intervening intervention. ICC(2,1) absolute agreement was computed.</p>
+<p><strong>Results</strong> are shown in <a href="#tbl-icc-results" class="quarto-xref">Table&nbsp;<span>18.1</span></a>.</p>
+<div id="tbl-icc-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-icc-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.1: ICC results for test-retest reliability of <code>strength_kg</code> (n = 30, control group).
+</figcaption>
+<div aria-describedby="tbl-icc-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>ICC</th>
+<th>95% CI Lower</th>
+<th>95% CI Upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single measures (consistency)</td>
+<td>.997</td>
+<td>.994</td>
+<td>.999</td>
+</tr>
+<tr class="even">
+<td>Single measures (absolute agreement)</td>
+<td>.996</td>
+<td>.993</td>
+<td>.998</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Both ICC values are in the excellent range<span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span>. The near-identical consistency and absolute agreement values indicate negligible systematic bias between occasions — the dynamometer assessment produces virtually the same scores at both time points, with the small difference being random rather than directional. <a href="#fig-icc-scatter" class="quarto-xref">Figure&nbsp;<span>18.1</span></a> confirms this visually.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>pre  <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">76.34</span>, <span class="at">sd =</span> <span class="fl">13.70</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>mid  <span class="ot">&lt;-</span> pre <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">0.52</span>, <span class="at">sd =</span> <span class="fl">1.15</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>df_icc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">pre =</span> pre, <span class="at">mid =</span> mid)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_icc, <span class="fu">aes</span>(<span class="at">x =</span> pre, <span class="at">y =</span> mid)) <span class="sc">+</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">"grey50"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#4A90D9"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pre-test Strength (kg)"</span>, <span class="at">y =</span> <span class="st">"Mid-test Strength (kg)"</span>) <span class="sc">+</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_fixed</span>(<span class="at">ratio =</span> <span class="dv">1</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">110</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">110</span>)) <span class="sc">+</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-icc-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-icc-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch18-reliability_files/figure-html/fig-icc-scatter-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;18.1: Test-retest scatter plot for strength_kg (control group, n = 30). Each point represents one participant’s pre-test (x-axis) and mid-test (y-axis) strength. Points falling on the dashed diagonal identity line indicate perfect agreement between occasions. The tight clustering around the diagonal reflects the excellent ICC(2,1) = .997."><img src="ch18-reliability_files/figure-html/fig-icc-scatter-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-icc-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.1: Test-retest scatter plot for <code>strength_kg</code> (control group, n = 30). Each point represents one participant’s pre-test (x-axis) and mid-test (y-axis) strength. Points falling on the dashed diagonal identity line indicate perfect agreement between occasions. The tight clustering around the diagonal reflects the excellent ICC(2,1) = .997.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="standard-error-of-measurement" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="standard-error-of-measurement"><span class="header-section-number">18.7</span> Standard Error of Measurement</h2>
+<section id="what-sem-represents" class="level3" data-number="18.7.1">
+<h3 data-number="18.7.1" class="anchored" data-anchor-id="what-sem-represents"><span class="header-section-number">18.7.1</span> What SEM represents</h3>
+<p>The ICC tells us <em>how much</em> of the score variance is signal versus noise, but it does so in relative terms — as a proportion. Researchers and clinicians often need to understand reliability in the <em>original units of measurement</em>: by how many kilograms or seconds might a single measurement deviate from a participant’s true value? The <strong>Standard Error of Measurement</strong> (SEM) provides this answer.</p>
+<p>The SEM is the standard deviation of repeated measurements on the <em>same individual</em> under identical conditions — the spread of scores that would be obtained if a person were tested infinitely many times with no learning, fatigue, or change in true ability. In practice, it is estimated from a reliability study:</p>
+<p><span class="math display">\[\text{SEM} = SD_{\text{pooled}} \times \sqrt{1 - \text{ICC}}\]</span></p>
+<p>where <span class="math inline">\(SD_{\text{pooled}}\)</span> is the pooled standard deviation across both test occasions and ICC is the single-measures value<span class="citation" data-cites="weir2005"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>]</sup></span>. Note the key implication: SEM depends on both the variability of the sample (SD) and the reliability (ICC). A test can have a high ICC but a large SEM if the sample is highly variable; conversely, a modest ICC can produce a small SEM in a homogeneous sample. Both statistics should always be reported together.</p>
+</section>
+<section id="worked-example-sem-for-three-variables" class="level3" data-number="18.7.2">
+<h3 data-number="18.7.2" class="anchored" data-anchor-id="worked-example-sem-for-three-variables"><span class="header-section-number">18.7.2</span> Worked example: SEM for three variables</h3>
+<p>Using ICC(2,1) consistency values and the pooled SDs from the <code>core_session.csv</code> control group test-retest data:</p>
+<div id="tbl-sem" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.2: SEM for three performance variables from the <code>core_session.csv</code> test-retest dataset.
+</figcaption>
+<div aria-describedby="tbl-sem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Pooled SD</th>
+<th>ICC</th>
+<th>SEM</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>strength_kg</code></td>
+<td>13.49 kg</td>
+<td>.997</td>
+<td><strong>0.82 kg</strong></td>
+<td>Typical measurement error ≈ 0.82 kg</td>
+</tr>
+<tr class="even">
+<td><code>vo2_mlkgmin</code></td>
+<td>7.06 mL·kg⁻¹·min⁻¹</td>
+<td>.922</td>
+<td><strong>1.97 mL·kg⁻¹·min⁻¹</strong></td>
+<td>Typical error ≈ 2 mL·kg⁻¹·min⁻¹</td>
+</tr>
+<tr class="odd">
+<td><code>sprint_20m_s</code></td>
+<td>0.38 s</td>
+<td>.832</td>
+<td><strong>0.14 s</strong></td>
+<td>Typical error ≈ 0.14 s</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>The SEM for <code>strength_kg</code> (0.82 kg) is remarkably small relative to the group mean (≈ 77 kg), reflecting the excellent reliability of the dynamometer protocol. The SEM for <code>vo2_mlkgmin</code> (1.97 mL·kg⁻¹·min⁻¹) is larger in absolute terms and reflects the additional sources of variability in maximal aerobic testing (motivation, pacing, environmental factors). The sprint test SEM (0.14 s) appears small but must be evaluated against the range of sprint times in the group (approximately 3.3–4.5 s) and the magnitudes of change expected from training.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Common mistake: Confusing SEM with the standard error of the mean
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The SEM in reliability analysis — <em>Standard Error of Measurement</em> — is completely different from the standard error of the mean (SE) introduced in Chapter 8. The SE of the mean describes uncertainty about a <em>group average</em>; it equals SD / √n and decreases as sample size grows. The SEM in reliability describes uncertainty about <em>individual scores</em>; it reflects measurement precision and does not depend on sample size in the same way. The abbreviation “SEM” is unfortunately used for both in the literature — always verify from context which one is intended.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="minimal-detectable-change" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="minimal-detectable-change"><span class="header-section-number">18.8</span> Minimal Detectable Change</h2>
+<section id="from-sem-to-individual-change-detection" class="level3" data-number="18.8.1">
+<h3 data-number="18.8.1" class="anchored" data-anchor-id="from-sem-to-individual-change-detection"><span class="header-section-number">18.8.1</span> From SEM to individual change detection</h3>
+<p>The SEM tells us the expected spread of scores around a participant’s true value. To determine whether an observed change in an <em>individual</em> participant represents genuine improvement or merely measurement noise, we extend the SEM logic to the <em>difference score</em> between two occasions. Because differences between two independent measurements each carry their own error, the SD of a difference score is <span class="math inline">\(\text{SEM} \times \sqrt{2}\)</span>. Multiplying by 1.96 creates a 95% interval around a change of zero:</p>
+<p><span class="math display">\[\text{MDC}_{95} = \text{SEM} \times 1.96 \times \sqrt{2}\]</span></p>
+<p>The MDC₉₅ is the smallest change that can be detected with 95% confidence as exceeding the limits of measurement error alone<span class="citation" data-cites="weir2005 portney2020"><sup>[<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>,<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>]</sup></span>. A change smaller than MDC₉₅ could plausibly have occurred by chance even if the participant’s true score did not change at all; a change exceeding MDC₉₅ is unlikely to be explained by measurement noise.</p>
+</section>
+<section id="worked-example-mdc₉₅-for-all-three-variables" class="level3" data-number="18.8.2">
+<h3 data-number="18.8.2" class="anchored" data-anchor-id="worked-example-mdc₉₅-for-all-three-variables"><span class="header-section-number">18.8.2</span> Worked example: MDC₉₅ for all three variables</h3>
+<div id="tbl-mdc" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mdc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;18.3: MDC₉₅ values for three performance variables.
+</figcaption>
+<div aria-describedby="tbl-mdc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>SEM</th>
+<th>MDC₉₅</th>
+<th>Practical meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>strength_kg</code></td>
+<td>0.82 kg</td>
+<td><strong>2.26 kg</strong></td>
+<td>A gain of &lt; 2.26 kg might just be noise</td>
+</tr>
+<tr class="even">
+<td><code>vo2_mlkgmin</code></td>
+<td>1.97 mL·kg⁻¹·min⁻¹</td>
+<td><strong>5.45 mL·kg⁻¹·min⁻¹</strong></td>
+<td>Need &gt; 5.45 mL·kg⁻¹·min⁻¹ gain to be confident it’s real</td>
+</tr>
+<tr class="odd">
+<td><code>sprint_20m_s</code></td>
+<td>0.14 s</td>
+<td><strong>0.40 s</strong></td>
+<td>Speed improvement must exceed 0.40 s to be reliable</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Recall from Chapter 15 that the training group’s mean strength gain from pre- to post-test was 5.39 kg. With MDC₉₅ = 2.26 kg, this group-level change comfortably exceeds the threshold of detectable change. At the individual level, a participant who improved from 75 kg to 78 kg (a change of 3 kg) would just exceed the MDC₉₅, suggesting a real — though modest — improvement. A participant who improved from 80 kg to 81.5 kg (a change of 1.5 kg) would fall below it; that improvement cannot be distinguished from measurement noise.</p>
+</section>
+</section>
+<section id="bland-altman-method" class="level2" data-number="18.9">
+<h2 data-number="18.9" class="anchored" data-anchor-id="bland-altman-method"><span class="header-section-number">18.9</span> Bland-Altman method</h2>
+<section id="limits-of-agreement" class="level3" data-number="18.9.1">
+<h3 data-number="18.9.1" class="anchored" data-anchor-id="limits-of-agreement"><span class="header-section-number">18.9.1</span> Limits of agreement</h3>
+<p>The Bland-Altman method<span class="citation" data-cites="blandaltman1986"><sup>[<a href="references.html#ref-blandaltman1986" role="doc-biblioref">7</a>]</sup></span> is a graphical and numerical complement to the ICC. Rather than summarizing reliability as a single correlation, it plots each participant’s <em>mean of the two measurements</em> (x-axis) against their <em>difference between the two measurements</em> (y-axis). This layout makes two important features immediately visible: (1) the <strong>bias</strong> — any systematic tendency for one occasion to score higher than the other, estimated as the mean of all difference scores; and (2) the <strong>limits of agreement</strong> — the interval within which 95% of individual differences are expected to fall:</p>
+<p><span class="math display">\[\text{LoA} = \bar{d} \pm 1.96 \times SD_d\]</span></p>
+<p>where <span class="math inline">\(\bar{d}\)</span> is the mean difference (bias) and <span class="math inline">\(SD_d\)</span> is the standard deviation of the differences<span class="citation" data-cites="blandaltman1986 atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-blandaltman1986" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p>The limits of agreement answer the clinically practical question: “If I measure the same person twice, how far apart might the two readings be?” They translate reliability into measurement units that practitioners can directly compare against the smallest clinically important difference for the variable of interest.</p>
+</section>
+<section id="interpreting-the-bland-altman-plot" class="level3" data-number="18.9.2">
+<h3 data-number="18.9.2" class="anchored" data-anchor-id="interpreting-the-bland-altman-plot"><span class="header-section-number">18.9.2</span> Interpreting the Bland-Altman plot</h3>
+<p>Two features of the plot require particular attention beyond the bias and limits:</p>
+<p><strong>Heteroscedasticity</strong>: If the spread of the differences <em>increases</em> as the mean score increases (the plot fans out to the right), the measurement error is proportional to the magnitude of the score rather than constant. This pattern is common in variables that span a large range (e.g., jump height across elite and recreational athletes). When heteroscedasticity is present, log-transforming the data before computing Bland-Altman statistics produces more interpretable limits of agreement.</p>
+<p><strong>Systematic bias</strong>: A non-zero mean difference (bias) that departs significantly from zero indicates that one measurement occasion consistently produces higher or lower values than the other. Common causes include a learning effect on the second test occasion, assessor drift over time, or equipment recalibration between sessions. The paired t-test on the difference scores tests whether bias differs significantly from zero.</p>
+</section>
+<section id="worked-example-bland-altman-for-strength" class="level3" data-number="18.9.3">
+<h3 data-number="18.9.3" class="anchored" data-anchor-id="worked-example-bland-altman-for-strength"><span class="header-section-number">18.9.3</span> Worked example: Bland-Altman for strength</h3>
+<p><a href="#fig-bland-altman" class="quarto-xref">Figure&nbsp;<span>18.2</span></a> shows the Bland-Altman plot for <code>strength_kg</code> (control group, pre vs.&nbsp;mid). The mean difference (bias) is 0.52 kg — mid-test scores were on average 0.52 kg higher than pre-test scores, a small but detectable upward drift that may reflect a modest familiarization or practice effect over the first measurement block. The limits of agreement are −1.74 to 2.78 kg: 95% of individuals’ test-retest differences fall within this window. There is no obvious heteroscedasticity; the spread of differences is roughly constant across the range of strength values.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>pre <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">76.34</span>, <span class="at">sd =</span> <span class="fl">13.70</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>mid <span class="ot">&lt;-</span> pre <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> <span class="fl">0.517</span>, <span class="at">sd =</span> <span class="fl">1.153</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>df_ba <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">avg  =</span> (pre <span class="sc">+</span> mid) <span class="sc">/</span> <span class="dv">2</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">diff =</span> mid <span class="sc">-</span> pre</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>bias     <span class="ot">&lt;-</span>  <span class="fl">0.517</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>loa_up   <span class="ot">&lt;-</span>  <span class="fl">2.777</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>loa_down <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">1.743</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_ba, <span class="fu">aes</span>(<span class="at">x =</span> avg, <span class="at">y =</span> diff)) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> bias,     <span class="at">color =</span> <span class="st">"#2C3E50"</span>, <span class="at">linewidth =</span> <span class="fl">1.0</span>) <span class="sc">+</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> loa_up,   <span class="at">color =</span> <span class="st">"#C0392B"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> loa_down, <span class="at">color =</span> <span class="st">"#C0392B"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#4A90D9"</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">105</span>, <span class="at">y =</span> bias <span class="sc">+</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Bias = +0.52 kg"</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">color =</span> <span class="st">"#2C3E50"</span>) <span class="sc">+</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">105</span>, <span class="at">y =</span> loa_up <span class="sc">+</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"+1.96 SD = +2.78"</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">color =</span> <span class="st">"#C0392B"</span>) <span class="sc">+</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">105</span>, <span class="at">y =</span> loa_down <span class="sc">-</span> <span class="fl">0.5</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"−1.96 SD = −1.74"</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">color =</span> <span class="st">"#C0392B"</span>) <span class="sc">+</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Mean of Pre- and Mid-test Strength (kg)"</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Difference (Mid − Pre, kg)"</span>) <span class="sc">+</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">45</span>, <span class="dv">110</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bland-altman" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bland-altman-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="ch18-reliability_files/figure-html/fig-bland-altman-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;18.2: Bland-Altman plot for strength_kg test-retest reliability (control group, n = 30). Each point shows one participant’s mean strength (x-axis) versus the difference between mid-test and pre-test strength (y-axis). The solid horizontal line is the mean difference (bias = +0.52 kg); the dashed lines are the 95% limits of agreement (−1.74 to +2.78 kg)."><img src="ch18-reliability_files/figure-html/fig-bland-altman-1.png" class="img-fluid figure-img" width="672"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bland-altman-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.2: Bland-Altman plot for <code>strength_kg</code> test-retest reliability (control group, n = 30). Each point shows one participant’s mean strength (x-axis) versus the difference between mid-test and pre-test strength (y-axis). The solid horizontal line is the mean difference (bias = +0.52 kg); the dashed lines are the 95% limits of agreement (−1.74 to +2.78 kg).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparing-reliability-across-variables" class="level2" data-number="18.10">
+<h2 data-number="18.10" class="anchored" data-anchor-id="comparing-reliability-across-variables"><span class="header-section-number">18.10</span> Comparing reliability across variables</h2>
+<p>The three variables in <a href="#tbl-sem" class="quarto-xref">Table&nbsp;<span>18.2</span></a> and <a href="#tbl-mdc" class="quarto-xref">Table&nbsp;<span>18.3</span></a> illustrate how reliability varies substantially across measurement tools, even within the same sample and protocol. <code>strength_kg</code> shows near-perfect reliability (ICC = .997), reflecting the precision of a standardized dynamometer protocol and the low biological day-to-day variability of isometric strength in rested participants. <code>vo2_mlkgmin</code> shows good but lower reliability (ICC = .922), consistent with the known variability of maximal aerobic tests — participants must achieve a true maximal effort on each occasion, and small differences in motivation or pacing produce meaningful score fluctuations. <code>sprint_20m_s</code> sits between the two (ICC = .832), reflecting the combined noise of timing equipment precision, reaction time variability, and subtle lane condition differences.</p>
+<p>These differences have direct consequences for the statistical analyses in previous chapters. The ANCOVA in Chapter 17 exploited a pre-post correlation of <em>r</em> = .980 for strength — a correlation that could not be that high unless the measurement itself were highly reliable. Had the dynamometer reliability been ICC = .70 (good but not excellent), the pre-post correlation would have been attenuated downward and the precision gain from ANCOVA would have been substantially smaller. This attenuation phenomenon is systematic: the observed correlation between any two variables can never exceed the geometric mean of their individual reliabilities — a principle known as <em>disattenuation</em><span class="citation" data-cites="atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>]</sup></span>.</p>
+</section>
+<section id="factors-affecting-reliability" class="level2" data-number="18.11">
+<h2 data-number="18.11" class="anchored" data-anchor-id="factors-affecting-reliability"><span class="header-section-number">18.11</span> Factors affecting reliability</h2>
+<p>Several modifiable factors influence the reliability of movement science measurements, and understanding them guides both study design and protocol standardization.</p>
+<p><strong>Biological variability</strong> is the irreducible day-to-day fluctuation in a participant’s true physiological state — driven by sleep, nutrition, hydration, circadian rhythms, and accumulated fatigue. Reliability studies conducted over longer intervals (days to weeks) will generally yield lower ICC values than those conducted within a single session, because more biological variation is captured in the difference score. Researchers should report the inter-session interval used in their reliability study.</p>
+<p><strong>Protocol standardization</strong> is perhaps the most controllable source of variability. Detailed, written protocols that specify warm-up duration, rest intervals, equipment settings, verbal instructions, and scoring rules reduce assessor-to-assessor and session-to-session inconsistency. Equipment calibration before each testing session eliminates systematic drift.</p>
+<p><strong>Participant familiarity</strong> affects reliability in tasks with a motor learning component. Novice participants may show meaningful performance improvements between test sessions simply due to practice, not genuine physiological change — a confound that manifests as systematic bias in the Bland-Altman analysis. Including a familiarization session before the first reliability measurement is strongly recommended for novel assessment tasks<span class="citation" data-cites="atkinsonneville1998 hopkins2000"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-hopkins2000" role="doc-biblioref">8</a>]</sup></span>.</p>
+<p><strong>Rater training</strong> matters substantially for subjective or semi-objective assessments (movement quality scores, pain ratings, clinical examination findings). Assessors should be trained to criterion on pilot data before the study begins, with inter-rater reliability verified and reported as a separate analysis from test-retest reliability.</p>
+</section>
+<section id="reliability-and-statistical-power" class="level2" data-number="18.12">
+<h2 data-number="18.12" class="anchored" data-anchor-id="reliability-and-statistical-power"><span class="header-section-number">18.12</span> Reliability and statistical power</h2>
+<p>Poor reliability has a direct, quantifiable cost in statistical power. If the true correlation between two variables is <span class="math inline">\(\rho\)</span>, the observed (attenuated) correlation in data with measurement reliabilities <span class="math inline">\(r_{xx}\)</span> and <span class="math inline">\(r_{yy}\)</span> is:</p>
+<p><span class="math display">\[r_{\text{observed}} = \rho \cdot \sqrt{r_{xx} \cdot r_{yy}}\]</span></p>
+<p>Even with a true correlation of <span class="math inline">\(\rho = .70\)</span>, if both variables are measured with reliability of .80, the observed correlation will be only <span class="math inline">\(.70 \times \sqrt{.80 \times .80} = .70 \times .80 = .56\)</span> — a meaningful underestimate that inflates the required sample size. For analysis of variance and t-tests, poor reliability inflates the within-group error variance (MS_error), directly reducing the F-ratio. A 10-point improvement in ICC (from .80 to .90) can meaningfully reduce the required sample size by 20–30% for the same statistical power<span class="citation" data-cites="weir2005 cohen1988"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>,<a href="references.html#ref-cohen1988" role="doc-biblioref">9</a>]</sup></span>.</p>
+<p>This connection explains why a full description of measurement reliability is not an optional add-on to a methods section but a core requirement. Readers cannot evaluate the plausibility of null findings — or trust the effect size estimates behind positive findings — without knowing how much noise was present in the measurements that generated them.</p>
+</section>
+<section id="reporting-reliability-in-apa-style" class="level2" data-number="18.13">
+<h2 data-number="18.13" class="anchored" data-anchor-id="reporting-reliability-in-apa-style"><span class="header-section-number">18.13</span> Reporting reliability in APA style</h2>
+<section id="template" class="level3" data-number="18.13.1">
+<h3 data-number="18.13.1" class="anchored" data-anchor-id="template"><span class="header-section-number">18.13.1</span> Template</h3>
+<p>Test-retest reliability was assessed using ICC(2,1) absolute agreement (single measures) following the guidelines of<span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span>. [Variable] demonstrated [classification] reliability (ICC = [value], 95% CI [lower, upper]). The SEM was [value] [units] and the MDC₉₅ was [value] [units], indicating that individual changes of at least [MDC₉₅ value] are required to exceed the limits of measurement error with 95% confidence. Bland-Altman analysis indicated a mean bias of [value] [units] (mid − pre), with 95% limits of agreement from [lower LoA] to [upper LoA] [units].</p>
+</section>
+<section id="full-apa-example" class="level3" data-number="18.13.2">
+<h3 data-number="18.13.2" class="anchored" data-anchor-id="full-apa-example"><span class="header-section-number">18.13.2</span> Full APA example</h3>
+<blockquote class="blockquote">
+<p>Test-retest reliability of the isometric dynamometer strength assessment was evaluated using the control group (<em>n</em> = 30) across two measurement occasions separated by six weeks. ICC(2,1) absolute agreement (single measures) was computed following<span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span>. Strength (<code>strength_kg</code>) demonstrated excellent reliability, ICC(2,1) = .996 (95% CI [.993, .998]). The SEM was 0.82 kg and the MDC₉₅ was 2.26 kg, indicating that individual strength changes must exceed 2.26 kg to be confidently attributed to genuine change rather than measurement error. Bland-Altman analysis revealed a small mean bias of +0.52 kg (mid &gt; pre), with 95% limits of agreement of −1.74 to +2.78 kg. No evidence of heteroscedasticity was observed. Aerobic capacity (<code>vo2_mlkgmin</code>) demonstrated good reliability, ICC(2,1) = .919 (95% CI [.841, .959]), with SEM = 1.97 mL·kg⁻¹·min⁻¹ and MDC₉₅ = 5.45 mL·kg⁻¹·min⁻¹.</p>
+</blockquote>
+</section>
+</section>
+<section id="common-pitfalls-and-best-practices" class="level2" data-number="18.14">
+<h2 data-number="18.14" class="anchored" data-anchor-id="common-pitfalls-and-best-practices"><span class="header-section-number">18.14</span> Common pitfalls and best practices</h2>
+<section id="pitfall-1-using-pearson-r-instead-of-icc" class="level3" data-number="18.14.1">
+<h3 data-number="18.14.1" class="anchored" data-anchor-id="pitfall-1-using-pearson-r-instead-of-icc"><span class="header-section-number">18.14.1</span> Pitfall 1: Using Pearson <em>r</em> instead of ICC</h3>
+<p>The Pearson correlation coefficient measures the linear <em>association</em> between two variables but is insensitive to systematic bias between test occasions. Two instruments can produce scores with <em>r</em> = .99 while one consistently reads 10 units higher than the other — the Pearson <em>r</em> would be unchanged. ICC(2,1) absolute agreement captures both the correlation and the systematic offset, making it the appropriate choice for test-retest reliability<span class="citation" data-cites="weir2005 shrout1979"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>,<a href="references.html#ref-shrout1979" role="doc-biblioref">5</a>]</sup></span>. Never substitute Pearson <em>r</em> for ICC in a reliability analysis.</p>
+</section>
+<section id="pitfall-2-reporting-icc-without-confidence-intervals" class="level3" data-number="18.14.2">
+<h3 data-number="18.14.2" class="anchored" data-anchor-id="pitfall-2-reporting-icc-without-confidence-intervals"><span class="header-section-number">18.14.2</span> Pitfall 2: Reporting ICC without confidence intervals</h3>
+<p>A single ICC point estimate conveys no information about precision. An ICC of .87 computed from <em>n</em> = 10 participants has a 95% CI of approximately [.57, .97] — spanning the range from “moderate” to “excellent.” The same ICC from <em>n</em> = 50 participants yields a CI of approximately [.79, .92] — a much tighter and more interpretable estimate. Minimum sample size recommendations for reliability studies typically range from <em>n</em> = 30 to <em>n</em> = 50 to obtain reasonably narrow confidence intervals<span class="citation" data-cites="koo2016 weir2005"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>,<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span>.</p>
+</section>
+<section id="pitfall-3-ignoring-systematic-bias" class="level3" data-number="18.14.3">
+<h3 data-number="18.14.3" class="anchored" data-anchor-id="pitfall-3-ignoring-systematic-bias"><span class="header-section-number">18.14.3</span> Pitfall 3: Ignoring systematic bias</h3>
+<p>A high ICC and a narrow SEM do not guarantee the absence of systematic bias. A protocol that consistently produces higher scores on the second test occasion (due to learning) can still have ICC = .99 — because participants maintain their rank ordering perfectly, even though everyone scores slightly higher the second time. Systematic bias is invisible to ICC but visible in the Bland-Altman mean difference and detectable with a paired t-test on the difference scores. Always pair ICC with Bland-Altman analysis.</p>
+</section>
+<section id="pitfall-4-applying-group-level-mdc₉₅-to-individual-decisions-without-caution" class="level3" data-number="18.14.4">
+<h3 data-number="18.14.4" class="anchored" data-anchor-id="pitfall-4-applying-group-level-mdc₉₅-to-individual-decisions-without-caution"><span class="header-section-number">18.14.4</span> Pitfall 4: Applying group-level MDC₉₅ to individual decisions without caution</h3>
+<p>The MDC₉₅ is computed from group data and represents the typical boundary of measurement error across the sample. Individual participants may have more or less measurement variability than the group average. In clinical practice, the MDC₉₅ is a useful starting point for individual change interpretation, but it should be supplemented by clinical judgment and, when available, the Minimal Clinically Important Difference (MCID) — the smallest change perceived as meaningful by the patient or client<span class="citation" data-cites="portney2020"><sup>[<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="chapter-summary" class="level2" data-number="18.15">
+<h2 data-number="18.15" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">18.15</span> Chapter summary</h2>
+<p>Reliability is the statistical foundation beneath every analysis in this textbook. Without it, observed differences between groups may be artifacts of measurement noise rather than genuine treatment effects; observed correlations will be attenuated below their true magnitudes; and conclusions about individual improvement will be unreliable. The four tools introduced in this chapter — ICC, SEM, MDC₉₅, and Bland-Altman analysis — provide complementary perspectives on measurement precision, each answering a different question about how much trust can be placed in a set of scores<span class="citation" data-cites="atkinsonneville1998 weir2005 blandaltman1986"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>,<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>,<a href="references.html#ref-blandaltman1986" role="doc-biblioref">7</a>]</sup></span>.</p>
+<p>The worked examples using <code>core_session.csv</code> demonstrated that the dynamometer strength assessment used throughout this textbook has excellent test-retest reliability (ICC(2,1) = .997), with a SEM of 0.82 kg and MDC₉₅ of 2.26 kg. These values justify the high statistical power and precise estimates obtained in the ANCOVA and repeated measures analyses of earlier chapters — strong statistical results require strong measurements. The VO₂max and sprint assessments showed good but lower reliability, consistent with the greater biological and motivational variability inherent in maximal aerobic and speed testing. Chapter 19 continues the journey beyond the normal distribution, introducing nonparametric methods for situations where distributional assumptions cannot be justified — the statistical toolkit for data that resists the parametric framework that has guided the analyses up to this point.</p>
+</section>
+<section id="key-terms" class="level2" data-number="18.16">
+<h2 data-number="18.16" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">18.16</span> Key terms</h2>
+<p>reliability; validity; systematic error; random error; intraclass correlation coefficient (ICC); ICC(2,1); ICC(3,1); absolute agreement; consistency; single measures; average measures; Standard Error of Measurement (SEM); Minimal Detectable Change (MDC₉₅); Bland-Altman method; limits of agreement; bias; heteroscedasticity; disattenuation; test-retest reliability; inter-rater reliability</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="18.17">
+<h2 data-number="18.17" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">18.17</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>Why is ICC preferred over Pearson <em>r</em> for test-retest
+reliability?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>Pearson <em>r</em> measures the strength and direction of the linear association between two sets of scores, but it is insensitive to systematic differences in level between occasions. Two instruments whose scores are related by the equation Y = X + 10 (one always reads 10 units higher) will produce <em>r</em> = 1.00, suggesting perfect reliability — when in fact there is a substantial and consistent bias. ICC(2,1) absolute agreement accounts for both the correlation and any mean-level difference between occasions. If the means differ systematically, the absolute agreement ICC will be lower than the consistency ICC, flagging the problem. In reliability research, the goal is to detect <em>all</em> forms of measurement inconsistency, not just rank-order inconsistency, making ICC the appropriate tool.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>A strength coach reports that her jump height assessment has ICC = .91.
+Is this sufficient for making individual training decisions?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>The ICC of .91 is “excellent” by<span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span> benchmarks, which is reassuring. However, ICC alone is not sufficient for individual decision-making — the SEM and MDC₉₅ are also essential. If the sample SD for jump height is 8 cm, then SEM = 8 × √(1 − .91) = 8 × .30 = 2.4 cm, and MDC₉₅ = 2.4 × 1.96 × √2 = 6.65 cm. This means the coach cannot confidently conclude that an athlete has genuinely improved unless their jump height increases by at least 6.65 cm between assessments. Whether that threshold is acceptable depends on the expected magnitude of training-induced change. An intervention that typically improves jump height by 2–3 cm would be undetectable against this noise floor despite the excellent ICC.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>What does a Bland-Altman plot with a positive bias of +3 cm and limits
+of agreement from −2 to +8 cm tell you?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>The positive bias of +3 cm indicates that the second measurement occasion consistently produces scores 3 cm higher than the first — a systematic upward drift that could reflect a learning effect, assessor drift, or equipment recalibration. The limits of agreement (−2 to +8 cm) show that 95% of individuals’ test-retest differences fall within this window: while most participants score higher on occasion 2, a few score slightly lower (down to −2 cm), and some score considerably higher (up to +8 cm above their occasion 1 value). The asymmetric limits (the upper bound is further from bias than the lower) suggest the systematic bias combines with random variability in a way that produces more large positive differences than large negative ones. A paired t-test on the differences would likely confirm the bias is statistically significant, and a familiarization session before the first test occasion should be added to future protocols.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>A study reports the SEM for a balance test as 3.2 errors. A
+rehabilitation patient improves from 12 errors to 7 errors (a reduction
+of 5 errors) after treatment. Can you conclude the improvement is real?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>The MDC₉₅ = 3.2 × 1.96 × √2 = 8.88 errors. The patient’s observed improvement (5 errors) falls <em>below</em> the MDC₉₅, meaning this change could plausibly have occurred through measurement noise alone — with 95% confidence, we cannot rule out that the true change was zero. This is not the same as saying the patient did <em>not</em> improve; it means the measurement instrument is not precise enough to confirm that they did. Two responses are appropriate: (1) note the finding honestly in clinical records, acknowledging measurement uncertainty; and (2) consider whether additional assessments, a more reliable instrument, or a longer follow-up might produce a more conclusive picture. The MDC₉₅ should be computed and reported before a study begins, so that sample sizes and expected effect sizes can be planned accordingly.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>How does poor test-retest reliability in the outcome variable affect the
+results of an ANOVA comparing two training groups?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>Poor reliability inflates the within-group variance in the outcome, which directly increases MS_error — the denominator of the F-ratio. A larger MS_error means a smaller F for the same group mean difference, reducing statistical power and increasing the probability of a Type II error (failing to detect a real group difference). Quantitatively, if ICC = .80, then 20% of each observed score is measurement noise, and that noise accumulates in the within-group variance. Effect sizes (η²_p, Cohen’s <em>d</em>) are also attenuated: the observed effect between groups will be smaller than the true effect because measurement error spreads the score distributions. This is why establishing strong measurement reliability before the main study — and reporting it in the methods section — is not merely a procedural formality but a direct contributor to the study’s ability to detect true effects.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>Why should a familiarization session be included before the first
+reliability measurement in novel motor tasks?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p>In tasks with a significant motor learning component — novel movement patterns, unfamiliar equipment, or assessments requiring maximal effort — participants typically improve their performance between the first and second exposure simply through practice, not genuine physiological change. If the first test occasion is the “pre-test” and the second is the “post-test” in a reliability study, this learning effect creates systematic positive bias: scores are consistently higher on occasion 2. This inflates the mean difference in the Bland-Altman analysis and, depending on the design, can artificially <em>inflate</em> the ICC if learning is uniform across participants (everyone improves by roughly the same amount, maintaining rank order) or <em>deflate</em> it if learning is variable (some participants improve more than others, disrupting rank order). Adding one or two familiarization sessions before data collection allows participants to reach a performance plateau, after which genuine test-retest differences reflect measurement precision rather than learning.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="atkinsonneville1998"><sup>[<a href="references.html#ref-atkinsonneville1998" role="doc-biblioref">1</a>]</sup></span> remains the most comprehensive introduction to reliability methodology for sport and exercise scientists.<span class="citation" data-cites="weir2005"><sup>[<a href="references.html#ref-weir2005" role="doc-biblioref">4</a>]</sup></span> provides a practical guide to selecting and computing ICC and SEM with worked examples.<span class="citation" data-cites="koo2016"><sup>[<a href="references.html#ref-koo2016" role="doc-biblioref">6</a>]</sup></span> is the standard reference for ICC model selection and interpretation benchmarks.<span class="citation" data-cites="blandaltman1986"><sup>[<a href="references.html#ref-blandaltman1986" role="doc-biblioref">7</a>]</sup></span> is the original and most-cited presentation of the limits of agreement method.<span class="citation" data-cites="portney2020"><sup>[<a href="references.html#ref-portney2020" role="doc-biblioref">2</a>]</sup></span> covers reliability within a broader clinical research methods context and is especially useful for rehabilitation and applied settings.</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chapter 19 introduces <strong>Nonparametric Statistics</strong> — methods that do not require the normality assumption underpinning the t-tests, ANOVAs, and regression procedures in earlier chapters. You will learn when and why to use rank-based alternatives such as the Mann-Whitney U test, Kruskal-Wallis ANOVA, Wilcoxon signed-rank test, and Friedman’s test, and how to quantify effect sizes in nonparametric settings.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-atkinsonneville1998" class="csl-entry" role="listitem">
+1. Atkinson, G., &amp; Nevill, A. M. (1998). Statistical methods for assessing measurement error (reliability) in variables relevant to sports medicine. <em>Sports Medicine</em>, <em>26</em>(4), 217–238. <a href="https://doi.org/10.2165/00007256-199826040-00002">https://doi.org/10.2165/00007256-199826040-00002</a>
+</div>
+<div id="ref-portney2020" class="csl-entry" role="listitem">
+2. Portney, L. G., &amp; Watkins, M. P. (2020). <em>Foundations of clinical research: Applications to practice</em>.
+</div>
+<div id="ref-thomas2015" class="csl-entry" role="listitem">
+3. Thomas, L. (2015). How to estimate power and sample size. <em>Trauma Surgery &amp; Acute Care Open</em>, <em>1</em>(1), e000005. <a href="https://doi.org/10.1136/tsaco-2015-000005">https://doi.org/10.1136/tsaco-2015-000005</a>
+</div>
+<div id="ref-weir2005" class="csl-entry" role="listitem">
+4. Weir, J. P. (2005). Quantifying test-retest reliability using the intraclass correlation coefficient and the <span>SEM</span>. <em>Journal of Strength and Conditioning Research</em>, <em>19</em>(1), 231–240. <a href="https://doi.org/10.1519/15184.1">https://doi.org/10.1519/15184.1</a>
+</div>
+<div id="ref-shrout1979" class="csl-entry" role="listitem">
+5. Shrout, P. E., &amp; Fleiss, J. L. (1979). Intraclass correlations: Uses in assessing rater reliability. <em>Psychological Bulletin</em>, <em>86</em>(2), 420–428. <a href="https://doi.org/10.1037/0033-2909.86.2.420">https://doi.org/10.1037/0033-2909.86.2.420</a>
+</div>
+<div id="ref-koo2016" class="csl-entry" role="listitem">
+6. Koo, T. K., &amp; Li, M. Y. (2016). A guideline of selecting and reporting intraclass correlation coefficients for reliability research. <em>Journal of Chiropractic Medicine</em>, <em>15</em>(2), 155–163. <a href="https://doi.org/10.1016/j.jcm.2016.02.012">https://doi.org/10.1016/j.jcm.2016.02.012</a>
+</div>
+<div id="ref-blandaltman1986" class="csl-entry" role="listitem">
+7. Bland, J. M., &amp; Altman, D. G. (1986). Statistical methods for assessing agreement between two methods of clinical measurement. <em>Lancet</em>, <em>327</em>(8476), 307–310. <a href="https://doi.org/10.1016/S0140-6736(86)90837-8">https://doi.org/10.1016/S0140-6736(86)90837-8</a>
+</div>
+<div id="ref-hopkins2000" class="csl-entry" role="listitem">
+8. Hopkins, W. G. (2000). Measures of reliability in sports medicine and science. <em>Sports Medicine</em>, <em>30</em>(1), 1–15. <a href="https://doi.org/10.2165/00007256-200030010-00001">https://doi.org/10.2165/00007256-200030010-00001</a>
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+9. Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Lawrence Erlbaum Associates.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch17-ancova.html" class="pagination-link" aria-label="Analysis of Covariance">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch19-nonparametric.html" class="pagination-link" aria-label="Nonparametric Methods">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

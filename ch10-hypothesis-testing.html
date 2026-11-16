@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Hypothesis Testing and Statistical Inference – Statistics for Movement Science</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./part-relationships.html" rel="next">
+<link href="./ch09-confidence-intervals.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-581f6e66b508aaf4b10dce77d6bb1757.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-adbdc56a5d56f4152dcb34656c3ef731.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
+        setTimeout(() => {
+          window.scrollTo(0, scrollY);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-inference.html">Part III: Probability, Sampling, and Inference</a></li><li class="breadcrumb-item"><a href="./ch10-hypothesis-testing.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statistics for Movement Science</a> 
+        <div class="sidebar-tools-main">
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Part I: Foundation</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section: Part I: Foundation">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch01-measurement.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Measurement</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch02-data-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data Analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-describing-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Part II: Describing Data</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section: Part II: Describing Data">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch03-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Displaying and Visualizing Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch04-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Measures of Central Tendency</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch05-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Measures of Variability</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch06-percentiles-standard-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Percentiles and Standard Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch07-normal-distribution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Normal Distribution</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-inference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Part III: Probability, Sampling, and Inference</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section: Part III: Probability, Sampling, and Inference">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch08-probability-sampling-error.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Probability and Sampling Error</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch09-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch10-hypothesis-testing.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-relationships.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Part IV: Relationships and Prediction</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Part IV: Relationships and Prediction">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch11-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch12-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multiple Correlation and Multiple Regression</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Part V: Comparing Means</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Part V: Comparing Means">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch13-comparing-two-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch14-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Analysis of Variance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch15-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Repeated Measures Designs</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch16-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch17-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Analysis of Covariance</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Reliability, Nonparametric Methods, and Clinical Interpretation</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch18-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Quantifying Reliability in Movement Science</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch19-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Nonparametric Methods</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch20-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Clinical Measures and Interpretation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Applied Statistical Practice</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch21-software.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Choosing and Using Statistical Software</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch22-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Writing and Reporting Statistical Results</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch23-ethics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Research Ethics, Open Science, and Credibility</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-the-author.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About the Author</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" aria-controls="quarto-sidebar-section-8" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-8-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-8" aria-labelledby="quarto-sidebar-section-8-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-controls="quarto-sidebar-section-9" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-9-label">Datasets</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-9" aria-labelledby="quarto-sidebar-section-9-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Core Dataset Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-core-dataset-codebook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Core Dataset Codebook</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-controls="quarto-sidebar-section-10" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-10-label">Statistical Tables</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-10" aria-labelledby="quarto-sidebar-section-10-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Standard Normal Distribution</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-effect-size-benchmarks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Effect Size Benchmarks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-11" aria-controls="quarto-sidebar-section-11" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-11-label">Statistical Tools</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-11" aria-labelledby="quarto-sidebar-section-11-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-statistical-calculators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Statistical Calculators</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-factorial-anova-decision-tool.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Factorial ANOVA Decision Tool</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">APA-Style Tables: Converting SPSS Output</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-apa-reporting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">APA Style Results Reporting</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-12" aria-controls="quarto-sidebar-section-12" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-12-label">SPSS Tutorials</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-12" aria-labelledby="quarto-sidebar-section-12-label" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Getting Started with SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-data-visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Data Visualizations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-central-tendency.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Calculating Measures of Central Tendency in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-variability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Calculating Measures of Variability in SPSS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-percentiles-z-scores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Percentiles and Z-Scores</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-normality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Testing Normality and Working with Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">O</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Simulating Sampling Distributions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-confidence-intervals.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">P</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Confidence Intervals</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-hypothesis-testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Q</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Hypothesis Testing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-comparing-means.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">R</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Comparing Two Means</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">S</span>&nbsp; <span class="chapter-title">SPSS Tutorial: One-Way ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-repeated-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">T</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Repeated Measures ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-factorial-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">U</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Factorial ANOVA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-ancova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">V</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Analysis of Covariance</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-reliability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">W</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Reliability Analysis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-nonparametric.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">X</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Nonparametric Tests</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-clinical-measures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Y</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Clinical Measures</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-correlation-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">Z</span>&nbsp; <span class="chapter-title">SPSS Tutorial: Correlation and Bivariate Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix-spss-multiple-regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#chapter-roadmap" id="toc-chapter-roadmap" class="nav-link active" data-scroll-target="#chapter-roadmap"><span class="header-section-number">10.1</span> Chapter roadmap</a></li>
+  <li><a href="#workflow-for-hypothesis-testing" id="toc-workflow-for-hypothesis-testing" class="nav-link" data-scroll-target="#workflow-for-hypothesis-testing"><span class="header-section-number">10.2</span> Workflow for hypothesis testing</a></li>
+  <li><a href="#the-logic-of-hypothesis-testing" id="toc-the-logic-of-hypothesis-testing" class="nav-link" data-scroll-target="#the-logic-of-hypothesis-testing"><span class="header-section-number">10.3</span> The logic of hypothesis testing</a>
+  <ul class="collapse">
+  <li><a href="#null-and-alternative-hypotheses" id="toc-null-and-alternative-hypotheses" class="nav-link" data-scroll-target="#null-and-alternative-hypotheses"><span class="header-section-number">10.3.1</span> Null and alternative hypotheses</a></li>
+  <li><a href="#one-tailed-versus-two-tailed-tests" id="toc-one-tailed-versus-two-tailed-tests" class="nav-link" data-scroll-target="#one-tailed-versus-two-tailed-tests"><span class="header-section-number">10.3.2</span> One-tailed versus two-tailed tests</a></li>
+  <li><a href="#the-p-value-what-it-is-and-what-it-isnt" id="toc-the-p-value-what-it-is-and-what-it-isnt" class="nav-link" data-scroll-target="#the-p-value-what-it-is-and-what-it-isnt"><span class="header-section-number">10.3.3</span> The p-value: What it is and what it isn’t</a></li>
+  </ul></li>
+  <li><a href="#type-i-and-type-ii-errors" id="toc-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#type-i-and-type-ii-errors"><span class="header-section-number">10.4</span> Type I and Type II errors</a>
+  <ul class="collapse">
+  <li><a href="#type-i-error-false-positive" id="toc-type-i-error-false-positive" class="nav-link" data-scroll-target="#type-i-error-false-positive"><span class="header-section-number">10.4.1</span> Type I error (false positive)</a></li>
+  <li><a href="#type-ii-error-false-negative" id="toc-type-ii-error-false-negative" class="nav-link" data-scroll-target="#type-ii-error-false-negative"><span class="header-section-number">10.4.2</span> Type II error (false negative)</a></li>
+  <li><a href="#statistical-power" id="toc-statistical-power" class="nav-link" data-scroll-target="#statistical-power"><span class="header-section-number">10.4.3</span> Statistical power</a></li>
+  <li><a href="#the-trade-off-between-type-i-and-type-ii-errors" id="toc-the-trade-off-between-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#the-trade-off-between-type-i-and-type-ii-errors"><span class="header-section-number">10.4.4</span> The trade-off between Type I and Type II errors</a></li>
+  </ul></li>
+  <li><a href="#conducting-hypothesis-tests-the-t-test" id="toc-conducting-hypothesis-tests-the-t-test" class="nav-link" data-scroll-target="#conducting-hypothesis-tests-the-t-test"><span class="header-section-number">10.5</span> Conducting hypothesis tests: The t-test</a>
+  <ul class="collapse">
+  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link" data-scroll-target="#one-sample-t-test"><span class="header-section-number">10.5.1</span> One-sample t-test</a></li>
+  <li><a href="#worked-example-one-sample-t-test" id="toc-worked-example-one-sample-t-test" class="nav-link" data-scroll-target="#worked-example-one-sample-t-test"><span class="header-section-number">10.5.2</span> Worked example: One-sample t-test</a></li>
+  </ul></li>
+  <li><a href="#two-sample-independent-t-test" id="toc-two-sample-independent-t-test" class="nav-link" data-scroll-target="#two-sample-independent-t-test"><span class="header-section-number">10.6</span> Two-sample (independent) t-test</a>
+  <ul class="collapse">
+  <li><a href="#worked-example-two-sample-t-test" id="toc-worked-example-two-sample-t-test" class="nav-link" data-scroll-target="#worked-example-two-sample-t-test"><span class="header-section-number">10.6.1</span> Worked example: Two-sample t-test</a></li>
+  </ul></li>
+  <li><a href="#paired-dependent-t-test" id="toc-paired-dependent-t-test" class="nav-link" data-scroll-target="#paired-dependent-t-test"><span class="header-section-number">10.7</span> Paired (dependent) t-test</a>
+  <ul class="collapse">
+  <li><a href="#worked-example-paired-t-test" id="toc-worked-example-paired-t-test" class="nav-link" data-scroll-target="#worked-example-paired-t-test"><span class="header-section-number">10.7.1</span> Worked example: Paired t-test</a></li>
+  </ul></li>
+  <li><a href="#degrees-of-freedom" id="toc-degrees-of-freedom" class="nav-link" data-scroll-target="#degrees-of-freedom"><span class="header-section-number">10.8</span> Degrees of freedom</a></li>
+  <li><a href="#statistical-significance-versus-practical-significance" id="toc-statistical-significance-versus-practical-significance" class="nav-link" data-scroll-target="#statistical-significance-versus-practical-significance"><span class="header-section-number">10.9</span> Statistical significance versus practical significance</a>
+  <ul class="collapse">
+  <li><a href="#when-they-diverge" id="toc-when-they-diverge" class="nav-link" data-scroll-target="#when-they-diverge"><span class="header-section-number">10.9.1</span> When they diverge</a></li>
+  </ul></li>
+  <li><a href="#assumptions-of-t-tests" id="toc-assumptions-of-t-tests" class="nav-link" data-scroll-target="#assumptions-of-t-tests"><span class="header-section-number">10.10</span> Assumptions of t-tests</a></li>
+  <li><a href="#frequentist-versus-bayesian-approaches" id="toc-frequentist-versus-bayesian-approaches" class="nav-link" data-scroll-target="#frequentist-versus-bayesian-approaches"><span class="header-section-number">10.11</span> Frequentist versus Bayesian approaches</a></li>
+  <li><a href="#common-misinterpretations-and-pitfalls" id="toc-common-misinterpretations-and-pitfalls" class="nav-link" data-scroll-target="#common-misinterpretations-and-pitfalls"><span class="header-section-number">10.12</span> Common misinterpretations and pitfalls</a>
+  <ul class="collapse">
+  <li><a href="#misinterpretation-1-p-0.05-is-the-cutoff-for-truth" id="toc-misinterpretation-1-p-0.05-is-the-cutoff-for-truth" class="nav-link" data-scroll-target="#misinterpretation-1-p-0.05-is-the-cutoff-for-truth"><span class="header-section-number">10.12.1</span> Misinterpretation 1: “p = 0.05 is the cutoff for truth”</a></li>
+  <li><a href="#misinterpretation-2-non-significant-means-no-effect" id="toc-misinterpretation-2-non-significant-means-no-effect" class="nav-link" data-scroll-target="#misinterpretation-2-non-significant-means-no-effect"><span class="header-section-number">10.12.2</span> Misinterpretation 2: “Non-significant means no effect”</a></li>
+  <li><a href="#misinterpretation-3-p-0.01-means-a-stronger-effect-than-p-0.05" id="toc-misinterpretation-3-p-0.01-means-a-stronger-effect-than-p-0.05" class="nav-link" data-scroll-target="#misinterpretation-3-p-0.01-means-a-stronger-effect-than-p-0.05"><span class="header-section-number">10.12.3</span> Misinterpretation 3: “p = 0.01 means a stronger effect than p = 0.05”</a></li>
+  <li><a href="#misinterpretation-4-statistically-significant-important" id="toc-misinterpretation-4-statistically-significant-important" class="nav-link" data-scroll-target="#misinterpretation-4-statistically-significant-important"><span class="header-section-number">10.12.4</span> Misinterpretation 4: “Statistically significant = important”</a></li>
+  </ul></li>
+  <li><a href="#reporting-hypothesis-tests-apa-style" id="toc-reporting-hypothesis-tests-apa-style" class="nav-link" data-scroll-target="#reporting-hypothesis-tests-apa-style"><span class="header-section-number">10.13</span> Reporting hypothesis tests (APA style)</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary"><span class="header-section-number">10.14</span> Chapter summary</a></li>
+  <li><a href="#key-terms" id="toc-key-terms" class="nav-link" data-scroll-target="#key-terms"><span class="header-section-number">10.15</span> Key terms</a></li>
+  <li><a href="#practice-quick-checks" id="toc-practice-quick-checks" class="nav-link" data-scroll-target="#practice-quick-checks"><span class="header-section-number">10.16</span> Practice: quick checks</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./part-inference.html">Part III: Probability, Sampling, and Inference</a></li><li class="breadcrumb-item"><a href="./ch10-hypothesis-testing.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing and Statistical Inference</span></h1>
+<p class="subtitle lead">Making principled decisions under uncertainty in Movement Science research</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>💻 SPSS Tutorial Available
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Learn how to conduct hypothesis tests in SPSS! See the <strong><a href="./appendix-spss-hypothesis-testing.html">SPSS Tutorial: Hypothesis Testing</a></strong> in the appendix for step-by-step instructions on performing t-tests, interpreting p-values, and making statistical decisions.</p>
+</div>
+</div>
+<section id="chapter-roadmap" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="chapter-roadmap"><span class="header-section-number">10.1</span> Chapter roadmap</h2>
+<p>Hypothesis testing provides a formal framework for making decisions about populations based on sample data<span class="citation" data-cites="moore_ips cohen1994"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>]</sup></span>. While confidence intervals (Chapter 9) emphasize estimation and uncertainty, hypothesis testing focuses on yes/no decisions: Does a training intervention improve performance? Are two groups different? Is a correlation different from zero?<span class="citation" data-cites="field_discovering cumming2014"><sup>[<a href="references.html#ref-field_discovering" role="doc-biblioref">3</a>,<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>]</sup></span>. The logic is straightforward: we propose two competing hypotheses (a <strong>null hypothesis</strong> claiming no effect and an <strong>alternative hypothesis</strong> claiming an effect exists), collect sample data, and use probability theory to determine which hypothesis the data support<span class="citation" data-cites="moore_ips fisher1925"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>. If the observed data would be very unlikely assuming the null hypothesis is true (typically less than 5% probability), we reject the null hypothesis in favor of the alternative<span class="citation" data-cites="neyman1933 gigerenzer2004"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>,<a href="references.html#ref-gigerenzer2004" role="doc-biblioref">7</a>]</sup></span>. This procedure, called <strong>null hypothesis significance testing (NHST)</strong>, has dominated scientific inference for nearly a century, despite ongoing debates about its interpretation and misuse<span class="citation" data-cites="schmidt1996 wasserstein2016"><sup>[<a href="references.html#ref-schmidt1996" role="doc-biblioref">8</a>,<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>]</sup></span>.</p>
+<p>Understanding hypothesis testing requires distinguishing between two types of errors: <strong>Type I errors</strong> (false positives—concluding an effect exists when it doesn’t) and <strong>Type II errors</strong> (false negatives—failing to detect a real effect)<span class="citation" data-cites="neyman1933 cohen1988"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>,<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>. Researchers control Type I error rates by choosing a significance level (α, typically 0.05), which defines how rare an outcome must be before we reject the null hypothesis<span class="citation" data-cites="fisher1925 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>. However, minimizing Type I errors increases Type II errors, creating a fundamental trade-off<span class="citation" data-cites="cohen1988 maxwell2008"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>,<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>. In Movement Science, where sample sizes are often modest and effect sizes variable, understanding statistical power (the probability of detecting real effects) is critical for designing informative studies<span class="citation" data-cites="button2013 batterham2006"><sup>[<a href="references.html#ref-button2013" role="doc-biblioref">12</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>]</sup></span>. A well-powered study with n = 100 participants may reliably detect a meaningful training effect, while an underpowered pilot study with n = 10 may fail to detect the same effect—not because the effect doesn’t exist, but because the sample is too small<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+<p>This chapter explains the logic and mechanics of hypothesis testing, contrasts frequentist and Bayesian approaches, and demonstrates how to interpret <strong>p-values</strong> responsibly<span class="citation" data-cites="wasserstein2016 wasserstein2019"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span>. You will learn when to use one-tailed versus two-tailed tests, how degrees of freedom affect critical values, and why statistical significance does not equal practical importance<span class="citation" data-cites="cohen1994 lakens2013"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span>. The goal is not to apply hypothesis testing mechanically, but to understand what p-values do and do not tell us, recognize the limitations of dichotomous thinking, and integrate hypothesis testing with confidence intervals for more complete inference<span class="citation" data-cites="cumming2014 kline2013"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>,<a href="references.html#ref-kline2013" role="doc-biblioref">16</a>]</sup></span>. By the end, you will be equipped to conduct, interpret, and critically evaluate hypothesis tests in Movement Science contexts, balancing statistical rigor with biological and practical significance<span class="citation" data-cites="batterham2006 hopkins2009"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">17</a>]</sup></span>.</p>
+<p>By the end of this chapter, you will be able to:</p>
+<ul>
+<li>Explain the logic of null hypothesis significance testing (NHST).</li>
+<li>Distinguish between null and alternative hypotheses and formulate them correctly.</li>
+<li>Define Type I and Type II errors and understand the trade-offs between them.</li>
+<li>Compute and interpret p-values in the context of hypothesis tests.</li>
+<li>Conduct one-sample, two-sample, and paired t-tests.</li>
+<li>Understand when to use one-tailed versus two-tailed tests.</li>
+<li>Explain the concept of statistical power and its importance in research design.</li>
+<li>Distinguish between statistical significance and practical significance.</li>
+</ul>
+</section>
+<section id="workflow-for-hypothesis-testing" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="workflow-for-hypothesis-testing"><span class="header-section-number">10.2</span> Workflow for hypothesis testing</h2>
+<p>Use this sequence when conducting a hypothesis test:</p>
+<ol type="1">
+<li><strong>State the research question</strong> clearly (e.g., “Does plyometric training improve vertical jump height?”).</li>
+<li><strong>Formulate hypotheses</strong>: Write the null hypothesis (H₀) and alternative hypothesis (H₁).</li>
+<li><strong>Choose a significance level</strong> (α, typically 0.05).</li>
+<li><strong>Select the appropriate test</strong> (e.g., independent t-test, paired t-test).</li>
+<li><strong>Compute the test statistic</strong> and corresponding p-value.</li>
+<li><strong>Make a decision</strong>: Reject H₀ if p &lt; α; otherwise, fail to reject H₀.</li>
+<li><strong>Interpret in context</strong>: Consider effect size, confidence intervals, and practical significance.</li>
+</ol>
+</section>
+<section id="the-logic-of-hypothesis-testing" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="the-logic-of-hypothesis-testing"><span class="header-section-number">10.3</span> The logic of hypothesis testing</h2>
+<p>Hypothesis testing rests on <strong>proof by contradiction</strong><span class="citation" data-cites="moore_ips fisher1925"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>. We assume the null hypothesis (no effect) is true, then ask: “How likely are our observed data if the null hypothesis were true?” If the data are very unlikely under the null hypothesis (e.g., p &lt; 0.05), we reject the null hypothesis and conclude that an effect probably exists<span class="citation" data-cites="neyman1933"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>.</p>
+<section id="null-and-alternative-hypotheses" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="null-and-alternative-hypotheses"><span class="header-section-number">10.3.1</span> Null and alternative hypotheses</h3>
+<p>Every hypothesis test involves two competing hypotheses<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>:</p>
+<ol type="1">
+<li><strong>Null hypothesis (H₀)</strong>: A statement of “no effect,” “no difference,” or “no relationship.” It represents the status quo or the assumption that nothing unusual is happening.
+<ul>
+<li>Example: “The mean vertical jump height is equal to 50 cm” (H₀: μ = 50)</li>
+<li>Example: “There is no difference in reaction time between young and older adults” (H₀: μ₁ = μ₂)</li>
+</ul></li>
+<li><strong>Alternative hypothesis (H₁ or Hₐ)</strong>: A statement that contradicts the null hypothesis. It represents the effect, difference, or relationship we are testing for.
+<ul>
+<li>Example: “The mean vertical jump height is not equal to 50 cm” (H₁: μ ≠ 50)</li>
+<li>Example: “There is a difference in reaction time between young and older adults” (H₁: μ₁ ≠ μ₂)</li>
+</ul></li>
+</ol>
+<p>The null hypothesis is the hypothesis <strong>we test</strong> by computing a p-value. The alternative hypothesis is what we conclude <strong>if we reject the null</strong><span class="citation" data-cites="fisher1925 neyman1933"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>,<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The null hypothesis is never “proven”
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We never “accept” or “prove” the null hypothesis<span class="citation" data-cites="fisher1925 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>. We either <strong>reject it</strong> (sufficient evidence against it) or <strong>fail to reject it</strong> (insufficient evidence against it). Failing to reject H₀ does not mean H₀ is true—it means the data are compatible with H₀<span class="citation" data-cites="altman1995 goodman2008"><sup>[<a href="references.html#ref-altman1995" role="doc-biblioref">18</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="one-tailed-versus-two-tailed-tests" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="one-tailed-versus-two-tailed-tests"><span class="header-section-number">10.3.2</span> One-tailed versus two-tailed tests</h3>
+<p>The <strong>directionality</strong> of the alternative hypothesis determines whether we use a <strong>one-tailed</strong> or <strong>two-tailed</strong> test<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">3</a>]</sup></span>.</p>
+<p><strong>Two-tailed test (default):</strong></p>
+<ul>
+<li>H₀: μ = μ₀ (or μ₁ = μ₂)</li>
+<li>H₁: μ ≠ μ₀ (or μ₁ ≠ μ₂)</li>
+<li>Tests for <strong>any difference</strong> in either direction</li>
+<li>Example: “Does training affect reaction time?” (could improve or worsen)</li>
+</ul>
+<p><strong>One-tailed test (directional):</strong></p>
+<ul>
+<li>H₀: μ ≤ μ₀</li>
+<li>H₁: μ &gt; μ₀</li>
+<li>Tests for a difference <strong>in a specific direction</strong></li>
+<li>Example: “Does training <strong>decrease</strong> reaction time?”</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Use two-tailed tests by default
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>One-tailed tests are only appropriate when you have strong theoretical or practical reasons to test a directional hypothesis <strong>and you would not care about effects in the opposite direction</strong><span class="citation" data-cites="moore_ips ruxton2006"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-ruxton2006" role="doc-biblioref">20</a>]</sup></span>. Two-tailed tests are more conservative and align with the typical goal of detecting any effect<span class="citation" data-cites="lakens2016"><sup>[<a href="references.html#ref-lakens2016" role="doc-biblioref">21</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="the-p-value-what-it-is-and-what-it-isnt" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="the-p-value-what-it-is-and-what-it-isnt"><span class="header-section-number">10.3.3</span> The p-value: What it is and what it isn’t</h3>
+<p>The <strong>p-value</strong> is the probability of observing data as extreme as (or more extreme than) what we actually observed, <strong>assuming the null hypothesis is true</strong><span class="citation" data-cites="wasserstein2016 goodman2008"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span>.</p>
+<p><strong>What a p-value tells you:</strong></p>
+<ul>
+<li>p = 0.03 means: “If the null hypothesis were true, there is a 3% chance we would observe data this extreme or more extreme by random sampling variability alone.”</li>
+<li>Small p-values (e.g., p &lt; 0.05) suggest the data are <strong>inconsistent</strong> with the null hypothesis<span class="citation" data-cites="fisher1925"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>.</li>
+</ul>
+<p><strong>What a p-value does NOT tell you:</strong></p>
+<ul>
+<li><strong>NOT</strong> the probability that the null hypothesis is true<span class="citation" data-cites="goodman2008 wasserstein2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span></li>
+<li><strong>NOT</strong> the probability of a Type I error for this specific test<span class="citation" data-cites="gigerenzer2004"><sup>[<a href="references.html#ref-gigerenzer2004" role="doc-biblioref">7</a>]</sup></span></li>
+<li><strong>NOT</strong> the size or importance of an effect<span class="citation" data-cites="cohen1994 wasserstein2019"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>,<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span></li>
+<li><strong>NOT</strong> proof that a hypothesis is true or false<span class="citation" data-cites="fisher1925 greenland2016"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>,<a href="references.html#ref-greenland2016" role="doc-biblioref">22</a>]</sup></span></li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The p-value is NOT the probability that H₀ is true
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A common misinterpretation: “p = 0.03 means there is a 3% chance the null hypothesis is true.” <strong>Wrong.</strong> The null hypothesis is either true or false (we don’t know which). The p-value is the probability of the <strong>data</strong>, not the probability of the <strong>hypothesis</strong><span class="citation" data-cites="goodman2008 wasserstein2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="type-i-and-type-ii-errors" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="type-i-and-type-ii-errors"><span class="header-section-number">10.4</span> Type I and Type II errors</h2>
+<p>Every hypothesis test can result in two types of errors<span class="citation" data-cites="neyman1933 cohen1988"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>,<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 39%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Reality</strong></th>
+<th><strong>Decision: Fail to Reject H₀</strong></th>
+<th><strong>Decision: Reject H₀</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H₀ is true</td>
+<td>✅ Correct decision</td>
+<td>❌ <strong>Type I error</strong> (α)</td>
+</tr>
+<tr class="even">
+<td>H₀ is false (H₁ true)</td>
+<td>❌ <strong>Type II error</strong> (β)</td>
+<td>✅ Correct decision (Power)</td>
+</tr>
+</tbody>
+</table>
+<section id="type-i-error-false-positive" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="type-i-error-false-positive"><span class="header-section-number">10.4.1</span> Type I error (false positive)</h3>
+<p>A <strong>Type I error</strong> occurs when we <strong>reject the null hypothesis when it is actually true</strong><span class="citation" data-cites="neyman1933 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>. In other words, we conclude an effect exists when it doesn’t.</p>
+<ul>
+<li><strong>Symbol</strong>: α (alpha)</li>
+<li><strong>Example</strong>: Concluding a training program improves strength when it actually has no effect</li>
+<li><strong>Controlled by</strong>: The significance level (e.g., α = 0.05 means we accept a 5% risk of Type I error)</li>
+</ul>
+</section>
+<section id="type-ii-error-false-negative" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="type-ii-error-false-negative"><span class="header-section-number">10.4.2</span> Type II error (false negative)</h3>
+<p>A <strong>Type II error</strong> occurs when we <strong>fail to reject the null hypothesis when the alternative hypothesis is actually true</strong><span class="citation" data-cites="cohen1988 neyman1933"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>,<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>. In other words, we miss a real effect.</p>
+<ul>
+<li><strong>Symbol</strong>: β (beta)</li>
+<li><strong>Example</strong>: Concluding a training program has no effect when it actually does improve strength</li>
+<li><strong>Related to</strong>: Statistical power (Power = 1 − β)</li>
+</ul>
+</section>
+<section id="statistical-power" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="statistical-power"><span class="header-section-number">10.4.3</span> Statistical power</h3>
+<p><strong>Statistical power</strong> is the probability of correctly rejecting the null hypothesis when the alternative hypothesis is true<span class="citation" data-cites="cohen1988 maxwell2008"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>,<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>. It represents the ability of a study to detect a real effect.</p>
+<p><span class="math display">\[
+\text{Power} = 1 - \beta
+\]</span></p>
+<p><strong>Factors affecting power:</strong></p>
+<ol type="1">
+<li><strong>Sample size (n)</strong>: Larger samples → higher power<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span></li>
+<li><strong>Effect size</strong>: Larger effects → easier to detect → higher power<span class="citation" data-cites="lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span></li>
+<li><strong>Significance level (α)</strong>: Higher α → higher power (but more Type I errors)<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span></li>
+<li><strong>Variability</strong>: Lower variability → higher power<span class="citation" data-cites="button2013"><sup>[<a href="references.html#ref-button2013" role="doc-biblioref">12</a>]</sup></span></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Recommended power levels
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Aim for <strong>Power ≥ 0.80</strong> (80% chance of detecting a real effect) when planning studies<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>. Underpowered studies (Power &lt; 0.50) are unlikely to detect real effects, wasting resources and producing unreliable findings<span class="citation" data-cites="button2013 maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>,<a href="references.html#ref-button2013" role="doc-biblioref">12</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="the-trade-off-between-type-i-and-type-ii-errors" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="the-trade-off-between-type-i-and-type-ii-errors"><span class="header-section-number">10.4.4</span> The trade-off between Type I and Type II errors</h3>
+<p>Reducing the risk of Type I errors (by using a smaller α, e.g., 0.01 instead of 0.05) <strong>increases</strong> the risk of Type II errors<span class="citation" data-cites="neyman1933 lakens2018"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>,<a href="references.html#ref-lakens2018" role="doc-biblioref">23</a>]</sup></span>. Conversely, increasing power (reducing Type II errors) by increasing α makes Type I errors more likely<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+<p><strong>Why α = 0.05?</strong> The conventional significance level of 0.05 is a historical compromise, balancing the risks of false positives and false negatives<span class="citation" data-cites="fisher1925 cowles1982"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>,<a href="references.html#ref-cowles1982" role="doc-biblioref">24</a>]</sup></span>. However, some fields are moving toward more stringent thresholds (e.g., α = 0.005) to reduce false positive rates<span class="citation" data-cites="benjamin2018"><sup>[<a href="references.html#ref-benjamin2018" role="doc-biblioref">25</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="conducting-hypothesis-tests-the-t-test" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="conducting-hypothesis-tests-the-t-test"><span class="header-section-number">10.5</span> Conducting hypothesis tests: The t-test</h2>
+<p>The <strong>t-test</strong> is one of the most common hypothesis tests, used to compare means<span class="citation" data-cites="student1908 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-student1908" role="doc-biblioref">26</a>]</sup></span>. There are three main types:</p>
+<ol type="1">
+<li><strong>One-sample t-test</strong>: Compares a sample mean to a known population value</li>
+<li><strong>Two-sample (independent) t-test</strong>: Compares means between two independent groups</li>
+<li><strong>Paired (dependent) t-test</strong>: Compares means for the same group measured twice</li>
+</ol>
+<section id="one-sample-t-test" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="one-sample-t-test"><span class="header-section-number">10.5.1</span> One-sample t-test</h3>
+<p>Tests whether a sample mean differs from a hypothesized population mean<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: μ = μ₀ (the population mean equals a specific value)</li>
+<li>H₁: μ ≠ μ₀ (two-tailed)</li>
+</ul>
+<p><strong>Test statistic:</strong></p>
+<p><span class="math display">\[
+t = \frac{\bar{x} - \mu_0}{\text{SE}} = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}
+\]</span></p>
+<p>Where: * <span class="math inline">\(\bar{x}\)</span> = sample mean * <span class="math inline">\(\mu_0\)</span> = hypothesized population mean * <span class="math inline">\(s\)</span> = sample standard deviation * <span class="math inline">\(n\)</span> = sample size</p>
+<p>The test statistic follows a <strong>t-distribution</strong> with <strong>df = n − 1</strong> degrees of freedom<span class="citation" data-cites="student1908"><sup>[<a href="references.html#ref-student1908" role="doc-biblioref">26</a>]</sup></span>.</p>
+<p><strong>Decision rule:</strong></p>
+<ul>
+<li>If |t| &gt; t-critical (from t-table) or p &lt; α, reject H₀</li>
+<li>Otherwise, fail to reject H₀</li>
+</ul>
+</section>
+<section id="worked-example-one-sample-t-test" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="worked-example-one-sample-t-test"><span class="header-section-number">10.5.2</span> Worked example: One-sample t-test</h3>
+<p>A fitness test manual states that the population mean vertical jump height for college men is 50 cm. A researcher measures 20 college men and obtains:</p>
+<ul>
+<li><span class="math inline">\(\bar{x} = 54.2\)</span> cm</li>
+<li><span class="math inline">\(s = 8.5\)</span> cm</li>
+<li><span class="math inline">\(n = 20\)</span></li>
+</ul>
+<p><strong>Research question:</strong> Is the sample mean significantly different from 50 cm?</p>
+<p><strong>Step 1: State hypotheses</strong></p>
+<ul>
+<li>H₀: μ = 50 cm</li>
+<li>H₁: μ ≠ 50 cm (two-tailed)</li>
+<li>α = 0.05</li>
+</ul>
+<p><strong>Step 2: Compute the test statistic</strong></p>
+<p><span class="math display">\[
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{8.5}{\sqrt{20}} = 1.90 \text{ cm}
+\]</span></p>
+<p><span class="math display">\[
+t = \frac{54.2 - 50}{1.90} = \frac{4.2}{1.90} = 2.21
+\]</span></p>
+<p><strong>Step 3: Determine degrees of freedom and critical value</strong></p>
+<ul>
+<li>df = n − 1 = 19</li>
+<li>For α = 0.05 (two-tailed), t-critical ≈ 2.093 (from t-table)</li>
+</ul>
+<p><strong>Step 4: Make a decision</strong></p>
+<ul>
+<li>|t| = 2.21 &gt; 2.093, so reject H₀</li>
+<li>Alternatively, using software: p = 0.039 &lt; 0.05, reject H₀</li>
+</ul>
+<p><strong>Step 5: Interpret</strong></p>
+<p>The sample mean (54.2 cm) is significantly different from the hypothesized population mean of 50 cm, t(19) = 2.21, p = .039. The mean jump height for this sample is higher than expected, with a 95% CI [50.3, 58.1] cm.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Real example: Testing VO₂max norms
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A study measures VO₂max in 30 collegiate soccer players and compares it to published norms (μ₀ = 52 mL/kg/min). The observed mean is 56.3 mL/kg/min (SD = 6.8). A one-sample t-test yields t(29) = 3.47, p = .002, indicating that this sample has significantly higher aerobic fitness than the normative population<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="two-sample-independent-t-test" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="two-sample-independent-t-test"><span class="header-section-number">10.6</span> Two-sample (independent) t-test</h2>
+<p>Compares means between two independent groups<span class="citation" data-cites="moore_ips student1908"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-student1908" role="doc-biblioref">26</a>]</sup></span>.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: μ₁ = μ₂ (the two population means are equal)</li>
+<li>H₁: μ₁ ≠ μ₂ (two-tailed)</li>
+</ul>
+<p><strong>Test statistic:</strong></p>
+<p><span class="math display">\[
+t = \frac{(\bar{x}_1 - \bar{x}_2) - 0}{\text{SE}_{\text{diff}}}
+\]</span></p>
+<p>Where:</p>
+<p><span class="math display">\[
+\text{SE}_{\text{diff}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+\]</span></p>
+<p>Degrees of freedom are computed using the <strong>Welch-Satterthwaite approximation</strong> (preferred, does not assume equal variances)<span class="citation" data-cites="welch1947 delacre2021"><sup>[<a href="references.html#ref-welch1947" role="doc-biblioref">27</a>,<a href="references.html#ref-delacre2021" role="doc-biblioref">28</a>]</sup></span>:</p>
+<p><span class="math display">\[
+df \approx \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}
+\]</span></p>
+<section id="worked-example-two-sample-t-test" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="worked-example-two-sample-t-test"><span class="header-section-number">10.6.1</span> Worked example: Two-sample t-test</h3>
+<p>A researcher compares sprint times (seconds) between two training groups:</p>
+<ul>
+<li><strong>Group 1 (traditional training):</strong> <span class="math inline">\(\bar{x}_1 = 5.8\)</span> s, <span class="math inline">\(s_1 = 0.6\)</span> s, <span class="math inline">\(n_1 = 15\)</span></li>
+<li><strong>Group 2 (plyometric training):</strong> <span class="math inline">\(\bar{x}_2 = 5.3\)</span> s, <span class="math inline">\(s_2 = 0.5\)</span> s, <span class="math inline">\(n_2 = 15\)</span></li>
+</ul>
+<p><strong>Research question:</strong> Do the two groups differ in sprint performance?</p>
+<p><strong>Step 1: State hypotheses</strong></p>
+<ul>
+<li>H₀: μ₁ = μ₂ (no difference in sprint times)</li>
+<li>H₁: μ₁ ≠ μ₂ (sprint times differ)</li>
+<li>α = 0.05</li>
+</ul>
+<p><strong>Step 2: Compute the test statistic</strong></p>
+<p><span class="math display">\[
+\text{SE}_{\text{diff}} = \sqrt{\frac{0.6^2}{15} + \frac{0.5^2}{15}} = \sqrt{0.024 + 0.0167} = \sqrt{0.0407} = 0.20 \text{ s}
+\]</span></p>
+<p><span class="math display">\[
+t = \frac{5.8 - 5.3}{0.20} = \frac{0.5}{0.20} = 2.50
+\]</span></p>
+<p><strong>Step 3: Determine degrees of freedom (Welch approximation)</strong></p>
+<p>Using software: df ≈ 27.3</p>
+<p><strong>Step 4: Compute p-value</strong></p>
+<p>Using software: p = 0.019</p>
+<p><strong>Step 5: Make a decision</strong></p>
+<ul>
+<li>p = 0.019 &lt; 0.05, so reject H₀</li>
+</ul>
+<p><strong>Interpretation</strong></p>
+<p>Plyometric training produced significantly faster sprint times (M = 5.3 s, SD = 0.5) than traditional training (M = 5.8 s, SD = 0.6), t(27.3) = 2.50, p = .019, mean difference = 0.5 s, 95% CI [0.09, 0.91] s. The effect size (Cohen’s d ≈ 0.91) indicates a large practical difference<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="paired-dependent-t-test" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="paired-dependent-t-test"><span class="header-section-number">10.7</span> Paired (dependent) t-test</h2>
+<p>Compares two related measurements (e.g., pre-test and post-test on the same participants)<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+<p><strong>Hypotheses:</strong></p>
+<ul>
+<li>H₀: μd = 0 (mean difference is zero)</li>
+<li>H₁: μd ≠ 0 (mean difference is not zero)</li>
+</ul>
+<p><strong>Test statistic:</strong></p>
+<p><span class="math display">\[
+t = \frac{\bar{d} - 0}{\text{SE}_d} = \frac{\bar{d}}{s_d / \sqrt{n}}
+\]</span></p>
+<p>Where: * <span class="math inline">\(\bar{d}\)</span> = mean of the difference scores (d = post − pre) * <span class="math inline">\(s_d\)</span> = standard deviation of the differences * <span class="math inline">\(n\)</span> = number of pairs</p>
+<p>Degrees of freedom: df = n − 1</p>
+<section id="worked-example-paired-t-test" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="worked-example-paired-t-test"><span class="header-section-number">10.7.1</span> Worked example: Paired t-test</h3>
+<p>A study measures vertical jump height (cm) before and after 8 weeks of strength training in 12 athletes.</p>
+<p><strong>Data (difference scores: post − pre):</strong></p>
+<p>Mean difference: <span class="math inline">\(\bar{d} = 3.8\)</span> cm<br>
+SD of differences: <span class="math inline">\(s_d = 2.5\)</span> cm<br>
+n = 12</p>
+<p><strong>Research question:</strong> Did training significantly improve jump height?</p>
+<p><strong>Step 1: State hypotheses</strong></p>
+<ul>
+<li>H₀: μd = 0 (no change in jump height)</li>
+<li>H₁: μd ≠ 0 (jump height changed)</li>
+<li>α = 0.05</li>
+</ul>
+<p><strong>Step 2: Compute test statistic</strong></p>
+<p><span class="math display">\[
+\text{SE}_d = \frac{s_d}{\sqrt{n}} = \frac{2.5}{\sqrt{12}} = 0.72 \text{ cm}
+\]</span></p>
+<p><span class="math display">\[
+t = \frac{3.8}{0.72} = 5.28
+\]</span></p>
+<p><strong>Step 3: Degrees of freedom</strong></p>
+<p>df = n − 1 = 11</p>
+<p><strong>Step 4: Compute p-value</strong></p>
+<p>Using software: p &lt; .001</p>
+<p><strong>Step 5: Decision</strong></p>
+<ul>
+<li>p &lt; .001, strongly reject H₀</li>
+</ul>
+<p><strong>Interpretation</strong></p>
+<p>Vertical jump height increased significantly following training, mean improvement = 3.8 cm, 95% CI [2.2, 5.4] cm, t(11) = 5.28, p &lt; .001. This represents a meaningful improvement in explosive power<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="degrees-of-freedom" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="degrees-of-freedom"><span class="header-section-number">10.8</span> Degrees of freedom</h2>
+<p><strong>Degrees of freedom (df)</strong> represent the number of independent pieces of information available to estimate a parameter<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">3</a>]</sup></span>.</p>
+<ul>
+<li><strong>One-sample t-test:</strong> df = n − 1</li>
+<li><strong>Paired t-test:</strong> df = n − 1 (n = number of pairs)</li>
+<li><strong>Two-sample t-test (equal variances):</strong> df = n₁ + n₂ − 2</li>
+<li><strong>Two-sample t-test (unequal variances, Welch):</strong> df ≈ computed using Welch-Satterthwaite formula</li>
+</ul>
+<p><strong>Why df = n − 1?</strong> When estimating the sample standard deviation (s), we first compute the sample mean, “using up” one degree of freedom<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>. Only n − 1 deviations are independent (the last one is determined by the others).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Effect of df on critical values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Smaller df → larger critical t-values → harder to reject H₀<span class="citation" data-cites="student1908"><sup>[<a href="references.html#ref-student1908" role="doc-biblioref">26</a>]</sup></span>. With df = 5, t-critical (α = 0.05, two-tailed) = 2.571. With df = 100, t-critical ≈ 1.984. As df increases, the t-distribution approaches the standard normal (z) distribution<span class="citation" data-cites="moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="statistical-significance-versus-practical-significance" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="statistical-significance-versus-practical-significance"><span class="header-section-number">10.9</span> Statistical significance versus practical significance</h2>
+<p><strong>Statistical significance</strong> (p &lt; α) tells us whether an effect is <strong>detectable</strong> and unlikely to be due to chance<span class="citation" data-cites="cohen1994"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>]</sup></span>. <strong>Practical significance</strong> evaluates whether the effect is <strong>large enough to matter</strong> in real-world contexts<span class="citation" data-cites="batterham2006 lakens2013"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span>.</p>
+<section id="when-they-diverge" class="level3" data-number="10.9.1">
+<h3 data-number="10.9.1" class="anchored" data-anchor-id="when-they-diverge"><span class="header-section-number">10.9.1</span> When they diverge</h3>
+<ol type="1">
+<li><strong>Statistically significant but trivial effect:</strong>
+<ul>
+<li>Large sample (n = 500) detects a 0.2 cm improvement in jump height (p = .03)</li>
+<li>Conclusion: Real effect, but too small to care about<span class="citation" data-cites="cohen1994"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>]</sup></span></li>
+</ul></li>
+<li><strong>Large effect but not statistically significant:</strong>
+<ul>
+<li>Small sample (n = 8) shows a 5 cm improvement (p = .08)</li>
+<li>Conclusion: Promising effect, but study underpowered<span class="citation" data-cites="button2013 maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>,<a href="references.html#ref-button2013" role="doc-biblioref">12</a>]</sup></span></li>
+</ul></li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Always report effect sizes alongside p-values
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A p-value alone is insufficient<span class="citation" data-cites="wilkinson1999 cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>,<a href="references.html#ref-wilkinson1999" role="doc-biblioref">29</a>]</sup></span>. Report:</p>
+<ul>
+<li>Mean difference with 95% CI</li>
+<li>Standardized effect size (e.g., Cohen’s d)</li>
+<li>Practical interpretation in context</li>
+</ul>
+<p>Example: “Mean difference = 4.2 cm, 95% CI [2.1, 6.3], d = 0.67, p = .002. This represents a moderate-to-large improvement in performance.”</p>
+</div>
+</div>
+</section>
+</section>
+<section id="assumptions-of-t-tests" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="assumptions-of-t-tests"><span class="header-section-number">10.10</span> Assumptions of t-tests</h2>
+<p>T-tests assume<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">3</a>]</sup></span>:</p>
+<ol type="1">
+<li><strong>Independence:</strong> Observations are independent (one participant does not influence another)</li>
+<li><strong>Normality:</strong> Data are approximately normally distributed (especially important for small samples)</li>
+<li><strong>Equal variances (for independent t-test):</strong> Population variances are equal (use Welch’s t-test if violated)<span class="citation" data-cites="welch1947 delacre2021"><sup>[<a href="references.html#ref-welch1947" role="doc-biblioref">27</a>,<a href="references.html#ref-delacre2021" role="doc-biblioref">28</a>]</sup></span></li>
+</ol>
+<p><strong>Robustness:</strong></p>
+<ul>
+<li>T-tests are <strong>robust to moderate violations of normality</strong>, especially with larger samples (n &gt; 30)<span class="citation" data-cites="lumley2002 blanca2013"><sup>[<a href="references.html#ref-lumley2002" role="doc-biblioref">30</a>,<a href="references.html#ref-blanca2013" role="doc-biblioref">31</a>]</sup></span></li>
+<li>Use <strong>Welch’s t-test</strong> (default in most software) to avoid assuming equal variances<span class="citation" data-cites="delacre2021"><sup>[<a href="references.html#ref-delacre2021" role="doc-biblioref">28</a>]</sup></span></li>
+<li>For severe non-normality or small samples, consider <strong>nonparametric tests</strong> (Chapter 19)</li>
+</ul>
+</section>
+<section id="frequentist-versus-bayesian-approaches" class="level2" data-number="10.11">
+<h2 data-number="10.11" class="anchored" data-anchor-id="frequentist-versus-bayesian-approaches"><span class="header-section-number">10.11</span> Frequentist versus Bayesian approaches</h2>
+<p>The hypothesis testing framework described in this chapter is <strong>frequentist</strong>, meaning it interprets probability as long-run relative frequency<span class="citation" data-cites="neyman1933 fisher1925"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>,<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>. The p-value answers: “What proportion of samples would produce data this extreme if H₀ were true and we repeated the experiment infinitely?”</p>
+<p><strong>Bayesian hypothesis testing</strong> offers an alternative<span class="citation" data-cites="wagenmakers2007 kruschke2018"><sup>[<a href="references.html#ref-wagenmakers2007" role="doc-biblioref">32</a>,<a href="references.html#ref-kruschke2018" role="doc-biblioref">33</a>]</sup></span>:</p>
+<ul>
+<li>Computes the <strong>probability that H₀ (or H₁) is true</strong> given the data</li>
+<li>Updates prior beliefs with new data to produce posterior probabilities</li>
+<li>Does not rely on arbitrary α thresholds</li>
+<li>More intuitive for many researchers but requires specifying prior distributions</li>
+</ul>
+<p><strong>Example comparison:</strong></p>
+<ul>
+<li><strong>Frequentist:</strong> p = 0.03 (data are unlikely if H₀ is true)</li>
+<li><strong>Bayesian:</strong> P(H₁|data) = 0.87 (87% probability that H₁ is true given the data)</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Bayesian methods in Movement Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Bayesian statistics are gaining popularity in Movement Science for their ability to quantify evidence for or against hypotheses and incorporate prior knowledge<span class="citation" data-cites="kruschke2018 vandeschoot2021"><sup>[<a href="references.html#ref-kruschke2018" role="doc-biblioref">33</a>,<a href="references.html#ref-vandeschoot2021" role="doc-biblioref">34</a>]</sup></span>. Software like JASP and R packages (e.g., BayesFactor, brms) make Bayesian analysis accessible<span class="citation" data-cites="wagenmakers2018"><sup>[<a href="references.html#ref-wagenmakers2018" role="doc-biblioref">35</a>]</sup></span>.</p>
+</div>
+</div>
+</section>
+<section id="common-misinterpretations-and-pitfalls" class="level2" data-number="10.12">
+<h2 data-number="10.12" class="anchored" data-anchor-id="common-misinterpretations-and-pitfalls"><span class="header-section-number">10.12</span> Common misinterpretations and pitfalls</h2>
+<section id="misinterpretation-1-p-0.05-is-the-cutoff-for-truth" class="level3" data-number="10.12.1">
+<h3 data-number="10.12.1" class="anchored" data-anchor-id="misinterpretation-1-p-0.05-is-the-cutoff-for-truth"><span class="header-section-number">10.12.1</span> Misinterpretation 1: “p = 0.05 is the cutoff for truth”</h3>
+<p><strong>Wrong:</strong> P-values are continuous measures of evidence, not binary truth detectors<span class="citation" data-cites="wasserstein2016 amrhein2019"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-amrhein2019" role="doc-biblioref">36</a>]</sup></span>. An effect with p = 0.051 is not fundamentally different from one with p = 0.049<span class="citation" data-cites="rosenthal1986"><sup>[<a href="references.html#ref-rosenthal1986" role="doc-biblioref">37</a>]</sup></span>.</p>
+<p><strong>Better:</strong> Report exact p-values and interpret them as gradations of evidence<span class="citation" data-cites="wasserstein2019"><sup>[<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span>.</p>
+</section>
+<section id="misinterpretation-2-non-significant-means-no-effect" class="level3" data-number="10.12.2">
+<h3 data-number="10.12.2" class="anchored" data-anchor-id="misinterpretation-2-non-significant-means-no-effect"><span class="header-section-number">10.12.2</span> Misinterpretation 2: “Non-significant means no effect”</h3>
+<p><strong>Wrong:</strong> Failing to reject H₀ does not mean H₀ is true<span class="citation" data-cites="altman1995 goodman2008"><sup>[<a href="references.html#ref-altman1995" role="doc-biblioref">18</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span>. The study may lack power to detect a real effect.</p>
+<p><strong>Better:</strong> Report confidence intervals and effect sizes. “The difference was not statistically significant (p = .12), but the 95% CI [−1.2, 8.5] cm includes both trivial and meaningful effects, suggesting the study was underpowered”<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+</section>
+<section id="misinterpretation-3-p-0.01-means-a-stronger-effect-than-p-0.05" class="level3" data-number="10.12.3">
+<h3 data-number="10.12.3" class="anchored" data-anchor-id="misinterpretation-3-p-0.01-means-a-stronger-effect-than-p-0.05"><span class="header-section-number">10.12.3</span> Misinterpretation 3: “p = 0.01 means a stronger effect than p = 0.05”</h3>
+<p><strong>Wrong:</strong> P-values measure evidence against H₀, not effect magnitude<span class="citation" data-cites="cohen1994 wasserstein2019"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>,<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span>. A tiny effect in a huge sample can yield p &lt; .001, while a large effect in a small sample may yield p = .08.</p>
+<p><strong>Better:</strong> Examine effect sizes (e.g., Cohen’s d, mean differences) to assess magnitude<span class="citation" data-cites="lakens2013"><sup>[<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span>.</p>
+</section>
+<section id="misinterpretation-4-statistically-significant-important" class="level3" data-number="10.12.4">
+<h3 data-number="10.12.4" class="anchored" data-anchor-id="misinterpretation-4-statistically-significant-important"><span class="header-section-number">10.12.4</span> Misinterpretation 4: “Statistically significant = important”</h3>
+<p><strong>Wrong:</strong> Statistical significance only indicates detectability, not practical importance<span class="citation" data-cites="cohen1994 batterham2006"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>,<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>]</sup></span>.</p>
+<p><strong>Better:</strong> Evaluate practical significance using domain expertise, minimal clinically important differences (MCIDs), and confidence intervals<span class="citation" data-cites="hopkins2009"><sup>[<a href="references.html#ref-hopkins2009" role="doc-biblioref">17</a>]</sup></span>.</p>
+</section>
+</section>
+<section id="reporting-hypothesis-tests-apa-style" class="level2" data-number="10.13">
+<h2 data-number="10.13" class="anchored" data-anchor-id="reporting-hypothesis-tests-apa-style"><span class="header-section-number">10.13</span> Reporting hypothesis tests (APA style)</h2>
+<p><strong>Template:</strong></p>
+<p>“[Group 1] (M = [mean], SD = [SD], n = [n]) [differed/did not differ] significantly from [Group 2] (M = [mean], SD = [SD], n = [n]), t([df]) = [t-value], p = [p-value], [effect size], 95% CI [lower, upper].”</p>
+<p><strong>Example:</strong></p>
+<p>“Trained athletes (M = 55.3 cm, SD = 6.2, n = 20) jumped significantly higher than untrained controls (M = 48.7 cm, SD = 7.1, n = 20), t(36.8) = 3.12, p = .003, d = 0.98, 95% CI [2.4, 10.8] cm.”</p>
+<p><strong>Key elements:</strong></p>
+<ul>
+<li>Descriptive statistics for each group</li>
+<li>Test statistic with degrees of freedom</li>
+<li>Exact p-value (unless p &lt; .001)</li>
+<li>Effect size</li>
+<li>Confidence interval for the difference</li>
+</ul>
+</section>
+<section id="chapter-summary" class="level2" data-number="10.14">
+<h2 data-number="10.14" class="anchored" data-anchor-id="chapter-summary"><span class="header-section-number">10.14</span> Chapter summary</h2>
+<p>Hypothesis testing provides a formal decision-making framework for evaluating claims about populations based on sample data<span class="citation" data-cites="moore_ips neyman1933"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>. By formulating null and alternative hypotheses, computing a test statistic, and comparing the resulting p-value to a significance level (α), researchers determine whether observed effects are unlikely to have occurred by chance alone<span class="citation" data-cites="fisher1925 wasserstein2016"><sup>[<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>,<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>]</sup></span>. However, hypothesis testing is not without limitations: p-values are often misinterpreted, the dichotomous reject/fail-to-reject framework obscures gradations of evidence, and statistical significance does not imply practical importance<span class="citation" data-cites="cohen1994 wasserstein2019"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>,<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span>. Understanding Type I and Type II errors, statistical power, and the assumptions underlying t-tests is critical for conducting and interpreting hypothesis tests responsibly<span class="citation" data-cites="cohen1988 maxwell2008"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>,<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+<p>The t-test, one of the most widely used hypothesis tests, enables comparisons of means in one-sample, two-sample, and paired designs<span class="citation" data-cites="student1908 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-student1908" role="doc-biblioref">26</a>]</sup></span>. Proper interpretation requires reporting not only p-values but also effect sizes and confidence intervals, which provide richer information about the magnitude and precision of effects<span class="citation" data-cites="cumming2014 lakens2013"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span>. As Movement Science increasingly embraces estimation-focused approaches alongside traditional significance testing, researchers must balance the yes/no decisions of hypothesis testing with the nuanced uncertainty quantified by confidence intervals<span class="citation" data-cites="batterham2006 hopkins2009"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>,<a href="references.html#ref-hopkins2009" role="doc-biblioref">17</a>]</sup></span>. The p-value is a tool, not a truth—it tells us about the compatibility of data with the null hypothesis, not about the probability that hypotheses are true or the size of effects<span class="citation" data-cites="wasserstein2016 greenland2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-greenland2016" role="doc-biblioref">22</a>]</sup></span>. By integrating hypothesis testing with effect size reporting, confidence intervals, and substantive expertise, Movement Science researchers can make more informed, transparent, and reproducible inferences about human performance<span class="citation" data-cites="cumming2014 kline2013"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>,<a href="references.html#ref-kline2013" role="doc-biblioref">16</a>]</sup></span>.</p>
+</section>
+<section id="key-terms" class="level2" data-number="10.15">
+<h2 data-number="10.15" class="anchored" data-anchor-id="key-terms"><span class="header-section-number">10.15</span> Key terms</h2>
+<p>hypothesis testing; null hypothesis; alternative hypothesis; p-value; significance level; Type I error; Type II error; statistical power; one-tailed test; two-tailed test; t-test; one-sample t-test; two-sample t-test; paired t-test; degrees of freedom; test statistic; critical value; statistical significance; practical significance; effect size</p>
+</section>
+<section id="practice-quick-checks" class="level2" data-number="10.16">
+<h2 data-number="10.16" class="anchored" data-anchor-id="practice-quick-checks"><span class="header-section-number">10.16</span> Practice: quick checks</h2>
+<div class="accordion" id="accordion-1">
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-1">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-1" aria-expanded="false" aria-controls="accordion-1-collapse-1">
+<i class="bi bi-1-square-fill"></i> <div>Question 1: What does it mean to “reject the null hypothesis”?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-1" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-1">
+      <div class="accordion-body">
+<p>Rejecting the null hypothesis means concluding that the data are sufficiently unlikely under the assumption that H₀ is true, so we infer that an effect probably exists<span class="citation" data-cites="fisher1925 moore_ips"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-fisher1925" role="doc-biblioref">5</a>]</sup></span>. It does not mean we have “proven” the alternative hypothesis or that the null hypothesis is definitely false—only that the evidence is inconsistent with H₀ at the chosen significance level<span class="citation" data-cites="wasserstein2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>]</sup></span>. Conversely, “failing to reject H₀” does not mean H₀ is true; it means we lack sufficient evidence to conclude it is false<span class="citation" data-cites="altman1995"><sup>[<a href="references.html#ref-altman1995" role="doc-biblioref">18</a>]</sup></span>. This distinction is crucial: hypothesis testing operates on evidence, not proof, and conclusions are probabilistic rather than certain<span class="citation" data-cites="cohen1994"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-2">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-2" aria-expanded="false" aria-controls="accordion-1-collapse-2">
+<i class="bi bi-2-square-fill"></i> <div>Question 2: Why is it problematic to interpret a p-value as the
+probability that the null hypothesis is true?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-2">
+      <div class="accordion-body">
+<p>The p-value is P(data | H₀), not P(H₀ | data)<span class="citation" data-cites="goodman2008 wasserstein2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>,<a href="references.html#ref-goodman2008" role="doc-biblioref">19</a>]</sup></span>. In plain language, the p-value tells us “how likely these data are if H₀ were true,” not “how likely H₀ is given these data.” The null hypothesis is either true or false (we don’t know which), so it doesn’t have a probability in the frequentist framework<span class="citation" data-cites="gigerenzer2004"><sup>[<a href="references.html#ref-gigerenzer2004" role="doc-biblioref">7</a>]</sup></span>. Confusing these probabilities is called the <strong>inverse probability fallacy</strong><span class="citation" data-cites="hoekstra2014"><sup>[<a href="references.html#ref-hoekstra2014" role="doc-biblioref">38</a>]</sup></span>. To make probability statements about hypotheses, one must use Bayesian methods, which directly compute P(H₀ | data) using prior probabilities<span class="citation" data-cites="wagenmakers2007 kruschke2018"><sup>[<a href="references.html#ref-wagenmakers2007" role="doc-biblioref">32</a>,<a href="references.html#ref-kruschke2018" role="doc-biblioref">33</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-3">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-3" aria-expanded="false" aria-controls="accordion-1-collapse-3">
+<i class="bi bi-3-square-fill"></i> <div>Question 3: What is the relationship between statistical power and Type
+II error?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-3">
+      <div class="accordion-body">
+<p>Statistical power is the probability of correctly rejecting the null hypothesis when it is false (i.e., detecting a true effect)<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span>. Type II error (β) is the probability of failing to reject the null hypothesis when it is false (i.e., missing a true effect)<span class="citation" data-cites="neyman1933"><sup>[<a href="references.html#ref-neyman1933" role="doc-biblioref">6</a>]</sup></span>. They are complementary: <strong>Power = 1 − β</strong><span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>. High power (e.g., 0.80 or 80%) means low probability of Type II error (β = 0.20 or 20%). Power increases with larger sample sizes, larger effect sizes, higher significance levels, and lower variability<span class="citation" data-cites="cohen1988 button2013"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>,<a href="references.html#ref-button2013" role="doc-biblioref">12</a>]</sup></span>. Underpowered studies are problematic because they frequently miss real effects, producing false negatives and wasting resources<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-4">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-4" aria-expanded="false" aria-controls="accordion-1-collapse-4">
+<i class="bi bi-4-square-fill"></i> <div>Question 4: When should you use a one-tailed test instead of a
+two-tailed test?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-4">
+      <div class="accordion-body">
+<p>Use a one-tailed test only when you have strong <strong>a priori</strong> theoretical or practical reasons to test a directional hypothesis <strong>and you genuinely do not care about effects in the opposite direction</strong><span class="citation" data-cites="ruxton2006 lakens2016"><sup>[<a href="references.html#ref-ruxton2006" role="doc-biblioref">20</a>,<a href="references.html#ref-lakens2016" role="doc-biblioref">21</a>]</sup></span>. For example, testing whether a new rehabilitation protocol improves recovery time (and you would not interpret a worsening as meaningful). However, most research situations warrant two-tailed tests because researchers typically want to detect any difference, regardless of direction<span class="citation" data-cites="moore_ips field_discovering"><sup>[<a href="references.html#ref-moore_ips" role="doc-biblioref">1</a>,<a href="references.html#ref-field_discovering" role="doc-biblioref">3</a>]</sup></span>. One-tailed tests are more controversial because they can be perceived as “p-hacking” if the direction is chosen post-hoc to achieve significance<span class="citation" data-cites="simmons2011"><sup>[<a href="references.html#ref-simmons2011" role="doc-biblioref">39</a>]</sup></span>. When in doubt, use two-tailed tests<span class="citation" data-cites="lakens2016"><sup>[<a href="references.html#ref-lakens2016" role="doc-biblioref">21</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-5">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-5" aria-expanded="false" aria-controls="accordion-1-collapse-5">
+<i class="bi bi-5-square-fill"></i> <div>Question 5: Why doesn’t “p &gt; 0.05” mean “no effect”?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-5" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-5">
+      <div class="accordion-body">
+<p>A non-significant result (p &gt; 0.05) means the data are <strong>compatible with the null hypothesis</strong>, but it does not prove the null hypothesis is true<span class="citation" data-cites="altman1995 greenland2016"><sup>[<a href="references.html#ref-altman1995" role="doc-biblioref">18</a>,<a href="references.html#ref-greenland2016" role="doc-biblioref">22</a>]</sup></span>. The study may lack statistical power to detect a real but small effect, or the sample size may be insufficient<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>. The confidence interval provides critical context: a wide CI (e.g., [−5, 10] cm) suggests high uncertainty and includes both negative and positive effects, while a narrow CI near zero (e.g., [−0.5, 0.8] cm) provides stronger evidence for a truly negligible effect<span class="citation" data-cites="cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>]</sup></span>. “Absence of evidence is not evidence of absence”<span class="citation" data-cites="altman1995"><sup>[<a href="references.html#ref-altman1995" role="doc-biblioref">18</a>]</sup></span>—to claim no effect, you need precise estimates (narrow CIs) centered near zero, not just p &gt; 0.05<span class="citation" data-cites="lakens2017"><sup>[<a href="references.html#ref-lakens2017" role="doc-biblioref">40</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h3 class="accordion-header no-anchor m-0 p-0" id="accordion-1-header-6">
+      <button class="accordion-button collapsed gap-2" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1-collapse-6" aria-expanded="false" aria-controls="accordion-1-collapse-6">
+<i class="bi bi-6-square-fill"></i> <div>Question 6: How do you distinguish between statistical significance and
+practical significance?</div>
+      </button>
+    </h3>
+    <div id="accordion-1-collapse-6" class="accordion-collapse collapse" data-bs-parent="#accordion-1" aria-labelledby="accordion-1-header-6">
+      <div class="accordion-body">
+<p><strong>Statistical significance</strong> (p &lt; α) indicates that an effect is unlikely due to chance and is probably real<span class="citation" data-cites="cohen1994"><sup>[<a href="references.html#ref-cohen1994" role="doc-biblioref">2</a>]</sup></span>. <strong>Practical significance</strong> assesses whether the magnitude of the effect is large enough to matter in applied contexts<span class="citation" data-cites="batterham2006 lakens2013"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>,<a href="references.html#ref-lakens2013" role="doc-biblioref">15</a>]</sup></span>. A statistically significant effect may be trivial (e.g., 0.1 cm improvement in a large sample), while a large effect may fail to reach significance in a small, underpowered study<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>. To evaluate practical significance, examine effect sizes (e.g., Cohen’s d), confidence intervals, and minimal clinically important differences (MCIDs) specific to the outcome<span class="citation" data-cites="hopkins2009"><sup>[<a href="references.html#ref-hopkins2009" role="doc-biblioref">17</a>]</sup></span>. Always ask: “Even if this effect is real, is it large enough to justify intervention, change practice, or inform theory?”<span class="citation" data-cites="batterham2006"><sup>[<a href="references.html#ref-batterham2006" role="doc-biblioref">13</a>]</sup></span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Read further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For deeper exploration of hypothesis testing controversies and alternatives, see<span class="citation" data-cites="wasserstein2016"><sup>[<a href="references.html#ref-wasserstein2016" role="doc-biblioref">9</a>]</sup></span> (ASA Statement on P-Values),<span class="citation" data-cites="wasserstein2019"><sup>[<a href="references.html#ref-wasserstein2019" role="doc-biblioref">14</a>]</sup></span> (Moving to a World Beyond p &lt; 0.05),<span class="citation" data-cites="cumming2014"><sup>[<a href="references.html#ref-cumming2014" role="doc-biblioref">4</a>]</sup></span> (The New Statistics), and<span class="citation" data-cites="kruschke2018"><sup>[<a href="references.html#ref-kruschke2018" role="doc-biblioref">33</a>]</sup></span> (Bayesian data analysis). For power analysis and sample size planning, consult<span class="citation" data-cites="cohen1988"><sup>[<a href="references.html#ref-cohen1988" role="doc-biblioref">10</a>]</sup></span> and<span class="citation" data-cites="maxwell2008"><sup>[<a href="references.html#ref-maxwell2008" role="doc-biblioref">11</a>]</sup></span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Next chapter
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Chapter 11, you will learn about <strong>correlation and bivariate regression</strong>, methods for quantifying the strength and direction of relationships between two continuous variables. You will see how correlation complements hypothesis testing, understand the critical distinction between correlation and causation, and learn to build simple regression models for prediction.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-moore_ips" class="csl-entry" role="listitem">
+1. Moore, D. S., McCabe, G. P., &amp; Craig, B. A. (2021). <em>Introduction to the practice of statistics</em> (10th ed.). W. H. Freeman; Company.
+</div>
+<div id="ref-cohen1994" class="csl-entry" role="listitem">
+2. Cohen, J. (1994). The earth is round (p &lt; .05). <em>American Psychologist</em>, <em>49</em>(12), 997–1003. <a href="https://doi.org/10.1037/0003-066X.49.12.997">https://doi.org/10.1037/0003-066X.49.12.997</a>
+</div>
+<div id="ref-field_discovering" class="csl-entry" role="listitem">
+3. Field, A. (2018). <em>Discovering statistics using IBM SPSS statistics</em> (5th ed.). SAGE Publications.
+</div>
+<div id="ref-cumming2014" class="csl-entry" role="listitem">
+4. Cumming, G. (2014). The new statistics: Why and how. <em>Psychological Science</em>, <em>25</em>(1), 7–29. <a href="https://doi.org/10.1177/0956797613504966">https://doi.org/10.1177/0956797613504966</a>
+</div>
+<div id="ref-fisher1925" class="csl-entry" role="listitem">
+5. Fisher, R. A. (1925). <em>Statistical methods for research workers</em>.
+</div>
+<div id="ref-neyman1933" class="csl-entry" role="listitem">
+6. Neyman, J., &amp; Pearson, E. S. (1933). On the problem of the most efficient tests of statistical hypotheses. <em>Philosophical Transactions of the Royal Society A</em>, <em>231</em>, 289–337. <a href="https://doi.org/10.1098/rsta.1933.0009">https://doi.org/10.1098/rsta.1933.0009</a>
+</div>
+<div id="ref-gigerenzer2004" class="csl-entry" role="listitem">
+7. Gigerenzer, G. (2004). Mindless statistics. <em>Journal of Socio-Economics</em>, <em>33</em>, 587–606. <a href="https://doi.org/10.1016/j.socec.2004.09.033">https://doi.org/10.1016/j.socec.2004.09.033</a>
+</div>
+<div id="ref-schmidt1996" class="csl-entry" role="listitem">
+8. Schmidt, F. L. (1996). Statistical significance testing and cumulative knowledge in psychology: Implications for training of researchers. <em>Psychological Methods</em>, <em>1</em>(2), 115–129. <a href="https://doi.org/10.1037/1082-989X.1.2.115">https://doi.org/10.1037/1082-989X.1.2.115</a>
+</div>
+<div id="ref-wasserstein2016" class="csl-entry" role="listitem">
+9. Wasserstein, R. L., &amp; Lazar, N. A. (2016). The ASA statement on p-values: Context, process, and purpose. <em>The American Statistician</em>, <em>70</em>(2), 129–133. <a href="https://doi.org/10.1080/00031305.2016.1154108">https://doi.org/10.1080/00031305.2016.1154108</a>
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+10. Cohen, J. (1988). <em>Statistical power analysis for the behavioral sciences</em> (2nd ed.). Lawrence Erlbaum Associates.
+</div>
+<div id="ref-maxwell2008" class="csl-entry" role="listitem">
+11. Maxwell, S. E., Delaney, H. D., &amp; Kelley, K. (2018). <em>Designing experiments and analyzing data: A model comparison perspective</em> (3rd ed.). Routledge.
+</div>
+<div id="ref-button2013" class="csl-entry" role="listitem">
+12. Button, K. S., Ioannidis, J. P. A., Mokrysz, C., Nosek, B. A., Flint, J., Robinson, E. S. J., &amp; Munafò, M. R. (2013). Power failure: Why small sample size undermines the reliability of neuroscience. <em>Nature Reviews Neuroscience</em>, <em>14</em>, 365–376. <a href="https://doi.org/10.1038/nrn3475">https://doi.org/10.1038/nrn3475</a>
+</div>
+<div id="ref-batterham2006" class="csl-entry" role="listitem">
+13. Batterham, A. M., &amp; Hopkins, W. G. (2006). Making meaningful inferences about magnitudes. <em>International Journal of Sports Physiology and Performance</em>, <em>1</em>(1), 50–57. <a href="https://doi.org/10.1123/ijspp.1.1.50">https://doi.org/10.1123/ijspp.1.1.50</a>
+</div>
+<div id="ref-wasserstein2019" class="csl-entry" role="listitem">
+14. Wasserstein, R. L., Schirm, A. L., &amp; Lazar, N. A. (2019). Moving to a world beyond "p &lt; 0.05". <em>The American Statistician</em>, <em>73</em>(sup1), 1–19. <a href="https://doi.org/10.1080/00031305.2019.1583913">https://doi.org/10.1080/00031305.2019.1583913</a>
+</div>
+<div id="ref-lakens2013" class="csl-entry" role="listitem">
+15. Lakens, D. (2013). Calculating and reporting effect sizes to facilitate cumulative science: A practical primer for t-tests and ANOVAs. <em>Frontiers in Psychology</em>, <em>4</em>, 863. <a href="https://doi.org/10.3389/fpsyg.2013.00863">https://doi.org/10.3389/fpsyg.2013.00863</a>
+</div>
+<div id="ref-kline2013" class="csl-entry" role="listitem">
+16. Kline, R. B. (2013). <em>Beyond significance testing: Statistics reform in the behavioral sciences</em>.
+</div>
+<div id="ref-hopkins2009" class="csl-entry" role="listitem">
+17. Hopkins, W. G., Marshall, S. W., Batterham, A. M., &amp; Hanin, J. (2009). Progressive statistics for studies in sports medicine and exercise science. <em>Medicine &amp; Science in Sports &amp; Exercise</em>, <em>41</em>(1), 3–13. <a href="https://doi.org/10.1249/MSS.0b013e31818cb278">https://doi.org/10.1249/MSS.0b013e31818cb278</a>
+</div>
+<div id="ref-altman1995" class="csl-entry" role="listitem">
+18. Altman, D. G., &amp; Bland, J. M. (1995). Statistics notes: Absence of evidence is not evidence of absence. <em>BMJ</em>, <em>311</em>, 485. <a href="https://doi.org/10.1136/bmj.311.7003.485">https://doi.org/10.1136/bmj.311.7003.485</a>
+</div>
+<div id="ref-goodman2008" class="csl-entry" role="listitem">
+19. Goodman, S. (2008). A dirty dozen: Twelve p-value misconceptions. <em>Seminars in Hematology</em>, <em>45</em>(3), 135–140. <a href="https://doi.org/10.1053/j.seminhematol.2008.04.003">https://doi.org/10.1053/j.seminhematol.2008.04.003</a>
+</div>
+<div id="ref-ruxton2006" class="csl-entry" role="listitem">
+20. Ruxton, G. D. (2006). The unequal variance t-test is an underused alternative to student’s t-test and the mann-whitney u test. <em>Behavioral Ecology</em>, <em>17</em>(4), 688–690. <a href="https://doi.org/10.1093/beheco/ark016">https://doi.org/10.1093/beheco/ark016</a>
+</div>
+<div id="ref-lakens2016" class="csl-entry" role="listitem">
+21. Lakens, D. (2014). Performing high-powered studies efficiently with sequential analyses. <em>European Journal of Social Psychology</em>, <em>44</em>, 701–710. <a href="https://doi.org/10.1002/ejsp.2023">https://doi.org/10.1002/ejsp.2023</a>
+</div>
+<div id="ref-greenland2016" class="csl-entry" role="listitem">
+22. Greenland, S., Senn, S. J., Rothman, K. J., Carlin, J. B., Poole, C., Goodman, S. N., &amp; Altman, D. G. (2016). Statistical tests, p values, confidence intervals, and power: A guide to misinterpretations. <em>European Journal of Epidemiology</em>, <em>31</em>, 337–350. <a href="https://doi.org/10.1007/s10654-016-0149-3">https://doi.org/10.1007/s10654-016-0149-3</a>
+</div>
+<div id="ref-lakens2018" class="csl-entry" role="listitem">
+23. <span class="nocase">Lakens, D., Adolfi, F. G., Albers, C. J., Anvari, F., Apps, M. A. J., Argamon, S. E., Baguley, T., Becker, R. B., Benning, S. D., Bradford, D. E., &amp; and 76 others</span>. (2018). Justify your alpha. <em>Nature Human Behaviour</em>, <em>2</em>, 168–171. <a href="https://doi.org/10.1038/s41562-018-0311-x">https://doi.org/10.1038/s41562-018-0311-x</a>
+</div>
+<div id="ref-cowles1982" class="csl-entry" role="listitem">
+24. Cowles, M., &amp; Davis, C. (1982). On the origins of the .05 level of statistical significance. <em>American Psychologist</em>, <em>37</em>(5), 553–558. <a href="https://doi.org/10.1037/0003-066X.37.5.553">https://doi.org/10.1037/0003-066X.37.5.553</a>
+</div>
+<div id="ref-benjamin2018" class="csl-entry" role="listitem">
+25. <span class="nocase">Benjamin, D. J., Berger, J. O., Johannesson, M., Nosek, B. A., Wagenmakers, E.-J., Berk, R., Bollen, K. A., Brembs, B., Brown, L., Camerer, C., &amp; and 62 others</span>. (2018). Redefine statistical significance. <em>Nature Human Behaviour</em>, <em>2</em>, 6–10. <a href="https://doi.org/10.1038/s41562-017-0189-z">https://doi.org/10.1038/s41562-017-0189-z</a>
+</div>
+<div id="ref-student1908" class="csl-entry" role="listitem">
+26. Student [Gosset, W. S. (1908). The probable error of a mean. <em>Biometrika</em>, <em>6</em>(1), 1–25. <a href="https://doi.org/10.2307/2331554">https://doi.org/10.2307/2331554</a>
+</div>
+<div id="ref-welch1947" class="csl-entry" role="listitem">
+27. Welch, B. L. (1947). The generalization of "student’s" problem when several different population variances are involved. <em>Biometrika</em>, <em>34</em>(1-2), 28–35. <a href="https://doi.org/10.1093/biomet/34.1-2.28">https://doi.org/10.1093/biomet/34.1-2.28</a>
+</div>
+<div id="ref-delacre2021" class="csl-entry" role="listitem">
+28. Delacre, M., Lakens, D., &amp; Leys, C. (2017). Why psychologists should by default use welch’s t-test instead of student’s t-test. <em>International Review of Social Psychology</em>, <em>30</em>(1), 92–101. <a href="https://doi.org/10.5334/irsp.82">https://doi.org/10.5334/irsp.82</a>
+</div>
+<div id="ref-wilkinson1999" class="csl-entry" role="listitem">
+29. Wilkinson, L., &amp; Task Force on Statistical Inference. (1999). Statistical methods in psychology journals: Guidelines and explanations. <em>American Psychologist</em>, <em>54</em>(8), 594–604. <a href="https://doi.org/10.1037/0003-066X.54.8.594">https://doi.org/10.1037/0003-066X.54.8.594</a>
+</div>
+<div id="ref-lumley2002" class="csl-entry" role="listitem">
+30. Lumley, T., Diehr, P., Emerson, S., &amp; Chen, L. (2002). The importance of the normality assumption in large public health data sets. <em>Annual Review of Public Health</em>, <em>23</em>, 151–169. <a href="https://doi.org/10.1146/annurev.publhealth.23.100901.140546">https://doi.org/10.1146/annurev.publhealth.23.100901.140546</a>
+</div>
+<div id="ref-blanca2013" class="csl-entry" role="listitem">
+31. Blanca, M. J., Alarcón, R., Arnau, J., Bono, R., &amp; Bendayan, R. (2013). Non-normal data: Is ANOVA still a valid option? <em>Psicothema</em>, <em>25</em>(4), 552–557. <a href="https://doi.org/10.7334/psicothema2013.552">https://doi.org/10.7334/psicothema2013.552</a>
+</div>
+<div id="ref-wagenmakers2007" class="csl-entry" role="listitem">
+32. Wagenmakers, E.-J. (2007). A practical solution to the pervasive problems of p values. <em>Psychonomic Bulletin &amp; Review</em>, <em>14</em>(5), 779–804. <a href="https://doi.org/10.3758/BF03194105">https://doi.org/10.3758/BF03194105</a>
+</div>
+<div id="ref-kruschke2018" class="csl-entry" role="listitem">
+33. Kruschke, J. K. (2015). <em>Doing bayesian data analysis: A tutorial with r, JAGS, and stan</em> (2nd ed.). Academic Press.
+</div>
+<div id="ref-vandeschoot2021" class="csl-entry" role="listitem">
+34. Schoot, R. van de, Depaoli, S., King, R., Kramer, B., Märtens, K., Tadesse, M. G., Vannucci, M., Gelman, A., Veen, D., Willemsen, J., &amp; Yau, C. (2021). Bayesian statistics and modelling. <em>Nature Reviews Methods Primers</em>, <em>1</em>, 1. <a href="https://doi.org/10.1038/s43586-020-00001-2">https://doi.org/10.1038/s43586-020-00001-2</a>
+</div>
+<div id="ref-wagenmakers2018" class="csl-entry" role="listitem">
+35. Wagenmakers, E.-J., Marsman, M., Jamil, T., Ly, A., Verhagen, J., Love, J., Selker, R., Gronau, Q. F., Šmíra, M., Epskamp, S., Matzke, D., Rouder, J. N., &amp; Morey, R. D. (2018). Bayesian inference for psychology. Part i: Theoretical advantages and practical ramifications. <em>Psychonomic Bulletin &amp; Review</em>, <em>25</em>, 35–57. <a href="https://doi.org/10.3758/s13423-017-1343-3">https://doi.org/10.3758/s13423-017-1343-3</a>
+</div>
+<div id="ref-amrhein2019" class="csl-entry" role="listitem">
+36. Amrhein, V., Greenland, S., &amp; McShane, B. (2019). Scientists rise up against statistical significance. <em>Nature</em>, <em>567</em>, 305–307. <a href="https://doi.org/10.1038/d41586-019-00857-9">https://doi.org/10.1038/d41586-019-00857-9</a>
+</div>
+<div id="ref-rosenthal1986" class="csl-entry" role="listitem">
+37. Rosenthal, R. (1986). <em>Meta-analytic procedures for social research</em>.
+</div>
+<div id="ref-hoekstra2014" class="csl-entry" role="listitem">
+38. Hoekstra, R., Morey, R. D., Rouder, J. N., &amp; Wagenmakers, E.-J. (2014). Robust misinterpretation of confidence intervals. <em>Psychonomic Bulletin &amp; Review</em>, <em>21</em>, 1157–1164. <a href="https://doi.org/10.3758/s13423-013-0572-3">https://doi.org/10.3758/s13423-013-0572-3</a>
+</div>
+<div id="ref-simmons2011" class="csl-entry" role="listitem">
+39. Simmons, J. P., Nelson, L. D., &amp; Simonsohn, U. (2011). False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. <em>Psychological Science</em>, <em>22</em>(11), 1359–1366. <a href="https://doi.org/10.1177/0956797611417632">https://doi.org/10.1177/0956797611417632</a>
+</div>
+<div id="ref-lakens2017" class="csl-entry" role="listitem">
+40. Lakens, D., Scheel, A. M., &amp; Isager, P. M. (2018). Equivalence testing for psychological research: A tutorial. <em>Advances in Methods and Practices in Psychological Science</em>, <em>1</em>(2), 259–269. <a href="https://doi.org/10.1177/2515245918770963">https://doi.org/10.1177/2515245918770963</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('span[title]').forEach(function (el) {
+    el.setAttribute('data-bs-toggle', 'popover');
+    el.setAttribute('data-bs-trigger', 'click');
+    el.setAttribute('data-bs-placement', 'top');
+    el.setAttribute('data-bs-content', el.getAttribute('title'));
+    el.setAttribute('data-bs-custom-class', 'definition-popover');
+    el.removeAttribute('title');
+    new bootstrap.Popover(el, { html: false });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('span[data-bs-toggle="popover"]')) {
+      document.querySelectorAll('span[data-bs-toggle="popover"]').forEach(function (el) {
+        var pop = bootstrap.Popover.getInstance(el);
+        if (pop) pop.hide();
+      });
+    }
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch09-confidence-intervals.html" class="pagination-link" aria-label="Confidence Intervals and Estimation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Confidence Intervals and Estimation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./part-relationships.html" class="pagination-link" aria-label="Part IV: Relationships and Prediction">
+        <span class="nav-page-text">Part IV: Relationships and Prediction</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
