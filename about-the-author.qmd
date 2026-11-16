@@ -1,6 +1,6 @@
 # About the Author {.unnumbered}
 
-**Ovande Furtado Jr., Ph.D.**, is an Associate Professor of Kinesiology at California State University, Northridge (CSUN), where he has taught in the Department of Kinesiology since 2013. He has taught motor behavior and statistics since 2007, first at Eastern Illinois University and then at CSUN.
+**Ovande Furtado Jr., Ph.D.**, is a Professor of Kinesiology at California State University, Northridge (CSUN), where he has taught in the Department of Kinesiology since 2013. He has taught motor behavior and statistics since 2007, first at Eastern Illinois University and then at CSUN.
 
 His research focuses on how children develop and are assessed in fundamental movement skills, and on how artificial intelligence can make movement assessment more objective, scalable, and useful for teachers and coaches. His work spans three areas: psychomotor assessment, motor competence and health, and AI for movement analysis.
 
