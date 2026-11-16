@@ -1,0 +1,286 @@
+---
+title: "SPSS Tutorial: Clinical Measures"
+---
+
+This tutorial walks through the clinical statistics covered in @sec-clinical-roadmap–@sec-linking using SPSS and the `core_session.sav` dataset. Each section maps directly to the corresponding chapter section.
+
+::: {.callout-tip}
+## Before you start
+
+Open `core_session.sav` in SPSS. You will also need a wide-format version of the data for some analyses (one row per participant, with separate columns for pre- and post-test scores). See the **Data Restructuring** note in the Wilcoxon SPSS tutorial (Appendix: SPSS Tutorial: Nonparametric Tests) for instructions on pivoting from long to wide format.
+
+Key variables used in this tutorial:
+
+| Variable | Description |
+|:---------|:------------|
+| `function_0_100` | Self-reported functional ability (0–100) |
+| `strength_kg` | Post-test muscular strength (kg) |
+| `group` | 1 = Control, 2 = Training |
+| `time` | 1 = Pre, 2 = Mid, 3 = Post |
+:::
+
+---
+
+## Part A: Calculating MCID and Classifying Responders {#sec-spss-mcid}
+
+The MCID is not computed directly in SPSS — it is derived from descriptive statistics and then applied as a classification rule.
+
+**Step 1: Compute the baseline standard deviation**
+
+> *Analyze → Descriptive Statistics → Explore…*
+
+- Move `function_0_100` to the **Dependent List**.
+- Move `group` to the **Factor List** to get group-specific statistics.
+- Under **Statistics**, ensure **Descriptives** is checked.
+- Click **OK**.
+
+Record **Std. Deviation** for the pre-test observations. Filter to pre-test first:
+
+> *Data → Select Cases → If condition is satisfied* → enter `time = 1` → **Continue** → **OK**
+
+Re-run the Explore procedure. Record *SD*_pre for the full sample (or by group, depending on your research question).
+
+**Distribution-based MCID = 0.5 × SD_pre.** For `function_0_100` in the `core_session` dataset, *SD*_pre = 12.2, so MCID = **6.1 points**.
+
+**Step 2: Compute individual change scores**
+
+You need pre- and post-test scores in separate columns (wide format). Using:
+
+> *Transform → Compute Variable…*
+
+Create a new variable:
+
+```
+change_function = function_post - function_pre
+```
+
+**Step 3: Classify responders**
+
+> *Transform → Recode into Different Variables…*
+
+- Input: `change_function`
+- Output: `responder` (new variable)
+- Click **Old and New Values…**:
+  - Range: lowest through 6.09 → New Value: 0 (non-responder)
+  - Range: 6.1 through highest → New Value: 1 (responder)
+- Click **Continue** → **OK**
+
+**Step 4: Compute responder rates by group**
+
+> *Analyze → Descriptive Statistics → Crosstabs…*
+
+- Row: `responder`
+- Column: `group`
+- Click **Cells…**, check **Row** and **Column** percentages → **Continue** → **OK**
+
+The output will show the number and percentage of responders and non-responders in each group. For the `core_session` training group: 12/25 = 48%; control group: 10/30 = 33%.
+
+---
+
+## Part B: Number Needed to Treat (NNT) {#sec-spss-nnt}
+
+SPSS does not compute NNT directly, but the required quantities come from the crosstabulation above.
+
+**Step 1: Record event rates from the crosstabulation**
+
+From the Crosstabs output (Part A, Step 4):
+
+- EER = proportion of responders in the training group
+- CER = proportion of responders in the control group
+
+**Step 2: Compute ARR and NNT**
+
+> *Transform → Compute Variable…*
+
+Create the following computed variables (entering the numeric values from the output):
+
+```
+ARR = EER - CER
+NNT = 1 / ARR
+```
+
+Alternatively, use the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix to enter EER and CER and obtain ARR, NNT, RR, and RRR with 95% CIs in one step.
+
+For the `core_session` dataset: EER = .480, CER = .333, ARR = .147, **NNT ≈ 7**, RR = 1.44, RRR = 44%.
+
+**Step 3: Confidence interval for ARR**
+
+The 95% CI for ARR uses the standard error of the difference between two proportions:
+
+$$SE_{ARR} = \sqrt{\frac{EER(1-EER)}{n_{tr}} + \frac{CER(1-CER)}{n_{ctrl}}}$$
+
+$$CI_{ARR} = ARR \pm 1.96 \times SE_{ARR}$$
+
+Compute in SPSS via:
+
+> *Transform → Compute Variable…*
+
+```
+SE_ARR = SQRT((EER*(1-EER)/n_tr) + (CER*(1-CER)/n_ctrl))
+CI_low  = ARR - 1.96 * SE_ARR
+CI_high = ARR + 1.96 * SE_ARR
+NNT_low  = 1 / CI_high
+NNT_high = 1 / CI_low
+```
+
+Replace `EER`, `CER`, `n_tr`, `n_ctrl` with the numeric values from your output. For the `core_session` data: ARR = .147, 95% CI [−.042, .336], NNT 95% CI [3.0, ∞]. The CI crosses zero, confirming the modest and uncertain treatment advantage at this sample size.
+
+::: {.callout-note}
+## When the NNT confidence interval spans infinity
+
+If the 95% CI for ARR includes zero, the reciprocal CI for NNT will include ∞ (and possibly negative values, which are interpreted as Number Needed to Harm). This is not an error — it reflects genuine uncertainty about the direction of the treatment effect. Report "NNT = 6.8, 95% CI [3.0, ∞]" and note that the result did not reach statistical significance for the responder comparison (even though the group ANCOVA was significant, because the responder analysis is lower-powered).
+:::
+
+---
+
+## Part C: Sensitivity, Specificity, PPV, NPV, and Likelihood Ratios {#sec-spss-sens-spec}
+
+**Step 1: Create a binary classifier variable**
+
+Using post-test strength as the classifier, first filter to post-test data (`time = 3`), then create a binary test variable:
+
+> *Transform → Recode into Different Variables…*
+
+- Input: `strength_kg`
+- Output: `test_positive`
+- Old and New Values:
+  - Range: lowest through 79.79 → New Value: 0 (test negative)
+  - Range: 79.8 through highest → New Value: 1 (test positive)
+
+**Step 2: Cross-tabulate against the true condition**
+
+The "true condition" is group membership (`group`): training = condition present (1), control = condition absent (0).
+
+> *Analyze → Descriptive Statistics → Crosstabs…*
+
+- Row: `test_positive`
+- Column: `group`
+- Click **Statistics…**, check **Chi-square** and **Risk** → **Continue**
+- Click **Cells…**, check **Observed** counts and **Row** percentages → **Continue** → **OK**
+
+**Step 3: Read the output**
+
+From the *Crosstabulation* table, identify:
+
+| Cell | Count |
+|:-----|:-----:|
+| test_positive = 1, group = Training | TP |
+| test_positive = 1, group = Control | FP |
+| test_positive = 0, group = Training | FN |
+| test_positive = 0, group = Control | TN |
+
+The *Risk Estimate* table from SPSS reports **Odds Ratio** and **Risk Ratios** — these are not sensitivity/specificity directly. Compute sensitivity and specificity manually:
+
+> *Transform → Compute Variable…*
+
+```
+Sensitivity = TP / (TP + FN)
+Specificity = TN / (TN + FP)
+PPV         = TP / (TP + FP)
+NPV         = TN / (TN + FN)
+PLR         = Sensitivity / (1 - Specificity)
+NLR         = (1 - Sensitivity) / Specificity
+```
+
+Replace TP, FP, FN, TN with the numeric counts from your crosstabulation table.
+
+For the `core_session` post-test strength example (cut = 79.8 kg):
+TP = 20, FP = 10, FN = 10, TN = 20.
+Sensitivity = .667, Specificity = .667, PPV = .667, NPV = .667, +LR = 2.00, −LR = 0.50.
+
+::: {.callout-tip}
+## Using SPSS ROC output for sensitivity and specificity
+
+If you run a ROC analysis (Part D below), SPSS will produce a coordinate points table listing sensitivity and 1 − specificity at every possible threshold. You can use this table to find the cut-point that maximises sensitivity + specificity (Youden's Index) rather than specifying the cut-point in advance.
+:::
+
+---
+
+## Part D: ROC Curves and AUC {#sec-spss-roc}
+
+SPSS has a dedicated ROC curve procedure.
+
+**Step 1: Filter to post-test data**
+
+> *Data → Select Cases → If condition is satisfied* → enter `time = 3` → **Continue** → **OK**
+
+**Step 2: Open the ROC dialog**
+
+> *Analyze → Classify → ROC Curve…*
+
+**Step 3: Assign variables**
+
+- **Test Variable**: `strength_kg` (the continuous classifier)
+- **State Variable**: `group` (the binary true condition)
+- **Value of State Variable**: `2` (the code for the training group — the "positive" condition)
+
+**Step 4: Request output**
+
+Under **Display**, check:
+- ✅ **ROC Curve**
+- ✅ **With diagonal reference line**
+- ✅ **Standard error and confidence interval** (for AUC)
+- ✅ **Coordinate points of the ROC Curve** (for cut-point selection)
+
+Click **OK**.
+
+**Step 5: Read the output**
+
+*Area Under the Curve table* — records:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Area | AUC (range 0–1) |
+| Std. Error | Standard error of AUC |
+| Asymptotic Sig. | *p*-value (H₀: AUC = 0.50) |
+| Asymptotic 95% CI: Lower/Upper | 95% CI for AUC |
+
+For the `core_session` strength example: AUC = .683, *p* = .008, 95% CI [.55, .81].
+
+*Coordinates of the Curve table* — lists sensitivity and 1 − specificity at every threshold. To identify the **optimal cut-point** (maximising Youden's Index = sensitivity + specificity − 1):
+
+> *Transform → Compute Variable…*
+
+After saving the coordinate table as a dataset, compute:
+```
+Youden = Sensitivity + (1 - OneMinusSpecificity) - 1
+```
+The row with the highest Youden value is the optimal cut-point. For the strength example, this occurs near 79.8 kg.
+
+::: {.callout-note}
+## AUC and the Mann-Whitney connection
+
+AUC is mathematically equivalent to the Mann-Whitney U statistic divided by (n₁ × n₂). Specifically:
+
+$$AUC = \frac{U}{n_{positive} \times n_{negative}}$$
+
+This means you can verify the AUC from SPSS by running a Mann-Whitney U test (Appendix: SPSS Tutorial Nonparametric Tests, Part C) on the continuous test variable with group as the grouping variable and dividing U by the product of the two group sizes.
+:::
+
+---
+
+## Troubleshooting {#sec-spss-clinical-trouble}
+
+**The ROC Curve dialog is grayed out.**
+The ROC Curve procedure requires the *Advanced Statistics* module. If it is unavailable, use the Mann-Whitney U approach to compute AUC manually (see the callout note in Part D above), or use the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix.
+
+**The Risk Estimates table shows Odds Ratio, not Sensitivity/Specificity.**
+SPSS's Crosstabs Risk Estimates reports relative risk and odds ratios, not diagnostic accuracy statistics. Compute sensitivity, specificity, PPV, NPV, and LRs manually from the cell counts using the Compute Variable formulas in Part C.
+
+**NNT confidence interval is very wide or includes negative values.**
+This is expected when the ARR is small and/or the sample size is modest. It means the study does not provide precise enough evidence to pin down how effective the intervention is in terms of responder rates. Report the result transparently and note the uncertainty.
+
+**The MCID threshold does not match published values for my outcome measure.**
+The distribution-based MCID (0.5 × SD) is an approximation. If published anchor-based MCIDs exist for your specific outcome measure and population, use those values instead. Always cite the source.
+
+---
+
+## Practice Exercises {#sec-spss-clinical-practice}
+
+1. **MCID and responders.** Using `core_session.sav`, compute the distribution-based MCID for `pain_0_10` (0.5 × SD at pre-test). Classify participants in the training group as responders or non-responders based on this threshold (pain *decrease* ≥ MCID). What proportion of the training group achieved a clinically meaningful pain reduction?
+
+2. **NNT.** Using your responder classifications from Exercise 1, compute the responder rates for both groups, then calculate ARR, NNT, and RR. Interpret the NNT in plain language for a clinician.
+
+3. **Sensitivity and specificity.** Using `vo2_mlkgmin` at post-test as a classifier (cut-point = sample median), test how well it discriminates training from control group participants. Compute sensitivity, specificity, PPV, NPV, +LR, and −LR. Is VO₂max a better or worse classifier than post-test strength?
+
+4. **ROC curve.** Run a ROC analysis on `function_0_100` at post-test to discriminate training from control group participants. Report the AUC, 95% CI, and *p*-value. Identify the optimal cut-point from the Coordinates of the Curve table. How does the AUC for functional ability compare to the AUC for strength (.683)?

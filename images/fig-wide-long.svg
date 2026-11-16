@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 280" width="500" height="280">
+  <defs>
+    <style>
+      .box { fill: #f8f9fa; stroke: #2c3e50; stroke-width: 2; rx: 8; }
+      .text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 14px; fill: #2c3e50; text-anchor: middle; }
+      .line { stroke: #2c3e50; stroke-width: 2; fill: none; }
+      .diamond { fill: #e8f4f8; stroke: #2c3e50; stroke-width: 2; }
+      .edge-label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 12px; fill: #555; text-anchor: middle; }
+    </style>
+  </defs>
+  
+  <!-- Top: Same participant measured repeatedly -->
+  <rect class="box" x="150" y="10" width="200" height="40"/>
+  <text class="text" x="250" y="35">Same participant measured repeatedly</text>
+  
+  <!-- Line down -->
+  <line class="line" x1="250" y1="50" x2="250" y2="70"/>
+  
+  <!-- Diamond: Choose structure -->
+  <polygon class="diamond" points="250,70 320,105 250,140 180,105"/>
+  <text class="text" x="250" y="110">Choose structure</text>
+  
+  <!-- Lines to Wide and Long -->
+  <line class="line" x1="180" y1="105" x2="100" y2="105"/>
+  <line class="line" x1="100" y1="105" x2="100" y2="160"/>
+  
+  <line class="line" x1="320" y1="105" x2="400" y2="105"/>
+  <line class="line" x1="400" y1="105" x2="400" y2="160"/>
+  
+  <!-- Edge labels -->
+  <text class="edge-label" x="140" y="100">Wide</text>
+  <text class="edge-label" x="360" y="100">Long</text>
+  
+  <!-- Wide box -->
+  <rect class="box" x="30" y="160" width="140" height="50"/>
+  <text class="text" x="100" y="180">Repeated measures</text>
+  <text class="text" x="100" y="198">in columns</text>
+  
+  <!-- Long box -->
+  <rect class="box" x="330" y="160" width="140" height="80"/>
+  <text class="text" x="400" y="185">Repeated measures</text>
+  <text class="text" x="400" y="203">in rows with a</text>
+  <text class="text" x="400" y="221">condition/time column</text>
+  
+</svg>

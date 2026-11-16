@@ -1,0 +1,128 @@
+project:
+  type: book
+
+
+book:
+  title: "Statistics for Movement Science"
+  subtitle: "A Hands-On Guide with SPSS | First Edition"
+  author:
+    - name: Ovande Furtado Jr., PhD.
+      orcid: 0000-0003-3847-6314
+      affiliations: Professor, Cal State Northridge  
+  date: "1/10/2026"
+  cover-image: cover2.png
+  reader-mode: true
+  chapters:
+    - index.qmd
+    
+    - part: part-measurement.qmd
+      chapters:
+        - ch01-measurement.qmd
+        - ch02-data-types.qmd
+    
+    - part: part-describing-data.qmd
+      chapters:
+        - ch03-data-visualization.qmd
+        - ch04-central-tendency.qmd
+        - ch05-variability.qmd
+        - ch06-percentiles-standard-scores.qmd
+        - ch07-normal-distribution.qmd
+    
+    - part: part-inference.qmd
+      chapters:
+        - ch08-probability-sampling-error.qmd
+        - ch09-confidence-intervals.qmd
+        - ch10-hypothesis-testing.qmd
+    
+    - part: part-relationships.qmd
+      chapters:
+        - ch11-correlation-regression.qmd
+        - ch12-multiple-regression.qmd
+    
+    - part: part-comparing-means.qmd
+      chapters:
+        - ch13-comparing-two-means.qmd
+        - ch14-anova.qmd
+        - ch15-repeated-measures.qmd
+        - ch16-factorial-anova.qmd
+        - ch17-ancova.qmd
+    
+    - part: "Reliability, Nonparametric Methods, and Clinical Interpretation"
+      chapters:
+        - ch18-reliability.qmd
+        # Uncomment as chapters are added:
+        - ch19-nonparametric.qmd
+        - ch20-clinical-measures.qmd
+    
+    - part: "Applied Statistical Practice"
+      chapters:
+        - ch21-software.qmd
+        - ch22-reporting.qmd
+        - ch23-ethics.qmd
+    
+    - references.qmd
+  
+  appendices:
+    - part: "Datasets"
+      chapters:
+        - appendix-core-dataset-overview.qmd
+        - appendix-core-dataset-codebook.qmd
+    
+    - part: "Statistical Tables"
+      chapters:
+        - appendix-statistical-tables.qmd
+        - appendix-effect-size-benchmarks.qmd
+    
+    - part: "Statistical Tools"
+      chapters:
+        - appendix-statistical-calculators.qmd
+        - appendix-factorial-anova-decision-tool.qmd
+        - appendix-apa-tables.qmd
+        - appendix-apa-reporting.qmd
+    
+    - part: "SPSS Tutorials"
+      chapters:
+        - appendix-spss-getting-started.qmd
+        - appendix-spss-data-visualization.qmd
+        - appendix-spss-central-tendency.qmd
+        - appendix-spss-variability.qmd
+        - appendix-spss-percentiles-z-scores.qmd
+        - appendix-spss-normality.qmd
+        - appendix-spss-sampling.qmd
+        - appendix-spss-confidence-intervals.qmd
+        - appendix-spss-hypothesis-testing.qmd
+        - appendix-spss-comparing-means.qmd
+        - appendix-spss-anova.qmd
+        - appendix-spss-repeated-measures.qmd
+        - appendix-spss-factorial-anova.qmd
+        - appendix-spss-ancova.qmd
+        - appendix-spss-reliability.qmd
+        - appendix-spss-nonparametric.qmd
+        - appendix-spss-clinical-measures.qmd
+        - appendix-spss-correlation-regression.qmd
+        - appendix-spss-multiple-regression.qmd
+
+bibliography: references.bib
+csl: apa-numeric-superscript-brackets.csl
+
+filters:
+  - panel-accordion
+
+crossref:
+  fig-prefix: Figure
+  tbl-prefix: Table
+  eq-prefix: Equation
+  title-delim: ":"
+
+format:
+  html:
+    theme:
+      light: cosmo
+      dark: darkly
+    css: styles.css
+    include-after-body: tooltip-init.html
+    fig-cap-location: bottom
+    lightbox: true
+    code-copy: true
+    code-block-bg: true
+    mermaid-format: js

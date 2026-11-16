@@ -1,0 +1,933 @@
+---
+title: "The Normal Distribution"
+subtitle: "Understanding the bell curve, probability, and when normality matters"
+---
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to assess normality and work with normal distributions in SPSS! See the **[SPSS Tutorial: Testing Normality and Working with Distributions](appendix-spss-normality.qmd)** in the appendix for step-by-step instructions on creating Q-Q plots, running normality tests, and interpreting distribution diagnostics.
+:::
+
+## Chapter roadmap
+
+The normal distribution—often called the bell curve or Gaussian distribution—occupies a central place in statistical theory and practice. Many inferential procedures (t-tests, ANOVA, regression) are built on assumptions that involve normality,  either of the raw data or of the sampling distribution of statistics like the mean [@moore_ips; @field_discovering]. The normal curve provides a mathematical model that connects z-scores to probabilities, allowing us to make statements like "approximately 95% of observations fall within two standard deviations of the mean" when the distribution is approximately normal [@moore_ips]. In Movement Science, the normal distribution serves as a reference model for interpreting individual performance, establishing normative ranges, and understanding the behavior of measurement error [@vincent1999]. However, the normal distribution is a theoretical ideal, not a universal law of nature, and real movement data often deviate from normality in meaningful ways [@micceri1989].
+
+Understanding when data are approximately normal, when departures from normality matter, and when they do not is a critical interpretive skill. Some Movement Science variables approximate normality under certain conditions (e.g., sprint times in homogeneous groups, strength measurements in controlled settings), while others are systematically non-normal (e.g., reaction times, sway area, EMG amplitude) due to biological constraints, measurement properties, or the nature of the underlying process [@limpert2001; @blanca2013]. The practical question is not "are my data perfectly normal?" (they never are), but rather "is the departure from normality consequential for the analysis I plan to conduct and the conclusions I want to draw?" [@lumley2002]. Many robust procedures perform well even with moderate departures from normality, especially with larger samples, while some procedures are quite sensitive to violations [@wilcox_robust; @delacre2021].
+
+This chapter introduces the normal distribution as a mathematical model, explains its properties and connection to probability, describes common measures of distributional shape (skewness and kurtosis), and provides practical guidance for assessing whether normality assumptions are reasonable in Movement Science contexts [@moore_ips; @field_discovering]. You will learn to visualize distributions effectively, interpret formal normality tests appropriately, and make informed decisions about when non-normality requires alternative approaches. The goal is not to worship normality or to avoid it reflexively, but to treat it as one useful model among many, applicable when the data and the context support it [@tukey_eda; @wilcox_robust].
+
+By the end of this chapter, you will be able to:
+
+* Describe the properties of the normal distribution and its role in statistical inference.
+* Use z-scores to compute probabilities and percentiles for normal distributions.
+* Interpret skewness and kurtosis as measures of distributional shape.
+* Assess normality using visual methods (histograms, Q-Q plots) and formal tests.
+* Recognize common patterns of non-normality in Movement Science data.
+* Make informed decisions about when departures from normality are consequential.
+
+## Workflow for assessing distributional shape
+
+Use this sequence when evaluating whether normality assumptions are reasonable:
+
+1. Visualize the distribution using histograms and Q-Q plots.
+2. Compute descriptive shape measures (skewness, kurtosis).
+3. Consider the sample size and the robustness of planned analyses.
+4. Run formal normality tests if needed, but prioritize visual assessment.
+5. Decide: is the departure from normality consequential for this analysis?
+
+## What is the normal distribution?
+
+The normal distribution is a continuous probability distribution characterized by a symmetric, bell-shaped curve [@moore_ips]. It is defined by two parameters: the mean (μ) and the standard deviation (σ). The mean determines the center (the peak of the curve), and the standard deviation determines the spread (how wide or narrow the bell is). The mathematical formula for the normal probability density function is:
+
+$$
+f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+$$
+
+While you will not compute this formula by hand in practice, understanding that the normal distribution is a **precise mathematical function** (not just a vague "bell-shaped pattern") is crucial for movement science professionals for several reasons [@moore_ips; @field_discovering]:
+
+1. **Foundation for statistical inference**: Many statistical tests and confidence intervals you will use—t-tests, ANOVA, regression—assume that either the raw data or the sampling distribution of the statistic (e.g., the mean) is approximately normal [@moore_ips]. Understanding the mathematical properties of the normal distribution helps you recognize when these assumptions are reasonable and when they are violated [@wilcox_robust].
+
+2. **Interpreting normative data and performance standards**: Movement science professionals routinely compare individual performance to normative data (e.g., fitness test percentiles, clinical cutoffs) [@vincent1999]. If the underlying distribution is not normal, standard percentile interpretations may be misleading. Knowing the theoretical basis helps you recognize when measurements (e.g., reaction times, which are positively skewed) should not be interpreted as if they were normally distributed [@limpert2001; @blanca2013].
+
+3. **Understanding measurement error and reliability**: Measurement error in movement science (e.g., variability in repeated force measurements, trial-to-trial variation in gait parameters) is often modeled as normally distributed [@hopkins2000]. This assumption underpins the calculation of standard errors of measurement, minimal detectable change, and confidence intervals around individual scores. If error is not normally distributed, these estimates may be inaccurate [@atkinson1998].
+
+4. **Recognizing when "typical" statistical procedures are inappropriate**: Understanding the theory alerts you to situations where the normal distribution is a poor model (e.g., strictly positive variables like EMG amplitude, bounded variables like joint range of motion near anatomical limits, or count data like the number of falls) [@limpert2001]. In these cases, alternative approaches (transformations, nonparametric methods, or generalized linear models) may be more appropriate [@wilcox_robust; @delacre2021].
+
+5. **Communicating with collaborators and critically reading research**: When you read a study reporting t-test results or parametric confidence intervals, the authors are implicitly assuming normality. Understanding the mathematical foundation enables you to evaluate whether that assumption is justified given the data and methods described [@cumming2012; @field_discovering]. It also helps you articulate concerns or ask informed questions when reviewing manuscripts, theses, or research proposals.
+
+In short, understanding the theory behind the normal distribution equips you to make informed decisions about statistical analysis, interpret results correctly, recognize when standard methods are appropriate, and avoid misapplying tools that assume normality to data that violate this assumption [@moore_ips; @wilcox_robust]. It is not about memorizing the formula—it is about understanding the **conceptual foundation** that shapes how we analyze and interpret movement data.
+
+### Key properties of the normal distribution
+
+The normal distribution has several defining characteristics that make it both mathematically convenient and practically useful [@moore_ips]:
+
+1. **Symmetry**: The distribution is perfectly symmetric around the mean. The left half is a mirror image of the right half, which means the mean, median, and mode are all equal and located at the center [@moore_ips].
+
+2. **Unimodal**: There is a single peak at the mean. The curve rises to a maximum at μ and decreases smoothly on both sides.
+
+3. **Asymptotic tails**: The tails of the curve extend infinitely in both directions, approaching (but never touching) zero. In theory, all values from −∞ to +∞ are possible, though extreme values become vanishingly rare [@moore_ips].
+
+4. **Total area = 1**: The area under the entire curve equals 1, representing 100% of the probability. This allows us to interpret sections of the curve as probabilities or proportions [@moore_ips; @field_discovering].
+
+5. **68-95-99.7 rule** (empirical rule): Approximately 68% of observations fall within one standard deviation of the mean (μ ± σ), about 95% fall within two standard deviations (μ ± 2σ), and about 99.7% fall within three standard deviations (μ ± 3σ) [@moore_ips]. This rule provides quick intuition for interpreting z-scores and identifying unusual values.
+
+```{r}
+#| label: fig-normal-curve
+#| fig-cap: "The standard normal distribution showing the 68-95-99.7 rule"
+#| code-fold: true
+
+# Create standard normal curve
+x <- seq(-4, 4, length = 200)
+y <- dnorm(x, mean = 0, sd = 1)
+
+# Plot
+plot(x, y, type = "l", lwd = 2, col = "blue",
+     xlab = "Z-score", ylab = "Density",
+     main = "Standard Normal Distribution",
+     ylim = c(0, max(y) * 1.1))
+
+# Shade regions for 68-95-99.7 rule
+# 68% region (within 1 SD)
+x1 <- seq(-1, 1, length = 100)
+y1 <- dnorm(x1)
+polygon(c(-1, x1, 1), c(0, y1, 0), col = rgb(0, 0, 1, 0.2), border = NA)
+text(0, 0.15, "68%", cex = 1.2, font = 2)
+
+# 95% region (within 2 SD)
+x2a <- seq(-2, -1, length = 50)
+y2a <- dnorm(x2a)
+polygon(c(-2, x2a, -1), c(0, y2a, 0), col = rgb(0, 0.5, 0, 0.2), border = NA)
+x2b <- seq(1, 2, length = 50)
+y2b <- dnorm(x2b)
+polygon(c(1, x2b, 2), c(0, y2b, 0), col = rgb(0, 0.5, 0, 0.2), border = NA)
+text(-1.5, 0.05, "13.5%", cex = 0.9)
+text(1.5, 0.05, "13.5%", cex = 0.9)
+
+# Add vertical lines
+abline(v = c(-3, -2, -1, 0, 1, 2, 3), lty = 2, col = "gray")
+text(c(-3, -2, -1, 0, 1, 2, 3), -0.02, 
+     labels = c("-3", "-2", "-1", "0", "+1", "+2", "+3"), cex = 0.9)
+```
+
+This standard normal distribution (mean = 0, SD = 1) illustrates the empirical rule, which states that approximately 68% of observations fall within one standard deviation of the mean (shaded blue region from z = −1 to z = +1), about 95% fall within two standard deviations (blue + green regions from z = −2 to z = +2), and approximately 99.7% fall within three standard deviations [@moore_ips]. The curve is perfectly symmetric around zero, and the tails extend infinitely in both directions but contain vanishingly small probabilities. This visual representation helps build intuition for interpreting z-scores: a z-score of +2.0 is unusual (beyond the central 95%), while a z-score of +0.5 is quite typical (well within the central 68%). The shaded regions allow quick probability estimates without consulting tables or software, though for precise calculations, normal distribution tables or statistical software should be used [@moore_ips; @field_discovering].
+
+### The standard normal distribution
+
+When the mean is 0 and the standard deviation is 1, the result is called the **standard normal distribution** (also called the z-distribution) [@moore_ips]. Any normal distribution can be converted to the standard normal by computing z-scores:
+
+$$
+z = \frac{x - \mu}{\sigma}
+$$
+
+This transformation standardizes the scale, making it possible to use a single reference table (the standard normal table, or z-table; see [**Appendix: Statistical Tables**](appendix-statistical-tables.qmd)) to find probabilities for any normal distribution [@moore_ips; @field_discovering]. Here's why this is so powerful: without standardization, you would need a separate probability table for every possible combination of mean and standard deviation. For example, vertical jump height might have μ = 45 cm and σ = 7 cm in one sample, but μ = 52 cm and σ = 9 cm in another sample. Similarly, grip strength might be measured in kilograms with μ = 48 kg and σ = 12 kg. Each of these would require its own unique probability table [@moore_ips].
+
+The z-score transformation eliminates this problem by **expressing every observation in units of standard deviations from the mean**, regardless of the original measurement scale [@field_discovering]. A z-score of +1.5 means "1.5 standard deviations above the mean" whether you're measuring jump height in centimeters, grip strength in kilograms, or reaction time in milliseconds [@vincent1999]. This standardization has several important implications for movement science:
+
+1. **Universal comparison**: You can compare performance across different tests and variables. An athlete with z = +1.2 on both vertical jump and sprint speed is performing similarly above average on both measures, even though the raw scores (e.g., 55 cm vs. 4.8 seconds) cannot be directly compared [@batterham2006].
+
+2. **Simplified probability calculations**: Once converted to z-scores, all probability calculations use the same standard normal distribution. The probability of exceeding z = +1.96 is always 2.5% (one-tailed), regardless of the original measurement units [@moore_ips].
+
+3. **Percentile interpretation**: Z-scores directly translate to percentiles. A z-score of 0 is always the 50th percentile, z = +1.0 is approximately the 84th percentile, and z = -1.0 is approximately the 16th percentile, making normative comparisons straightforward [@field_discovering; @vincent1999].
+
+4. **Cross-study comparison**: When researchers report results as standardized effect sizes (e.g., Cohen's d, which is conceptually similar to a z-score), you can compare findings across studies that used different measurement instruments or populations [@cumming2012].
+
+In practical terms, this means that once you master the standard normal distribution, you can work with any normally distributed variable simply by converting to z-scores first [@moore_ips; @field_discovering].
+
+::: callout-important
+## Why the normal distribution matters
+
+The normal distribution is fundamental to statistical inference for three reasons:
+
+1. **Many natural processes** produce approximately normal distributions, especially when outcomes result from the sum of many small, independent random effects (Central Limit Theorem, covered in Chapter 8) [@moore_ips; @lumley2002].
+
+2. **Mathematical tractability**: The normal distribution has convenient mathematical properties that make calculations (means, variances, sums) straightforward [@moore_ips].
+
+3. **Foundation for inference**: Many statistical procedures (t-tests, ANOVA, regression) assume that errors or sampling distributions are approximately normal, even when raw data are not [@field_discovering; @blanca2013].
+:::
+
+## Using the normal distribution to find probabilities
+
+One of the most practical uses of the normal distribution is converting z-scores to probabilities and percentiles. This connection allows us to answer questions like "What percentage of athletes jump higher than 50 cm?" or "What jump height corresponds to the 90th percentile?" when the variable is approximately normally distributed [@moore_ips; @vincent1999].
+
+### From z-scores to probabilities
+
+If a variable is approximately normal, we can use the standard normal distribution to find the probability that an observation falls in a particular range [@moore_ips]. The steps are:
+
+1. Convert raw scores to z-scores (if not already standardized). See the [**SPSS Tutorial: Testing Normality and Working with Distributions**](appendix-spss-normality.qmd) for instructions on computing z-scores in SPSS.
+2. Use a standard normal table (see [**Appendix: Statistical Tables**](appendix-statistical-tables.qmd)), calculator, or software to find the cumulative probability.
+3. Interpret the result as a proportion or percentage.
+
+#### Worked example: Finding the probability of an observation
+
+Suppose vertical jump heights are known to be approximately normally distributed in a population of collegiate athletes with mean μ = 45 cm and standard deviation σ = 7 cm. What proportion of athletes in this population jump `higher than` 52 cm?
+
+**Step 1: Compute the z-score**
+
+$$
+z = \frac{52 - 45}{7} = \frac{7}{7} = 1.00
+$$
+
+**Step 2: Find the cumulative probability**
+
+Using a standard normal table (see [**Appendix: Statistical Tables**](appendix-statistical-tables.qmd) or use my [interactive z-score calculator](appendix-statistical-tables.qmd#interactive-z-score-calculator)), the cumulative probability for z = 1.00 is approximately 0.8413. This means 84.13% of the distribution falls at or below z = 1.00 [@moore_ips].
+
+**Step 3: Compute the upper tail probability**
+
+Since we want the proportion *above* 52 cm:
+
+$$
+P(X > 52) = 1 - 0.8413 = 0.1587
+$$
+
+**Interpretation**
+
+Approximately 15.87% of athletes in this population jump `higher` than 52 cm, assuming jump heights are normally distributed with the given mean and standard deviation.
+
+```{r}
+#| label: fig-normal-probability
+#| fig-cap: "Normal distribution showing the probability of jumping higher than 52 cm (z = 1.00)"
+#| code-fold: true
+
+# Parameters
+mu <- 45
+sigma <- 7
+x_threshold <- 52
+z_threshold <- (x_threshold - mu) / sigma
+
+# Create normal curve
+x <- seq(mu - 4*sigma, mu + 4*sigma, length = 200)
+y <- dnorm(x, mean = mu, sd = sigma)
+
+# Plot
+plot(x, y, type = "l", lwd = 2, col = "blue",
+     xlab = "Vertical Jump Height (cm)", ylab = "Density",
+     main = "Normal Distribution: Jump Height Example",
+     xlim = c(20, 70))
+
+# Shade upper tail (above 52 cm)
+x_upper <- seq(x_threshold, max(x), length = 100)
+y_upper <- dnorm(x_upper, mean = mu, sd = sigma)
+polygon(c(x_threshold, x_upper, max(x)), c(0, y_upper, 0), 
+        col = rgb(1, 0, 0, 0.3), border = NA)
+
+# Add vertical line at threshold
+abline(v = x_threshold, lty = 2, lwd = 2, col = "red")
+text(x_threshold + 4, max(y) * 0.8, "52 cm\n(z = +1.00)", cex = 0.9, col = "red")
+
+# Add text for probability
+text(x_threshold + 8, max(y) * 0.3, "P(X > 52) = 15.87%", cex = 1.1, font = 2)
+
+# Add mean line
+abline(v = mu, lty = 1, lwd = 1, col = "blue")
+text(mu, max(y) * 1.05, "μ = 45 cm", cex = 0.9, col = "blue")
+
+# Add z-score markers
+z_values <- c(-3, -2, -1, 0, 1, 2, 3)
+x_positions <- mu + z_values * sigma
+abline(v = x_positions, lty = 3, col = "gray70")
+text(x_positions, max(y) * 0.08, 
+     labels = paste0(round(x_positions), " cm"),
+     cex = 0.75, col = "black")
+text(x_positions, max(y) * 0.02, 
+     labels = paste0("z=", ifelse(z_values >= 0, "+", ""), z_values),
+     cex = 0.8, col = "gray30")
+```
+
+This visualization illustrates how the normal distribution connects z-scores to probabilities. The vertical red line marks 52 cm (z = +1.00), and the shaded red region represents the upper tail probability (15.87%) of jumping higher than this value [@moore_ips]. The mean (μ = 45 cm) is marked with a blue vertical line at the center of the distribution. When jump heights are approximately normally distributed, the area under the curve to the right of 52 cm directly corresponds to the proportion of athletes expected to exceed that height. This graphical approach reinforces the interpretation: values farther from the mean (larger |z|) are less common, and the proportion in the tails decreases as we move outward. Such probability calculations are fundamental to normative assessments, percentile-based classifications, and understanding the rarity of extreme performances in Movement Science contexts [@vincent1999; @hopkins2000].
+
+### From probabilities to raw scores (finding percentiles)
+
+We can also work backward: given a desired probability or percentile rank, find the corresponding z-score and then convert to the raw score scale [@moore_ips].
+
+#### Worked example: Finding the 90th percentile
+
+Using the same jump height distribution (μ = 45 cm, σ = 7 cm), what jump height corresponds to the 90th percentile?
+
+**Step 1: Find the z-score for the 90th percentile**
+
+Using a standard normal table (see [**Appendix: Statistical Tables**](appendix-statistical-tables.qmd)) or software, the z-score that corresponds to a cumulative probability of 0.90 is approximately z = 1.28 [@moore_ips].
+
+**Step 2: Convert to raw score**
+
+$$
+x = \mu + z \times \sigma = 45 + (1.28)(7) = 45 + 8.96 = 53.96 \text{ cm}
+$$
+
+**Interpretation**
+
+The 90th percentile jump height is approximately 54 cm. This means 90% of athletes jump 54 cm or lower, and 10% jump higher than 54 cm, under the assumption of a normal distribution.
+
+::: callout-warning
+## Common mistake
+
+Treating all Movement Science variables as if they are normally distributed. Many variables (reaction time, sway area, EMG amplitude) are systematically skewed and do not follow a normal distribution [@limpert2001; @micceri1989]. Always visualize before assuming normality.
+:::
+
+## Skewness: asymmetry in distributions
+
+**Skewness** quantifies the degree of asymmetry in a distribution [@moore_ips; @joanes1998]. A perfectly symmetric distribution (like the normal distribution) has skewness = 0. Positive skewness indicates a right-skewed distribution (long tail to the right), while negative skewness indicates a left-skewed distribution (long tail to the left) [@field_discovering].
+
+### Interpreting skewness values
+
+While there are different formulas for calculating skewness, a common interpretation guideline for sample skewness is [@bulmer1979; @field_discovering]:
+
+* **|Skewness| < 0.5**: Approximately symmetric (negligible skew)
+* **0.5 ≤ |Skewness| < 1.0**: Moderate skew
+* **|Skewness| ≥ 1.0**: High skew (substantial asymmetry)
+
+In Movement Science, right skew is common: reaction times are bounded below by physiological limits but can be very long if attention lapses; sway area cannot be negative but can be very large during instability; EMG amplitude is strictly positive and often shows occasional large bursts [@limpert2001; @stergioudecker2011].
+
+### Visual patterns of skewness
+
+```{r}
+#| label: fig-skewness-examples
+#| fig-cap: "Examples of symmetric, right-skewed, and left-skewed distributions"
+#| code-fold: true
+
+par(mfrow = c(1, 3))
+
+# Symmetric (normal)
+x_sym <- rnorm(1000, mean = 50, sd = 10)
+hist(x_sym, breaks = 20, col = "lightblue", border = "black",
+     main = "Symmetric (Skewness ≈ 0)", xlab = "Value", ylab = "Frequency")
+abline(v = mean(x_sym), lwd = 2, col = "red", lty = 2)
+abline(v = median(x_sym), lwd = 2, col = "blue", lty = 2)
+legend("topright", legend = c("Mean", "Median"), 
+       col = c("red", "blue"), lty = 2, lwd = 2, cex = 0.8)
+
+# Right-skewed
+x_right <- rexp(1000, rate = 0.05) + 20
+hist(x_right, breaks = 20, col = "lightcoral", border = "black",
+     main = "Right-Skewed (Skewness > 0)", xlab = "Value", ylab = "Frequency")
+abline(v = mean(x_right), lwd = 2, col = "red", lty = 2)
+abline(v = median(x_right), lwd = 2, col = "blue", lty = 2)
+
+# Left-skewed
+x_left <- -rexp(1000, rate = 0.05) + 100
+hist(x_left, breaks = 20, col = "lightgreen", border = "black",
+     main = "Left-Skewed (Skewness < 0)", xlab = "Value", ylab = "Frequency")
+abline(v = mean(x_left), lwd = 2, col = "red", lty = 2)
+abline(v = median(x_left), lwd = 2, col = "blue", lty = 2)
+
+par(mfrow = c(1, 1))
+```
+
+These histograms illustrate different patterns of skewness commonly encountered in Movement Science data [@field_discovering; @vonhippel2005]. The symmetric distribution (left panel) shows mean and median nearly overlapping, consistent with approximate normality. The right-skewed distribution (center panel) shows the mean pulled toward the long right tail, exceeding the median—a pattern typical of reaction times, sway area, and EMG amplitude where values cannot be negative but occasional large values occur [@limpert2001]. The left-skewed distribution (right panel) shows the mean pulled toward the long left tail, below the median—less common in movement data but can occur with ceiling-bounded measures like function scores where many participants cluster near the maximum [@vonhippel2005]. Recognizing skewness visually helps determine whether mean-based summaries are appropriate or whether medians, transformations, or nonparametric methods are preferable [@wilcox_robust; @blanca2013].
+
+### Worked example: Computing skewness
+
+Most statistical software computes skewness automatically. For a small dataset, skewness can be approximated by observing the relationship between mean and median:
+
+* If mean ≈ median: symmetric (skewness ≈ 0)
+* If mean > median: right-skewed (positive skewness)
+* If mean < median: left-skewed (negative skewness)
+
+For a dataset of reaction times (in milliseconds):
+
+$$
+220, 230, 235, 240, 245, 250, 255, 260, 320
+$$
+
+**Compute mean and median:**
+
+* Mean = (220 + 230 + 235 + 240 + 245 + 250 + 255 + 260 + 320) / 9 = 250.56 ms
+* Median = 245 ms (5th value in sorted order)
+
+**Interpretation:**
+
+Since mean > median (250.56 > 245), this suggests right skew. The value 320 ms is an outlier that pulls the mean upward, a common pattern in reaction time data [@field_discovering; @limpert2001].
+
+### Testing the significance of skewness: z-skew
+
+While rules of thumb for interpreting skewness values are helpful, a more precise approach is to compute the **z-score for skewness** (often called **z-skew**), which tests whether the observed skewness is statistically different from zero [@field_discovering; @ghasemi2012].
+
+**Formula:**
+
+$$
+z_{\text{skew}} = \frac{\text{Skewness}}{SE_{\text{skew}}}
+$$
+
+where $SE_{\text{skew}}$ is the standard error of skewness, typically provided by statistical software alongside the skewness value.
+
+**Interpretation:**
+
+* If $|z_{\text{skew}}| < 1.96$: Skewness is **not significant** at α = 0.05 (distribution is approximately symmetric)
+* If $|z_{\text{skew}}| \geq 1.96$: Skewness is **significant** at α = 0.05 (distribution shows statistically significant asymmetry)
+* If $|z_{\text{skew}}| \geq 2.58$: Skewness is **highly significant** at α = 0.01
+
+**Example:**
+
+Suppose SPSS reports:
+
+* Skewness = 0.45
+* Std. Error = 0.31
+
+$$
+z_{\text{skew}} = \frac{0.45}{0.31} = 1.45
+$$
+
+Since $|1.45| < 1.96$, the skewness is **not statistically significant** at α = 0.05. Although the distribution shows slight positive skew (0.45), this could easily occur by chance with normal data in samples of this size [@field_discovering].
+
+**Contrast with a clearly skewed example:**
+
+* Skewness = 1.85
+* Std. Error = 0.31
+
+$$
+z_{\text{skew}} = \frac{1.85}{0.31} = 5.97
+$$
+
+Since $|5.97| \geq 2.58$, the skewness is **highly significant** (p < .01), providing strong evidence of right-skewed distribution requiring attention (e.g., transformation or nonparametric methods) [@blanca2013; @delacre2021].
+
+::: callout-important
+## Sample size matters
+
+With very large samples (n > 200), even trivial skewness (e.g., 0.15) can become statistically significant due to increased statistical power [@lumley2002]. Conversely, with small samples (n < 30), substantial skewness may fail to reach significance due to large standard errors. **Always interpret z-skew in combination with the magnitude of skewness and visual assessment** [@field_discovering; @wilcox_robust].
+:::
+
+## Kurtosis: tail weight and peakedness
+
+**Kurtosis** quantifies the "tailedness" or extremity of a distribution relative to the normal distribution [@moore_ips; @joanes1998; @westfall2014]. Historically, kurtosis was described as "peakedness," but modern interpretation emphasizes tail weight: distributions with high kurtosis have heavy tails (more extreme values) and a sharper peak, while distributions with low kurtosis have light tails (fewer extreme values) and a flatter peak [@westfall2014].
+
+### Types of kurtosis
+
+* **Mesokurtic** (kurtosis ≈ 0, or excess kurtosis ≈ 0): Normal-like tail behavior [@moore_ips].
+* **Leptokurtic** (kurtosis > 0): Heavy tails with more extreme values than a normal distribution; sharper peak [@westfall2014].
+* **Platykurtic** (kurtosis < 0): Light tails with fewer extreme values than a normal distribution; flatter peak [@westfall2014].
+
+Note: Some software reports "excess kurtosis" (kurtosis − 3), where a normal distribution has excess kurtosis = 0. Other software reports raw kurtosis, where a normal distribution has kurtosis = 3. Always verify which version your software uses [@joanes1998; @field_discovering].
+
+### Why kurtosis matters in Movement Science
+
+Leptokurtic distributions (heavy tails) can produce more extreme outliers than expected under normality, which matters for identifying unusual performances and for the behavior of mean-based statistics [@westfall2014]. For example, if strength measurements occasionally include a few extremely high or low values due to motivational factors or measurement artifacts, the distribution may appear leptokurtic, indicating that outliers are more common than a normal model predicts [@wilcox_robust].
+
+Platykurtic distributions (light tails) indicate fewer extremes, which can occur when outcomes are constrained or when subgroups with different means are combined, flattening the overall distribution [@field_discovering].
+
+### Testing the significance of kurtosis: z-kurtosis
+
+Similar to z-skew, we can compute the **z-score for kurtosis** (often called **z-kurtosis** or **z-kurt**) to test whether the observed kurtosis departs significantly from normal tail behavior [@field_discovering; @ghasemi2012].
+
+**Formula:**
+
+$$
+z_{\text{kurt}} = \frac{\text{Kurtosis}}{SE_{\text{kurt}}}
+$$
+
+where $SE_{\text{kurt}}$ is the standard error of kurtosis.
+
+**Interpretation:**
+
+* If $|z_{\text{kurt}}| < 1.96$: Kurtosis is **not significant** at α = 0.05 (tail behavior is approximately normal)
+* If $|z_{\text{kurt}}| \geq 1.96$: Kurtosis is **significant** at α = 0.05 (tail behavior differs significantly from normal)
+* If $|z_{\text{kurt}}| \geq 2.58$: Kurtosis is **highly significant** at α = 0.01
+
+**Example:**
+
+Suppose SPSS reports:
+
+* Excess kurtosis = −0.22 (slightly platykurtic)
+* Std. Error = 0.61
+
+$$
+z_{\text{kurt}} = \frac{-0.22}{0.61} = -0.36
+$$
+
+Since $|-0.36| < 1.96$, the kurtosis is **not statistically significant**. The distribution shows slightly lighter tails than a perfect normal distribution, but this is well within sampling variability [@field_discovering].
+
+**Contrast with a heavy-tailed example:**
+
+* Excess kurtosis = 3.42 (substantially leptokurtic)
+* Std. Error = 0.61
+
+$$
+z_{\text{kurt}} = \frac{3.42}{0.61} = 5.61
+$$
+
+Since $|5.61| \geq 2.58$, the kurtosis is **highly significant** (p < .01), indicating that the distribution has substantially heavier tails than a normal distribution, with more extreme values than expected [@westfall2014; @wilcox_robust]. This suggests increased caution when interpreting outliers and when relying on mean-based statistics.
+
+::: callout-note
+## Real example: reaction time distributions
+
+Reaction times are typically right-skewed (positive skewness) and leptokurtic (heavy right tail). The right skew reflects that responses cannot be faster than physiological limits (~100–150 ms) but can be much slower if attention lapses. The heavy tail reflects occasional very slow responses, making the distribution more "long-tailed" than a normal curve would predict [@limpert2001]. For this reason, median reaction time is often more representative than mean, and robust methods are preferred when modeling reaction time data [@wilcox_robust; @vincent1999].
+
+**Quantitatively**, if skewness = 1.85 (SE = 0.31), then z-skew = 5.97, and if kurtosis = 3.42 (SE = 0.61), then z-kurt = 5.61—both highly significant, providing strong statistical evidence that reaction times violate normality assumptions and require alternative methods [@blanca2013; @delacre2021].
+:::
+
+### Interpreting z-skew and z-kurtosis together
+
+When assessing distributional shape, consider both z-skew and z-kurtosis together [@field_discovering]:
+
+| z-skew | z-kurt | Interpretation | Action |
+|--------|--------|----------------|--------|
+| < 1.96 | < 1.96 | Approximately normal | Parametric methods appropriate |
+| ≥ 1.96 | < 1.96 | Significant asymmetry, normal tails | Consider transformation or nonparametric tests |
+| < 1.96 | ≥ 1.96 | Symmetric but abnormal tails | Use robust methods or check for outliers |
+| ≥ 1.96 | ≥ 1.96 | Both skewed and heavy/light tails | Transformation or nonparametric methods recommended |
+
+This combined approach provides a more nuanced assessment than relying on a single measure alone [@ghasemi2012; @razali2011].
+
+## Assessing normality visually
+
+Before running formal normality tests, always visualize the distribution. Visual assessment is often more informative than a single p-value because it shows the pattern and magnitude of departure from normality [@tukey_eda; @field_discovering; @ho2019].
+
+### Histograms with normal overlay
+
+A histogram with a superimposed normal curve allows quick visual comparison between the observed data and a theoretical normal distribution with the same mean and standard deviation [@field_discovering].
+
+```{r}
+#| label: fig-histogram-normal-overlay
+#| fig-cap: "Histogram with normal curve overlay for approximately normal data"
+#| code-fold: true
+
+# Generate approximately normal data
+set.seed(123)
+data <- rnorm(100, mean = 50, sd = 10)
+
+# Histogram
+hist(data, breaks = 15, col = "lightblue", border = "black", probability = TRUE,
+     main = "Histogram with Normal Overlay", xlab = "Value", ylab = "Density")
+
+# Overlay normal curve
+curve(dnorm(x, mean = mean(data), sd = sd(data)), 
+      col = "red", lwd = 2, add = TRUE)
+
+legend("topright", legend = "Theoretical Normal", col = "red", lwd = 2, cex = 0.9)
+```
+
+This histogram shows data that closely follow a normal distribution. The red curve represents a theoretical normal distribution with the same mean and standard deviation as the observed data. When the histogram bars align well with the curve, approximate normality is supported [@field_discovering]. Deviations appear as gaps (fewer observations than expected) or excess bars (more observations than expected) relative to the curve. For Movement Science applications, perfect alignment is never achieved, but close correspondence suggests that mean-based summaries and normal-theory inference are reasonable [@moore_ips; @lumley2002].
+
+### Q-Q plots (Quantile-Quantile plots)
+
+A **Q-Q plot** (quantile-quantile plot) is one of the most effective tools for assessing normality [@moore_ips; @field_discovering; @wilcox_robust]. It plots the observed data quantiles against the quantiles expected from a normal distribution. If the data are approximately normal, the points fall close to a straight diagonal line [@field_discovering].
+
+**How to interpret Q-Q plots:**
+
+* **Points close to the line**: Data are approximately normal.
+* **Points curve upward at the ends**: Heavy tails (leptokurtic).
+* **Points curve downward at the ends**: Light tails (platykurtic).
+* **S-shaped pattern**: Skewed distribution.
+* **Few extreme points off the line**: Possible outliers, but overall distribution may still be reasonable [@wilcox_robust; @field_discovering].
+
+```{r}
+#| label: fig-qq-plots
+#| fig-cap: "Q-Q plots for normal, right-skewed, and heavy-tailed distributions"
+#| code-fold: true
+
+par(mfrow = c(1, 3))
+
+# Normal data
+set.seed(123)
+normal_data <- rnorm(100, mean = 50, sd = 10)
+qqnorm(normal_data, main = "Normal Data", pch = 19, col = "blue")
+qqline(normal_data, col = "red", lwd = 2)
+
+# Right-skewed data
+skewed_data <- rexp(100, rate = 0.05) + 20
+qqnorm(skewed_data, main = "Right-Skewed Data", pch = 19, col = "darkgreen")
+qqline(skewed_data, col = "red", lwd = 2)
+
+# Heavy-tailed data
+heavy_data <- rt(100, df = 3) * 10 + 50
+qqnorm(heavy_data, main = "Heavy-Tailed Data", pch = 19, col = "purple")
+qqline(heavy_data, col = "red", lwd = 2)
+
+par(mfrow = c(1, 1))
+```
+
+These Q-Q plots illustrate different patterns of departure from normality [@field_discovering; @wilcox_robust]. The left panel shows approximately normal data: points cluster tightly around the diagonal reference line, indicating observed quantiles match expected normal quantiles. The center panel shows right-skewed data: points curve upward at the right end, reflecting the long right tail characteristic of many Movement Science variables like reaction time and sway area [@limpert2001]. The right panel shows heavy-tailed (leptokurtic) data: points deviate from the line at both extremes, indicating more extreme values than expected under normality [@westfall2014]. Q-Q plots are more sensitive than histograms for detecting departures from normality and are strongly recommended before assuming normality for inference [@moore_ips; @ghasemi2012]. In practice, minor deviations are common and often inconsequential, especially with larger samples, but systematic patterns (strong curvature, S-shapes) suggest that normality assumptions may be problematic [@blanca2013; @lumley2002].
+
+::: callout-tip
+## Practical advice: trust your eyes
+
+A Q-Q plot showing slight waviness or a few points off the line does not necessarily mean you must abandon normal-theory methods, especially with moderate to large samples (n > 30). Look for substantial, systematic departures (strong curves, S-shapes) rather than treating minor wiggles as fatal flaws [@field_discovering; @lumley2002; @ho2019].
+:::
+
+## Formal tests of normality
+
+Formal normality tests provide p-values that quantify evidence against the normality assumption [@shapiro1965; @ghasemi2012]. Common tests include:
+
+* **Shapiro-Wilk test**: Generally considered the most powerful test for normality, especially in small to moderate samples [@shapiro1965; @razali2011; @ghasemi2012].
+* **Kolmogorov-Smirnov test**: Tests whether the observed distribution matches a specified distribution (e.g., normal). Less powerful than Shapiro-Wilk [@razali2011; @ghasemi2012].
+* **Anderson-Darling test**: Similar to Kolmogorov-Smirnov but gives more weight to tails [@razali2011].
+
+### How normality tests work
+
+Normality tests evaluate the null hypothesis that the data come from a normal distribution [@shapiro1965; @ghasemi2012]:
+
+* **$H_0$**: The data are normally distributed.
+* **$H_A$**: The data are not normally distributed.
+
+A small p-value (typically p < 0.05) suggests evidence against normality; you reject the null hypothesis and conclude the data are not normally distributed [@shapiro1965; @ghasemi2012]. A large p-value suggests insufficient evidence to reject normality, though it does not *prove* normality [@field_discovering; @ghasemi2012].
+
+### Limitations of normality tests
+
+Formal normality tests have important limitations that can lead to misinterpretation if used mechanically [@field_discovering; @ghasemi2012; @lumley2002]:
+
+1. **Sample size sensitivity**: With small samples (n < 30), normality tests have low power and may fail to detect clear departures. With large samples (n > 100), tests become very sensitive and may reject normality for trivial departures that have no practical impact on inference [@lumley2002; @field_discovering].
+
+2. **Binary decision trap**: A p-value near 0.05 does not indicate "borderline normality." Distributions can be "normal enough" even when p < 0.05, or "problematic" even when p > 0.05, depending on the context and planned analysis [@ghasemi2012; @blanca2013].
+
+3. **Visual assessment is often better**: Experienced analysts prioritize Q-Q plots and histograms over p-values because visual methods reveal the pattern and magnitude of departure, not just a binary "reject/fail to reject" decision [@tukey_eda; @field_discovering; @ho2019].
+
+::: callout-warning
+## Common mistake
+
+Relying solely on normality test p-values to decide whether to use parametric methods. With large samples, trivial departures can produce p < 0.05, while with small samples, substantial departures can produce p > 0.05. Always combine formal tests with visual assessment and consider the robustness of your planned analysis [@field_discovering; @lumley2002; @blanca2013].
+:::
+
+### Worked example: Interpreting a Shapiro-Wilk test
+
+Suppose you run a Shapiro-Wilk test on a sample of 50 sprint times and obtain:
+
+* W = 0.964, p = 0.132
+
+**Interpretation:**
+
+The p-value (0.132) is greater than the conventional threshold of 0.05, so we fail to reject the null hypothesis of normality. This suggests insufficient evidence to conclude that sprint times are non-normal. However, this does not prove normality. You should also examine a Q-Q plot and histogram to confirm that the distribution appears approximately normal and that any departures are minor [@shapiro1965; @ghasemi2012; @field_discovering].
+
+Conversely, if the Shapiro-Wilk test yields p = 0.003, you would reject normality. In this case, visual inspection should reveal the pattern of departure (skew, heavy tails, outliers). If the departure is severe, consider using robust methods, transformations, or nonparametric alternatives [@wilcox_robust; @blanca2013].
+
+## When movement data are not normal
+
+Many Movement Science variables systematically deviate from normality, and recognizing these patterns is essential for choosing appropriate summaries and analyses [@micceri1989; @blanca2013; @limpert2001].
+
+### Common patterns of non-normality in Movement Science
+
+1. **Right-skewed variables** (positive skew, long right tail):
+   - Reaction times: Bounded below by physiology (~100 ms) but can be very long [@limpert2001]
+   - Sway area, sway path length: Cannot be negative, occasional large values during instability [@stergioudecker2011]
+   - EMG amplitude: Strictly positive, bursts can be much larger than baseline [@limpert2001]
+   - Fatigue indices: Often show ceiling effects (maximum fatigue) with occasional high values
+
+2. **Ceiling or floor effects** (truncation):
+   - Function scores (e.g., 0–100 scales) where many participants cluster at the upper bound [@field_discovering]
+   - Pain scales (e.g., 0–10) where many report low pain (floor effect) or maximum pain (ceiling effect)
+   - Strength tests where measurement limits are reached
+
+3. **Bimodal or multimodal distributions**:
+   - Mixed samples with distinct subgroups (e.g., combining trained and untrained participants) [@tukey_eda]
+   - Different movement strategies producing separate clusters[@stergioudecker2011]
+   - Measurement artifacts creating distinct peaks (e.g., digit preference, rounding)
+
+4. **Heavy-tailed distributions** (leptokurtic):
+   - Strength tests with occasional extreme efforts
+   - Balance tests where most performances are stable but a few show dramatic instability
+   - Data including measurement errors or motivational outliers [@wilcox_robust; @westfall2014]
+
+```{r}
+#| label: fig-nonnormal-examples
+#| fig-cap: "Common patterns of non-normality in Movement Science data"
+#| code-fold: true
+
+par(mfrow = c(2, 2))
+
+# Right-skewed (reaction time)
+rt_data <- rexp(200, rate = 1/50) + 150
+hist(rt_data, breaks = 20, col = "lightcoral", border = "black",
+     main = "Right-Skewed: Reaction Time", xlab = "Reaction Time (ms)", ylab = "Frequency")
+
+# Ceiling effect
+ceiling_data <- c(rnorm(150, mean = 85, sd = 8), rep(100, 50))
+ceiling_data <- pmin(ceiling_data, 100)
+hist(ceiling_data, breaks = 20, col = "lightyellow", border = "black",
+     main = "Ceiling Effect: Function Score", xlab = "Function Score (0-100)", ylab = "Frequency")
+
+# Bimodal (mixed groups)
+bimodal_data <- c(rnorm(100, mean = 30, sd = 5), rnorm(100, mean = 50, sd = 5))
+hist(bimodal_data, breaks = 20, col = "lightgreen", border = "black",
+     main = "Bimodal: Mixed Groups", xlab = "Performance Score", ylab = "Frequency")
+
+# Heavy-tailed
+heavy_data <- rt(200, df = 3) * 5 + 50
+hist(heavy_data, breaks = 20, col = "lightblue", border = "black",
+     main = "Heavy-Tailed: Outlier-Prone Data", xlab = "Value", ylab = "Frequency")
+
+par(mfrow = c(1, 1))
+```
+
+These histograms illustrate common non-normal patterns in Movement Science data [@micceri1989; @blanca2013]. The right-skewed reaction time distribution (top-left) shows the characteristic long right tail due to physiological lower bounds and occasional lapses in attention [@limpert2001]. The ceiling effect (top-right) shows many participants clustered at the maximum function score, creating a pile-up that violates normality and can obscure meaningful differences [@field_discovering]. The bimodal distribution (bottom-left) reflects two distinct subgroups (e.g., trained vs. untrained), suggesting that analyzing them separately would be more informative than combining them [@tukey_eda]. The heavy-tailed distribution (bottom-right) shows more extreme values than expected under normality, indicating greater susceptibility to outliers—common in strength and fatigue measures where motivation or measurement artifacts can produce unusual values [@wilcox_robust; @westfall2014]. Recognizing these patterns helps determine whether transformations, robust methods, or nonparametric approaches are preferable to standard parametric analyses [@blanca2013; @lumley2002].
+
+### What to do when data are not normal
+
+When visual and formal assessments reveal substantial departures from normality, several principled options exist [@wilcox_robust; @blanca2013; @field_discovering]:
+
+1. **Use robust or nonparametric methods**:
+   - Median and IQR instead of mean and SD for summaries [@wilcox_robust]
+   - Mann-Whitney U or Kruskal-Wallis tests instead of t-tests or ANOVA (see Chapter 19) [@field_discovering]
+   - Bootstrapping or permutation tests for inference [@wilcox_robust]
+
+2. **Transform the variable**:
+   - Log transformation for right-skewed, ratio-scale variables (reaction time, sway area, EMG amplitude) [@limpert2001; @blandaltman1996_transformations]
+   - Square root or Box-Cox transformations for count data
+   - Report results on the transformed scale or back-transform carefully [@blandaltman1996_transformations]
+
+3. **Accept the departure and proceed with caution**:
+   - Many procedures (t-tests, ANOVA) are reasonably robust to moderate departures, especially with larger samples (n > 30) and balanced designs [@lumley2002; @blanca2013]
+   - Use Welch's t-test instead of Student's t-test when variances differ [@delacre2021]
+   - Focus on effect sizes and confidence intervals rather than p-values [@ho2019; @cohen1988]
+
+4. **Separate subgroups**:
+   - If bimodality reflects distinct groups, analyze them separately rather than combining [@tukey_eda]
+
+5. **Acknowledge and report**:
+   - Describe the distributional shape, note the departure from normality, and justify your analytic approach [@field_discovering]
+
+```{dot}
+//| eval: false
+//| echo: false
+//| fig-width: 6
+//| fig-height: 5
+
+digraph G {
+  rankdir=TD;
+  node [shape=box, style=rounded, fontsize=18];
+
+  A [label="Assess normality\n(Q-Q plot + histogram)"];
+  B [label="Approximately normal?"];
+  C [label="Proceed with\nparametric methods"];
+  D [label="What is the\npattern?"];
+  E [label="Right-skewed"];
+  F [label="Ceiling/floor effect"];
+  G [label="Bimodal"];
+  H [label="Heavy tails/outliers"];
+  I [label="Log transform or\nuse median/IQR"];
+  J [label="Report median/IQR,\navoid mean"];
+  K [label="Separate groups or\nuse mixture models"];
+  L [label="Use robust methods\nor remove outliers"];
+
+  A -> B;
+  B -> C [label="Yes"];
+  B -> D [label="No"];
+  D -> E;
+  D -> F;
+  D -> G;
+  D -> H;
+  E -> I;
+  F -> J;
+  G -> K;
+  H -> L;
+}
+```
+
+::: callout-note
+## Real example: reaction time analysis
+
+A researcher collects reaction times and finds strong right skew (skewness = 1.8) and a Shapiro-Wilk p-value of 0.002. The Q-Q plot shows clear upward curvature at the right end. Options:
+
+1. **Log transform**: $\log(\text{RT})$ often normalizes reaction time data, allowing parametric methods on the transformed scale [@limpert2001; @blandaltman1996_transformations].
+2. **Use median**: Report median reaction time with IQR, avoid mean-based comparisons [@wilcox_robust].
+3. **Nonparametric test**: Use Mann-Whitney U or Kruskal-Wallis for group comparisons (Chapter 19) [@field_discovering].
+
+The researcher chooses log transformation, confirms approximate normality on the log scale, and proceeds with t-tests on log(RT), then back-transforms results to communicate findings as geometric means and ratios [@limpert2001; @blandaltman1996_transformations].
+:::
+
+## Integrating multiple lines of evidence
+
+A common dilemma arises when visual assessments (histograms, Q-Q plots) and formal statistical tests (Shapiro-Wilk, z-skew, z-kurtosis) yield conflicting conclusions about normality. For example, a Q-Q plot may show points closely following the reference line while the Shapiro-Wilk test returns p < 0.05, or conversely, visual inspection reveals clear departure while formal tests fail to reject normality. How should researchers navigate these conflicts? [@field_discovering; @ghasemi2012; @lumley2002]
+
+### Why conflicts occur: the sample size paradox
+
+The primary reason for conflicting results lies in how formal tests respond to sample size [@ghasemi2012; @razali2011]:
+
+* **Large samples (n > 100)**: Formal tests become extremely sensitive, detecting trivially small departures from perfect normality that have no practical impact on parametric procedures. A histogram and Q-Q plot may show near-perfect normality, yet p < 0.001 because the test has sufficient power to detect deviations that are statistically significant but practically irrelevant [@field_discovering; @lumley2002].
+
+* **Small samples (n < 30)**: Formal tests have low statistical power, often failing to detect meaningful departures. Visual methods may reveal obvious skew or outliers, yet p > 0.05 simply because the sample is too small for the test to achieve significance [@moore_ips; @razali2011].
+
+This creates a paradox: formal tests are most reliable when you need them least (moderate sample sizes) and least reliable when you need them most (very small or very large samples) [@ghasemi2012; @field_discovering].
+
+### A principled decision framework
+
+Rather than relying on any single method, integrate all available evidence using this hierarchical approach [@field_discovering; @wilcox_robust; @lumley2002]:
+
+#### **Step 1: Prioritize visual assessment**
+
+Visual methods (histograms, Q-Q plots) provide the *nature* and *magnitude* of departure, not just a binary "normal or not" verdict. They reveal whether data are:
+
+* Mildly skewed vs. severely skewed
+* Symmetric with one outlier vs. systematically heavy-tailed
+* Approximately normal with minor waviness vs. clearly bimodal [@tukey_eda; @field_discovering]
+
+This information guides action (e.g., log transformation for right-skew, robust methods for outliers, separate analyses for bimodality) in ways that formal tests cannot [@wilcox_robust; @blanca2013].
+
+#### **Step 2: Consider sample size when interpreting formal tests**
+
+* **n < 30**: Weight visual assessment heavily. Formal tests may lack power to detect real departures. If visuals show clear non-normality (e.g., obvious skew, multiple outliers), act on it even if p > 0.05 [@razali2011; @field_discovering].
+
+* **30 ≤ n < 100**: Formal tests are most informative in this range. Balance formal and visual evidence, using z-skew and z-kurtosis to quantify magnitude [@ghasemi2012; @bulmer1979].
+
+* **n ≥ 100**: Weight visual assessment heavily again. Formal tests may detect trivial departures. If visuals show approximate normality but p < 0.05, consider proceeding with parametric methods (especially robust variants like Welch's t-test) since large samples invoke the Central Limit Theorem [@lumley2002; @delacre2021].
+
+#### **Step 3: Evaluate practical vs. statistical significance**
+
+A statistically significant departure (p < 0.05) is not necessarily a practically important one. Ask:
+
+* Is the skewness moderate (|skew| < 1) or extreme (|skew| > 2)? [@bulmer1979]
+* Do diagnostic plots show systematic departure or minor waviness? [@field_discovering]
+* Will the planned analysis (e.g., Welch's t-test, bootstrapping) be robust to the observed departure? [@wilcox_robust; @delacre2021]
+
+#### **Step 4: Apply the convergence rule**
+
+* **All methods agree (visual + formal)**: High confidence in conclusion. Proceed accordingly.
+* **Visual shows normality, formal tests reject**: Likely due to large sample size detecting trivial deviations. Trust visual assessment; proceed with parametric methods (especially if n > 100) [@lumley2002; @field_discovering].
+* **Visual shows departure, formal tests do not reject**: Likely due to low power in small samples. Trust visual assessment; use transformation, robust methods, or nonparametric approaches [@razali2011; @wilcox_robust].
+* **Borderline/ambiguous**: Use robust methods (e.g., Welch's t-test, bootstrapping) that perform well under both normality and moderate departures, or report parallel analyses with parametric and nonparametric methods [@delacre2021; @wilcox_robust].
+
+### Decision table for conflicting evidence
+
+| **Visual Assessment** | **Formal Test Result** | **Sample Size** | **Recommended Action** |
+|----------------------|------------------------|-----------------|------------------------|
+| Approximately normal | p < 0.05 | n < 30 | Use parametric methods; test likely underpowered |
+| Approximately normal | p < 0.05 | n ≥ 100 | Use parametric methods; trivial departure detected |
+| Clear departure | p > 0.05 | n < 30 | Transform or use robust/nonparametric methods |
+| Clear departure | p > 0.05 | n ≥ 100 | Investigate data quality; consider transformation |
+| Mild departure | p < 0.05 | Any | Use robust methods (Welch's t, bootstrap); report effect sizes |
+| Severe departure | p < 0.05 | Any | Transform, use nonparametric methods, or separate groups |
+
+::: callout-important
+## The primacy of visual assessment
+
+Modern statistical practice emphasizes that **visual assessment should be the primary tool for evaluating normality**, with formal tests serving as supplementary evidence [@field_discovering; @wilcox_robust; @lumley2002]. This recommendation reflects:
+
+1. Visual methods reveal *what* is wrong, formal tests only *whether* something is wrong.
+2. The practical impact of departures cannot be judged from p-values alone.
+3. Sample size strongly influences formal test results independent of the departure's magnitude.
+4. Expert judgment about distributional shape is more informative than mechanical application of significance thresholds [@tukey_eda; @ghasemi2012].
+
+However, this does not mean formal tests should be ignored. They provide useful quantification (z-skew, z-kurtosis) and can detect subtle departures that might be missed visually. The key is integration, not exclusion [@razali2011; @field_discovering].
+:::
+
+::: callout-warning
+## Common mistake: over-reliance on p-values
+
+A p-value from a normality test should never be the sole basis for decisions about analysis strategy. A researcher who uses a Shapiro-Wilk p < 0.05 to reject mean-based summaries for data with n = 200, mild skewness (skew = 0.4), and a histogram showing near-perfect bell shape is likely discarding valuable information unnecessarily. Conversely, accepting normality based solely on p > 0.05 when n = 15 and the Q-Q plot shows clear curvature risks violating assumptions when they truly matter [@ghasemi2012; @field_discovering; @razali2011].
+:::
+
+## When normality assumptions matter most
+
+Understanding when departures from normality are consequential helps prioritize where to invest effort in assessment and remediation [@lumley2002; @blanca2013; @delacre2021]:
+
+### High priority: check normality carefully
+
+* **Small samples (n < 30)**: Parametric methods rely more heavily on distributional assumptions when samples are small [@moore_ips; @field_discovering].
+* **Hypothesis tests with extreme p-values near cutoffs**: If your inference hinges on p = 0.048 vs. p = 0.052, normality violations could tip the decision [@ghasemi2012].
+* **Variables known to be non-normal**: Reaction time, sway area, EMG amplitude should be scrutinized rather than assumed normal [@limpert2001; @vincent1999].
+
+### Lower priority: normality less critical
+
+* **Large samples (n > 100)**: The Central Limit Theorem ensures that sampling distributions of means are approximately normal even when raw data are not, making parametric tests robust [@lumley2002; @moore_ips].
+* **Moderate departures with robust methods**: If using Welch's t-test, rank-based methods, or bootstrap inference, exact normality is less critical [@wilcox_robust; @delacre2021].
+* **Descriptive summaries**: When the goal is description (not inference), median and IQR can be reported regardless of normality [@field_discovering].
+
+::: callout-important
+## Key principle: context over rules
+
+There is no universal rule for "how normal is normal enough." The answer depends on:
+
+1. **Sample size**: Larger samples tolerate more departure.
+2. **Purpose**: Inference requires stronger assumptions than description.
+3. **Magnitude of departure**: Slight skew ≠ extreme bimodality.
+4. **Robustness of method**: Some procedures (Welch's t-test, bootstrapping) are inherently more forgiving [@delacre2021; @wilcox_robust; @lumley2002].
+
+:::
+
+## Worked example using the Core Dataset
+
+This example demonstrates a complete normality assessment workflow for a Movement Science variable.
+
+### Scenario: Assessing normality of sprint times
+
+A researcher collects 20-meter sprint times from 40 participants. Before conducting a t-test to compare two training groups, they assess normality.
+
+**Step 1: Visualize with histogram and Q-Q plot**
+
+```{r}
+#| label: fig-sprint-normality
+#| fig-cap: "Normality assessment for sprint times: histogram and Q-Q plot"
+#| code-fold: true
+
+# Simulate sprint time data (approximately normal)
+set.seed(456)
+sprint <- rnorm(40, mean = 3.45, sd = 0.18)
+
+par(mfrow = c(1, 2))
+
+# Histogram with normal overlay
+hist(sprint, breaks = 10, col = "lightblue", border = "black", probability = TRUE,
+     main = "Sprint Time Distribution", xlab = "Sprint Time (s)", ylab = "Density")
+curve(dnorm(x, mean = mean(sprint), sd = sd(sprint)), col = "red", lwd = 2, add = TRUE)
+
+# Q-Q plot
+qqnorm(sprint, main = "Q-Q Plot: Sprint Times", pch = 19, col = "blue")
+qqline(sprint, col = "red", lwd = 2)
+
+par(mfrow = c(1, 1))
+```
+
+**Interpretation:** The histogram shows reasonable symmetry with no extreme outliers. The Q-Q plot shows points close to the diagonal line with minor waviness at the ends—consistent with approximate normality [@field_discovering; @moore_ips].
+
+**Step 2: Compute skewness and kurtosis**
+
+(Using software)
+
+* Skewness = 0.15 (negligible)
+* Kurtosis = −0.22 (close to normal)
+
+**Interpretation:** Both values are close to zero, supporting approximate normality [@bulmer1979; @joanes1998].
+
+**Step 3: Run Shapiro-Wilk test**
+
+* W = 0.975, p = 0.524
+
+**Interpretation:** p > 0.05 indicates insufficient evidence to reject normality. Combined with visual assessment, the data appear approximately normal [@shapiro1965; @ghasemi2012].
+
+**Step 4: Decision**
+
+Proceed with parametric t-test. The distribution is approximately normal, and the sample size (n = 40) provides additional robustness [@moore_ips; @lumley2002].
+
+## Chapter summary
+
+The normal distribution is a symmetric, bell-shaped probability distribution characterized by its mean and standard deviation, and it plays a foundational role in statistical inference because many procedures assume normality of errors or sampling distributions [@moore_ips; @field_discovering]. The empirical rule (68-95-99.7) provides intuition for interpreting z-scores, and the standard normal distribution allows conversion between z-scores, probabilities, and percentiles [@moore_ips]. Skewness quantifies asymmetry, with right skew (positive values) common in Movement Science variables like reaction time, sway area, and EMG amplitude, while kurtosis quantifies tail weight, with heavy-tailed distributions producing more extreme outliers than expected under normality [@limpert2001; @joanes1998; @westfall2014]. Assessing normality requires both visual methods (histograms with normal overlays, Q-Q plots) and, when appropriate, formal tests like the Shapiro-Wilk test, though visual assessment is often more informative than p-values alone because it reveals patterns and magnitudes of departure [@tukey_eda; @field_discovering; @ghasemi2012; @ho2019]. Many Movement Science variables systematically deviate from normality due to biological constraints, measurement properties, or task structure, and recognizing these patterns allows informed decisions about whether to transform data, use robust or nonparametric methods, or acknowledge departures while proceeding cautiously with parametric approaches [@micceri1989; @blanca2013; @wilcox_robust; @lumley2002]. The key principle is that "normality" is a continuum, not a binary state: the practical question is whether departures are consequential for the planned analysis and interpretation, with the answer depending on sample size, purpose, magnitude of departure, and robustness of methods [@lumley2002; @delacre2021; @field_discovering].
+
+## Key terms
+
+normal distribution; bell curve; Gaussian distribution; standard normal distribution; z-distribution; empirical rule; 68-95-99.7 rule; probability density function; skewness; kurtosis; mesokurtic; leptokurtic; platykurtic; Q-Q plot; normality test; Shapiro-Wilk test; Kolmogorov-Smirnov test; right-skewed; left-skewed; ceiling effect; floor effect; bimodal distribution; heavy tails; robust methods
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### A variable is approximately normal with mean = 50 and SD = 10. What percentage of observations fall between 40 and 60? {icon="1-square-fill"}
+
+The values 40 and 60 are both exactly one standard deviation from the mean (40 = 50 − 10, and 60 = 50 + 10). According to the empirical rule (68-95-99.7 rule), approximately 68% of observations fall within one standard deviation of the mean in a normal distribution [@moore_ips]. Therefore, about 68% of observations fall between 40 and 60. This illustrates why the empirical rule is useful for quick probability estimates without consulting tables or software, though for more precise calculations (e.g., for non-integer z-scores), normal distribution tables or software should be used.
+
+### You conduct a Shapiro-Wilk test on a sample of 200 observations and obtain p = 0.03. What should you conclude? {icon="2-square-fill"}
+
+The p-value of 0.03 is less than the conventional threshold of 0.05, so you would reject the null hypothesis of normality and conclude that there is statistically significant evidence that the data are not normally distributed [@shapiro1965; @ghasemi2012]. However, this conclusion alone is insufficient for deciding how to proceed. With a large sample (n = 200), normality tests become very sensitive and can detect trivial departures that have no practical impact on parametric inference [@lumley2002; @field_discovering]. You should examine Q-Q plots and histograms to assess the magnitude and pattern of departure. If visual inspection shows only minor deviations (slight skew, a few outliers), parametric methods may still be robust, especially with the large sample size [@blanca2013]. If visual assessment reveals substantial departures (strong skew, heavy tails, bimodality), consider robust or nonparametric alternatives [@wilcox_robust]. The p-value tells you that departure from normality is detectable, not whether it is consequential.
+
+### What does a Q-Q plot show, and how do you interpret it? {icon="3-square-fill"}
+
+A Q-Q plot (quantile-quantile plot) compares the observed data quantiles to the quantiles expected from a theoretical normal distribution [@moore_ips; @field_discovering]. If the data are approximately normal, the points fall close to a straight diagonal reference line. Systematic departures reveal patterns: points curving upward at the right end indicate right skew (common in reaction time, sway area), points curving upward at both ends indicate heavy tails (leptokurtic distribution with more extreme values than expected), S-shaped patterns indicate skewness, and a few isolated points off the line suggest outliers but do not necessarily invalidate normality [@field_discovering; @wilcox_robust]. Q-Q plots are more informative than histograms for detecting subtle departures and are strongly recommended as part of normality assessment [@ghasemi2012; @ho2019]. Minor waviness is common and usually not problematic, but substantial, systematic curvature suggests that normality assumptions may be questionable.
+
+### Why are reaction times typically right-skewed, and what does this mean for analysis? {icon="4-square-fill"}
+
+Reaction times are right-skewed because they are bounded below by physiological limits (approximately 100–150 ms for simple reactions) but have no upper bound—occasional lapses in attention, distractions, or hesitations can produce very slow responses, creating a long right tail [@limpert2001; @vincent1999]. The mean reaction time is therefore pulled upward by these slow responses and often exceeds the median, making the median a more representative measure of "typical" reaction time [@wilcox_robust; @field_discovering]. For analysis, this skewness suggests several options: (1) log transformation, which often normalizes reaction time distributions and allows parametric methods on the log scale [@limpert2001; @blandaltman1996_transformations]; (2) reporting median and IQR rather than mean and SD for descriptive summaries; (3) using nonparametric tests (Mann-Whitney U, Kruskal-Wallis) for group comparisons to avoid assumptions about normality [@field_discovering]. Ignoring the skewness and proceeding with untransformed means can result in misleading summaries and inflated sensitivity to outliers.
+
+### When is it acceptable to use parametric methods even if data are not perfectly normal? {icon="5-square-fill"}
+
+Parametric methods (t-tests, ANOVA, regression) are often robust to moderate departures from normality, especially under certain conditions [@lumley2002; @blanca2013; @delacre2021]. First, larger samples (typically n > 30 per group) invoke the Central Limit Theorem, which ensures that sampling distributions of means are approximately normal even when raw data are not, making inference more robust [@moore_ips; @lumley2002]. Second, if departures are minor (slight skew, skewness < 1.0, Q-Q plot shows only small deviations), the impact on Type I error rates and power is often negligible [@blanca2013]. Third, some parametric methods are inherently robust to violations: Welch's t-test tolerates unequal variances and mild non-normality better than Student's t-test [@delacre2021], and ANOVA is reasonably robust with balanced designs and moderate departures [@blanca2013]. Fourth, if you focus on effect sizes and confidence intervals rather than strict p-value cutoffs, minor violations are less consequential [@cohen1988; @ho2019]. However, substantial departures (strong skew, heavy tails, bimodality, small samples) warrant robust or nonparametric alternatives to ensure valid inferences [@wilcox_robust; @field_discovering]. The key is to assess the context—sample size, magnitude of departure, purpose of analysis—rather than applying rigid rules.
+
+### What is the difference between skewness and kurtosis? {icon="6-square-fill"}
+
+Skewness quantifies asymmetry: it measures whether a distribution has a longer tail on the left (negative skew) or right (positive skew), with zero indicating perfect symmetry [@joanes1998; @field_discovering]. Kurtosis quantifies tail weight and extremity: it measures whether a distribution has heavier tails (more extreme values, leptokurtic, positive kurtosis) or lighter tails (fewer extreme values, platykurtic, negative kurtosis) compared to a normal distribution, which has kurtosis = 0 (excess kurtosis) [@westfall2014; @joanes1998]. Skewness affects the relationship between mean and median (mean > median for right skew), while kurtosis affects the frequency of outliers and the sharpness of the peak. Both are important diagnostics, but skewness is often more visually obvious and has clearer implications for choosing summaries (median vs. mean), while kurtosis is more subtle and primarily affects the behavior of outlier detection and the robustness of mean-based statistics [@field_discovering; @westfall2014]. In Movement Science, right skew is very common (reaction time, sway area, EMG amplitude), while high kurtosis (heavy tails) can signal measurement issues or motivational extremes that produce more outliers than expected under normality [@limpert2001; @wilcox_robust].
+:::
+
+::: callout-note
+## Read further
+
+For foundational coverage of the normal distribution and its role in inference, see @moore_ips and @field_discovering. For evidence that many real-world datasets depart from normality, see @micceri1989. For normality testing guidance, see @shapiro1965, @razali2011, and @ghasemi2012. For practical advice on when departures matter, see @lumley2002, @blanca2013, and @delacre2021. For Movement Science-specific applications and non-normal data patterns, see @vincent1999, @limpert2001, and @wilcox_robust.
+:::
+
+::: callout-tip
+## Next chapter
+The next chapter introduces probability and sampling error, building on the normal distribution to explain sampling distributions, the Central Limit Theorem, and how we estimate population parameters from samples.
+:::

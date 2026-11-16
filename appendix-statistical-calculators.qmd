@@ -1,0 +1,1220 @@
+# Statistical Calculators
+
+This appendix provides interactive calculators for common statistical computations used in movement science research. These tools help you perform power analyses and test for normality assumptions.
+
+## Power Analysis Calculator
+
+This calculator computes statistical power for various hypothesis tests. Power is the probability of correctly rejecting the null hypothesis when it is false. Select your test type and enter the required parameters.
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Statistical Power Calculator</h4>
+  
+  <label for="calcMode">What do you want to calculate?</label>
+  <select id="calcMode" onchange="updatePowerForm()" style="width: 100%; padding: 5px; margin-bottom: 15px;">
+    <option value="power">Calculate Power (given sample size)</option>
+    <option value="sampleSize">Calculate Sample Size (given desired power)</option>
+  </select>
+  
+  <label for="testType">Select Test Type:</label>
+  <select id="testType" onchange="updatePowerForm()" style="width: 100%; padding: 5px; margin-bottom: 15px;">
+    <option value="twoSample">Two-Sample (Independent) t-Test</option>
+    <option value="oneSample">One-Sample t-Test</option>
+    <option value="paired">Paired (Dependent) t-Test</option>
+    <option value="anova">One-Way ANOVA</option>
+    <option value="correlation">Correlation (Pearson r)</option>
+  </select>
+  
+  <form id="powerForm">
+    <div id="effectSizeGroup">
+      <label for="effectSize">Effect Size (Cohen's d):</label>
+      <input type="number" id="effectSize" step="0.01" value="0.5"><br><br>
+    </div>
+    
+    <div id="rGroup" style="display:none;">
+      <label for="rValue">Expected Correlation (r):</label>
+      <input type="number" id="rValue" step="0.01" min="-1" max="1" value="0.3"><br><br>
+    </div>
+    
+    <div id="fGroup" style="display:none;">
+      <label for="fValue">Effect Size (Cohen's f):</label>
+      <input type="number" id="fValue" step="0.01" value="0.25"><br><br>
+    </div>
+    
+    <div id="sampleSizeGroup">
+      <label for="sampleSize">Sample Size per Group (n):</label>
+      <input type="number" id="sampleSize" value="30"><br><br>
+    </div>
+    
+    <div id="totalNGroup" style="display:none;">
+      <label for="totalN">Total Sample Size (N):</label>
+      <input type="number" id="totalN" value="30"><br><br>
+    </div>
+    
+    <div id="numGroupsGroup" style="display:none;">
+      <label for="numGroups">Number of Groups (k):</label>
+      <input type="number" id="numGroups" value="3" min="2"><br><br>
+    </div>
+    
+    <div id="desiredPowerGroup" style="display:none;">
+      <label for="desiredPower">Desired Power (0-1):</label>
+      <input type="number" id="desiredPower" step="0.01" value="0.80" min="0.01" max="0.99"><br><br>
+    </div>
+    
+    <label for="alpha">Alpha Level (α):</label>
+    <input type="number" id="alpha" step="0.01" value="0.05"><br><br>
+    
+    <div id="tailsGroup">
+      <label for="tails">Test Type:</label>
+      <select id="tails" style="padding: 5px;">
+        <option value="two">Two-tailed</option>
+        <option value="one">One-tailed</option>
+      </select><br><br>
+    </div>
+    
+    <button type="button" id="calcButton" onclick="performCalculation()">Calculate Power</button>
+  </form>
+  <p id="powerResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="powerInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+// Statistical functions
+function erf(x) {
+  const a1 =  0.254829592;
+  const a2 = -0.284496736;
+  const a3 =  1.421413741;
+  const a4 = -1.453152027;
+  const a5 =  1.061405429;
+  const p  =  0.3275911;
+  
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  
+  const t = 1 / (1 + p * x);
+  const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  
+  return sign * y;
+}
+
+function erfinv(x) {
+  const a = 0.886226899;
+  const b = -1.645349621;
+  const c = 0.914624893;
+  const d = -0.140543331;
+  
+  const y = Math.sign(x) * Math.sqrt(-Math.log((1 - Math.abs(x)) / 2));
+  return Math.sign(x) * (((d * y + c) * y + b) * y + a) / y;
+}
+
+function normalCDF(z) {
+  return 0.5 * (1 + erf(z / Math.sqrt(2)));
+}
+
+function normalQuantile(p) {
+  // Abramowitz & Stegun rational approximation (26.2.17), accurate to ~4 decimal places
+  if (p <= 0) return -Infinity;
+  if (p >= 1) return Infinity;
+  if (p === 0.5) return 0;
+  const sign = p < 0.5 ? -1 : 1;
+  const q = p < 0.5 ? p : 1 - p;
+  const t = Math.sqrt(-2 * Math.log(q));
+  const c0 = 2.515517, c1 = 0.802853, c2 = 0.010328;
+  const d1 = 1.432788, d2 = 0.189269, d3 = 0.001308;
+  const z = t - (c0 + c1 * t + c2 * t * t) / (1 + d1 * t + d2 * t * t + d3 * t * t * t);
+  return sign * z;
+}
+
+function clamp01(x) {
+  return Math.min(1, Math.max(0, x));
+}
+
+function updatePowerForm() {
+  const testType = document.getElementById('testType').value;
+  const calcMode = document.getElementById('calcMode').value;
+  
+  // Hide all optional groups
+  document.getElementById('effectSizeGroup').style.display = 'none';
+  document.getElementById('rGroup').style.display = 'none';
+  document.getElementById('fGroup').style.display = 'none';
+  document.getElementById('sampleSizeGroup').style.display = 'none';
+  document.getElementById('totalNGroup').style.display = 'none';
+  document.getElementById('numGroupsGroup').style.display = 'none';
+  document.getElementById('tailsGroup').style.display = 'none';
+  document.getElementById('desiredPowerGroup').style.display = 'none';
+  
+  // Update button text
+  const button = document.getElementById('calcButton');
+  button.textContent = calcMode === 'power' ? 'Calculate Power' : 'Calculate Sample Size';
+  
+  // Show desired power field if calculating sample size
+  if (calcMode === 'sampleSize') {
+    document.getElementById('desiredPowerGroup').style.display = 'block';
+  }
+  
+  // Show relevant groups based on test type
+  if (testType === 'correlation') {
+    document.getElementById('rGroup').style.display = 'block';
+    if (calcMode === 'power') {
+      document.getElementById('totalNGroup').style.display = 'block';
+    }
+    document.getElementById('tailsGroup').style.display = 'block';
+  } else if (testType === 'anova') {
+    document.getElementById('fGroup').style.display = 'block';
+    if (calcMode === 'power') {
+      document.getElementById('sampleSizeGroup').style.display = 'block';
+    }
+    document.getElementById('numGroupsGroup').style.display = 'block';
+  } else {
+    document.getElementById('effectSizeGroup').style.display = 'block';
+    if (calcMode === 'power') {
+      if (testType === 'oneSample' || testType === 'paired') {
+        document.getElementById('totalNGroup').style.display = 'block';
+      } else {
+        document.getElementById('sampleSizeGroup').style.display = 'block';
+      }
+    }
+    document.getElementById('tailsGroup').style.display = 'block';
+  }
+}
+
+function performCalculation() {
+  const calcMode = document.getElementById('calcMode').value;
+  if (calcMode === 'power') {
+    calculatePower();
+  } else {
+    calculateSampleSize();
+  }
+}
+
+function calculatePower() {
+  const testType = document.getElementById('testType').value;
+  const alpha = parseFloat(document.getElementById('alpha').value);
+  const tails = document.getElementById('tails').value;
+  
+  if (isNaN(alpha) || alpha <= 0 || alpha >= 1) {
+    document.getElementById('powerResult').textContent = 'Please enter: 0 < α < 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return;
+  }
+  
+  let power, interpretation;
+  
+  switch(testType) {
+    case 'twoSample':
+      ({power, interpretation} = calculateTwoSamplePower(alpha, tails));
+      break;
+    case 'oneSample':
+      ({power, interpretation} = calculateOneSamplePower(alpha, tails));
+      break;
+    case 'paired':
+      ({power, interpretation} = calculatePairedPower(alpha, tails));
+      break;
+    case 'anova':
+      ({power, interpretation} = calculateANOVAPower(alpha));
+      break;
+    case 'correlation':
+      ({power, interpretation} = calculateCorrelationPower(alpha, tails));
+      break;
+  }
+  
+  if (power !== null) {
+    document.getElementById('powerResult').textContent = 
+      `Statistical Power: ${(power * 100).toFixed(2)}%`;
+    document.getElementById('powerInterpretation').textContent = interpretation;
+  }
+}
+
+function calculateTwoSamplePower(alpha, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  const n = parseFloat(document.getElementById('sampleSize').value);
+  
+  if (isNaN(d) || isNaN(n) || n <= 1 || d < 0) {
+    document.getElementById('powerResult').textContent = 'Please enter: d ≥ 0, n > 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return {power: null};
+  }
+  
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const zCrit = normalQuantile(1 - alphaTail);
+  const ncp = d * Math.sqrt(n / 2);
+  
+  let power;
+  if (tails === 'two') {
+    const upperTail = 1 - normalCDF(zCrit - ncp);
+    const lowerTail = normalCDF(-zCrit - ncp);
+    power = clamp01(upperTail + lowerTail);
+  } else {
+    power = clamp01(1 - normalCDF(zCrit - ncp));
+  }
+  
+  const interpretation = interpretPower(power, n * 2, d, 'Independent groups t-test');
+  return {power, interpretation};
+}
+
+function calculateOneSamplePower(alpha, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  const n = parseFloat(document.getElementById('totalN').value);
+  
+  if (isNaN(d) || isNaN(n) || n <= 1 || d < 0) {
+    document.getElementById('powerResult').textContent = 'Please enter: d ≥ 0, n > 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return {power: null};
+  }
+  
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const zCrit = normalQuantile(1 - alphaTail);
+  const ncp = d * Math.sqrt(n);
+  
+  let power;
+  if (tails === 'two') {
+    const upperTail = 1 - normalCDF(zCrit - ncp);
+    const lowerTail = normalCDF(-zCrit - ncp);
+    power = clamp01(upperTail + lowerTail);
+  } else {
+    power = clamp01(1 - normalCDF(zCrit - ncp));
+  }
+  
+  const interpretation = interpretPower(power, n, d, 'One-sample t-test');
+  return {power, interpretation};
+}
+
+function calculatePairedPower(alpha, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  const n = parseFloat(document.getElementById('totalN').value);
+  
+  if (isNaN(d) || isNaN(n) || n <= 1 || d < 0) {
+    document.getElementById('powerResult').textContent = 'Please enter: d ≥ 0, n > 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return {power: null};
+  }
+  
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const zCrit = normalQuantile(1 - alphaTail);
+  const ncp = d * Math.sqrt(n);
+  
+  let power;
+  if (tails === 'two') {
+    const upperTail = 1 - normalCDF(zCrit - ncp);
+    const lowerTail = normalCDF(-zCrit - ncp);
+    power = clamp01(upperTail + lowerTail);
+  } else {
+    power = clamp01(1 - normalCDF(zCrit - ncp));
+  }
+  
+  const interpretation = interpretPower(power, n, d, 'Paired t-test');
+  return {power, interpretation};
+}
+
+function calculateANOVAPower(alpha) {
+  const f = parseFloat(document.getElementById('fValue').value);
+  const n = parseFloat(document.getElementById('sampleSize').value);
+  const k = parseFloat(document.getElementById('numGroups').value);
+  
+  if (isNaN(f) || isNaN(n) || isNaN(k) || n <= 1 || k < 2 || f < 0) {
+    document.getElementById('powerResult').textContent = 'Please enter: f ≥ 0, n > 1, k ≥ 2.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return {power: null};
+  }
+  
+  const power = approxANOVAPower(n, k, f, alpha);
+  const N = k * n;
+  
+  let interpretation = `ANOVA with ${k} groups (n=${n} per group, N=${N}): `;
+  if (power < 0.50) {
+    interpretation += `Power is low (${(power*100).toFixed(1)}%). Increase sample size or expect larger effect.`;
+  } else if (power < 0.80) {
+    interpretation += `Power is moderate (${(power*100).toFixed(1)}%). Consider increasing sample size to reach 80% power.`;
+  } else {
+    interpretation += `Power is adequate (${(power*100).toFixed(1)}%) for detecting effect size f=${f.toFixed(2)}.`;
+  }
+  
+  return {power, interpretation};
+}
+
+function approxANOVAPower(n, k, f, alpha) {
+  // Non-central chi-square approximation for One-Way ANOVA power
+  // Noncentrality: lambda = f^2 * N; critical value via Wilson-Hilferty approximation
+  const N = n * k;
+  const df1 = k - 1;
+  const lambda = f * f * N;
+  const z_alpha = normalQuantile(1 - alpha);
+  // Wilson-Hilferty chi-square critical value
+  const chi2Crit = df1 * Math.pow(1 - 2 / (9 * df1) + z_alpha * Math.sqrt(2 / (9 * df1)), 3);
+  // Normal approximation of non-central chi-square
+  const mu = df1 + lambda;
+  const sigma = Math.sqrt(2 * (df1 + 2 * lambda));
+  return clamp01(1 - normalCDF((chi2Crit - mu) / sigma));
+}
+
+function calculateCorrelationPower(alpha, tails) {
+  const r = parseFloat(document.getElementById('rValue').value);
+  const n = parseFloat(document.getElementById('totalN').value);
+  
+  if (isNaN(r) || isNaN(n) || n <= 3 || Math.abs(r) > 1) {
+    document.getElementById('powerResult').textContent = 'Please enter: -1 ≤ r ≤ 1, n > 3.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return {power: null};
+  }
+  
+  // Fisher's z transformation
+  const zr = 0.5 * Math.log((1 + r) / (1 - r));
+  const se = 1 / Math.sqrt(n - 3);
+  
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const zCrit = normalQuantile(1 - alphaTail);
+  
+  const ncp = zr / se;
+  
+  let power;
+  if (tails === 'two') {
+    const upperTail = 1 - normalCDF(zCrit - Math.abs(ncp));
+    const lowerTail = normalCDF(-zCrit - Math.abs(ncp));
+    power = clamp01(upperTail + lowerTail);
+  } else {
+    power = clamp01(1 - normalCDF(zCrit - Math.abs(ncp)));
+  }
+  
+  let interpretation = `Correlation test (n=${n}, r=${r.toFixed(2)}): `;
+  if (power < 0.50) {
+    interpretation += `Power is low (${(power*100).toFixed(1)}%). Need larger sample to reliably detect r=${r.toFixed(2)}.`;
+  } else if (power < 0.80) {
+    interpretation += `Power is moderate (${(power*100).toFixed(1)}%). Consider larger sample for 80% power.`;
+  } else {
+    interpretation += `Power is adequate (${(power*100).toFixed(1)}%) for detecting correlation of r=${r.toFixed(2)}.`;
+  }
+  
+  return {power, interpretation};
+}
+
+function interpretPower(power, n, d, testName) {
+  let interpretation = `${testName} (n=${n}, d=${d.toFixed(2)}): `;
+  
+  if (power < 0.50) {
+    interpretation += `Power is low (${(power*100).toFixed(1)}%). Increase sample size or expect larger effect size.`;
+  } else if (power < 0.70) {
+    interpretation += `Power is below recommended level (${(power*100).toFixed(1)}%). Consider increasing sample size.`;
+  } else if (power < 0.80) {
+    interpretation += `Power is approaching recommended level (${(power*100).toFixed(1)}%). Increase sample slightly to reach 80%.`;
+  } else if (power < 0.95) {
+    interpretation += `Power is adequate (${(power*100).toFixed(1)}%) for detecting effect size d=${d.toFixed(2)}.`;
+  } else {
+    interpretation += `Power is excellent (${(power*100).toFixed(1)}%). Well-powered to detect this effect.`;
+  }
+  
+  if (n < 30 && testName.includes('t-test')) {
+    interpretation += ' Note: For small samples, consider noncentral t-distribution for exact power.';
+  }
+  
+  return interpretation;
+}
+
+// Sample Size Calculation Functions
+function calculateSampleSize() {
+  const testType = document.getElementById('testType').value;
+  const alpha = parseFloat(document.getElementById('alpha').value);
+  const desiredPower = parseFloat(document.getElementById('desiredPower').value);
+  const tails = document.getElementById('tails').value;
+  
+  if (isNaN(alpha) || alpha <= 0 || alpha >= 1) {
+    document.getElementById('powerResult').textContent = 'Please enter: 0 < α < 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return;
+  }
+  
+  if (isNaN(desiredPower) || desiredPower <= 0 || desiredPower >= 1) {
+    document.getElementById('powerResult').textContent = 'Please enter: 0 < power < 1.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return;
+  }
+  
+  let result;
+  
+  switch(testType) {
+    case 'twoSample':
+      result = findSampleSizeTwoSample(alpha, desiredPower, tails);
+      break;
+    case 'oneSample':
+      result = findSampleSizeOneSample(alpha, desiredPower, tails);
+      break;
+    case 'paired':
+      result = findSampleSizePaired(alpha, desiredPower, tails);
+      break;
+    case 'anova':
+      result = findSampleSizeANOVA(alpha, desiredPower);
+      break;
+    case 'correlation':
+      result = findSampleSizeCorrelation(alpha, desiredPower, tails);
+      break;
+  }
+  
+  if (result !== null) {
+    document.getElementById('powerResult').textContent = result.text;
+    document.getElementById('powerInterpretation').textContent = result.interpretation;
+  }
+}
+
+function findSampleSizeTwoSample(alpha, targetPower, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  
+  if (isNaN(d) || d <= 0) {
+    document.getElementById('powerResult').textContent = 'Please enter effect size d > 0.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return null;
+  }
+  
+  // Direct formula: n = 2 * ((z_α + z_β) / d)^2
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const z_alpha = normalQuantile(1 - alphaTail);
+  const z_beta = normalQuantile(targetPower);
+  
+  let n = 2 * Math.pow((z_alpha + z_beta) / d, 2);
+  n = Math.ceil(n); // Round up to ensure adequate power
+  
+  const totalN = n * 2;
+  const interpretation = `For two independent groups with effect size d=${d.toFixed(2)}, you need n=${n} per group (N=${totalN} total) to achieve ${(targetPower*100).toFixed(0)}% power at α=${alpha}.`;
+  
+  return {
+    text: `Required Sample Size: n = ${n} per group (N = ${totalN} total)`,
+    interpretation: interpretation
+  };
+}
+
+function findSampleSizeOneSample(alpha, targetPower, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  
+  if (isNaN(d) || d <= 0) {
+    document.getElementById('powerResult').textContent = 'Please enter effect size d > 0.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return null;
+  }
+  
+  // Direct formula: n = ((z_α + z_β) / d)^2
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const z_alpha = normalQuantile(1 - alphaTail);
+  const z_beta = normalQuantile(targetPower);
+  
+  let n = Math.pow((z_alpha + z_beta) / d, 2);
+  n = Math.ceil(n);
+  
+  const interpretation = `For a one-sample t-test with effect size d=${d.toFixed(2)}, you need N=${n} observations to achieve ${(targetPower*100).toFixed(0)}% power at α=${alpha}.`;
+  
+  return {
+    text: `Required Sample Size: N = ${n}`,
+    interpretation: interpretation
+  };
+}
+
+function findSampleSizePaired(alpha, targetPower, tails) {
+  const d = parseFloat(document.getElementById('effectSize').value);
+  
+  if (isNaN(d) || d <= 0) {
+    document.getElementById('powerResult').textContent = 'Please enter effect size d > 0.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return null;
+  }
+  
+  // Same as one-sample
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const z_alpha = normalQuantile(1 - alphaTail);
+  const z_beta = normalQuantile(targetPower);
+  
+  let n = Math.pow((z_alpha + z_beta) / d, 2);
+  n = Math.ceil(n);
+  
+  const interpretation = `For a paired t-test with effect size d=${d.toFixed(2)}, you need N=${n} pairs to achieve ${(targetPower*100).toFixed(0)}% power at α=${alpha}.`;
+  
+  return {
+    text: `Required Sample Size: N = ${n} pairs`,
+    interpretation: interpretation
+  };
+}
+
+function findSampleSizeANOVA(alpha, targetPower) {
+  const f = parseFloat(document.getElementById('fValue').value);
+  const k = parseFloat(document.getElementById('numGroups').value);
+  
+  if (isNaN(f) || f <= 0 || isNaN(k) || k < 2) {
+    document.getElementById('powerResult').textContent = 'Please enter f > 0 and k ≥ 2.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return null;
+  }
+  
+  // Iterative search: find smallest n per group achieving targetPower
+  for (let n = 2; n <= 10000; n++) {
+    const power = approxANOVAPower(n, k, f, alpha);
+    if (power >= targetPower) {
+      const totalN = n * k;
+      const interpretation = `For a one-way ANOVA with ${k} groups and effect size f=${f.toFixed(2)}, you need n=${n} per group (N=${totalN} total) to achieve ${(targetPower*100).toFixed(0)}% power at α=${alpha}.`;
+      return {
+        text: `Required Sample Size: n = ${n} per group (N = ${totalN} total)`,
+        interpretation: interpretation
+      };
+    }
+  }
+  
+  document.getElementById('powerResult').textContent = 'Could not find a solution within n=10000 per group.';
+  return null;
+}
+
+function findSampleSizeCorrelation(alpha, targetPower, tails) {
+  const r = parseFloat(document.getElementById('rValue').value);
+  
+  if (isNaN(r) || Math.abs(r) >= 1 || r === 0) {
+    document.getElementById('powerResult').textContent = 'Please enter -1 < r < 1 and r ≠ 0.';
+    document.getElementById('powerInterpretation').textContent = '';
+    return null;
+  }
+  
+  // Fisher's z transformation
+  const z_r = 0.5 * Math.log((1 + r) / (1 - r));
+  
+  const alphaTail = tails === 'two' ? alpha / 2 : alpha;
+  const z_alpha = normalQuantile(1 - alphaTail);
+  const z_beta = normalQuantile(targetPower);
+  
+  // n = ((z_α + z_β) / z_r)^2 + 3
+  let n = Math.pow((z_alpha + z_beta) / z_r, 2) + 3;
+  n = Math.ceil(n);
+  
+  const interpretation = `For a correlation test with expected r=${r.toFixed(2)}, you need N=${n} observations to achieve ${(targetPower*100).toFixed(0)}% power at α=${alpha}.`;
+  
+  return {
+    text: `Required Sample Size: N = ${n}`,
+    interpretation: interpretation
+  };
+}
+
+// Initialize form on page load
+document.addEventListener('DOMContentLoaded', updatePowerForm);
+</script>
+```
+
+::: {.callout-tip}
+## Choosing Parameter Values
+
+**Effect Size (Cohen's d or f):** Small = 0.2, Medium = 0.5, Large = 0.8 for d. Use pilot data or prior research when available. Medium effects (d = 0.5) are common starting points for planning.
+
+**Desired Power:** Convention is 0.80 (80% chance of detecting real effects). Higher-stakes research may use 0.90. Lower power (<0.70) increases risk of missing true effects.
+
+**Alpha Level (α):** Standard is 0.05 for most research. Use 0.01 for more conservative tests or when multiple comparisons are involved. Lower alpha reduces Type I error but requires larger samples.
+
+**Correlation (r):** Small = 0.1, Medium = 0.3, Large = 0.5 (Cohen's benchmarks for behavioral sciences).
+:::
+
+::: {.callout-tip}
+## 🎮 Use this calculator to explore — not just to plan
+
+The power calculator above is a great tool for building intuition about how statistical power works. Try changing one parameter at a time while holding the others constant and see what happens: What happens to power when you double the sample size? How does a small effect size (d = 0.2) compare to a large one (d = 0.8) in terms of the sample size needed to achieve 80% power? What does it take to push power from .70 to .90?
+
+This kind of exploratory "what-if" thinking is exactly how researchers develop a feel for the relationships among sample size, effect size, alpha, and power — and it is far more instructive than simply plugging in numbers to get a required N.
+
+**For formal research planning** (grant proposals, IRB submissions, publishable studies), this calculator is a useful starting point, but you should confirm your final estimates with dedicated software that uses exact probability distributions:
+
+- **[G\*Power](https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower)** — free, purpose-built power analysis software covering a wide range of tests. This is the gold standard for most movement science researchers and is widely cited in published methods sections.
+- **SPSS Statistics 31+** — beginning with version 31, SPSS includes a built-in power analysis module accessible directly from the menus (*Analyze → Power Analysis*). This allows you to estimate required sample size or achieved power for t-tests, ANOVA, correlation, and several other procedures without leaving the software you already use for your analyses.
+- **R packages** — `pwr`, `WebPower`, and `simr` (for simulation-based power analysis with mixed models) are free and highly flexible options for more advanced designs.
+
+The goal is not to pick one tool exclusively — many researchers use the in-book calculator to explore, G\*Power or SPSS to confirm, and then report the method they used.
+:::
+
+## Z-Test for Skewness
+
+This calculator tests whether the skewness of your sample differs significantly from zero (perfect symmetry). Enter the skewness value, standard error, and sample size from your SPSS output.
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Z-Test for Skewness</h4>
+  <form id="skewForm">
+    <label for="skewness">Sample Skewness:</label>
+    <input type="number" id="skewness" step="0.001" value="0.5"><br><br>
+    
+    <label for="seSkew">Standard Error of Skewness:</label>
+    <input type="number" id="seSkew" step="0.001" value="0.245"><br><br>
+    
+    <label for="sampleSizeSkew">Sample Size (n):</label>
+    <input type="number" id="sampleSizeSkew" value="100"><br><br>
+    
+    <button type="button" onclick="calculateSkewZ()">Calculate Z-Score</button>
+  </form>
+  <p id="skewResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="skewInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function calculateSkewZ() {
+  const skew = parseFloat(document.getElementById('skewness').value);
+  const se_skew = parseFloat(document.getElementById('seSkew').value);
+  const n = parseFloat(document.getElementById('sampleSizeSkew').value);
+  
+  if (isNaN(skew) || isNaN(se_skew) || isNaN(n) || se_skew <= 0 || n <= 1) {
+    document.getElementById('skewResult').textContent = 'Please enter skewness, SE > 0, and n > 1.';
+    document.getElementById('skewInterpretation').textContent = '';
+    return;
+  }
+  
+  const z = skew / se_skew;
+  const p = 2 * (1 - normalCDF(Math.abs(z)));
+  
+  document.getElementById('skewResult').textContent = 
+    `Z-score: ${z.toFixed(3)}, p-value: ${p.toFixed(4)}`;
+  
+  // Interpretation based on sample size and results
+  let interpretation = '';
+  const absSkew = Math.abs(skew);
+  
+  if (n < 50) {
+    interpretation = `Small sample (n=${n}): Results are approximate. Consider normality plots and additional tests.`;
+  } else if (n > 300) {
+    if (p < 0.05 && absSkew < 0.5) {
+      interpretation = `Large sample (n=${n}): Statistically significant but skewness is small (|${skew.toFixed(2)}|). Likely not a practical concern for most analyses.`;
+    } else if (p < 0.05 && absSkew >= 0.5) {
+      interpretation = `Large sample (n=${n}): Statistically significant with moderate skewness (|${skew.toFixed(2)}|). Consider transformations or non-parametric methods.`;
+    } else {
+      interpretation = `Large sample (n=${n}): No significant departure from symmetry. Distribution is approximately symmetric.`;
+    }
+  } else {
+    if (p < 0.05) {
+      interpretation = `Moderate sample (n=${n}): Significant skewness detected. Consider visual inspection and impact on your specific analysis.`;
+    } else {
+      interpretation = `Moderate sample (n=${n}): No significant skewness detected. Distribution is reasonably symmetric.`;
+    }
+  }
+  
+  document.getElementById('skewInterpretation').textContent = interpretation;
+}
+</script>
+```
+
+## Z-Test for Kurtosis
+
+This calculator tests whether the kurtosis of your sample differs significantly from 3 (mesokurtic, normal distribution). Enter the kurtosis value, standard error, and sample size from your SPSS output. If SPSS reports excess kurtosis, add 3 before entering.
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Z-Test for Kurtosis</h4>
+  <form id="kurtForm">
+    <label for="kurtosis">Sample Kurtosis (raw, not excess):</label>
+    <input type="number" id="kurtosis" step="0.001" value="3.5"><br><br>
+    
+    <label for="seKurt">Standard Error of Kurtosis:</label>
+    <input type="number" id="seKurt" step="0.001" value="0.490"><br><br>
+    
+    <label for="sampleSizeKurt">Sample Size (n):</label>
+    <input type="number" id="sampleSizeKurt" value="100"><br><br>
+    
+    <button type="button" onclick="calculateKurtZ()">Calculate Z-Score</button>
+  </form>
+  <p id="kurtResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="kurtInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function calculateKurtZ() {
+  const kurt = parseFloat(document.getElementById('kurtosis').value);
+  const se_kurt = parseFloat(document.getElementById('seKurt').value);
+  const n = parseFloat(document.getElementById('sampleSizeKurt').value);
+  
+  if (isNaN(kurt) || isNaN(se_kurt) || isNaN(n) || se_kurt <= 0 || n <= 1) {
+    document.getElementById('kurtResult').textContent = 'Please enter kurtosis, SE > 0, and n > 1. If you have excess kurtosis, add 3 first.';
+    document.getElementById('kurtInterpretation').textContent = '';
+    return;
+  }
+  
+  const z = (kurt - 3) / se_kurt;
+  const p = 2 * (1 - normalCDF(Math.abs(z)));
+  const excessKurt = kurt - 3;
+  
+  document.getElementById('kurtResult').textContent = 
+    `Z-score: ${z.toFixed(3)}, p-value: ${p.toFixed(4)}`;
+  
+  // Interpretation based on sample size and results
+  let interpretation = '';
+  const absExcess = Math.abs(excessKurt);
+  
+  if (n < 50) {
+    interpretation = `Small sample (n=${n}): Results are approximate. Kurtosis tests are sensitive to sample size. Consider Q-Q plots.`;
+  } else if (n > 300) {
+    if (p < 0.05 && absExcess < 1) {
+      interpretation = `Large sample (n=${n}): Statistically significant but excess kurtosis is small (${excessKurt.toFixed(2)}). Likely not a practical concern.`;
+    } else if (p < 0.05 && absExcess >= 1) {
+      if (excessKurt > 0) {
+        interpretation = `Large sample (n=${n}): Significant positive excess kurtosis (${excessKurt.toFixed(2)}). Distribution has heavy tails (leptokurtic). Consider robust methods.`;
+      } else {
+        interpretation = `Large sample (n=${n}): Significant negative excess kurtosis (${excessKurt.toFixed(2)}). Distribution has light tails (platykurtic).`;
+      }
+    } else {
+      interpretation = `Large sample (n=${n}): No significant departure from normal kurtosis. Tail behavior is approximately normal.`;
+    }
+  } else {
+    if (p < 0.05) {
+      const tailType = excessKurt > 0 ? 'heavier' : 'lighter';
+      interpretation = `Moderate sample (n=${n}): Significant kurtosis detected (excess = ${excessKurt.toFixed(2)}). Distribution has ${tailType} tails than normal.`;
+    } else {
+      interpretation = `Moderate sample (n=${n}): No significant kurtosis detected. Tail behavior is reasonably normal.`;
+    }
+  }
+  
+  document.getElementById('kurtInterpretation').textContent = interpretation;
+}
+</script>
+```
+
+## Confidence Interval Calculator {#sec-ci-calc}
+
+This calculator computes confidence intervals for a population mean. A confidence interval provides a range of values that likely contains the true population parameter. For example, a 95% CI means that if you repeated your study many times, about 95% of the intervals would contain the true population mean.
+
+**When to use:** After collecting sample data when you want to estimate the population mean with a specified level of confidence. Larger samples produce narrower (more precise) intervals.
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Confidence Interval for Mean</h4>
+  <form id="ciForm">
+    <label for="sampleMean">Sample Mean (x̄):</label>
+    <input type="number" id="sampleMean" step="0.01" value="100"><br><br>
+    
+    <label for="sampleSD">Sample Standard Deviation (s):</label>
+    <input type="number" id="sampleSD" step="0.01" value="15"><br><br>
+    
+    <label for="sampleSizeCI">Sample Size (n):</label>
+    <input type="number" id="sampleSizeCI" value="30"><br><br>
+    
+    <label for="confLevel">Confidence Level:</label>
+    <select id="confLevel" style="padding: 5px;">
+      <option value="0.90">90%</option>
+      <option value="0.95" selected>95%</option>
+      <option value="0.99">99%</option>
+    </select><br><br>
+    
+    <button type="button" onclick="calculateCI()">Calculate Confidence Interval</button>
+  </form>
+  <p id="ciResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="ciInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function calculateCI() {
+  const xbar = parseFloat(document.getElementById('sampleMean').value);
+  const s = parseFloat(document.getElementById('sampleSD').value);
+  const n = parseFloat(document.getElementById('sampleSizeCI').value);
+  const confLevel = parseFloat(document.getElementById('confLevel').value);
+  
+  if (isNaN(xbar) || isNaN(s) || isNaN(n) || s <= 0 || n <= 1) {
+    document.getElementById('ciResult').textContent = 'Please enter valid values: s > 0, n > 1.';
+    document.getElementById('ciInterpretation').textContent = '';
+    return;
+  }
+  
+  const df = n - 1;
+  const alpha = 1 - confLevel;
+  
+  // t-critical value approximation (for large samples, use z)
+  let tCrit;
+  if (n >= 30) {
+    tCrit = normalQuantile(1 - alpha / 2);
+  } else {
+    // Approximation for t-distribution
+    tCrit = normalQuantile(1 - alpha / 2) * (1 + 1 / (4 * df));
+  }
+  
+  const se = s / Math.sqrt(n);
+  const marginError = tCrit * se;
+  const lowerBound = xbar - marginError;
+  const upperBound = xbar + marginError;
+  
+  document.getElementById('ciResult').textContent = 
+    `${(confLevel * 100).toFixed(0)}% CI: [${lowerBound.toFixed(2)}, ${upperBound.toFixed(2)}]`;
+  
+  const interpretation = `We are ${(confLevel * 100).toFixed(0)}% confident that the true population mean lies between ${lowerBound.toFixed(2)} and ${upperBound.toFixed(2)}. Margin of error: ±${marginError.toFixed(2)}.`;
+  document.getElementById('ciInterpretation').textContent = interpretation;
+}
+</script>
+```
+
+## Effect Size Calculator {#sec-effect-size-calc}
+
+Calculate Cohen's d from sample statistics. Effect size quantifies the magnitude of the difference between groups, independent of sample size. Unlike p-values, effect sizes tell you *how big* the difference is, not just whether it exists.
+
+**When to use:** After finding a significant difference between two groups, to understand the practical importance of that difference. Essential for power analysis planning and meta-analyses. Cohen's benchmarks: d = 0.2 (small), 0.5 (medium), 0.8 (large).
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Cohen's d Calculator</h4>
+  <form id="effectSizeForm">
+    <label for="mean1">Group 1 Mean (M₁):</label>
+    <input type="number" id="mean1" step="0.01" value="100"><br><br>
+    
+    <label for="sd1">Group 1 SD (SD₁):</label>
+    <input type="number" id="sd1" step="0.01" value="15"><br><br>
+    
+    <label for="n1">Group 1 Sample Size (n₁):</label>
+    <input type="number" id="n1" value="30"><br><br>
+    
+    <label for="mean2">Group 2 Mean (M₂):</label>
+    <input type="number" id="mean2" step="0.01" value="110"><br><br>
+    
+    <label for="sd2">Group 2 SD (SD₂):</label>
+    <input type="number" id="sd2" step="0.01" value="15"><br><br>
+    
+    <label for="n2">Group 2 Sample Size (n₂):</label>
+    <input type="number" id="n2" value="30"><br><br>
+    
+    <button type="button" onclick="calculateEffectSize()">Calculate Effect Size</button>
+  </form>
+  <p id="effectSizeResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="effectSizeInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function calculateEffectSize() {
+  const m1 = parseFloat(document.getElementById('mean1').value);
+  const sd1 = parseFloat(document.getElementById('sd1').value);
+  const n1 = parseFloat(document.getElementById('n1').value);
+  const m2 = parseFloat(document.getElementById('mean2').value);
+  const sd2 = parseFloat(document.getElementById('sd2').value);
+  const n2 = parseFloat(document.getElementById('n2').value);
+  
+  if (isNaN(m1) || isNaN(sd1) || isNaN(n1) || isNaN(m2) || isNaN(sd2) || isNaN(n2) ||
+      sd1 <= 0 || sd2 <= 0 || n1 <= 1 || n2 <= 1) {
+    document.getElementById('effectSizeResult').textContent = 'Please enter valid values: SD > 0, n > 1.';
+    document.getElementById('effectSizeInterpretation').textContent = '';
+    return;
+  }
+  
+  // Pooled standard deviation
+  const pooledSD = Math.sqrt(((n1 - 1) * sd1 * sd1 + (n2 - 1) * sd2 * sd2) / (n1 + n2 - 2));
+  
+  // Cohen's d
+  const d = (m1 - m2) / pooledSD;
+  const absD = Math.abs(d);
+  
+  document.getElementById('effectSizeResult').textContent = 
+    `Cohen's d = ${d.toFixed(3)} (|d| = ${absD.toFixed(3)})`;
+  
+  let interpretation = '';
+  if (absD < 0.2) {
+    interpretation = 'Negligible effect size. The groups are very similar.';
+  } else if (absD < 0.5) {
+    interpretation = 'Small effect size. Modest difference between groups.';
+  } else if (absD < 0.8) {
+    interpretation = 'Medium effect size. Moderate difference between groups.';
+  } else {
+    interpretation = 'Large effect size. Substantial difference between groups.';
+  }
+  
+  document.getElementById('effectSizeInterpretation').textContent = interpretation;
+}
+</script>
+```
+
+## Partial Effect Sizes: η²_p and ω²_p {#sec-omega-p-calc}
+
+Use this calculator to obtain both **partial eta-squared** (η²_p) and **partial omega-squared** (ω²_p) for ANOVA effects. SPSS reports η²_p automatically, but it does **not** usually print ω²_p in the output table, so this tool gives you both values in one place.
+
+**When to use:** After an ANOVA or mixed ANOVA when you want both the standard partial effect size and the less-biased corrected estimate. For a **Group × Time** interaction in a mixed ANOVA, enter:
+
+- `SS_effect`: the **Sum of Squares** for **Group × Time**
+- `df_effect`: the **degrees of freedom** for **Group × Time**
+- `SS_error`: the **Sum of Squares** from the matching error row for that effect
+- `MS_error`: the **Mean Square Error** from the matching error row for that effect
+- `SS_total`: the **total SS from the relevant SPSS source table** (for the mixed-ANOVA within-subjects table, add all SS values from that table)
+
+The calculator uses:
+
+$$\eta^2_p = \frac{SS_{\text{effect}}}{SS_{\text{effect}} + SS_{\text{error}}}$$
+
+$$\omega^2_p = \frac{SS_{\text{effect}} - df_{\text{effect}} \times MS_{\text{error}}}{SS_{\text{total}} + MS_{\text{error}}}$$
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Partial Effect Size Calculator (η²<sub>p</sub> and ω²<sub>p</sub>)</h4>
+  <form id="omegaPForm">
+    <label for="omegaSSEffect">SS<sub>effect</sub>:</label>
+    <input type="number" id="omegaSSEffect" step="0.001" value="163.26"><br><br>
+
+    <label for="omegaDfEffect">df<sub>effect</sub>:</label>
+    <input type="number" id="omegaDfEffect" step="0.001" value="2"><br><br>
+
+    <label for="omegaSSError">SS<sub>error</sub>:</label>
+    <input type="number" id="omegaSSError" step="0.001" value="155.22"><br><br>
+
+    <label for="omegaMSError">MS<sub>error</sub>:</label>
+    <input type="number" id="omegaMSError" step="0.001" value="1.338"><br><br>
+
+    <label for="omegaSSTotal">SS<sub>total</sub>:</label>
+    <input type="number" id="omegaSSTotal" step="0.001" value="608.97"><br><br>
+
+    <button type="button" onclick="calculateOmegaP()">Calculate ω²<sub>p</sub></button>
+  </form>
+  <p id="omegaPResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="omegaPInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function calculateOmegaP() {
+  const ssEffect = parseFloat(document.getElementById('omegaSSEffect').value);
+  const dfEffect = parseFloat(document.getElementById('omegaDfEffect').value);
+  const ssError = parseFloat(document.getElementById('omegaSSError').value);
+  const msError = parseFloat(document.getElementById('omegaMSError').value);
+  const ssTotal = parseFloat(document.getElementById('omegaSSTotal').value);
+
+  if (isNaN(ssEffect) || isNaN(dfEffect) || isNaN(ssError) || isNaN(msError) || isNaN(ssTotal) ||
+      dfEffect <= 0 || ssError < 0 || msError <= 0 || ssTotal <= 0) {
+    document.getElementById('omegaPResult').textContent = 'Please enter valid values: df > 0, SS_error >= 0, MS_error > 0, and SS_total > 0.';
+    document.getElementById('omegaPInterpretation').textContent = '';
+    return;
+  }
+
+  const etaDenominator = ssEffect + ssError;
+  const numerator = ssEffect - (dfEffect * msError);
+  const omegaDenominator = ssTotal + msError;
+
+  if (etaDenominator <= 0 || omegaDenominator <= 0) {
+    document.getElementById('omegaPResult').textContent = 'The effect-size denominators must be greater than 0.';
+    document.getElementById('omegaPInterpretation').textContent = '';
+    return;
+  }
+
+  const etaP = ssEffect / etaDenominator;
+  const omegaP = numerator / omegaDenominator;
+  const boundedOmegaP = Math.max(0, omegaP);
+
+  document.getElementById('omegaPResult').innerHTML =
+    `η²<sub>p</sub> = ${etaP.toFixed(3)}; ω²<sub>p</sub> = ${boundedOmegaP.toFixed(3)}`;
+
+  let interpretation = '';
+  if (omegaP < 0) {
+    interpretation = `η²_p = ${etaP.toFixed(3)}. The raw ω²_p estimate was negative, which can happen with very small effects, so ω²_p is conventionally reported as 0.000.`;
+  } else if (boundedOmegaP < 0.01) {
+    interpretation = 'Negligible effect size. Compare both η²_p and ω²_p to the ANOVA benchmarks below: .01 small, .06 medium, .14 large.';
+  } else if (boundedOmegaP < 0.06) {
+    interpretation = 'Small effect size. Compare both η²_p and ω²_p to the ANOVA benchmarks below: .01 small, .06 medium, .14 large.';
+  } else if (boundedOmegaP < 0.14) {
+    interpretation = 'Medium effect size. Compare both η²_p and ω²_p to the ANOVA benchmarks below: .01 small, .06 medium, .14 large.';
+  } else {
+    interpretation = 'Large effect size. Compare both η²_p and ω²_p to the ANOVA benchmarks below: .01 small, .06 medium, .14 large.';
+  }
+
+  document.getElementById('omegaPInterpretation').textContent = interpretation;
+}
+</script>
+```
+
+::: {.callout-tip}
+## SPSS Input Guide for Group × Time
+
+For the **Group × Time** interaction in a mixed ANOVA, use the **within-subjects** table:
+
+- Enter the **Group × Time** SS as `SS_effect`
+- Enter the **Group × Time** df as `df_effect`
+- Enter the **Error(Time)** SS as `SS_error`
+- Enter the **Error(Time)** mean square as `MS_error`
+- Compute `SS_total` by adding all SS values shown in that same within-subjects table
+
+This matches the values requested in the chapter exercises and avoids hand calculation from the full ANOVA formulas.
+:::
+
+::: {.callout-note}
+## Benchmarks to Compare Against
+
+For both **η²_p** and **ω²_p**, use the usual ANOVA benchmarks:
+
+- **Small**: `.01`
+- **Medium**: `.06`
+- **Large**: `.14`
+
+These are conventions, not hard cutoffs, but they are the standard comparison points students should use when interpreting the calculator output.
+:::
+
+## Z-Score and Percentile Converter {#sec-z-perc-converter}
+
+Convert between z-scores and percentiles for the standard normal distribution. Z-scores indicate how many standard deviations a value is from the mean, while percentiles show the percentage of scores below a given value.
+
+**When to use:** To interpret standardized scores, find critical values for hypothesis tests, or determine what proportion of a normal distribution falls above/below a certain value. For example, z = 1.96 corresponds to the 97.5th percentile (used for 95% CIs).
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Z-Score ↔ Percentile Converter</h4>
+  
+  <div style="margin-bottom: 20px;">
+    <h5>Z-Score to Percentile</h5>
+    <label for="zInput">Z-Score:</label>
+    <input type="number" id="zInput" step="0.01" value="1.96">
+    <button type="button" onclick="zToPercentile()">Convert to Percentile</button>
+    <p id="zToPercResult" style="margin-top: 10px; font-weight: bold;"></p>
+  </div>
+  
+  <hr>
+  
+  <div>
+    <h5>Percentile to Z-Score</h5>
+    <label for="percInput">Percentile (0-100):</label>
+    <input type="number" id="percInput" step="0.01" value="97.5" min="0" max="100">
+    <button type="button" onclick="percentileToZ()">Convert to Z-Score</button>
+    <p id="percToZResult" style="margin-top: 10px; font-weight: bold;"></p>
+  </div>
+</div>
+
+<script>
+function zToPercentile() {
+  const z = parseFloat(document.getElementById('zInput').value);
+  
+  if (isNaN(z)) {
+    document.getElementById('zToPercResult').textContent = 'Please enter a valid z-score.';
+    return;
+  }
+  
+  const percentile = normalCDF(z) * 100;
+  document.getElementById('zToPercResult').textContent = 
+    `z = ${z.toFixed(2)} corresponds to the ${percentile.toFixed(2)}th percentile`;
+}
+
+function percentileToZ() {
+  const perc = parseFloat(document.getElementById('percInput').value);
+  
+  if (isNaN(perc) || perc < 0 || perc > 100) {
+    document.getElementById('percToZResult').textContent = 'Please enter a percentile between 0 and 100.';
+    return;
+  }
+  
+  const p = perc / 100;
+  const z = normalQuantile(p);
+  document.getElementById('percToZResult').textContent = 
+    `${perc.toFixed(2)}th percentile corresponds to z = ${z.toFixed(2)}`;
+}
+</script>
+```
+
+## Standard Error Calculator {#sec-se-calc}
+
+Calculate standard error for various statistics. Standard error measures the precision of a sample statistic—smaller values indicate more precise estimates. It reflects how much your sample statistic (mean, proportion, or difference) would vary across repeated samples.
+
+**When to use:** To understand sampling variability, construct confidence intervals, or calculate test statistics. SE decreases as sample size increases (more data = more precision). Choose the appropriate type based on your research question.
+
+```{=html}
+<div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0; background-color: #f9f9f9;">
+  <h4>Standard Error Calculator</h4>
+  
+  <label for="seType">What do you want to calculate?</label>
+  <select id="seType" onchange="updateSEForm()" style="width: 100%; padding: 5px; margin-bottom: 15px;">
+    <option value="mean">Standard Error of the Mean (SE<sub>M</sub>)</option>
+    <option value="proportion">Standard Error of a Proportion (SE<sub>p</sub>)</option>
+    <option value="difference">Standard Error of Difference Between Means</option>
+  </select>
+  
+  <form id="seForm">
+    <div id="seMeanInputs">
+      <label for="seSD">Standard Deviation (s):</label>
+      <input type="number" id="seSD" step="0.01" value="15"><br><br>
+      
+      <label for="seN">Sample Size (n):</label>
+      <input type="number" id="seN" value="30"><br><br>
+    </div>
+    
+    <div id="sePropInputs" style="display:none;">
+      <label for="proportion">Sample Proportion (p):</label>
+      <input type="number" id="proportion" step="0.01" value="0.5" min="0" max="1"><br><br>
+      
+      <label for="seNProp">Sample Size (n):</label>
+      <input type="number" id="seNProp" value="100"><br><br>
+    </div>
+    
+    <div id="seDiffInputs" style="display:none;">
+      <label for="seSD1">SD Group 1 (s₁):</label>
+      <input type="number" id="seSD1" step="0.01" value="15"><br><br>
+      
+      <label for="seN1">n₁:</label>
+      <input type="number" id="seN1" value="30"><br><br>
+      
+      <label for="seSD2">SD Group 2 (s₂):</label>
+      <input type="number" id="seSD2" step="0.01" value="15"><br><br>
+      
+      <label for="seN2">n₂:</label>
+      <input type="number" id="seN2" value="30"><br><br>
+    </div>
+    
+    <button type="button" onclick="calculateSE()">Calculate Standard Error</button>
+  </form>
+  <p id="seResult" style="margin-top: 10px; font-weight: bold;"></p>
+  <p id="seInterpretation" style="margin-top: 10px; font-style: italic; color: #555;"></p>
+</div>
+
+<script>
+function updateSEForm() {
+  const seType = document.getElementById('seType').value;
+  document.getElementById('seMeanInputs').style.display = seType === 'mean' ? 'block' : 'none';
+  document.getElementById('sePropInputs').style.display = seType === 'proportion' ? 'block' : 'none';
+  document.getElementById('seDiffInputs').style.display = seType === 'difference' ? 'block' : 'none';
+}
+
+function calculateSE() {
+  const seType = document.getElementById('seType').value;
+  let se, interpretation;
+  
+  if (seType === 'mean') {
+    const sd = parseFloat(document.getElementById('seSD').value);
+    const n = parseFloat(document.getElementById('seN').value);
+    
+    if (isNaN(sd) || isNaN(n) || sd <= 0 || n <= 1) {
+      document.getElementById('seResult').textContent = 'Please enter valid values: SD > 0, n > 1.';
+      document.getElementById('seInterpretation').textContent = '';
+      return;
+    }
+    
+    se = sd / Math.sqrt(n);
+    interpretation = `SE<sub>M</sub> = ${se.toFixed(3)}. The sample mean varies from the population mean by approximately ${se.toFixed(2)} units on average.`;
+    
+  } else if (seType === 'proportion') {
+    const p = parseFloat(document.getElementById('proportion').value);
+    const n = parseFloat(document.getElementById('seNProp').value);
+    
+    if (isNaN(p) || isNaN(n) || p < 0 || p > 1 || n <= 0) {
+      document.getElementById('seResult').textContent = 'Please enter: 0 ≤ p ≤ 1, n > 0.';
+      document.getElementById('seInterpretation').textContent = '';
+      return;
+    }
+    
+    se = Math.sqrt((p * (1 - p)) / n);
+    interpretation = `SE<sub>p</sub> = ${se.toFixed(4)}. The sampling variability of the proportion is approximately ${(se * 100).toFixed(2)} percentage points.`;
+    
+  } else {
+    const sd1 = parseFloat(document.getElementById('seSD1').value);
+    const n1 = parseFloat(document.getElementById('seN1').value);
+    const sd2 = parseFloat(document.getElementById('seSD2').value);
+    const n2 = parseFloat(document.getElementById('seN2').value);
+    
+    if (isNaN(sd1) || isNaN(n1) || isNaN(sd2) || isNaN(n2) ||
+        sd1 <= 0 || sd2 <= 0 || n1 <= 1 || n2 <= 1) {
+      document.getElementById('seResult').textContent = 'Please enter valid values: SD > 0, n > 1.';
+      document.getElementById('seInterpretation').textContent = '';
+      return;
+    }
+    
+    se = Math.sqrt((sd1 * sd1 / n1) + (sd2 * sd2 / n2));
+    interpretation = `SE<sub>diff</sub> = ${se.toFixed(3)}. The difference between sample means varies by approximately ${se.toFixed(2)} units on average.`;
+  }
+  
+  document.getElementById('seResult').innerHTML = 
+    `Standard Error = ${se.toFixed(4)}`;
+  document.getElementById('seInterpretation').innerHTML = interpretation;
+}
+
+// Initialize form
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof updatePowerForm !== 'undefined') updatePowerForm();
+  if (typeof updateSEForm !== 'undefined') updateSEForm();
+});
+</script>
+```
+
+::: {.callout-note}
+## Note on Calculator Use
+
+These calculators use normal-approximation formulas and provide results comparable to professional software for educational purposes and preliminary planning. However, **for high-stakes research** (grant proposals, pilot study design, publication-quality analyses), use dedicated power analysis software:
+
+- **[G\*Power](https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower)**: Free, comprehensive power analysis tool with exact calculations for a wide range of statistical tests
+- **SPSS Statistics 31+**: Now includes a dedicated power analysis module with advanced options
+- **R packages**: `pwr`, `WebPower`, or `simr` for simulation-based power analysis
+
+For kurtosis inputs, enter raw kurtosis (normal = 3); if you have excess kurtosis, add 3 before entering.
+:::

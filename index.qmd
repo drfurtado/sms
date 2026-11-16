@@ -1,0 +1,43 @@
+
+# Preface {.unnumbered}
+
+Welcome to *Statistics for Movement Science* (First Edition), a hands-on guide designed to help you learn statistical methods through the lens of human movement research. This book integrates statistical concepts with practical SPSS applications, using examples from kinesiology, exercise science, and biomechanics. This edition is based on SPSS version 31.
+
+## How to Use This Book
+
+- Follow chapters in order for a guided learning path.
+- Run the examples in SPSS 31 as you read to reinforce each concept.
+- Keep notes on any workflow differences you notice in your environment.
+
+## Support This Book {#support}
+
+This book is free to read online, and it will stay that way. If it has helped you in a course, a lab, or your own research, you can help keep it updated and growing with a small contribution. Every bit goes toward new chapters, datasets, and SPSS updates.
+
+::: {.support-buttons}
+[<i class="bi bi-cup-hot"></i> Buy me a coffee on Ko-fi](https://ko-fi.com/drfurtado){.btn .btn-primary target="_blank" rel="noopener"}
+[<i class="bi bi-heart"></i> Sponsor on GitHub](https://github.com/sponsors/drfurtado){.btn .btn-outline-primary target="_blank" rel="noopener"}
+:::
+
+Not in a position to donate? Sharing the book with a classmate or colleague helps just as much.
+
+## Citation {.appendix}
+
+To cite this book, please use:
+
+**APA Format:**
+
+```bibtex
+Furtado, Jr., Ovande. (2026). Statistics for movement science: A hands-on guide with SPSS (1st ed.). https://drfurtado.github.io/sms
+```
+
+**BibTeX:**
+```bibtex
+@book{furtado2026sms,
+  title = {Statistics for Movement Science: A Hands-On Guide with SPSS},
+  author = {Furtado, Jr., Ovande},
+  year = {2026},
+  edition = {1},
+  url = {https://drfurtado.github.io/sms/},
+  note = {Online educational resource. Based on SPSS version 31}
+}
+```

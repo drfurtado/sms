@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 280" width="450" height="280">
+  <defs>
+    <style>
+      .box { fill: #f8f9fa; stroke: #2c3e50; stroke-width: 2; rx: 8; }
+      .text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 14px; fill: #2c3e50; text-anchor: middle; }
+      .line { stroke: #2c3e50; stroke-width: 2; fill: none; }
+      .title-text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; font-size: 16px; font-weight: 600; fill: #2c3e50; text-anchor: middle; }
+    </style>
+  </defs>
+  
+  <!-- Title -->
+  <text class="title-text" x="225" y="25">Data Screening Workflow</text>
+  
+  <!-- Range and logic checks -->
+  <rect class="box" x="125" y="50" width="200" height="35"/>
+  <text class="text" x="225" y="72">Range and logic checks</text>
+  
+  <!-- Category and label checks -->
+  <rect class="box" x="125" y="95" width="200" height="35"/>
+  <text class="text" x="225" y="117">Category and label checks</text>
+  
+  <!-- Duplicates and IDs -->
+  <rect class="box" x="125" y="140" width="200" height="35"/>
+  <text class="text" x="225" y="162">Duplicates and IDs</text>
+  
+  <!-- Outliers -->
+  <rect class="box" x="125" y="185" width="200" height="35"/>
+  <text class="text" x="225" y="207">Outliers: error or extreme?</text>
+  
+  <!-- Missingness patterns -->
+  <rect class="box" x="125" y="230" width="200" height="35"/>
+  <text class="text" x="225" y="252">Missingness patterns</text>
+  
+  <!-- Arrow to document reasons -->
+  <line class="line" x1="325" y1="247" x2="360" y2="247"/>
+  <polygon fill="#2c3e50" points="360,247 352,243 352,251"/>
+  
+  <!-- Document reasons box -->
+  <rect class="box" x="360" y="230" width="80" height="35" rx="15"/>
+  <text class="text" x="400" y="245" style="font-size: 12px;">Document</text>
+  <text class="text" x="400" y="258" style="font-size: 12px;">reasons</text>
+  
+</svg>

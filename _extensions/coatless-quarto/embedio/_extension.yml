@@ -1,0 +1,8 @@
+title: Embedded different kinds of files
+author: James Joseph Balamuta
+version: 0.0.1
+quarto-required: '>=1.4.549'
+source: coatless-quarto/embedio@0.0.1
+contributes:
+  shortcodes:
+    - embedio.lua

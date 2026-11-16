@@ -1,0 +1,252 @@
+---
+title: "Effect Size Benchmarks"
+---
+
+# Introduction
+
+Effect sizes quantify the **magnitude** of a statistical result, independent of sample size and statistical significance. A finding can be statistically significant but practically trivial, or practically meaningful but non-significant (especially with small samples). Reporting and interpreting effect sizes is therefore essential for evaluating the real-world importance of research findings.
+
+This appendix compiles the most widely used benchmarks for interpreting effect sizes across the major statistics covered in this book. Where multiple classification systems exist, the most common conventions used in the health and movement sciences are presented.
+
+::: {.callout-warning}
+## Benchmarks Are Guidelines, Not Rules
+The thresholds presented here are conventions — they do not define what is "good" or "bad" in every context. In movement science and sport, the practical significance of an effect depends heavily on the research question, population, and measurement context. Always interpret effect sizes alongside the research context.
+:::
+
+---
+
+# Pearson Correlation (*r*)
+
+The Pearson correlation coefficient ranges from −1.00 to +1.00. The sign indicates direction; the absolute value indicates strength.
+
+## Cohen's (1988) Criteria
+
+Cohen's criteria are the most commonly cited in social and health sciences:
+
+| Absolute Value of *r* | Interpretation |
+|:---------------------:|:---------------|
+| < .10 | Negligible |
+| .10 – .29 | Small |
+| .30 – .49 | Medium |
+| .50 – 1.00 | Large |
+
+: Cohen's (1988) benchmarks for Pearson *r* {#tbl-r-cohen}
+
+## Hopkins' (2000) Criteria
+
+Hopkins and colleagues proposed finer-grained thresholds better suited to sport and exercise science, where even small effects can be practically meaningful:
+
+| Absolute Value of *r* | Interpretation |
+|:---------------------:|:---------------|
+| < .10 | Trivial |
+| .10 – .29 | Small |
+| .30 – .49 | Moderate |
+| .50 – .69 | Large |
+| .70 – .89 | Very Large |
+| .90 – .99 | Nearly Perfect |
+| 1.00 | Perfect |
+
+: Hopkins et al.'s (2009) benchmarks for Pearson *r* {#tbl-r-hopkins}
+
+::: {.callout-tip}
+## Which Criteria Should I Use?
+Use **Cohen's criteria** when reporting to a general audience or when following field-standard reporting (e.g., psychology-based journals). Use **Hopkins' criteria** if your research is in sport performance, exercise physiology, or rehabilitation science where the journal or field convention supports it. Always state which criteria you are applying.
+:::
+
+---
+
+# Spearman Correlation (*r~s~*)
+
+Spearman's rank correlation is interpreted using the same magnitude benchmarks as Pearson *r* (see @tbl-r-cohen and @tbl-r-hopkins above), since it is also bounded between −1.00 and +1.00.
+
+---
+
+# Cohen's *d* (Standardized Mean Difference)
+
+Cohen's *d* expresses the mean difference between two groups in standard deviation units. It is used primarily with independent and paired *t*-tests.
+
+## Cohen's (1988) Criteria
+
+| *d* Value | Interpretation |
+|:---------:|:---------------|
+| < 0.20 | Negligible / Trivial |
+| 0.20 – 0.49 | Small |
+| 0.50 – 0.79 | Medium |
+| ≥ 0.80 | Large |
+
+: Cohen's (1988) benchmarks for *d* {#tbl-d-cohen}
+
+## Sawilowsky's (2009) Extended Criteria
+
+Sawilowsky extended Cohen's original scale to accommodate very large effects seen in some applied research:
+
+| *d* Value | Interpretation |
+|:---------:|:---------------|
+| 0.01 | Very Small |
+| 0.20 | Small |
+| 0.50 | Medium |
+| 0.80 | Large |
+| 1.20 | Very Large |
+| 2.00 | Huge |
+
+: Sawilowsky's (2009) benchmarks for *d* {#tbl-d-sawilowsky}
+
+::: {.callout-note}
+## Calculating Cohen's *d*
+
+For independent samples:
+
+$$d = \frac{M_1 - M_2}{SD_{pooled}}$$
+
+where $SD_{pooled} = \sqrt{\frac{(n_1 - 1)SD_1^2 + (n_2 - 1)SD_2^2}{n_1 + n_2 - 2}}$
+
+For paired/repeated measures:
+
+$$d = \frac{M_{diff}}{SD_{diff}}$$
+:::
+
+---
+
+# Eta-Squared (*η²*) and Partial Eta-Squared (*η~p~²*)
+
+Eta-squared is used with ANOVA designs. It represents the proportion of total variance explained by the factor.
+
+- **η²** = proportion of *total* variance explained (used in one-way ANOVA)
+- **η~p~²** = proportion of variance explained after removing variance from other factors (used in factorial and repeated-measures ANOVA; reported by SPSS by default)
+
+## Cohen's (1988) Criteria
+
+| Value | Interpretation |
+|:-----:|:---------------|
+| .01 – .05 | Small |
+| .06 – .13 | Medium |
+| ≥ .14 | Large |
+
+: Cohen's (1988) benchmarks for *η²* and *η~p~²* {#tbl-eta}
+
+::: {.callout-important}
+## η² vs η~p~²
+SPSS reports **partial eta-squared** by default in ANOVA output. In a one-way ANOVA with a single factor, *η²* and *η~p~²* are identical. In factorial or repeated-measures designs, *η~p~²* will typically be larger than *η²*. Always specify which you are reporting.
+:::
+
+---
+
+# Omega-Squared (*ω²*)
+
+Omega-squared is a less biased alternative to eta-squared and is recommended when sample sizes are small. It is interpreted using the same thresholds as *η²*:
+
+| Value | Interpretation |
+|:-----:|:---------------|
+| .01 – .05 | Small |
+| .06 – .13 | Medium |
+| ≥ .14 | Large |
+
+: Benchmarks for *ω²* {#tbl-omega}
+
+SPSS does not compute omega-squared directly; it must be calculated from ANOVA output or via syntax.
+
+---
+
+# Coefficient of Determination (*R²*)
+
+In simple and multiple linear regression, *R²* represents the proportion of variance in the outcome variable explained by the predictor(s).
+
+## Cohen's (1988) Criteria
+
+| *R²* Value | *f²* Value | Interpretation |
+|:----------:|:----------:|:---------------|
+| .02 | .02 | Small |
+| .13 | .15 | Medium |
+| .26 | .35 | Large |
+
+: Cohen's (1988) benchmarks for *R²* in regression {#tbl-r2}
+
+::: {.callout-tip}
+## *f²* as an Effect Size for Regression
+Cohen's *f²* is the formal effect size for regression: $f^2 = \frac{R^2}{1 - R^2}$. Some reporting guidelines prefer *f²* over *R²* for standardization purposes.
+:::
+
+---
+
+# Cramér's *V* (Chi-Square Association)
+
+Cramér's *V* measures the strength of association between two categorical variables, ranging from 0 to 1. Benchmarks depend on the degrees of freedom (minimum of rows − 1 and columns − 1).
+
+## Cohen's (1988) Criteria for a 2 × 2 Table (df = 1)
+
+| *V* Value | Interpretation |
+|:---------:|:---------------|
+| .10 | Small |
+| .30 | Medium |
+| .50 | Large |
+
+: Cohen's (1988) benchmarks for Cramér's *V* (2 × 2 table) {#tbl-cramer}
+
+For larger tables, thresholds shift. At df = 2: small = .07, medium = .21, large = .35. At df = 3: small = .06, medium = .17, large = .29.
+
+---
+
+# Intraclass Correlation Coefficient (ICC)
+
+The ICC assesses reliability and agreement. Koo and Li (2016) provide the most widely used contemporary benchmarks:
+
+| ICC Value | Interpretation |
+|:---------:|:---------------|
+| < .50 | Poor |
+| .50 – .74 | Moderate |
+| .75 – .89 | Good |
+| ≥ .90 | Excellent |
+
+: Koo & Li's (2016) benchmarks for ICC {#tbl-icc}
+
+::: {.callout-note}
+## Choosing the Right ICC Model
+SPSS offers multiple ICC models (one-way, two-way mixed, two-way random) and agreement types (consistency vs. absolute agreement). The selection should be driven by your study design, not the model that produces the highest value. Report the model and type selected.
+:::
+
+---
+
+# Coefficient of Variation (CV)
+
+The CV expresses variability as a percentage of the mean, and is commonly used to evaluate measurement consistency and reliability in sport and health sciences. Unlike ICC, the CV is absolute and scale-independent.
+
+| CV Value | Interpretation |
+|:--------:|:---------------|
+| < 5% | Excellent |
+| 5% – 10% | Acceptable |
+| 10% – 20% | Moderate (context-dependent) |
+| > 20% | Poor |
+
+: Informal benchmarks for CV in sport and exercise science {#tbl-cv}
+
+$$CV\% = \frac{SD}{M} \times 100$$
+
+These thresholds are not universally standardized — many performance assessments accept CV < 10% as the minimum standard for reliable measurement.
+
+---
+
+# Summary Table
+
+The table below provides a consolidated reference for the criteria most commonly encountered in health and movement science research:
+
+| Effect Size | Small | Medium | Large | Reference |
+|:------------|:-----:|:------:|:-----:|:----------|
+| Pearson *r* | .10 | .30 | .50 | Cohen (1988) |
+| Pearson *r* (sport) | .10 | .30 | .50–.69 | Hopkins et al. (2009) |
+| Cohen's *d* | 0.20 | 0.50 | 0.80 | Cohen (1988) |
+| *η²* / *η~p~²* | .01 | .06 | .14 | Cohen (1988) |
+| *ω²* | .01 | .06 | .14 | Cohen (1988) |
+| *R²* | .02 | .13 | .26 | Cohen (1988) |
+| Cramér's *V* (2×2) | .10 | .30 | .50 | Cohen (1988) |
+| ICC | — | .50–.74 | ≥ .90 | Koo & Li (2016) |
+
+: Consolidated effect size benchmarks {#tbl-summary}
+
+---
+
+# References
+
+- Cohen, J. (1988). *Statistical power analysis for the behavioral sciences* (2nd ed.). Lawrence Erlbaum Associates.
+- Hopkins, W. G., Marshall, S. W., Batterham, A. M., & Hanin, J. (2009). Progressive statistics for studies in sports medicine and exercise science. *Medicine & Science in Sports & Exercise, 41*(1), 3–13. https://doi.org/10.1249/MSS.0b013e31818cb278
+- Koo, T. K., & Li, M. Y. (2016). A guideline of selecting and reporting intraclass correlation coefficients for reliability research. *Journal of Chiropractic Medicine, 15*(2), 155–163. https://doi.org/10.1016/j.jcm.2016.02.012
+- Sawilowsky, S. S. (2009). New effect size rules of thumb. *Journal of Modern Applied Statistical Methods, 8*(2), 597–599. https://doi.org/10.22237/jmasm/1257035100

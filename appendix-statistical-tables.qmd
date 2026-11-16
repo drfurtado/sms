@@ -1,0 +1,293 @@
+---
+title: "Standard Normal Distribution"
+---
+
+## Z-Table: Finding Probabilities
+
+The standard normal table (also called a z-table) helps you find probabilities for z-scores. Remember: a z-score tells you how many standard deviations away from the mean a value is. The table tells you **what percentage of observations fall below that z-score** [@moore_ips; @field_discovering].
+
+::: {.callout-important}
+## What the table shows
+
+The number in the table = **the proportion (or percentage) of the distribution at or below that z-score**.
+
+- Table value of 0.8413 means **84.13% of observations are at or below** that z-score
+- This is also called the **cumulative probability**: $P(Z \leq z)$
+:::
+
+### How to use the standard normal table
+
+**The table works like finding a value in a spreadsheet: you need a row and a column.**
+
+#### Finding probabilities for POSITIVE z-scores
+
+**Step 1: Break your z-score into a row number and a column number**
+
+Your z-score has digits before and after the decimal point. Split it like this:
+
+- **Row**: Everything up to the first digit after the decimal (e.g., for 1.23, use row **1.2**)
+- **Column**: The second digit after the decimal (e.g., for 1.23, use column **.03**)
+
+**Example**: For z = 1.23:
+- Row = **1.2** (the 1 and the 2)
+- Column = **.03** (the 3)
+
+Another way to think about it: **Round your z-score to one decimal place for the row, then use what's left over for the column.**
+
+- z = 1.23 → Row: 1.2, Column: .03
+- z = 2.57 → Row: 2.5, Column: .07
+- z = 0.84 → Row: 0.8, Column: .04
+- z = 0.67 → Row: 0.6, Column: .07
+
+**Step 2: Find the intersection**
+
+Look where your row and column meet—that's your probability!
+
+**Step 3: Interpret the result**
+
+- The value you found = percentage **below** your z-score
+- Want the percentage **above**? Subtract from 1.00 (or 100%)
+
+::: {.callout-tip collapse="true"}
+## Example: What percentage of athletes score above z = 1.23?
+
+1. **Find the table value**: Row 1.2, Column .03 → 0.8907
+2. **What this means**: 89.07% score **at or below** z = 1.23
+3. **What we want** (above): 100% - 89.07% = **10.93% score above** z = 1.23
+
+**Answer**: About 11% of athletes score above z = 1.23
+:::
+
+#### Finding probabilities for NEGATIVE z-scores
+
+The table only shows **positive** z-scores, but you can use **symmetry** for negative z-scores (the normal curve is perfectly symmetric).
+
+**Quick Rule**: For a negative z-score, find the positive version in the table, then subtract from 1.00.
+
+**Why it works**: Because of symmetry, the area **below** z = -1.50 equals the area **above** z = +1.50.
+
+::: {.callout-tip collapse="true"}
+## Example: What percentage falls below z = -1.50?
+
+1. **Find the positive version**: Look up z = +1.50 → 0.9332 (93.32% below +1.50)
+2. **Use symmetry**: This means 93.32% are **above** -1.50
+3. **What we want** (below): 100% - 93.32% = **6.68% below** z = -1.50
+
+**Answer**: About 6.68% fall below z = -1.50
+:::
+
+#### Finding probabilities BETWEEN two z-scores
+
+Want the percentage between z = 0.50 and z = 1.50?
+
+1. **Find both cumulative probabilities**:
+   - z = 1.50 → 0.9332 (93.32% below)
+   - z = 0.50 → 0.6915 (69.15% below)
+
+2. **Subtract the smaller from the larger**:
+   - 93.32% - 69.15% = **24.17% between** z = 0.50 and z = 1.50
+
+### Interactive Z-Score Calculator
+
+Use this calculator to find probabilities for any z-score without looking up values in the table:
+
+```{=html}
+<div style="background-color: #f0f0f0; padding: 20px; border-radius: 10px; margin: 20px 0;">
+  <h4 style="margin-top: 0;">Z-Score Probability Calculator</h4>
+  
+  <div style="margin-bottom: 15px;">
+    <label for="zScoreInput" style="display: block; margin-bottom: 5px; font-weight: bold;">
+      Enter your z-score:
+    </label>
+    <input 
+      type="number" 
+      id="zScoreInput" 
+      step="0.01" 
+      placeholder="e.g., 1.96 or -1.50"
+      style="width: 200px; padding: 8px; font-size: 16px; border: 2px solid #007bff; border-radius: 5px;"
+    >
+    <button 
+      onclick="calculateZScore()" 
+      style="margin-left: 10px; padding: 8px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;"
+    >
+      Calculate
+    </button>
+  </div>
+  
+  <div id="zScoreResult" style="margin-top: 20px; font-size: 16px; line-height: 1.8;">
+    <!-- Results will appear here -->
+  </div>
+</div>
+
+<script>
+function erf(x) {
+  // Error function approximation (Abramowitz and Stegun)
+  const sign = x >= 0 ? 1 : -1;
+  x = Math.abs(x);
+  
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const p = 0.3275911;
+  
+  const t = 1.0 / (1.0 + p * x);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  
+  return sign * y;
+}
+
+function normalCDF(z) {
+  // Cumulative distribution function for standard normal
+  return 0.5 * (1 + erf(z / Math.sqrt(2)));
+}
+
+function calculateZScore() {
+  const zInput = document.getElementById('zScoreInput');
+  const resultDiv = document.getElementById('zScoreResult');
+  
+  const z = parseFloat(zInput.value);
+  
+  if (isNaN(z)) {
+    resultDiv.innerHTML = '<p style="color: red;">Please enter a valid number.</p>';
+    return;
+  }
+  
+  const probBelow = normalCDF(z);
+  const probAbove = 1 - probBelow;
+  const percentBelow = (probBelow * 100).toFixed(2);
+  const percentAbove = (probAbove * 100).toFixed(2);
+  
+  let resultHTML = `
+    <div style="background-color: white; padding: 15px; border-radius: 5px; border: 2px solid #007bff;">
+      <p style="margin: 5px 0;"><strong>Z-score:</strong> ${z.toFixed(2)}</p>
+      <p style="margin: 5px 0;"><strong>P(Z ≤ ${z.toFixed(2)}):</strong> ${probBelow.toFixed(4)} → <span style="color: #007bff; font-weight: bold;">${percentBelow}%</span> fall <strong>at or below</strong> this z-score</p>
+      <p style="margin: 5px 0;"><strong>P(Z > ${z.toFixed(2)}):</strong> ${probAbove.toFixed(4)} → <span style="color: #28a745; font-weight: bold;">${percentAbove}%</span> fall <strong>above</strong> this z-score</p>
+  `;
+  
+  // Add interpretation
+  if (Math.abs(z) < 1) {
+    resultHTML += `<p style="margin-top: 10px; font-style: italic; color: #666;">This z-score is within 1 SD of the mean (fairly typical).</p>`;
+  } else if (Math.abs(z) < 2) {
+    resultHTML += `<p style="margin-top: 10px; font-style: italic; color: #666;">This z-score is between 1 and 2 SD from the mean (somewhat unusual).</p>`;
+  } else {
+    resultHTML += `<p style="margin-top: 10px; font-style: italic; color: #666;">This z-score is beyond 2 SD from the mean (quite unusual).</p>`;
+  }
+  
+  resultHTML += `</div>`;
+  
+  resultDiv.innerHTML = resultHTML;
+}
+
+// Allow Enter key to calculate
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('zScoreInput');
+  if (input) {
+    input.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        calculateZScore();
+      }
+    });
+  }
+});
+</script>
+```
+
+::: {.callout-note}
+## How to use the calculator
+
+1. Type your z-score in the box (can be positive or negative)
+2. Click "Calculate" or press Enter
+3. The calculator shows:
+   - **Percentage at or below** your z-score (left tail)
+   - **Percentage above** your z-score (right tail)
+4. Use this to check your table-reading skills!
+:::
+
+### Standard normal cumulative probability table
+
+The table below shows cumulative probabilities $P(Z \leq z)$ for positive z-scores from 0.00 to 3.99 [@moore_ips].
+
+```{r}
+#| label: tbl-z-scores
+#| tbl-cap: "Standard Normal Cumulative Probabilities P(Z ≤ z)"
+#| code-fold: true
+#| echo: false
+
+# Generate z-score table
+z_values <- seq(0, 3.9, by = 0.1)
+decimal_places <- seq(0, 0.09, by = 0.01)
+
+# Create matrix for probabilities
+z_table <- matrix(nrow = length(z_values), ncol = length(decimal_places) + 1)
+
+# First column is the z-score base (e.g., 0.0, 0.1, 0.2, ...)
+z_table[, 1] <- z_values
+
+# Fill in probabilities for each combination
+for (i in 1:length(z_values)) {
+  for (j in 1:length(decimal_places)) {
+    z <- z_values[i] + decimal_places[j]
+    z_table[i, j + 1] <- pnorm(z)
+  }
+}
+
+# Convert to data frame
+z_df <- as.data.frame(z_table)
+colnames(z_df) <- c("z", ".00", ".01", ".02", ".03", ".04", ".05", ".06", ".07", ".08", ".09")
+
+# Format z column to one decimal place
+z_df$z <- sprintf("%.1f", z_df$z)
+
+# Format probability columns to 4 decimal places
+for (col in 2:11) {
+  z_df[[col]] <- sprintf("%.4f", z_df[[col]])
+}
+
+# Display as table
+knitr::kable(z_df, align = "c", row.names = FALSE)
+```
+
+::: {.callout-note}
+## Practice reading the table
+
+**Example 1: Find P(Z ≤ 1.23)**
+
+- **Row**: 1.2
+- **Column**: .03  
+- **Answer**: 0.8907 → **89.07% of values fall at or below z = 1.23**
+
+**Example 2: Find P(Z > 1.96)**
+
+- **Row**: 1.9, **Column**: .06 → 0.9750
+- This is the area **below** z = 1.96
+- We want **above**: 1.0000 - 0.9750 = 0.0250
+- **Answer**: **2.5% of values fall above z = 1.96**
+
+**Example 3: Find P(Z ≤ -1.50)**
+
+- First find positive: **Row** 1.5, **Column** .00 → 0.9332
+- This is the area **below** z = +1.50, which equals area **above** z = -1.50
+- We want **below** z = -1.50: 1.0000 - 0.9332 = 0.0668
+- **Answer**: **6.68% of values fall at or below z = -1.50**
+:::
+
+### Common critical values
+
+For quick reference, here are commonly used z-scores and their associated probabilities and percentiles [@moore_ips]:
+
+| Z-score | $P(Z \leq z)$ | Percentile | Two-tailed probability (|Z| > z) |
+|---------|---------------|------------|----------------------------------|
+| 0.00    | 0.5000        | 50th       | 1.0000                           |
+| 0.67    | 0.7486        | 75th       | 0.5028                           |
+| 1.00    | 0.8413        | 84th       | 0.3174                           |
+| 1.28    | 0.8997        | 90th       | 0.2006                           |
+| 1.645   | 0.9500        | 95th       | 0.1000                           |
+| 1.96    | 0.9750        | 97.5th     | 0.0500                           |
+| 2.00    | 0.9772        | 97.7th     | 0.0456                           |
+| 2.326   | 0.9900        | 99th       | 0.0200                           |
+| 2.576   | 0.9950        | 99.5th     | 0.0100                           |
+| 3.00    | 0.9987        | 99.87th    | 0.0026                           |
+
+**Note**: The z-score of ±1.96 is particularly important because it corresponds to the 95% confidence interval widely used in statistical inference [@cumming2012].

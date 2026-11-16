@@ -1,0 +1,487 @@
+---
+title: "SPSS Tutorial: Simulating Sampling Distributions"
+subtitle: "Understanding sampling error, the Central Limit Theorem, and standard error through simulation"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Simulate sampling distributions using SPSS Monte Carlo methods
+* Visualize the Central Limit Theorem in action
+* Compute standard errors from sample data
+* Understand how sample size affects sampling error
+* Use bootstrapping to estimate sampling distributions
+* Interpret simulation results in the context of inferential statistics
+:::
+
+## Overview
+
+Understanding sampling distributions is foundational to statistical inference, yet they are abstract concepts that can be difficult to grasp from formulas alone. This tutorial uses SPSS simulation capabilities to make sampling distributions tangible and visual. By repeatedly sampling from known or empirical distributions, you will see firsthand:
+
+* How sample means vary across repeated samples (**sampling error**)
+* How the sampling distribution of the mean becomes normal as sample size increases (**Central Limit Theorem**)
+* How standard error quantifies variability in sample means
+* Why larger samples produce more precise estimates
+
+While SPSS does not have dedicated "sampling distribution" menus, we can use its **Compute** and **Select Cases** functions combined with repeated sampling to simulate the process. For more advanced simulations, SPSS syntax and Monte Carlo add-ons are recommended.
+
+**Note:** This tutorial focuses on conceptual understanding through simulation. For production research, formal confidence interval procedures (see SPSS Tutorial: Confidence Intervals) are used rather than simulation.
+
+## Dataset for this tutorial
+
+We will simulate data using SPSS's random number generation functions and demonstrate sampling from existing datasets. You can follow along by:
+
+1. Creating simulated datasets within SPSS
+2. Using any existing dataset with continuous variables (e.g., the performance dataset from earlier tutorials)
+
+## Part 1: Generating a simulated population
+
+Before we can demonstrate sampling distributions, we need a "population" to sample from.
+
+### Procedure: Creating a population dataset
+
+1. **File → New → Data**
+2. **Transform → Compute Variable**
+3. **Target Variable**: `PopulationData`
+4. **Numeric Expression**: `RV.NORMAL(50, 10)`
+   - Generates random values from a normal distribution with mean = 50, SD = 10
+5. **OK**
+
+This creates a single variable. To generate a full population (e.g., 10,000 cases):
+
+1. **Data → Insert Cases**
+   - Specify number of cases: 10,000
+2. **Transform → Compute Variable** (as above)
+3. **OK**
+
+You now have a population of 10,000 values with μ = 50 and σ = 10.
+
+### Visualizing the population
+
+**Create a histogram:**
+
+1. **Graphs → Legacy Dialogs → Histogram**
+2. Move `PopulationData` to **Variable**
+3. ✓ Check **Display normal curve**
+4. **OK**
+
+The histogram should show a bell-shaped distribution centered at 50, representing the population from which we will draw samples.
+
+::: {.callout-tip}
+## Alternative: Using exponential (skewed) distribution
+
+To demonstrate the Central Limit Theorem with non-normal data:
+
+**Numeric Expression**: `RV.EXP(0.1) + 20`
+
+This generates right-skewed data (exponential distribution shifted up by 20).
+:::
+
+## Part 2: Drawing a single sample and computing the mean
+
+Now let's draw one random sample of n = 30 from our population.
+
+### Procedure: Random sampling in SPSS
+
+1. **Data → Select Cases**
+2. Select **Random sample of cases**
+3. Click **Sample** button
+4. Choose **Exactly [30] cases from the first [10000] cases** or **Approximately [1]% of cases**
+5. **Continue** → **OK**
+
+SPSS will randomly select 30 cases and filter the rest.
+
+### Compute the sample mean
+
+1. **Analyze → Descriptive Statistics → Descriptives**
+2. Move `PopulationData` to **Variable(s)**
+3. **OK**
+
+**Example output:**
+
+| Variable | N | Mean | Std. Deviation |
+|----------|---|------|---------------|
+| PopulationData | 30 | 49.8 | 9.5 |
+
+This sample mean (49.8) differs slightly from the population mean (50) due to **sampling error**.
+
+### Reset the filter
+
+**Data → Select Cases → All cases → OK**
+
+This restores the full dataset.
+
+::: {.callout-note}
+## Observation
+
+If you repeat this process (select a different random sample, compute the mean), you will get a different sample mean each time. The **sampling distribution** is the distribution of all possible sample means.
+:::
+
+## Part 3: Simulating a sampling distribution
+
+To visualize the sampling distribution, we need to repeat the sampling process many times and collect the sample means.
+
+### Manual simulation approach (limited)
+
+SPSS does not have a built-in "repeat sampling" menu, but we can use **SPSS Syntax** to automate this process.
+
+**SPSS Syntax Example** (advanced users):
+
+```spss
+* Create dataset to store sample means.
+NEW FILE.
+INPUT PROGRAM.
+LOOP #i = 1 TO 1000.
+  COMPUTE SampleID = #i.
+  END CASE.
+END LOOP.
+END FILE.
+END INPUT PROGRAM.
+EXECUTE.
+
+* Initialize SampleMean variable.
+COMPUTE SampleMean = 0.
+EXECUTE.
+
+* Loop to draw samples and compute means.
+LOOP #i = 1 TO 1000.
+  GET FILE='population_data.sav'.
+  SAMPLE 30 FROM 10000.
+  AGGREGATE OUTFILE=*
+    /BREAK=
+    /SampleMean = MEAN(PopulationData).
+  * Append mean to results dataset.
+END LOOP.
+```
+
+This advanced syntax repeatedly samples from the population, computes the mean, and stores the results. For this tutorial, we focus on conceptual understanding; consult SPSS syntax documentation for implementation details.
+
+### Visualizing a simulated sampling distribution
+
+Assuming you have generated 1000 sample means (stored in a variable `SampleMean`):
+
+1. **Graphs → Legacy Dialogs → Histogram**
+2. Move `SampleMean` to **Variable**
+3. ✓ Check **Display normal curve**
+4. **OK**
+
+**Expected result:**
+
+* The histogram shows a bell-shaped distribution of sample means
+* The mean of the sample means ≈ 50 (the population mean)
+* The standard deviation of the sample means ≈ $\sigma / \sqrt{n} = 10 / \sqrt{30} \approx 1.83$ (the **standard error**)
+
+```
+Interpretation:
+
+The sampling distribution is approximately normal, centered at μ = 50, regardless of whether 
+the population was normal or skewed (if n is large enough). This demonstrates the Central 
+Limit Theorem.
+```
+
+::: {.callout-important}
+## Central Limit Theorem in action
+
+If you repeat the simulation with:
+
+* **n = 5**: Sampling distribution may retain some population skew
+* **n = 30**: Sampling distribution is approximately normal
+* **n = 100**: Sampling distribution is very close to normal
+
+This demonstrates that as sample size increases, the sampling distribution of the mean becomes normal regardless of population shape.
+:::
+
+## Part 4: Computing standard error from a single sample
+
+In practice, we don't simulate sampling distributions—we draw **one sample** and compute the **standard error** to estimate sampling variability.
+
+### Procedure: Computing SE in SPSS
+
+SPSS does not directly report SE in the Descriptives procedure, but we can compute it manually or use the Explore procedure.
+
+**Method 1: Manual calculation**
+
+1. **Analyze → Descriptive Statistics → Descriptives**
+2. Move variable to **Variable(s)**
+3. **OK**
+
+**Output:**
+
+| Variable | N | Mean | Std. Deviation |
+|----------|---|------|---------------|
+| VerticalJump | 30 | 52.4 | 7.2 |
+
+**Compute SE manually:**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{7.2}{\sqrt{30}} = \frac{7.2}{5.477} \approx 1.31 \text{ cm}
+$$
+
+**Method 2: Using Explore (recommended)**
+
+1. **Analyze → Descriptive Statistics → Explore**
+2. Move variable to **Dependent List**
+3. Click **Statistics** button
+4. ✓ Check **Descriptives**
+5. **Continue** → **OK**
+
+**Example output:**
+
+| Statistic | Value | Std. Error |
+|-----------|-------|-----------|
+| Mean | 52.4 | **1.31** |
+| 95% CI Lower | 49.7 | |
+| 95% CI Upper | 55.1 | |
+| Std. Deviation | 7.2 | |
+
+The **Std. Error** column reports SE = 1.31 cm directly.
+
+### Interpreting standard error
+
+The standard error of 1.31 cm quantifies the uncertainty in our estimate of the population mean:
+
+* If we repeated the study with different samples of n = 30, the sample means would typically vary by about 1.31 cm from the true population mean.
+* Smaller SE → more precise estimate
+* Larger SE → less precise estimate
+
+::: {.callout-tip}
+## Reporting standard error
+
+When reporting results, include SE or confidence intervals (CI) rather than just SD:
+
+> "The mean vertical jump was 52.4 cm (SE = 1.31, 95% CI [49.7, 55.1])."
+
+This conveys both the estimate and its uncertainty.
+:::
+
+## Part 5: Effect of sample size on standard error
+
+Standard error decreases as sample size increases: $\text{SE} = s / \sqrt{n}$.
+
+### Demonstration
+
+Using the same population dataset, draw samples of different sizes:
+
+| Sample Size (n) | Sample Mean | Sample SD | Standard Error (SE) |
+|----------------|-------------|----------|-------------------|
+| 10 | 51.2 | 9.8 | 9.8 / √10 = 3.10 |
+| 30 | 50.5 | 10.2 | 10.2 / √30 = 1.86 |
+| 50 | 49.8 | 9.9 | 9.9 / √50 = 1.40 |
+| 100 | 50.1 | 10.1 | 10.1 / √100 = 1.01 |
+
+**Observation:**
+
+* SE decreases as n increases
+* Doubling n does not halve SE; it reduces SE by a factor of √2 ≈ 1.41
+* To halve SE, n must increase by a factor of 4
+
+**Visualization:**
+
+Create a bar chart showing SE vs. sample size:
+
+1. Manually enter sample sizes and SE values into SPSS data view
+2. **Graphs → Legacy Dialogs → Bar**
+3. Select **Simple** and **Summaries of separate variables**
+4. Move SE variables to **Bars Represent**
+5. **OK**
+
+## Part 6: Bootstrapping to estimate sampling distributions
+
+**Bootstrapping** is a resampling method that estimates the sampling distribution empirically by repeatedly resampling **with replacement** from the observed data.
+
+### What is bootstrapping?
+
+Instead of assuming a theoretical distribution (e.g., normal), bootstrapping:
+
+1. Draws many samples (with replacement) from the original dataset
+2. Computes the statistic (e.g., mean) for each resample
+3. Uses the distribution of resampled statistics to estimate SE and confidence intervals
+
+### Procedure: Bootstrapping in SPSS
+
+SPSS has built-in bootstrapping capabilities:
+
+1. **Analyze → Descriptive Statistics → Explore** (or any procedure)
+2. Click **Bootstrap** button
+3. ✓ Check **Perform bootstrapping**
+4. Set **Number of samples**: 1000 (or 5000 for more precision)
+5. **Confidence interval level**: 95%
+6. **Continue** → **OK**
+
+**Example output:**
+
+| Statistic | Bootstrap | | |
+|-----------|----------|-------|-----|
+| | Value | Bias | Std. Error |
+| Mean | 52.4 | 0.02 | 1.35 |
+| 95% CI Lower | 49.8 | | |
+| 95% CI Upper | 55.0 | | |
+
+**Interpretation:**
+
+* **Bootstrap Std. Error** (1.35) estimates the standard error empirically from resampling
+* **Bias** (0.02) is negligible, indicating the mean is unbiased
+* **95% CI** [49.8, 55.0] provides a confidence interval without assuming normality
+
+::: {.callout-note}
+## When to use bootstrapping
+
+* When sample size is small (n < 30) and parametric assumptions are questionable
+* When dealing with non-normal data and you want a distribution-free SE estimate
+* When computing SE for complex statistics (median, correlation, etc.)
+:::
+
+## Part 7: Understanding confidence intervals (preview)
+
+The sampling distribution and standard error directly inform **confidence intervals** (Chapter 9).
+
+**Approximate 95% confidence interval for the mean:**
+
+$$
+\bar{x} \pm 2 \times \text{SE}
+$$
+
+**Example:**
+
+If $\bar{x}$ = 52.4 cm and SE = 1.31 cm:
+
+$$
+52.4 \pm 2(1.31) = 52.4 \pm 2.62 = [49.78, 55.02] \text{ cm}
+$$
+
+**Interpretation:**
+
+We are approximately 95% confident that the true population mean falls within this interval. The interval width (2.62 × 2 = 5.24 cm) reflects uncertainty due to sampling error.
+
+### Computing confidence intervals in SPSS
+
+**Method 1: Explore procedure**
+
+1. **Analyze → Descriptive Statistics → Explore**
+2. Move variable to **Dependent List**
+3. Click **Statistics** → **Descriptives**
+4. **Continue** → **OK**
+
+**Output includes:**
+
+* Mean
+* 95% Confidence Interval for Mean (Lower and Upper Bound)
+
+**Method 2: One-Sample T-Test (formal method)**
+
+1. **Analyze → Compare Means → One-Sample T Test**
+2. Move variable to **Test Variable(s)**
+3. Leave **Test Value** at 0 (or specify if testing against a known value)
+4. **OK**
+
+**Output includes:**
+
+* Mean
+* t-statistic
+* df (degrees of freedom)
+* Sig. (p-value)
+* **95% Confidence Interval of the Difference**
+
+Note: The One-Sample T Test is typically used for hypothesis testing (Chapter 10), but it provides confidence intervals as a byproduct.
+
+## Part 8: Practical example—comparing sampling error across studies
+
+Suppose two studies estimate mean grip strength:
+
+**Study A:**
+
+* n = 20
+* Mean = 45 kg
+* SD = 8 kg
+* SE = 8 / √20 = 1.79 kg
+
+**Study B:**
+
+* n = 80
+* Mean = 46 kg
+* SD = 8 kg
+* SE = 8 / √80 = 0.89 kg
+
+**Question:** Which study provides a more precise estimate of the population mean?
+
+**Answer:**
+
+Study B has SE = 0.89 kg, half that of Study A (SE = 1.79 kg), because sample size is four times larger. The means differ by only 1 kg, but Study B's estimate is **twice as precise** due to the larger sample.
+
+**Approximate 95% confidence intervals:**
+
+* Study A: 45 ± 2(1.79) = [41.4, 48.6] kg (width = 7.2 kg)
+* Study B: 46 ± 2(0.89) = [44.2, 47.8] kg (width = 3.6 kg)
+
+Study B's narrower interval reflects greater precision.
+
+## Part 9: Reporting sampling error in APA format
+
+### Text reporting example
+
+> **Results**
+> 
+> Vertical jump height (n = 30) had a mean of 52.4 cm (SD = 7.2, SE = 1.31, 95% CI [49.7, 55.1]). The standard error of 1.31 cm indicates that the estimate of the population mean is precise to within approximately 1.3 cm. The Central Limit Theorem ensures that the sampling distribution of the mean is approximately normal with this sample size, justifying the use of parametric confidence intervals and hypothesis tests.
+
+### Table reporting example
+
+**Table 1**
+
+*Descriptive Statistics and Sampling Error for Performance Variables*
+
+| Variable | n | Mean | SD | SE | 95% CI |
+|----------|---|------|----|----|--------|
+| Vertical Jump (cm) | 30 | 52.4 | 7.2 | 1.31 | [49.7, 55.1] |
+| Sprint Time (s) | 30 | 3.45 | 0.38 | 0.07 | [3.31, 3.59] |
+| Reaction Time (ms) | 30 | 285 | 48 | 8.8 | [267, 303] |
+
+*Note.* SE = standard error of the mean. CI = confidence interval.
+
+## Practice exercises
+
+Use the population dataset (or simulate one) to complete these tasks:
+
+1. **Generate a population** of 10,000 values with μ = 50, σ = 10 (normal distribution).
+2. **Draw three random samples** of n = 30 and compute the mean for each. Observe how the means differ.
+3. **Compute the standard error** for a sample of n = 30 and interpret it.
+4. **Compare SE** for samples of n = 10, 30, 50, and 100 from the same population. Verify that SE decreases as n increases.
+5. **Use bootstrapping** to estimate the SE for the median of a sample (hint: use Explore with Bootstrap enabled).
+6. **Create a histogram** of sample means from 100 simulated samples (if using syntax) and observe the approximately normal shape.
+7. **Compute 95% confidence intervals** using the Explore procedure and interpret the interval in context.
+
+## Common mistakes and troubleshooting
+
+| Problem | Solution |
+|---------|---------|
+| SE not displayed in Descriptives | Use Explore → Statistics → Descriptives instead |
+| Bootstrap option grayed out | Ensure SPSS Statistics Premium or subscription version |
+| Sample means not varying enough | Check that you are drawing new random samples, not reusing the same sample |
+| Confidence interval seems too wide | Check sample size (small n → large SE → wide CI) |
+| SE and SD confused | SE = SD / √n; SE is always smaller than SD and decreases with n |
+
+## Summary
+
+This tutorial demonstrated how to:
+
+* Simulate sampling distributions to visualize sampling error
+* Observe the Central Limit Theorem through repeated sampling
+* Compute standard error from sample data using SPSS
+* Understand how sample size affects precision
+* Use bootstrapping to estimate sampling distributions empirically
+* Preview confidence intervals based on SE
+
+::: {.callout-tip}
+## Key takeaway
+
+**Sampling error is not something to fear or eliminate—it is a natural property of inference that we quantify and account for.** The standard error provides a numerical measure of sampling variability, enabling us to construct confidence intervals and conduct hypothesis tests. Understanding sampling distributions through simulation builds intuition for the logic of statistical inference.
+:::
+
+## Additional resources
+
+* SPSS Help: Bootstrap Sampling
+* SPSS Help: Explore Procedure
+* SPSS Syntax Guide: Monte Carlo Simulation
+* Textbook Chapter 8: Probability and Sampling Error
+* Textbook Chapter 9: Confidence Intervals

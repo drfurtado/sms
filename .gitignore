@@ -1,0 +1,50 @@
+/.quarto/
+/_book/
+**/*.quarto_ipynb
+
+/.luarc.json
+
+# Password-protected answer keys (remove pv_ prefix after grading)
+**/pv_*
+
+# Student folder - ignore rendered files (they should render to _book/)
+student/**/*.html
+student/**/*.docx
+student/**/*_files/
+
+# --- Author-only files (kept on your computer, not in the public repo) ---
+spss-manual.pdf
+.github/copilot-instructions.md
+.templates/
+*.skill
+outline.md
+structure.md
+.vscode/
+
+# --- OS / editor junk ---
+.DS_Store
+**/.DS_Store
+.vdoc.*
+
+# --- Render leftovers (CI re-renders the book) ---
+/figure/
+/*_files/
+/_tbl_*.html
+/table_*.html
+/ch16-tutorial-output-*.htm
+/ch19-output.htm
+/fanova-output.pdf
+data/Untitled*.sav
+**/rsconnect/
+
+# --- AI assistant configs, prompts and skills ---
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.claude/
+.cursor/
+.cursorrules
+.aider*
+.github/prompts/
+.github/instructions/
+.github/chatmodes/

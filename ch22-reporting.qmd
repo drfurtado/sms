@@ -1,0 +1,260 @@
+---
+title: "Writing and Reporting Statistical Results"
+---
+
+::: {.callout-tip}
+## 💻 Analytical Software & SPSS Tutorials
+
+The [APA Style Results Reporting appendix](appendix-apa-reporting.qmd) provides fill-in-the-blank templates for every test covered in this textbook, drawn from the APA Publication Manual [@apa2020]. The [APA Tables appendix](appendix-apa-tables.qmd) provides formatted table templates. Use the present chapter to understand *why* each element is reported; use the appendix for exact wording when writing up your own results.
+:::
+
+## Why Reporting Standards Exist {#sec-reporting-why}
+
+Statistical results are only useful if other researchers can interpret, evaluate, and build on them. A test statistic by itself — "$t = 3.42$" — is meaningless without knowing the degrees of freedom, the direction of the effect, the sample size, and some measure of how large the effect actually is. Reporting standards exist to ensure that every published result contains enough information for a reader to:
+
+1. understand what was found;
+2. assess whether the conclusion is warranted;
+3. attempt a replication.
+
+The guidelines set by the American Psychological Association [@apa2020], the *Statistical Methods in Psychology Journals* task force report [@wilkinson1999], and more recent recommendations from the American Statistical Association [@wasserstein2016; @wasserstein2019] converge on a common set of requirements. Movement science journals — *Medicine & Science in Sports & Exercise*, the *Journal of Strength and Conditioning Research*, *Physical Therapy*, and others — have largely adopted these standards.
+
+## What Must Be Reported {#sec-reporting-what}
+
+Every inferential result should include at minimum six pieces of information: the **test statistic**, its **degrees of freedom** (or equivalent), the **p-value**, a **measure of effect size**, a **confidence interval**, and a **direction** (which group was higher, or which way the effect went). Omitting any of these makes the result impossible to interpret fully.
+
+### The test statistic
+
+Report the test statistic with its symbol italicized: *t*, *F*, *χ²*, *U*, *W*, *H*. Include enough decimal places for precision — two is conventional — and always include the sign for directional statistics like *t* and *z*.
+
+### Degrees of freedom
+
+Degrees of freedom (*df*) appear immediately after the statistic in parentheses: $t(58) = 3.42$. For *F*-ratios, report both: $F(2, 87) = 5.61$. For nonparametric statistics that use sample size rather than *df*, report *N* and group sizes instead.
+
+### The p-value
+
+Report the exact *p*-value to two or three decimal places: $p = .023$, not $p < .05$. When *p* is very small, write $p < .001$. Do not write $p = .000$. Note that APA style omits the leading zero before the decimal for statistics that cannot exceed 1.0 (including *p*-values, correlations, and proportions): write $p = .023$, not $p = 0.023$.
+
+The *p*-value tells you the probability of observing a result at least this extreme if the null hypothesis were true. It does **not** tell you the probability that the null hypothesis is true, the probability that your finding will replicate, or the size of the effect [@wasserstein2016; @greenland2016]. Do not interpret *p* as any of these things.
+
+### Effect size
+
+Report a standardized effect size — Cohen's *d*, *η*², partial *η*², *ω*², Hedges' *g*, *r*, *R*², or the appropriate equivalent — alongside the test statistic. Effect size answers the question that *p* cannot: "how large is this effect in practical terms?" @cohen1994 provides the widely-used benchmarks (small, medium, large), but always contextualize them against your specific field and measurement scale.
+
+### Confidence interval
+
+Report a 95% confidence interval (CI) for the primary effect of interest. Present CIs in square brackets following the point estimate: $M_{\text{diff}} = 4.2$ kg, 95% CI [1.8, 6.6]. The interval conveys the precision of your estimate — a wide CI signals low precision; a narrow CI signals high. CIs for effect sizes (not just means) are strongly recommended [@cumming2014].
+
+### Direction
+
+Report which group was higher or which condition produced a larger value. "$t(58) = 3.42, p = .001$" tells the reader that the groups differed, but not which group was stronger, faster, or in more pain. Always state the direction plainly in your prose.
+
+## APA Style for Statistics {#sec-reporting-apa}
+
+APA style [@apa2020] specifies conventions for formatting statistical symbols and values. The most important rules are summarized below.
+
+**Italicize** all statistical symbols used as variables: *M*, *SD*, *SE*, *t*, *F*, *p*, *r*, *d*, *n*, *N*, *df*, *η*².
+
+**Do not italicize** abbreviations for descriptive labels that are not symbols: "ANOVA," "ICC," "MCID," "NNT."
+
+**Decimal places:** Use two decimal places for most statistics (*t*, *F*, *d*, *r*). Use three for *p*-values and probabilities unless rounding to .000, in which case write *p* < .001.
+
+**No leading zero** for values bounded by ±1.0: write *p* = .047, not *p* = 0.047; write *r* = .62, not *r* = 0.62.
+
+**Spaces around operators:** $t(58) = 3.42$, not $t(58)=3.42$.
+
+**Parentheses for df:** $F(2, 87) = 5.61$, not $F_{2,87} = 5.61$ in running text.
+
+## Writing a Results Section {#sec-reporting-writing}
+
+A results section has a clear structure: first describe the participants and any data exclusions, then present descriptive statistics, then present inferential results in the order they address your research questions or hypotheses. Avoid switching back and forth between description and inference.
+
+### A worked example
+
+Suppose you ran a one-way ANCOVA comparing three training groups on post-test VO₂max, with pre-test VO₂max as the covariate. A well-reported result reads:
+
+> After adjusting for pre-test VO₂max, there was a significant effect of training group on post-test VO₂max, $F(2, 56) = 7.43$, $p = .001$, partial $\eta^2 = .210$, 95% CI [.03, .37]. Post hoc comparisons (Tukey's HSD) indicated that the high-intensity group ($M$ = 48.2 mL/kg/min, $SD$ = 4.1) outperformed both the moderate-intensity group ($M$ = 44.7, $SD$ = 3.8; $p$ = .012, $d$ = 0.89) and the control group ($M$ = 42.1, $SD$ = 4.3; $p$ < .001, $d$ = 1.44). The moderate-intensity and control groups did not differ significantly ($p$ = .091, $d$ = 0.63).
+
+This single paragraph provides: test statistic, degrees of freedom, *p*-value, effect size, confidence interval, direction, group means and SDs, and post hoc comparisons with their own *p*-values and effect sizes.
+
+### Common errors
+
+**Reporting only the p-value.** Writing "the groups differed significantly (*p* = .003)" omits the test statistic, effect size, and confidence interval. Reviewers increasingly reject papers that report only *p*.
+
+**Interpreting non-significance as equivalence.** A non-significant result (*p* > .05) does not mean the groups were the same — it means the data were insufficient to detect the effect at the chosen threshold [@hoenig2001]. Report the effect size and CI regardless of significance.
+
+**Misidentifying the p-value.** Common errors include "there was a 3% probability the null was true" and "the result has a 97% chance of replicating." Neither is correct. The *p*-value is the probability of obtaining a result at least this extreme *given that the null is true* [@greenland2016].
+
+**Reporting only adjusted means from ANCOVA without the covariate.** Always report the covariate, its *F*-statistic, and whether it was significant. Report both unadjusted and adjusted means when space permits.
+
+**Rounding *p* to .000.** SPSS sometimes prints "p = .000." Report this as $p < .001$.
+
+## Tables and Figures in Results Sections {#sec-reporting-tables-figures}
+
+Descriptive statistics are most clearly communicated in a table; distributions and group comparisons are most clearly communicated in a figure. Both can be required in the same results section.
+
+### APA table format
+
+APA tables have a number (*Table 1*, *Table 2*), a title in italics above the table, and a *Note.* below explaining abbreviations and any special features. There are no vertical lines in APA tables; horizontal rules appear only at the top, below the column headers, and at the bottom.
+
+An example descriptive table:
+
+| | Control (*n* = 30) | Training (*n* = 30) |
+|:--|--:|--:|
+| **Age (years)** | 22.3 (1.8) | 21.9 (2.1) |
+| **Height (cm)** | 175.2 (7.4) | 174.8 (8.0) |
+| **Mass (kg)** | 74.6 (10.2) | 73.1 (9.8) |
+| **VO₂max (mL/kg/min)** | 42.1 (4.3) | 42.6 (4.0) |
+
+*Note.* Values are *M* (*SD*). Groups did not differ on any baseline characteristic (*p* > .05).
+
+### Figure guidelines
+
+Figures should include axis labels with units, a clear legend, error bars (with the type of error bar stated in the caption — SD, SE, or 95% CI), and a descriptive caption below the figure. Use ggplot2 or equivalent tools that produce vector-quality graphics exportable to `.pdf` or `.tiff` for journal submission.
+
+The figure below illustrates a common reporting scenario: pre-to-post changes by group with individual data points.
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| fig-cap: "Pre- and post-test functional ability scores by group. Points represent individual participants; bars represent group means ± SD. The dashed horizontal line marks the MCID threshold (6.1 points above pre-test mean)."
+#| label: fig-reporting-example
+#| message: false
+#| warning: false
+
+library(ggplot2)
+library(dplyr)
+
+set.seed(42)
+dat <- read.csv("data/core_session.csv")
+
+# Pre and post summary
+summary_dat <- dat |>
+  filter(time %in% c(1, 3)) |>
+  mutate(
+    time_label = ifelse(time == 1, "Pre-test", "Post-test"),
+    group_label = ifelse(group == 1, "Control", "Training"),
+    time_label = factor(time_label, levels = c("Pre-test", "Post-test"))
+  ) |>
+  group_by(group_label, time_label) |>
+  summarise(
+    M  = mean(function_0_100, na.rm = TRUE),
+    SD = sd(function_0_100, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+indiv <- dat |>
+  filter(time %in% c(1, 3)) |>
+  mutate(
+    time_label = ifelse(time == 1, "Pre-test", "Post-test"),
+    group_label = ifelse(group == 1, "Control", "Training"),
+    time_label = factor(time_label, levels = c("Pre-test", "Post-test"))
+  )
+
+ggplot(summary_dat, aes(x = time_label, y = M, colour = group_label, group = group_label)) +
+  geom_jitter(data = indiv, aes(y = function_0_100), width = 0.08, alpha = 0.3, size = 1.5) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = M - SD, ymax = M + SD), width = 0.12, linewidth = 0.8) +
+  scale_colour_manual(values = c("Control" = "#4C72B0", "Training" = "#DD8452"),
+                      name = "Group") +
+  labs(x = NULL, y = "Functional Ability (0–100)") +
+  theme_classic(base_size = 13) +
+  theme(legend.position = "top")
+```
+
+## Reporting Clinical Measures {#sec-reporting-clinical}
+
+Chapter 20 introduced MCID, NNT, sensitivity, specificity, and AUC. These measures have their own reporting conventions.
+
+**MCID:** State the value, its source (distribution-based or anchor-based), and the reference. Example: "A distribution-based MCID of 6.1 points (0.5 × SD_pre = 12.2) was applied to classify responders."
+
+**NNT:** Report the ARR, NNT, and 95% CI. If the CI includes zero or ∞, report this transparently. Example: "ARR = 14.7%, NNT = 6.8, 95% CI [3.0, ∞], indicating modest and uncertain clinical advantage at this sample size."
+
+**Sensitivity/specificity:** Report sensitivity, specificity, PPV, NPV, and both likelihood ratios with the cut-point and sample used. A 2×2 table aids clarity.
+
+**AUC:** Report AUC, *SE*, 95% CI, and *p*-value. Example: "AUC = .683, *SE* = .065, 95% CI [.55, .81], *p* = .008, indicating moderate discriminative ability."
+
+## Reporting Nonparametric Tests {#sec-reporting-nonparametric}
+
+Nonparametric tests have their own conventions. Key points:
+
+- **Mann-Whitney U:** Report *U*, *n* for both groups, *p*, and *r* as effect size ($r = Z / \sqrt{N}$, where *N* is total sample size).
+- **Wilcoxon signed-rank:** Report *W* (or *T*), *N* (excluding ties), *p*, and *r*.
+- **Kruskal-Wallis:** Report *H*, *df*, *N*, and *p*. Follow up with Dunn's test for pairwise comparisons.
+- **Friedman's:** Report $\chi^2_r$, *df*, *N*, and *p*. Report Kendall's *W* as effect size.
+- **Spearman *ρ*:** Report *ρ*, *N*, and *p*, and note that this is a rank correlation.
+
+## A Reporting Checklist {#sec-reporting-checklist}
+
+Before submitting a manuscript or thesis chapter, verify that every inferential result includes all of the following:
+
+```{r}
+#| echo: false
+#| fig-cap: "Minimum reporting checklist for inferential statistics in movement science manuscripts. Each element should be present for every statistical test reported."
+#| label: fig-checklist
+#| fig-height: 5
+
+library(ggplot2)
+
+items <- data.frame(
+  y = 8:1,
+  label = c(
+    "✓  Test statistic with correct symbol (t, F, U, χ², H …)",
+    "✓  Degrees of freedom (or N for nonparametric tests)",
+    "✓  Exact p-value (not just < .05; use < .001 when very small)",
+    "✓  Effect size with correct symbol (d, η², ω², r, R² …)",
+    "✓  95% confidence interval for the primary effect",
+    "✓  Direction of effect (which group/condition was higher)",
+    "✓  Descriptive statistics (M, SD or Mdn, IQR) for each group",
+    "✓  Sample size at every level of analysis"
+  )
+)
+
+ggplot(items, aes(x = 1, y = y, label = label)) +
+  geom_text(hjust = 0, size = 3.6, colour = "#333333") +
+  scale_x_continuous(limits = c(0.9, 3)) +
+  scale_y_continuous(limits = c(0.5, 8.5)) +
+  theme_void()
+```
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### A result reads: "The training group improved significantly (p = .01)." What is missing from this report? {icon="1-square-fill"}
+
+The test statistic and its type (e.g., *t*, *F*, *U*), degrees of freedom, effect size, confidence interval, direction (by how much did the training group improve?), and descriptive statistics (*M*, *SD*) for each group.
+
+### Why does APA style omit the leading zero in p = .023 rather than p = 0.023? {icon="2-square-fill"}
+
+Because *p*-values cannot exceed 1.0, the leading zero conveys no information. APA style consistently omits the leading zero for all statistics bounded by ±1.0, including *r*, proportions, and probabilities.
+
+### A reviewer comments: "Your non-significant result (p = .08) shows there is no difference between groups." Is this correct? {icon="3-square-fill"}
+
+No. A non-significant result means the data were insufficient to reject the null hypothesis at the chosen threshold — not that the groups are equivalent. The correct response is to report the effect size and confidence interval so the reader can judge the practical magnitude of any difference.
+
+### SPSS prints "Sig. = .000" for your test. What should you report in your manuscript? {icon="4-square-fill"}
+
+Report *p* < .001. Never write *p* = .000 — it implies a probability of exactly zero, which is impossible.
+
+### What is the difference between a 95% CI for the mean difference and a 95% CI for Cohen's d? {icon="5-square-fill"}
+
+A CI for the mean difference expresses precision in the original units of measurement (e.g., kg, mL/kg/min). A CI for Cohen's *d* expresses precision in standardized units and allows comparison across studies with different measurement scales. Both are informative; journals increasingly require both.
+
+### You find that post-test strength is higher in the training group: F(1, 56) = 9.82, p = .003, partial η² = .149. Write a single APA-style sentence reporting this result. {icon="6-square-fill"}
+
+"Post-test muscular strength was significantly higher in the training group than the control group, $F(1, 56) = 9.82$, $p = .003$, partial $\eta^2 = .149$, 95% CI [.02, .30]."
+
+:::
+
+::: {.callout-note appearance="simple"}
+## Read further
+
+@apa2020 (Chapter 7) is the definitive source for APA statistical reporting style. @wilkinson1999 provides the original task force recommendations that underpin current standards. @cumming2014 makes the case for reporting effect sizes and confidence intervals as the primary evidence in every analysis. @wasserstein2016 and @wasserstein2019 clarify what *p*-values do and do not tell us. Ready-to-use APA reporting templates for every test in this book are in the [APA Style Results Reporting appendix](appendix-apa-reporting.qmd).
+:::
+
+::: {.callout-note appearance="simple"}
+## Next chapter
+
+Chapter 23 closes the textbook by addressing research credibility — what can go wrong when researchers misuse statistical tools, and what practices protect the integrity of published movement science.
+:::

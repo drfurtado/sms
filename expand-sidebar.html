@@ -1,0 +1,16 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Expand all collapsed sidebar sections on page load
+  const collapsedSections = document.querySelectorAll('.sidebar-section.collapse');
+  collapsedSections.forEach(section => {
+    section.classList.add('show');
+  });
+  
+  // Update aria-expanded attributes
+  const toggleButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+  toggleButtons.forEach(button => {
+    button.setAttribute('aria-expanded', 'true');
+    button.classList.remove('collapsed');
+  });
+});
+</script>

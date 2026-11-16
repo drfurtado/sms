@@ -1,0 +1,5 @@
+# Part III: Datasets {.unnumbered}
+
+This section provides comprehensive documentation for the datasets used throughout this book. The **Core Dataset** is a synthetic dataset representing a mixed neuromuscular training study in recreationally active adults, designed to support the full range of statistical concepts covered in the text.
+
+Use the **Core Dataset Overview** to understand the study design, file structure, and when to use each file. Use the **Core Dataset Codebook** for precise variable definitions, units, measurement scales, and allowed values.

@@ -1,0 +1,3 @@
+# Summary
+
+You now have the core workflow for SPSS 31: organizing projects, importing and preparing data, running analyses, and reading outputs. Use the references and further reading materials to deepen coverage of statistical methods and reporting standards.

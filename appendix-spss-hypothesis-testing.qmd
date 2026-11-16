@@ -1,0 +1,430 @@
+---
+title: "SPSS Tutorial: Hypothesis Testing"
+subtitle: "Conducting t-tests, interpreting p-values, and making statistical decisions"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Conduct one-sample, two-sample, and paired t-tests in SPSS
+* Interpret SPSS output including t-statistics, p-values, and confidence intervals
+* Make decisions about null hypotheses based on p-values
+* Check assumptions of t-tests using SPSS diagnostics
+* Report hypothesis test results following APA guidelines
+* Understand when to use Welch's t-test versus Student's t-test
+* Compute effect sizes alongside significance tests
+:::
+
+## Overview
+
+Hypothesis testing is one of the most common statistical procedures in Movement Science research. SPSS provides comprehensive tools for conducting t-tests and interpreting the results. This tutorial demonstrates:
+
+* How to perform one-sample, independent-samples, and paired-samples t-tests
+* How to interpret SPSS output tables
+* How to check normality and homogeneity of variance assumptions
+* How to compute and interpret effect sizes
+* How to choose between different versions of the t-test (Student's vs. Welch's)
+
+Understanding SPSS output for hypothesis tests is critical because the software provides more information than just the p-value. Learning to interpret confidence intervals, effect sizes, and assumption diagnostics will help you conduct more responsible and transparent statistical analyses.
+
+**Prerequisites:** Familiarity with SPSS data entry, descriptive statistics, and basic data management.
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`). Download it here: [core_session.csv](data/core_session.csv)
+
+For this tutorial:
+* **One-sample t-test**: Test whether `vo2_mlkgmin` at pre-training differs from a reference value of 40 mL·kg⁻¹·min⁻¹ (*N* = 60)
+* **Independent-samples t-test**: Compare `sprint_20m_s` between `training` and `control` groups at pre-training (*N* = 30 per group)
+* **Paired-samples t-test**: Compare `sprint_20m_s` pre vs. post (*N* = 55 pairs)
+
+## Part 1: One-sample t-test
+
+The **one-sample t-test** compares a sample mean to a known or hypothesized population value.
+
+### Example scenario
+
+We test whether the mean VO₂max (`vo2_mlkgmin`) in our sample (*N* = 60, pre-training) differs from a commonly cited population reference value of **40 mL·kg⁻¹·min⁻¹** for recreationally active adults.
+
+### Procedure
+
+1. **Analyze → Compare Means → One-Sample T Test...**
+2. Move `vo2_mlkgmin` to **Test Variable(s)**
+3. Enter **Test Value = 40**
+4. **OK**
+
+### Interpreting the output
+
+SPSS produces two tables:
+
+**One-Sample Statistics:**
+
+```
+One-Sample Statistics
+                N     Mean     Std. Deviation   Std. Error Mean
+vo2_mlkgmin    60   41.340   6.817            0.880
+```
+
+**One-Sample Test:**
+
+```
+One-Sample Test
+                               Test Value = 40                             
+                     t      df    Sig.      Mean        95% CI of the Difference
+                                  (2-tailed) Difference  Lower      Upper
+vo2_mlkgmin         1.523   59    .133      1.340       -0.421     3.101
+```
+
+**Key information:**
+
+* **t = 1.523**: Test statistic
+* **df = 59**: Degrees of freedom (n − 1)
+* **Sig. (2-tailed) = .133**: Two-tailed p-value
+* **Mean Difference = 1.340**: Observed mean minus test value (41.34 − 40)
+* **95% CI [−0.421, 3.101]**: CI includes zero → not significant
+
+### Decision and interpretation
+
+**Decision:** p = .133 > .05, so **fail to reject H₀**
+
+**Interpretation:**
+
+"The mean VO₂max in our sample (M = 41.34 mL·kg⁻¹·min⁻¹, SD = 6.82) did not differ significantly from the population reference value of 40 mL·kg⁻¹·min⁻¹, t(59) = 1.52, p = .133, mean difference = 1.34 mL·kg⁻¹·min⁻¹, 95% CI [−0.42, 3.10] mL·kg⁻¹·min⁻¹."
+
+::: callout-tip
+## One-tailed vs. two-tailed
+
+SPSS reports two-tailed p-values by default. If you need a one-tailed test, divide the p-value by 2 (but only if the direction matches your hypothesis). However, two-tailed tests are recommended in most situations.
+:::
+
+## Part 2: Independent-samples t-test
+
+The **independent-samples t-test** compares means between two independent groups.
+
+### Example scenario
+
+Compare 20-m sprint time (`sprint_20m_s`) between **training** and **control** groups at pre-training (*N* = 30 per group).
+
+### Procedure
+
+1. **Analyze → Compare Means → Independent-Samples T Test...**
+2. Move `sprint_20m_s` to **Test Variable(s)**
+3. Move `group` to **Grouping Variable**
+4. Click **Define Groups...** and enter `control` and `training`
+5. **Continue → OK**
+
+### Interpreting the output
+
+SPSS produces three tables:
+
+**Group Statistics:**
+
+```
+Group Statistics
+              group      N    Mean   Std. Deviation   Std. Error Mean
+sprint_20m_s  control   30   3.811  .340             .062
+              training  30   3.772  .373             .068
+```
+
+**Independent Samples Test:**
+
+```
+Independent Samples Test
+                                    Levene's Test    t-test for Equality of Means
+                                    F     Sig.       t       df      Sig.      Mean       95% CI of the Difference
+                                                                     (2-tailed) Difference  Lower      Upper
+sprint_20m_s  Equal variances       0.029  .864     0.429   58      .669       .039        -.145      .224
+              assumed
+              Equal variances                        0.429  57.5     .669       .039        -.145      .224
+              not assumed
+```
+
+**Key components:**
+
+1. **Levene's Test:**
+   - F = 0.029, Sig. = .864
+   - **Interpretation:** p = .864 > .05, so variances are approximately equal
+
+2. **T-test results:**
+   - **Equal variances assumed**: t = 0.429, df = 58, p = .669
+   - Both rows are nearly identical (as expected when Levene's is non-significant)
+
+### Which t-test to use?
+
+**Rule of thumb:**
+
+* If **Levene's p > .05**: Use "Equal variances assumed" row (Student's t-test)
+* If **Levene's p < .05**: Use "Equal variances not assumed" row (Welch's t-test)
+
+**Modern recommendation:** Many statisticians recommend **always using Welch's t-test** (equal variances not assumed) because it is more robust and performs well even when variances are equal.
+
+### Decision and interpretation
+
+Using **Equal variances assumed** (since Levene's p = .864):
+
+**Decision:** p = .669 > .05, **fail to reject H₀**
+
+**Interpretation:**
+
+"Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34) and training groups (M = 3.77 s, SD = 0.37), t(58) = 0.43, p = .669, mean difference = 0.04 s, 95% CI [−0.15, 0.22] s."
+
+::: callout-note
+## Effect size
+
+SPSS does not automatically report Cohen's d. To compute it manually:
+
+$$
+d = \frac{\text{Mean difference}}{s_{\text{pooled}}}
+$$
+
+For this example:
+
+$$
+s_{\text{pooled}} = \sqrt{\frac{(30-1)(0.340^2) + (30-1)(0.373^2)}{58}} = 0.357
+$$
+
+$$
+d = \frac{0.039}{0.357} = 0.11 \text{ (negligible effect)}
+$$
+:::
+
+## Part 3: Paired-samples t-test
+
+The **paired-samples t-test** compares two related measurements (e.g., pre-test and post-test on the same participants).
+
+### Example scenario
+
+Compare 20-m sprint time at **pre-training** vs. **post-training** across all participants with complete data (*N* = 55 pairs).
+
+### Procedure
+
+1. **Analyze → Compare Means → Paired-Samples T Test...**
+2. Select both variables (`sprint_pre` and `sprint_post`) and click the arrow to move them to **Paired Variables**
+3. **OK**
+
+### Interpreting the output
+
+SPSS produces three tables:
+
+**Paired Samples Statistics:**
+
+```
+Paired Samples Statistics
+                 Mean     N     Std. Deviation   Std. Error Mean
+Pair 1  sprint_pre  3.802   55    .365             .049
+        sprint_post 3.792   55    .402             .054
+```
+
+**Paired Samples Correlations:**
+
+```
+Paired Samples Correlations
+                      N     Correlation   Sig.
+Pair 1  sprint_pre &  55    .920          <.001
+        sprint_post
+```
+
+This table shows the correlation between pre- and post-test scores. High correlation (r = .920) indicates very good individual rank-order stability across time points.
+
+**Paired Samples Test:**
+
+```
+Paired Samples Test
+                                                 Paired Differences                                   
+                              Mean      Std.        Std. Error   95% CI of the Difference      t       df    Sig.
+                              Difference Deviation  Mean          Lower       Upper                         (2-tailed)
+Pair 1  sprint_pre -          .010      .158       .021         -.033       .053              0.469   54    .641
+        sprint_post
+```
+
+**Key information:**
+
+* **Mean Difference = 0.010 s**: Trivially small pre-to-post change
+* **Std. Deviation = 0.158 s**: Variability in change scores
+* **95% CI [−0.033, 0.053]**: CI includes zero → not significant
+* **t = 0.469**: Test statistic
+* **df = 54**: Degrees of freedom (n − 1)
+* **Sig. = .641**: p > .05
+
+### Decision and interpretation
+
+**Decision:** p = .641 > .05, **fail to reject H₀**
+
+**Interpretation:**
+
+"Sprint time did not change significantly from pre-training (M = 3.80 s, SD = 0.37) to post-training (M = 3.79 s, SD = 0.40), mean change = 0.01 s, 95% CI [−0.033, 0.053] s, t(54) = 0.47, p = .641."
+
+::: callout-tip
+## Computing Cohen's d for paired samples
+
+$$
+d = \frac{\text{Mean difference}}{s_d} = \frac{0.010}{0.158} = 0.06 \text{ (negligible effect)}
+$$
+
+Where $s_d$ is the standard deviation of the difference scores (provided in SPSS output).
+:::
+
+## Part 4: Checking assumptions
+
+Hypothesis tests rely on assumptions that should be checked.
+
+### Checking normality
+
+For small to moderate samples (n < 50), check normality:
+
+1. **Analyze → Descriptive Statistics → Explore...**
+2. Move your variable to **Dependent List**
+3. For independent t-tests, move the grouping variable to **Factor List**
+4. Click **Plots...**
+   - ✓ Check **Normality plots with tests**
+   - **Continue**
+5. **OK**
+
+SPSS produces:
+
+* **Shapiro-Wilk test:** If p > .05, assume normality
+* **Q-Q plots:** Points should fall roughly on the diagonal line
+
+**What if normality is violated?**
+
+* For large samples (n > 30 per group), t-tests are robust to violations
+* For severe violations with small samples, consider nonparametric tests (Mann-Whitney U for independent samples, Wilcoxon signed-rank for paired samples)
+
+### Checking homogeneity of variance
+
+For **independent t-tests only**, Levene's test is automatically provided in the output.
+
+* **Levene's p > .05**: Variances are approximately equal (use Student's t-test)
+* **Levene's p < .05**: Variances differ significantly (use Welch's t-test)
+
+## Part 5: Reporting results
+
+### APA-style reporting template
+
+**One-sample t-test:**
+
+"The mean [variable] (M = [mean], SD = [SD], n = [n]) was significantly [greater/less] than [test value], t([df]) = [t-value], p = [p-value], mean difference = [diff], 95% CI [lower, upper]."
+
+**Independent-samples t-test:**
+
+"[Group 1] (M = [mean], SD = [SD], n = [n]) [differed/did not differ] significantly from [Group 2] (M = [mean], SD = [SD], n = [n]), t([df]) = [t-value], p = [p-value], mean difference = [diff], 95% CI [lower, upper], d = [effect size]."
+
+**Paired-samples t-test:**
+
+"[Outcome] increased/decreased significantly from [pre] (M = [mean], SD = [SD]) to [post] (M = [mean], SD = [SD]), mean [increase/decrease] = [diff], 95% CI [lower, upper], t([df]) = [t-value], p = [p-value], d = [effect size]."
+
+### Example table
+
+| Test Type | Variable | Group/Condition | n | Mean (SD) | t | df | p | 95% CI | d |
+|-----------|---------|----------------|---|-----------|---|----|----|--------|---|
+| One-sample | VO₂max | vs. Reference (40) | 60 | 41.34 (6.82) | 1.52 | 59 | .133 | [−0.42, 3.10] | 0.20 |
+| Independent | Sprint | Control | 30 | 3.81 (0.34) | 0.43 | 58 | .669 | [−0.15, 0.22] | 0.11 |
+| | | Training | 30 | 3.77 (0.37) | | | | | |
+| Paired | Sprint | Pre vs. Post | 55 | 0.01 diff | 0.47 | 54 | .641 | [−0.03, 0.05] | 0.06 |
+
+## Part 6: Common mistakes and troubleshooting
+
+### Mistake 1: Using paired t-test for independent groups
+
+**Problem:** Paired t-tests require the same participants measured twice. Independent groups need independent-samples t-tests.
+
+**Solution:** Ensure your data structure matches the test. Paired data: two columns (pre, post). Independent data: one column (outcome) and one grouping variable.
+
+### Mistake 2: Reporting only p-values without effect sizes or CIs
+
+**Problem:** "p < .05" provides limited information.
+
+**Solution:** Always report descriptive statistics, confidence intervals, and effect sizes alongside p-values.
+
+### Mistake 3: Concluding "no difference" from non-significant results
+
+**Problem:** p > .05 does not mean "no effect."
+
+**Solution:** Examine the confidence interval. A wide CI suggests the study was underpowered. Report: "The difference was not statistically significant (p = .08), but the 95% CI [−2.1, 12.5] cm includes both trivial and meaningful effects."
+
+### Mistake 4: Ignoring assumption violations
+
+**Problem:** Using Student's t-test when variances differ markedly.
+
+**Solution:** Use Welch's t-test (equal variances not assumed row) when Levene's test is significant.
+
+### Mistake 5: Multiple testing without correction
+
+**Problem:** Conducting many t-tests increases Type I error rate.
+
+**Solution:** Use ANOVA for multiple groups (Chapter 14) or apply corrections (e.g., Bonferroni) when conducting multiple comparisons.
+
+## Part 7: Power analysis and sample size planning
+
+SPSS does not have built-in power analysis tools. Use external software:
+
+* **G*Power** (free): User-friendly power analysis software
+* **R packages**: `pwr`, `simr`
+* **Online calculators**
+
+**Example using G*Power:**
+
+1. Open G*Power
+2. **Test family**: t-tests
+3. **Statistical test**: Means: Difference between two independent means (two groups)
+4. **Type of power analysis**: A priori (compute required sample size)
+5. **Input parameters**:
+   - Effect size d: 0.5 (medium effect)
+   - α = 0.05
+   - Power = 0.80
+6. **Calculate**
+
+**Result:** n = 64 per group (128 total)
+
+::: callout-tip
+## Always plan sample size in advance
+
+Conducting power analysis **before** data collection ensures adequate sample size to detect meaningful effects. Underpowered studies waste resources and produce unreliable findings.
+:::
+
+## Part 8: Bayesian t-tests (optional)
+
+SPSS has limited Bayesian capabilities, but specialized software (JASP, R) can compute **Bayes factors**, which quantify evidence for H₀ vs. H₁:
+
+* **BF₁₀ > 3**: Moderate evidence for H₁
+* **BF₁₀ > 10**: Strong evidence for H₁
+* **BF₁₀ < 1/3**: Moderate evidence for H₀
+
+Bayesian methods provide a more intuitive interpretation than p-values and can quantify evidence for the null hypothesis.
+
+## Summary
+
+This tutorial covered:
+
+* Conducting one-sample, independent-samples, and paired-samples t-tests in SPSS
+* Interpreting SPSS output tables including t-statistics, p-values, degrees of freedom, and confidence intervals
+* Checking assumptions using Levene's test and normality diagnostics
+* Choosing between Student's and Welch's t-tests based on variance equality
+* Computing effect sizes (Cohen's d) to quantify magnitude
+* Reporting results following APA guidelines
+
+**Key takeaways:**
+
+* Always report descriptive statistics, confidence intervals, and effect sizes alongside p-values
+* Use Welch's t-test when variances differ or as a default robust option
+* Check assumptions but remember t-tests are robust to moderate violations
+* Non-significant results do not prove "no effect"—examine confidence intervals for precision
+
+::: callout-tip
+## Next steps
+
+* Practice conducting t-tests on your own datasets
+* Compare Student's vs. Welch's t-test results when variances differ
+* Compute effect sizes manually and interpret practical significance
+* Consult Chapter 10 of the textbook for deeper understanding of hypothesis testing logic
+* Learn ANOVA (Chapter 14) for comparing more than two groups
+:::
+
+## Additional resources
+
+* **SPSS manuals**: IBM SPSS Statistics Base documentation
+* **APA Style (7th ed.)**: Guidelines for reporting statistical tests
+* **G*Power**: Free power analysis software (https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower)
+* **Textbook website**: Download practice datasets and syntax files

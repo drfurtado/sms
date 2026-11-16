@@ -1,0 +1,242 @@
+---
+title: "SPSS Tutorial: Analysis of Covariance"
+subtitle: "Conducting ANCOVA in SPSS: assumption testing, adjusted means, and effect sizes"
+---
+
+::: {.callout-note icon=false}
+## Learning objectives
+
+By the end of this tutorial, you will be able to:
+
+* Test the homogeneity of regression slopes assumption before running ANCOVA.
+* Run a one-way ANCOVA using SPSS *General Linear Model → Univariate*.
+* Locate and interpret SPSS output for adjusted means, the covariate slope, and the Group F-ratio.
+* Obtain partial eta-squared from SPSS output and partial omega-squared via the Statistical Calculators appendix or SPSS 31+.
+* Write a complete APA-style ANCOVA results paragraph.
+:::
+
+## Overview
+
+This tutorial walks through a complete one-way ANCOVA using the `core_session.csv` dataset. The research question is: after statistically controlling for pre-test strength, does the training program produce greater post-test strength than the control condition?
+
+**Factor**: Group (control, training) — between-subjects
+**Covariate**: Pre-test `strength_kg`
+**Outcome**: Post-test `strength_kg`
+**Sample**: *N* = 60 (30 control, 30 training)
+
+The tutorial is structured as a strict two-stage workflow:
+
+- **Stage 1** — Test the homogeneity of regression slopes (a prerequisite; must pass before Stage 2)
+- **Stage 2** — Run the ANCOVA and interpret output
+
+## Dataset preparation
+
+The `core_session.csv` file is in long format (one row per observation). ANCOVA requires a wide layout with pre-test and post-test strength in separate columns, and only one row per participant.
+
+### Step 1: Restructure to wide format
+
+If you completed Chapter 16's SPSS tutorial, your dataset may already be in wide format. If not:
+
+1. Click **Data → Restructure**
+2. Select **Restructure selected cases into variables** → **Next**
+3. Move `id` to **Identifier Variable(s)**
+4. Move `time` to **Index Variable**
+5. Click **Next** through remaining dialogs → **Finish**
+
+After restructuring, rename the new columns in **Variable View**:
+- `strength_kg.1` → `strength_pre` (verify this corresponds to pre-test)
+- `strength_kg.2` → `strength_mid`
+- `strength_kg.3` → `strength_post`
+
+You should also have a `group` variable in the dataset (one value per participant, since Group is a between-subjects factor).
+
+::: callout-tip
+## Verify the column-to-time-point mapping before proceeding
+
+After restructuring, inspect the first few rows and cross-check participant IDs against the original long-format file to confirm that `strength_pre`, `strength_mid`, and `strength_post` contain the correct time-point values. SPSS sorts restructured columns alphabetically by the index variable value — for string values "mid," "post," "pre" the alphabetical order would be mid → post → pre, not pre → mid → post.
+:::
+
+---
+
+## Stage 1: Testing homogeneity of regression slopes
+
+Before running the ANCOVA, you must verify that the regression slope of the covariate (pre-test strength) on the outcome (post-test strength) is approximately equal across groups. This is done by adding a Group × Covariate interaction to the model. **A significant interaction here means the assumption is violated and you should not proceed with standard ANCOVA.**
+
+### Step 2: Run the slopes test
+
+1. Click **Analyze → General Linear Model → Univariate**
+2. Move `strength_post` to **Dependent Variable**
+3. Move `group` to **Fixed Factor(s)**
+4. Move `strength_pre` to **Covariate(s)**
+5. Click **Model**:
+   - Select **Custom**
+   - Move `group` to the **Model** box (Main effects)
+   - Move `strength_pre` to the **Model** box (Main effects)
+   - Now create the interaction: hold **Ctrl** and click both `group` and `strength_pre` in the Factors & Covariates list, then click the arrow — this adds the `group * strength_pre` interaction term
+   - Click **Continue**
+6. Click **OK**
+
+### Step 3: Interpret the slopes test output
+
+Look at the **Tests of Between-Subjects Effects** table. Find the row labelled `group * strength_pre` (the interaction):
+
+| Source | SS | df | MS | F | p |
+|---|---|---|---|---|---|
+| group | 274.55 | 1 | 274.55 | 116.72 | < .001 |
+| strength_pre | 26,810.02 | 1 | 26,810.02 | 11,398.52 | < .001 |
+| group * strength_pre | 0.22 | 1 | 0.22 | 0.09 | .769 |
+| Error | 131.72 | 56 | 2.35 | | |
+
+The interaction term is *F*(1, 56) = 0.09, *p* = .769 — **not significant**. The slopes are parallel across groups. The homogeneity of regression slopes assumption is satisfied. Proceed to Stage 2.
+
+::: callout-warning
+## If the slopes test IS significant
+
+A significant Group × Covariate interaction (*p* < .05) means the two groups' regression lines are not parallel — the covariate predicts the outcome differently in each group. In this case, do not proceed with standard ANCOVA. Instead, consider: (1) the Johnson–Neyman technique, which identifies the specific covariate range where groups do and do not differ; (2) reporting within-group regression slopes separately; or (3) consulting a statistician about alternative modeling approaches. See @huitema2011 for detailed guidance.
+:::
+
+---
+
+## Stage 2: Running the ANCOVA
+
+### Step 4: Run the ANCOVA (without the interaction term)
+
+Return to the Univariate dialog. This time, use the **Full factorial** model (the default), which includes only main effects — not the Group × Covariate interaction you added in Stage 1.
+
+1. Click **Analyze → General Linear Model → Univariate**
+2. Move `strength_post` to **Dependent Variable**
+3. Move `group` to **Fixed Factor(s)**
+4. Move `strength_pre` to **Covariate(s)**
+5. Click **Model** → Select **Full factorial** (or verify that only main effects are listed) → **Continue**
+6. Click **Options**:
+   - Under *Display Means for*, select `group`
+   - Check **Compare main effects** → set to **Bonferroni** (relevant if Group has 3+ levels)
+   - Check **Descriptive statistics**, **Estimates of effect size**, and **Homogeneity tests**
+   - Click **Continue**
+7. Click **Plots**:
+   - Move `group` to the **Horizontal Axis** box
+   - Click **Add** → **Continue**
+8. Click **OK**
+
+### Step 5: Interpret the ANCOVA output
+
+**Levene's Test of Equality of Error Variances**
+
+Check that Levene's test is non-significant, confirming equal error variances across groups.
+
+| Levene Statistic | df1 | df2 | p |
+|---|---|---|---|
+| 0.12 | 1 | 58 | .731 |
+
+The test is not significant (*p* = .731). The assumption of equal error variances is met.
+
+**Tests of Between-Subjects Effects**
+
+| Source | SS | df | MS | F | p | η²_p |
+|---|---|---|---|---|---|---|
+| Corrected Model | 27,528.53 | 2 | 13,764.27 | 5,908.09 | < .001 | |
+| Intercept | 372,645.01 | 1 | 372,645.01 | 159,930.21 | < .001 | |
+| strength_pre | 27,225.35 | 1 | 27,225.35 | 11,686.00 | < .001 | .995 |
+| group | 303.18 | 1 | 303.18 | 130.18 | < .001 | .695 |
+| Error | 132.82 | 57 | 2.33 | | | |
+| Total | 414,278.03 | 60 | | | | |
+
+**Key values to record:**
+
+- **Group F-ratio**: *F*(1, 57) = 130.18, *p* < .001, η²_p = .695 — the training effect after adjusting for pre-test strength
+- **Covariate F-ratio**: *F*(1, 57) = 11,686.00, *p* < .001 — confirms the covariate is strongly related to the outcome (do *not* interpret this as a group comparison)
+- **MS_error**: 2.33 — needed for ω²_p calculation
+- **Error df**: 57 (= *N* − *k* − *c* = 60 − 2 − 1)
+
+**Estimated Marginal Means**
+
+This table gives the ANCOVA-adjusted means for each group, expressed at the grand mean of the covariate (*M*_pre = 78.01 kg):
+
+| Group | Adjusted *M* (kg) | SE | 95% CI |
+|---|---|---|---|
+| Control | 78.83 | 0.28 | [78.27, 79.39] |
+| Training | 83.37 | 0.28 | [82.81, 83.93] |
+
+The adjusted mean difference is 83.37 − 78.83 = **4.53 kg** in favour of the training group.
+
+::: callout-tip
+## Compare adjusted and unadjusted means side by side
+
+The unadjusted post-test means (from *Descriptive Statistics* in the output) were Control = 77.14 kg and Training = 85.06 kg — a raw difference of 7.92 kg. The adjusted difference is 4.53 kg. This reduction reflects the removal of the 3.33 kg pre-test baseline advantage that the training group held at the start of the study. Always report both sets of means so readers can see the magnitude of the adjustment.
+:::
+
+---
+
+## Part 3: Effect sizes
+
+### Partial eta-squared
+
+SPSS reports η²_p = .695 for the Group effect directly in the *Tests of Between-Subjects Effects* table. No additional steps are needed.
+
+### Partial omega-squared
+
+SPSS does not compute ω²_p. Use the **[Statistical Calculators](appendix-statistical-calculators.qmd#sec-omega-p-calc)** appendix or **SPSS 31+** (*Analyze → Power Analysis → General Linear Model*) to obtain ω²_p without hand calculation.
+
+For reference, the formula for ANCOVA with one covariate is the same as for between-subjects ANOVA:
+
+$$\omega^2_p = \frac{SS_{\text{Group}} - df_{\text{Group}} \times MS_{\text{error}}}{SS_{\text{Group}} + (N - df_{\text{Group}}) \times MS_{\text{error}}}$$
+
+The values $SS_{\text{Group}}$ (303.18), $df_{\text{Group}}$ (1), $MS_{\text{error}}$ (2.33), and $N$ (60) all come from the *Tests of Between-Subjects Effects* table. Entering these into the calculator yields **ω²_p = .683** for the Group effect.
+
+---
+
+## Part 4: Visualizing ANCOVA results
+
+### Scatterplot with regression lines (homogeneity check)
+
+A scatterplot of pre-test vs. post-test strength with separate regression lines per group is the most informative visual for ANCOVA. In SPSS:
+
+1. Click **Graphs → Legacy Dialogs → Scatter/Dot → Simple Scatter → Define**
+2. Move `strength_post` to **Y Axis** and `strength_pre` to **X Axis**
+3. Move `group` to **Set Markers by**
+4. Click **OK**
+5. Double-click the chart to open the Chart Editor
+6. Click **Elements → Fit Line at Subgroups** — this adds separate regression lines for each group
+7. Verify the lines appear approximately parallel (confirming the homogeneity assumption)
+
+### Adjusted means bar chart
+
+SPSS generates a basic estimated marginal means plot when you specify it in the *Plots* dialog during Step 4. To produce a cleaner version:
+
+1. Click **Graphs → Legacy Dialogs → Error Bars → Summaries of separate variables → Define**
+2. Move `strength_post` to **Error Bars** (for unadjusted means)
+3. Click **OK**
+
+For the adjusted means specifically, export the Estimated Marginal Means table and create the figure using the R code provided in Chapter 17 (`fig-ancova-adjusted`).
+
+---
+
+## Part 5: APA-style write-up
+
+> A one-way ANCOVA was conducted to examine the effect of training group (control, training) on post-test muscular strength (kg), with pre-test strength serving as the covariate. Levene's test confirmed homogeneity of error variance, *F*(1, 58) = 0.12, *p* = .731. The homogeneity of regression slopes assumption was verified; the Group × Pre-test interaction was non-significant, *F*(1, 56) = 0.09, *p* = .769, indicating that regression slopes were parallel across groups. After adjusting for pre-test strength (*b* = 1.01, *p* < .001), there was a significant main effect of Group, *F*(1, 57) = 130.18, *p* < .001, η²_p = .695, ω²_p = .683. The training group (*M*_adj = 83.37 kg, *SE* = 0.28) demonstrated significantly greater post-test strength than the control group (*M*_adj = 78.83 kg, *SE* = 0.28), with an adjusted mean difference of 4.53 kg.
+
+---
+
+## Troubleshooting
+
+**"I cannot find the `group * strength_pre` interaction in the Model dialog"**: In the Custom model builder, you must select *both* `group` and `strength_pre` simultaneously (hold Ctrl while clicking) before clicking the arrow to move them to the model box. Clicking them separately adds two main effects; clicking them together adds the interaction term.
+
+**"My Estimated Marginal Means table is missing"**: Return to the Univariate dialog → Options → and move `group` to the *Display Means for* list. The adjusted means only appear when the factor is explicitly requested in this panel.
+
+**"The adjusted means are identical to the unadjusted means"**: This occurs when the covariate was not successfully entered in the **Covariate(s)** box, or when the Model dialog was set to a Custom model that omitted the covariate main effect. Verify that `strength_pre` appears in the *Covariates* field and re-run.
+
+**"My η²_p for the covariate is greater than .99 — is that possible?"**: Yes. In a pretest–posttest design where the same measure is taken before and after the intervention, the covariate–outcome correlation is often *r* ≥ .95. When virtually all within-group variance in post-test scores is explained by pre-test scores, the covariate's η²_p approaches 1.00. This is expected behaviour, not an error — it reflects the precision of the measurement instrument.
+
+**"The Group F-ratio from the ANCOVA is much larger than the F from a simple post-test ANOVA. Is that right?"**: Yes — and it is the point of ANCOVA. By removing the covariate's variance from the error term, MS_error drops dramatically. In this example it fell from approximately 180 kg² to 2.33 kg², making the same-sized group effect appear far more statistically distinguishable against the smaller residual noise.
+
+---
+
+## Practice exercises
+
+**Exercise 1**: Run the same ANCOVA described in this tutorial but use `vo2_mlkgmin` as both the covariate (pre-test) and the outcome (post-test). First verify the homogeneity of slopes assumption. Report the adjusted means, the Group F-ratio, and η²_p. How does the adjusted group difference compare to the unadjusted difference?
+
+**Exercise 2**: Repeat the ANCOVA for post-test `strength_kg` but now include both `strength_pre` *and* pre-test `vo2_mlkgmin` as covariates. Does adding the second covariate meaningfully change the Group F-ratio or the adjusted means? What does this tell you about the additional contribution of aerobic capacity as a predictor of post-test strength?
+
+**Exercise 3**: To understand the power advantage of ANCOVA, run two analyses on the same data: (1) a simple independent-samples t-test comparing post-test `strength_kg` between groups (ignoring the pre-test), and (2) the ANCOVA from this tutorial. Record the *t* and *F* statistics, their *p*-values, and the effect sizes. Write 3–4 sentences explaining why the F-ratio from ANCOVA is so much larger, connecting your explanation to the concept of error variance reduction.
+
+**Exercise 4**: Open G*Power and use the *F-test: ANOVA: Fixed effects, special, main effects and interactions* option to compute the required sample size to detect the observed ANCOVA Group effect (η²_p = .695, converting to Cohen's *f*) with power = .80, α = .05, and 1 numerator df. Remember to add 1 to the G*Power estimate to account for the covariate's degree of freedom. How does this compare to the *N* = 60 in the study?

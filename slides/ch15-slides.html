@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KIN 610 · Ch. 15 · Repeated Measures ANOVA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:        #0f1623;
+  --bg2:       #17202f;
+  --surface:   #1e2d42;
+  --gold:      #d4a843;
+  --gold-dim:  rgba(212,168,67,.14);
+  --sage:      #7eb8a0;
+  --rust:      #c0614a;
+  --text:      #ede9e2;
+  --muted:     #7a8ca0;
+  --border:    rgba(212,168,67,.22);
+  --font-h:    'Playfair Display',Georgia,serif;
+  --font-b:    'DM Sans',system-ui,sans-serif;
+  --font-m:    'JetBrains Mono',monospace;
+  --ease:      cubic-bezier(.16,1,.3,1);
+  --ts:   clamp(1.5rem,4.5vw,3.4rem);
+  --h2:   clamp(1.1rem,2.6vw,2rem);
+  --h3:   clamp(.9rem,1.8vw,1.3rem);
+  --bs:   clamp(.72rem,1.2vw,.98rem);
+  --ss:   clamp(.6rem,.9vw,.8rem);
+  --pad:  clamp(1.2rem,3.5vw,3.2rem);
+  --gap:  clamp(.4rem,1.1vw,1.1rem);
+}
+html,body{height:100%;overflow:hidden}
+#app{display:flex;height:100dvh;overflow:hidden;background:var(--bg)}
+#slides-wrap{
+  flex:1;min-width:0;
+  overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+#slides-wrap::-webkit-scrollbar{display:none}
+.slide{
+  width:100%;height:100dvh;overflow:hidden;
+  scroll-snap-align:start;
+  display:flex;flex-direction:column;position:relative;
+  background:var(--bg);color:var(--text);font-family:var(--font-b);
+}
+.slide-content{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;max-height:100%;overflow:hidden;
+  padding:var(--pad);
+}
+@media(max-height:700px){:root{--pad:clamp(.8rem,2.5vw,2rem);--gap:clamp(.3rem,.8vw,.8rem);--ts:clamp(1.2rem,4vw,2.4rem);--h2:clamp(.95rem,2.2vw,1.6rem);--bs:clamp(.66rem,1.1vw,.88rem)}}
+@media(max-height:600px){:root{--pad:clamp(.5rem,2vw,1.4rem);--gap:clamp(.2rem,.6vw,.6rem);--ts:clamp(1rem,3.5vw,1.8rem);--bs:clamp(.6rem,1vw,.8rem)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important}}
+#notes-panel{
+  width:300px;flex-shrink:0;
+  background:var(--bg2);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transition:width .35s var(--ease);
+  position:relative;overflow:hidden;
+}
+#notes-panel.collapsed{width:26px}
+#notes-toggle{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  background:var(--gold);color:#000;
+  border:none;cursor:pointer;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:var(--font-b);font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.7em .32em;border-radius:0 6px 6px 0;
+  transition:background .2s;z-index:20;white-space:nowrap;
+  height:auto;
+}
+#notes-toggle:hover{background:#e8bc57}
+#notes-inner{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:1.2rem 1rem 1.2rem 1.7rem;
+  min-width:300px;
+}
+#notes-inner::-webkit-scrollbar{width:4px}
+#notes-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.notes-label{
+  font-family:var(--font-m);font-size:.6rem;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.notes-slide-num{
+  background:var(--gold-dim);border:1px solid var(--border);
+  color:var(--gold);font-family:var(--font-m);font-size:.55rem;
+  padding:.15em .45em;border-radius:3px;
+}
+#notes-text{font-family:var(--font-b);font-size:.78rem;line-height:1.75;color:var(--text)}
+#notes-text p{margin-bottom:.75rem}
+#notes-text p:last-child{margin-bottom:0}
+#notes-text strong{color:var(--gold)}
+#notes-text em{color:var(--sage)}
+#progress{
+  position:fixed;top:0;left:0;z-index:200;
+  height:3px;background:linear-gradient(90deg,var(--gold),var(--sage));
+  width:0%;transition:width .3s ease;
+}
+#navdots{
+  position:fixed;right:calc(300px + .6rem);top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:.38rem;z-index:199;
+  transition:right .3s var(--ease);
+}
+#navdots.shifted{right:calc(26px + .5rem)}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.18);cursor:pointer;
+  transition:background .25s,transform .25s;
+}
+.dot.active{background:var(--gold);transform:scale(1.5)}
+.slide-bar{width:4px;background:var(--gold);position:absolute;left:0;top:0;bottom:0}
+.slide-num{
+  position:absolute;bottom:clamp(.6rem,1.4vw,1.1rem);right:clamp(.7rem,1.8vw,1.6rem);
+  font-family:var(--font-m);font-size:var(--ss);color:var(--muted);letter-spacing:.08em;
+}
+.kicker{
+  font-family:var(--font-m);font-size:var(--ss);color:var(--gold);
+  text-transform:uppercase;letter-spacing:.14em;margin-bottom:clamp(.3rem,.8vw,.8rem);
+}
+h2.stitle{
+  font-family:var(--font-h);font-size:var(--h2);font-weight:700;
+  padding-bottom:clamp(.28rem,.6vw,.6rem);margin-bottom:var(--gap);
+  position:relative;
+}
+h2.stitle::after{
+  content:'';position:absolute;left:0;bottom:0;
+  width:clamp(1.8rem,5vw,4rem);height:3px;
+  background:var(--gold);border-radius:2px;
+}
+h1{font-family:var(--font-h);font-size:var(--ts);font-weight:900;line-height:1.08}
+h3{font-family:var(--font-h);font-size:var(--h3);font-weight:600}
+.r{opacity:0;transform:translateY(18px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.slide.vis .r{opacity:1;transform:none}
+.r:nth-child(1){transition-delay:.07s}.r:nth-child(2){transition-delay:.16s}
+.r:nth-child(3){transition-delay:.25s}.r:nth-child(4){transition-delay:.34s}
+.r:nth-child(5){transition-delay:.43s}.r:nth-child(6){transition-delay:.52s}
+.r:nth-child(7){transition-delay:.61s}.r:nth-child(8){transition-delay:.70s}
+.r:nth-child(9){transition-delay:.79s}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.8vw,1.8rem);flex:1;overflow:hidden;align-content:start}
+.cols-55{grid-template-columns:55fr 45fr}
+.cols-65{grid-template-columns:65fr 35fr}
+.cols-3{grid-template-columns:1fr 1fr 1fr;gap:clamp(.4rem,1.1vw,1rem)}
+p,li{font-size:var(--bs);line-height:1.55}
+ul.dl{list-style:none;display:flex;flex-direction:column;gap:clamp(.22rem,.65vh,.65rem)}
+ul.dl li{padding-left:clamp(.75rem,1.4vw,1.3rem);position:relative;font-size:var(--bs);line-height:1.5}
+ul.dl li::before{content:'→';position:absolute;left:0;color:var(--gold);font-family:var(--font-m);font-size:.9em}
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:clamp(.5rem,1.1vw,1.1rem) clamp(.6rem,1.4vw,1.4rem);overflow:hidden}
+.callout{border-left:3px solid var(--gold);background:var(--gold-dim);padding:clamp(.35rem,.9vw,.9rem) clamp(.55rem,1.3vw,1.3rem);border-radius:0 6px 6px 0;margin-top:var(--gap)}
+.callout.info{border-color:var(--sage);background:rgba(126,184,160,.12)}
+.callout.warn{border-color:var(--rust);background:rgba(192,97,74,.12)}
+.ct{font-family:var(--font-b);font-size:clamp(.62rem,1vw,.88rem);font-weight:600;margin-bottom:.28em;color:var(--gold)}
+.callout.info .ct{color:var(--sage)}.callout.warn .ct{color:var(--rust)}
+.formula{
+  font-family:var(--font-m);font-size:clamp(.62rem,.98vw,.88rem);
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:clamp(.38rem,.9vw,.9rem) clamp(.55rem,1.3vw,1.3rem);
+  color:#7dd3fc;line-height:1.85;margin:clamp(.28rem,.65vw,.65rem) 0;overflow:hidden;
+}
+.dtable{width:100%;border-collapse:collapse;font-size:clamp(.56rem,.95vw,.82rem)}
+.dtable th{background:var(--surface);color:var(--gold);font-family:var(--font-b);font-weight:600;
+  padding:clamp(.18rem,.45vw,.45rem) clamp(.28rem,.7vw,.7rem);text-align:left;border-bottom:2px solid var(--border)}
+.dtable td{padding:clamp(.16rem,.4vw,.4rem) clamp(.28rem,.7vw,.7rem);border-bottom:1px solid rgba(255,255,255,.055);line-height:1.4}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .sig{color:var(--gold);font-weight:600}
+.dtable .err td{color:var(--muted);font-style:italic}
+.dtable .bs-row td{color:var(--muted);font-style:italic;font-size:.9em}
+.c{text-align:center}
+.steps{display:flex;flex-direction:column;gap:clamp(.22rem,.65vw,.65rem);flex:1;overflow:hidden}
+.step{display:flex;gap:clamp(.5rem,1.1vw,1rem);align-items:flex-start;padding:clamp(.3rem,.7vw,.7rem) clamp(.5rem,1.1vw,1rem);background:var(--bg2);border-radius:6px;border:1px solid rgba(255,255,255,.05)}
+.step-n{font-family:var(--font-m);font-size:clamp(.7rem,1.2vw,1rem);font-weight:600;color:var(--gold);flex-shrink:0;min-width:1.4em}
+.step-t{font-size:var(--bs);line-height:1.45}
+.title-slide{background:radial-gradient(ellipse at 25% 65%,rgba(212,168,67,.11) 0%,transparent 55%),radial-gradient(ellipse at 75% 20%,rgba(126,184,160,.08) 0%,transparent 45%),var(--bg)}
+.title-accent{position:absolute;right:clamp(2rem,8vw,8rem);bottom:clamp(2rem,6vh,6rem);width:clamp(80px,14vw,170px);height:clamp(80px,14vw,170px);border-radius:50%;border:1px solid var(--border);opacity:.4}
+.title-accent::before{content:'';position:absolute;inset:18%;border-radius:50%;border:1px solid var(--border)}
+/* SS bar visualization */
+.ss-bar-wrap{display:flex;flex-direction:column;gap:.4rem;margin:var(--gap) 0}
+.ss-bar-row{display:flex;align-items:center;gap:.6rem}
+.ss-bar-label{font-family:var(--font-m);font-size:clamp(.56rem,.88vw,.76rem);color:var(--muted);flex-shrink:0;width:clamp(80px,12vw,130px);text-align:right}
+.ss-bar-track{flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:clamp(14px,2.2vh,22px);overflow:hidden}
+.ss-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.5em;font-family:var(--font-m);font-size:clamp(.5rem,.75vw,.66rem);color:rgba(0,0,0,.75);font-weight:700;transition:width 1s var(--ease)}
+/* Badge system */
+#badge-popup{
+  position:fixed;top:1.4rem;right:1.5rem;z-index:500;
+  transform:translateX(130%);
+  transition:transform .5s var(--ease);
+  background:var(--surface);border:2px solid var(--gold);border-radius:12px;
+  padding:.8rem 1.2rem .8rem .9rem;
+  display:flex;align-items:center;gap:.85rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);min-width:210px;
+}
+#badge-popup.show{transform:translateX(0)}
+.bp-medal{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 30%,#f5d060,#b8860b);
+  border:2px solid rgba(255,255,255,.28);
+  box-shadow:0 0 16px rgba(212,168,67,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+}
+.bp-medal-icon{font-size:1.3rem;line-height:1}
+.bp-medal-ch{font-family:var(--font-m);font-size:.44rem;color:rgba(255,255,255,.8);font-weight:700;letter-spacing:.06em}
+.bp-text{flex:1}
+.bp-label{font-family:var(--font-b);font-size:.58rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.18em}
+.bp-name{font-family:var(--font-h);font-size:.88rem;font-weight:700;color:var(--text);line-height:1.2}
+.kc-shelf{display:flex;align-items:center;gap:.32rem;margin-bottom:.5rem}
+.kc-shelf-dot{
+  width:7px;height:7px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.07);
+  transition:background .35s,box-shadow .35s;
+}
+.kc-shelf-dot.earned{background:var(--gold);border-color:var(--gold);box-shadow:0 0 7px rgba(212,168,67,.55)}
+.badge-collection-slide{
+  background:radial-gradient(ellipse at 50% 80%,rgba(212,168,67,.12) 0%,transparent 60%),var(--bg);
+}
+.badge-coll-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:clamp(.5rem,1.4vw,1.4rem);margin:var(--gap) 0;
+  justify-items:center;
+}
+.ba-item{display:flex;flex-direction:column;align-items:center;gap:.38em}
+.ba-circle{
+  width:clamp(68px,9vw,96px);height:clamp(68px,9vw,96px);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  transition:transform .3s var(--ease);
+}
+.ba-item.earned .ba-circle{
+  background:radial-gradient(circle at 35% 30%,#f5d060,#b8860b);
+  border:2.5px solid rgba(255,255,255,.25);
+  box-shadow:0 0 22px rgba(212,168,67,.5),0 4px 14px rgba(0,0,0,.3);
+}
+.ba-item.locked .ba-circle{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08)}
+.ba-circle-icon{font-size:clamp(1.3rem,2.5vw,1.8rem);line-height:1}
+.ba-circle-ch{font-family:var(--font-m);font-size:.5rem;color:rgba(255,255,255,.75);font-weight:700;letter-spacing:.07em}
+.ba-title{font-family:var(--font-b);font-size:clamp(.52rem,.85vw,.72rem);color:var(--text);text-align:center;line-height:1.3}
+.ba-item.locked .ba-title{color:var(--muted)}
+.ba-check{font-size:.7rem;color:var(--sage);font-weight:700}
+@keyframes badgePop{
+  0%{transform:scale(0) rotate(-15deg);opacity:0}
+  65%{transform:scale(1.18) rotate(3deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.ba-item.earned .ba-circle{animation:badgePop .65s var(--ease) both}
+.name-input-wrap{margin-top:clamp(.6rem,1.6vw,1.4rem);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.name-input-wrap label{font-size:var(--ss);color:var(--muted);font-family:var(--font-b)}
+#student-name-input,#student-id-input{
+  background:var(--surface);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-family:var(--font-b);font-size:var(--bs);
+  padding:.3em .7em;outline:none;width:clamp(130px,20vw,220px);
+  transition:border-color .2s;
+}
+#student-name-input:focus,#student-id-input:focus{border-color:var(--gold)}
+#student-name-input::placeholder,#student-id-input::placeholder{color:var(--muted)}
+/* Light mode */
+body.light-mode{
+  --bg:#f5f1eb;--bg2:#ebe5da;--surface:#ddd5c6;--text:#1a2332;--muted:#5a6a7a;
+  --gold:#96620a;--gold-dim:rgba(150,98,10,.12);--sage:#306e56;--rust:#a03828;
+  --border:rgba(150,98,10,.28);
+}
+body.light-mode .slide{background:var(--bg)}
+body.light-mode .title-slide{background:radial-gradient(ellipse at 25% 65%,rgba(150,98,10,.1) 0%,transparent 55%),radial-gradient(ellipse at 75% 20%,rgba(48,110,86,.08) 0%,transparent 45%),var(--bg)}
+body.light-mode #app{background:var(--bg)}
+body.light-mode #notes-panel{background:var(--bg2)}
+body.light-mode .formula{background:var(--bg2);color:#1e5c8a}
+body.light-mode #progress{background:linear-gradient(90deg,var(--gold),var(--sage))}
+body.light-mode .dot{background:rgba(0,0,0,.2)}
+body.light-mode .dot.active{background:var(--gold)}
+body.light-mode #student-name-input,body.light-mode #student-id-input{background:var(--bg2)}
+body.light-mode #badge-popup{background:var(--bg2);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+body.light-mode .ba-item.locked .ba-circle{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.07)}
+body.light-mode .ba-circle-ch{color:rgba(0,0,0,.45)}
+body.light-mode .badge-collection-slide{background:radial-gradient(ellipse at 50% 80%,rgba(150,98,10,.1) 0%,transparent 60%),var(--bg)}
+#theme-btn{
+  position:fixed;bottom:1rem;left:1rem;z-index:300;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--muted);border-radius:50%;width:2.1rem;height:2.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .25s,border-color .25s,color .25s,transform .2s;padding:0;
+}
+#theme-btn svg{display:block;flex-shrink:0}
+#theme-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);transform:scale(1.1)}
+/* KC slides */
+.kc-slide{background:radial-gradient(ellipse at 70% 30%,rgba(126,184,160,.08) 0%,transparent 55%),var(--bg)}
+.kc-slide .slide-content{justify-content:flex-start;padding-top:clamp(1.8rem,5vh,4rem)}
+.kc-badge{
+  display:inline-flex;align-items:center;gap:.4em;
+  background:rgba(126,184,160,.15);border:1px solid var(--sage);
+  color:var(--sage);font-family:var(--font-m);font-size:var(--ss);
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:.2em .65em;border-radius:4px;margin-bottom:clamp(.3rem,.8vw,.8rem);
+}
+.kc-q{
+  font-family:var(--font-h);font-size:clamp(.88rem,1.9vw,1.35rem);
+  font-weight:700;line-height:1.28;margin-bottom:clamp(.45rem,1.1vw,1rem);color:var(--text);
+}
+.kc-opts{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.3rem,.75vw,.75rem);margin-bottom:clamp(.3rem,.75vw,.75rem)}
+.kc-opt{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:7px;padding:clamp(.38rem,.85vw,.85rem) clamp(.5rem,1.1vw,1.1rem);
+  font-family:var(--font-b);font-size:clamp(.68rem,1.1vw,.9rem);line-height:1.38;
+  cursor:pointer;text-align:left;color:var(--text);
+  transition:border-color .2s,background .2s,transform .15s;position:relative;
+}
+.kc-opt:hover:not(:disabled){border-color:var(--sage);background:rgba(126,184,160,.1);transform:translateY(-1px)}
+.kc-opt:disabled{cursor:default;transform:none}
+.kc-opt.correct{background:rgba(126,184,160,.2);border-color:var(--sage);color:var(--sage)}
+.kc-opt.wrong{background:rgba(192,97,74,.15);border-color:var(--rust);color:var(--rust)}
+.kc-opt.correct::after{content:'✓';position:absolute;right:.55em;top:50%;transform:translateY(-50%);font-weight:700}
+.kc-opt.wrong::after{content:'✗';position:absolute;right:.55em;top:50%;transform:translateY(-50%);font-weight:700}
+.kc-explain{
+  position:absolute;bottom:0;left:0;right:0;
+  border-top:2px solid var(--sage);
+  background:rgba(18,30,45,.97);
+  padding:clamp(.55rem,1.4vw,1.1rem) clamp(.8rem,2.5vw,2.4rem);
+  font-size:clamp(.7rem,1.1vw,.9rem);line-height:1.6;
+  transform:translateY(100%);opacity:0;
+  transition:transform .4s var(--ease),opacity .3s ease;z-index:10;
+}
+.kc-explain.show{transform:translateY(0);opacity:1}
+.kc-explain strong{color:var(--sage)}
+body.light-mode .kc-explain{background:rgba(235,229,218,.97);border-top-color:var(--sage)}
+.kc-num{
+  position:absolute;bottom:clamp(.6rem,1.4vw,1.1rem);right:clamp(.7rem,1.8vw,1.6rem);
+  font-family:var(--font-m);font-size:var(--ss);color:var(--sage);letter-spacing:.08em;
+}
+body.light-mode .kc-slide{background:radial-gradient(ellipse at 70% 30%,rgba(48,110,86,.07) 0%,transparent 55%),var(--bg)}
+body.light-mode .kc-opt{background:var(--bg2)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="navdots"></nav>
+<div id="badge-popup">
+  <div class="bp-medal">
+    <div class="bp-medal-icon" id="bp-icon">⚡</div>
+    <div class="bp-medal-ch">Ch. 15</div>
+  </div>
+  <div class="bp-text">
+    <div class="bp-label">Badge Earned!</div>
+    <div class="bp-name" id="bp-name">Power Advantage</div>
+  </div>
+</div>
+<button id="theme-btn" title="Toggle light/dark mode" onclick="toggleTheme()">
+  <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg id="icon-sun"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+<div id="app">
+<div id="slides-wrap">
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide title-slide" data-slide="1">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">KIN 610 · Quantitative Methods in Kinesiology</div>
+  <h1 class="r">Repeated Measures<br>Analysis of Variance</h1>
+  <p class="r" style="margin-top:clamp(.4rem,1.2vw,1.2rem);font-size:clamp(.9rem,2vw,1.5rem);color:var(--muted);font-style:italic;">Chapter 15</p>
+  <div class="r" style="margin-top:clamp(.8rem,2vw,2rem);display:flex;flex-direction:column;gap:.3em;">
+    <span style="font-size:var(--bs);color:var(--muted)"><strong style="color:var(--text)">Ovande Furtado Jr., PhD</strong> &nbsp;·&nbsp; Cal State Northridge</span>
+  </div>
+</div>
+<div class="title-accent"></div>
+<div class="slide-num">01 / 22</div>
+</section>
+
+<!-- SLIDE 2: HOW TO USE -->
+<section class="slide" data-slide="2">
+<div class="slide-bar"></div>
+<div class="slide-content" style="justify-content:flex-start;padding-top:clamp(1.2rem,3vw,2.8rem);">
+  <div class="kicker r">Welcome</div>
+  <h2 class="stitle r">How to Use This Deck</h2>
+  <div class="cols r" style="align-items:flex-start;margin-top:var(--gap);">
+    <div style="display:flex;flex-direction:column;gap:var(--gap);">
+      <div class="panel" style="padding:clamp(.7rem,1.5vw,1.2rem);">
+        <h3 style="margin-bottom:.6em;">🎓 Identify yourself</h3>
+        <div class="name-input-wrap" style="margin-bottom:.4em;">
+          <label for="student-name-input">Your name:</label>
+          <input id="student-name-input" type="text" placeholder="First Last" autocomplete="name"/>
+        </div>
+        <div class="name-input-wrap" style="margin-bottom:.45em;">
+          <label for="student-id-input">Student ID:</label>
+          <input id="student-id-input" type="text" placeholder="e.g. 123456789" autocomplete="off"
+                 inputmode="numeric" style="letter-spacing:.05em;font-family:var(--font-m);"/>
+        </div>
+        <p style="font-size:var(--ss);color:var(--muted);line-height:1.55;">
+          🔒 <strong style="color:var(--text);">Privacy note:</strong> Your name and ID personalize the badge collection and generate your verification code. They are stored only in your browser's memory for this session — never transmitted or saved anywhere.
+        </p>
+      </div>
+      <div class="callout info">
+        <div class="ct">Study flow</div>
+        <ol style="margin-left:1.1em;line-height:1.7;font-size:var(--bs);">
+          <li>Read each slide and follow the <strong>Transcript</strong> panel on the right</li>
+          <li>At each <strong>Knowledge Check (KC)</strong>, answer before moving on</li>
+          <li>A correct first pick earns a <strong style="color:var(--gold)">badge ⭐</strong> — wrong picks do not</li>
+          <li>Reach the end, then save your <strong>Badge Collection</strong> as a PDF</li>
+        </ol>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:var(--gap);">
+      <div class="panel" style="padding:clamp(.7rem,1.5vw,1.2rem);">
+        <h3 style="margin-bottom:.5em;">🏅 How badges work</h3>
+        <p style="margin-bottom:.6em;font-size:var(--bs);line-height:1.6;">
+          There are <strong style="color:var(--gold)">10 Knowledge Checks</strong> spread across the deck. Each badge is awarded only if you pick the correct answer <em>on your first try within a run</em>.
+        </p>
+        <p style="margin-bottom:.6em;font-size:var(--bs);line-height:1.6;">
+          If you answer a KC incorrectly, <strong>no badge is lost yet</strong> — scroll to the end and click <strong>↺ Try Again</strong>. This wipes the slate clean: all badges reset, all KC questions reset, and you return to slide 1 for a fresh run.
+        </p>
+        <p style="font-size:var(--bs);line-height:1.6;">
+          <strong>You can repeat as many times as you need.</strong> The goal is to work through the material until you can answer every KC correctly on the first pick.
+        </p>
+      </div>
+      <div class="callout" style="border-color:var(--rust);">
+        <div class="ct" style="color:var(--rust);">📋 If submitting for credit</div>
+        <p style="font-size:var(--bs);line-height:1.6;">
+          When you earn all 10 badges, click <strong>⬇ Save as PDF</strong> on the final slide. The PDF includes your name, student ID, earned badges, and a <strong>verification code</strong> unique to your ID. Your instructor can confirm it is authentic.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">02 / 22</div>
+</section>
+
+<!-- SLIDE 3: CHAPTER ROADMAP -->
+<section class="slide" data-slide="3">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Context</div>
+  <h2 class="stitle r">Chapter Roadmap</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">Movement science research is saturated with designs where the <strong style="color:var(--gold)">same participants are measured more than once</strong>:</p>
+      <ul class="dl" style="margin-bottom:var(--gap);">
+        <li>Pain scores at baseline, 4 weeks, and 8 weeks post-rehab</li>
+        <li>VO₂max before, midway, and after a 12-week conditioning program</li>
+        <li>Movement error across five practice blocks</li>
+        <li>Strength at pre, mid, and post-training</li>
+      </ul>
+      <p>In all of these, the question centers on <em>change within individuals over time</em>. One-way repeated measures ANOVA is the natural tool.</p>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.45em;">This chapter covers</h3>
+        <ul class="dl">
+          <li><strong style="color:var(--gold)">Why</strong> repeated measures designs are more powerful</li>
+          <li><strong style="color:var(--gold)">Sphericity</strong> — the assumption unique to this design</li>
+          <li><strong style="color:var(--gold)">GG and HF corrections</strong> when sphericity is violated</li>
+          <li><strong style="color:var(--gold)">Bonferroni post hoc</strong> comparisons</li>
+          <li><strong style="color:var(--gold)">Effect sizes:</strong> η²<sub>p</sub>, ω²<sub>p</sub>, Cohen's d</li>
+          <li><strong style="color:var(--gold)">APA reporting</strong> for repeated measures</li>
+        </ul>
+      </div>
+      <div class="callout info">
+        <div class="ct">Running example</div>
+        <p>Muscular strength (kg) measured at pre, mid (6-wk), and post (12-wk) in 30 university students across a resistance training program.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">03 / 22</div>
+</section>
+
+<!-- SLIDE 4: LEARNING OBJECTIVES -->
+<section class="slide" data-slide="4">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Chapter 15</div>
+  <h2 class="stitle r">Learning Objectives</h2>
+  <ul class="dl r">
+    <li>Explain why repeated measures designs offer greater <strong style="color:var(--gold)">statistical power</strong> than equivalent between-subjects designs</li>
+    <li>Describe how total variance is <strong style="color:var(--gold)">partitioned</strong> in a one-way repeated measures ANOVA — distinguishing between-subjects variance from within-subjects error</li>
+    <li>State the <strong style="color:var(--gold)">sphericity assumption</strong> and explain what it means in plain language</li>
+    <li>Interpret <strong style="color:var(--gold)">Mauchly's test</strong> and select the appropriate correction (Greenhouse-Geisser or Huynh-Feldt) when needed</li>
+    <li>Conduct and interpret <strong style="color:var(--gold)">Bonferroni-corrected pairwise comparisons</strong> following a significant within-subjects effect</li>
+    <li>Compute and interpret <strong style="color:var(--gold)">partial η²<sub>p</sub> and ω²<sub>p</sub></strong> as effect size measures</li>
+    <li>Report a complete repeated measures ANOVA in <strong style="color:var(--gold)">APA format</strong>, including the sphericity correction used</li>
+  </ul>
+</div>
+<div class="slide-num">04 / 22</div>
+</section>
+
+<!-- SLIDE 5: WORKFLOW -->
+<section class="slide" data-slide="5">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Procedure</div>
+  <h2 class="stitle r">Workflow for One-Way Repeated Measures ANOVA</h2>
+  <div class="steps r">
+    <div class="step"><span class="step-n">1</span><span class="step-t"><strong>Restructure data</strong> — wide format in SPSS: one row per participant, one column per time point</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-t"><strong>Check assumptions</strong> — normality of difference scores and sphericity</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-t"><strong>Run the repeated measures ANOVA</strong> and inspect Mauchly's test <em>before</em> reading the F-ratio</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-t"><strong>Select the appropriate F-row</strong> — Sphericity Assumed, Greenhouse-Geisser, or Huynh-Feldt — based on Mauchly's result and epsilon</span></div>
+    <div class="step"><span class="step-n">5</span><span class="step-t"><strong>If F is significant</strong> — run Bonferroni-corrected pairwise comparisons</span></div>
+    <div class="step"><span class="step-n">6</span><span class="step-t"><strong>Calculate effect sizes</strong> — η²<sub>p</sub> from SPSS output; ω²<sub>p</sub> from source table values; Cohen's d for each pairwise contrast</span></div>
+    <div class="step"><span class="step-n">7</span><span class="step-t"><strong>Report in APA format</strong> — Mauchly's test, correction applied, omnibus F, post hoc results, and effect sizes</span></div>
+  </div>
+</div>
+<div class="slide-num">05 / 22</div>
+</section>
+
+<!-- SLIDE 6: WITHIN vs BETWEEN -->
+<section class="slide" data-slide="6">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Logic</div>
+  <h2 class="stitle r">Within-Subjects vs. Between-Subjects Designs</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);border-color:var(--rust);">
+        <h3 style="color:var(--rust);margin-bottom:.4em;">Between-subjects ANOVA</h3>
+        <ul class="dl" style="gap:clamp(.2rem,.55vw,.55rem);">
+          <li>Each participant in <em>one</em> group only</li>
+          <li>Individual differences (genetics, baseline fitness, motivation) stay in the error term</li>
+          <li>Error = group variability + individual differences</li>
+          <li>Large denominator → smaller F → lower power</li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <div class="ct">The problem</div>
+        <p>In kinesiology, between-person baseline variability is <strong>enormous</strong> — it dominates the error term and masks real effects.</p>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);border-color:var(--sage);">
+        <h3 style="color:var(--sage);margin-bottom:.4em;">Within-subjects (repeated measures)</h3>
+        <ul class="dl" style="gap:clamp(.2rem,.55vw,.55rem);">
+          <li>Each participant measured at <em>every</em> time point</li>
+          <li>Consistent individual baseline is mathematically separated out</li>
+          <li>Error = within-person inconsistency only</li>
+          <li>Small denominator → larger F → higher power</li>
+        </ul>
+      </div>
+      <div class="callout info">
+        <div class="ct">The advantage</div>
+        <p>Each person serves as their own control. The question becomes: <em>relative to each person's own baseline, how much did they change?</em></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">06 / 22</div>
+</section>
+
+<!-- SLIDE 7: POWER ADVANTAGE -->
+<section class="slide" data-slide="7">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Statistical Power</div>
+  <h2 class="stitle r">The Power Advantage: Removing Individual Baselines</h2>
+  <div class="cols r cols-55">
+    <div>
+      <p style="margin-bottom:var(--gap);">Consider measuring grip strength at pre, mid, and post in a training program. Participant A (competitive athlete) starts at 110 kg; Participant B (sedentary) starts at 60 kg.</p>
+      <p style="margin-bottom:var(--gap);">A between-subjects design treats that <strong style="color:var(--rust)">50 kg difference</strong> as error — it inflates the denominator of F and obscures the training effect.</p>
+      <p style="margin-bottom:var(--gap);">A repeated measures design asks instead: <em style="color:var(--sage)">"Relative to each person's own starting point, how much did they change?"</em> The 50 kg baseline difference cancels out entirely.</p>
+      <div class="callout info">
+        <div class="ct">The correlation matters</div>
+        <p>The higher the correlation among repeated measurements, the more individual-difference variance is removed, and the greater the power advantage over a between-subjects design.</p>
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <h3 style="margin-bottom:.6em;font-size:var(--h3);">Sample size comparison</h3>
+        <p style="font-size:var(--ss);color:var(--muted);margin-bottom:.6em;">Medium effect, α = .05, power = .80, 3 time points, r = .50</p>
+        <table class="dtable">
+          <thead><tr><th>Design</th><th class="c">n Required</th></tr></thead>
+          <tbody>
+            <tr><td>Between-subjects</td><td class="c" style="color:var(--rust);font-weight:600;">≈ 52</td></tr>
+            <tr><td>Repeated measures</td><td class="c" style="color:var(--sage);font-weight:600;">≈ 28</td></tr>
+            <tr><td>Savings</td><td class="c" style="color:var(--gold);font-weight:600;">~46%</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:var(--ss);color:var(--muted);margin-top:.6em;">Fewer participants, same statistical power — a major practical advantage in clinical and sport science research.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">07 / 22</div>
+</section>
+
+<!-- KC 1: POWER ADVANTAGE -->
+<section class="slide kc-slide" data-slide="kc1" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc1">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A sport scientist says: "My repeated measures ANOVA needed only 28 participants to detect the same effect that a between-subjects ANOVA would need 52 for." What is the most accurate explanation?</p>
+  <div class="kc-opts r" id="kc1-opts">
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">A &nbsp; Repeated measures uses a two-tailed test while between-subjects uses one-tailed, doubling effective power</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc1',this,true)">B &nbsp; Each participant's consistent personal baseline is mathematically separated from the error term, leaving only within-person inconsistency as residual noise</button>
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">C &nbsp; Repeated measurements allow the researcher to average scores across time points, which always reduces variability</button>
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">D &nbsp; The within-subjects F-ratio uses larger degrees of freedom than between-subjects, which increases power</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc1-explain">
+  <strong>B is correct.</strong> In a repeated measures design, some participants consistently score high and others consistently low across all time points. Because the same people appear at every measurement, that stable individual baseline is partitioned out of the error term entirely. What remains is only how each person's change pattern deviates from the group average — typically much smaller than raw between-person differences. A smaller error term produces a larger F for the same effect, which directly means fewer participants are needed to achieve the same power.
+</div>
+<div class="kc-num">KC · 1 / 10</div>
+</section>
+
+<!-- SLIDE 8: VARIANCE PARTITIONING -->
+<section class="slide" data-slide="8">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Statistics</div>
+  <h2 class="stitle r">How Variance Is Partitioned</h2>
+  <div class="formula r">SS<sub>total</sub> = SS<sub>between subjects</sub> + SS<sub>time</sub> + SS<sub>error</sub></div>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="border-color:var(--muted);margin-bottom:var(--gap);">
+        <h3 style="color:var(--muted);margin-bottom:.3em;">SS<sub>between subjects</sub></h3>
+        <p style="font-size:var(--bs);line-height:1.5;">Consistent individual differences in overall performance level — some participants score high across all time points, others consistently score low. <strong style="color:var(--gold)">Removed from the F-ratio entirely.</strong> Never appears in the denominator.</p>
+      </div>
+      <div class="panel" style="border-color:var(--gold);">
+        <h3 style="color:var(--gold);margin-bottom:.3em;">SS<sub>time</sub></h3>
+        <p style="font-size:var(--bs);line-height:1.5;">How much the group means change across the time points. <strong style="color:var(--gold)">This is the effect we test</strong> — it becomes the numerator of F.</p>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="border-color:var(--sage);margin-bottom:var(--gap);">
+        <h3 style="color:var(--sage);margin-bottom:.3em;">SS<sub>error</sub> (subjects × time)</h3>
+        <p style="font-size:var(--bs);line-height:1.5;">How <em>differently</em> each participant responds across time points — individual inconsistency in change patterns. <strong style="color:var(--sage)">This is the denominator of F.</strong> Much smaller than between-subjects error.</p>
+      </div>
+      <div class="callout">
+        <div class="ct">Why this matters</div>
+        <p style="font-size:var(--bs);">In between-subjects ANOVA: F = MS<sub>groups</sub> / MS<sub>within</sub> (includes all individual differences). In repeated measures: F = MS<sub>time</sub> / MS<sub>error</sub> (individual differences excluded). Smaller denominator → larger F.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">08 / 22</div>
+</section>
+
+<!-- KC 2: SS PARTITIONING -->
+<section class="slide kc-slide" data-slide="kc2" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc2">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">In a repeated measures ANOVA, SPSS output shows SS<sub>between subjects</sub> = 13,120, SS<sub>time</sub> = 444, SS<sub>error</sub> = 111. What role does SS<sub>between subjects</sub> play in the F-ratio for the time effect?</p>
+  <div class="kc-opts r" id="kc2-opts">
+    <button class="kc-opt" onclick="answerKC('kc2',this,false)">A &nbsp; It is added to SS<sub>error</sub> to form the full denominator, as in between-subjects ANOVA</button>
+    <button class="kc-opt" onclick="answerKC('kc2',this,false)">B &nbsp; It inflates MS<sub>error</sub>, making it harder to detect the time effect</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc2',this,true)">C &nbsp; It is removed from the error term entirely and plays no role in the F-ratio</button>
+    <button class="kc-opt" onclick="answerKC('kc2',this,false)">D &nbsp; It becomes the numerator of the F-ratio when the omnibus test is significant</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc2-explain">
+  <strong>C is correct.</strong> The key advantage of the repeated measures design is that SS<sub>between subjects</sub> — capturing consistent individual differences in overall performance level — is partitioned out as its own component and excluded from both numerator and denominator of the F-ratio for time. The F for time is MS<sub>time</sub> / MS<sub>error</sub>, where MS<sub>error</sub> reflects only within-person inconsistency across time points. The enormous SS<sub>between subjects</sub> simply drops out of the equation, which is precisely why the repeated measures F is so much larger than it would be in a between-subjects analysis of the same data.
+</div>
+<div class="kc-num">KC · 2 / 10</div>
+</section>
+
+<!-- SLIDE 9: WHEN TO USE -->
+<section class="slide" data-slide="9">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Application</div>
+  <h2 class="stitle r">When to Use One-Way Repeated Measures ANOVA</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Use it when:</h3>
+        <ul class="dl" style="gap:clamp(.2rem,.55vw,.55rem);">
+          <li>The <strong>same participants</strong> provide data at 3 or more time points or conditions</li>
+          <li>The outcome variable is <strong>continuous</strong></li>
+          <li>Every participant contributes <strong>one observation per time point</strong></li>
+          <li>The goal is to test whether the <strong>population mean differs across time</strong></li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <div class="ct">Missing data</div>
+        <p>A participant with a missing time point cannot contribute to the full within-subjects comparison. Address missing data before analysis.</p>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Connection to simpler tests</h3>
+        <ul class="dl" style="gap:clamp(.2rem,.55vw,.55rem);">
+          <li><strong style="color:var(--gold)">2 time points only →</strong> reduces exactly to the paired <em>t</em>-test (identical results)</li>
+          <li><strong style="color:var(--gold)">2 levels →</strong> sphericity cannot be violated; Mauchly's test absent from SPSS output</li>
+          <li><strong style="color:var(--gold)">3+ time points →</strong> ANOVA required; pairwise t-tests would inflate familywise error rate</li>
+        </ul>
+      </div>
+      <div class="callout info">
+        <div class="ct">Nonparametric alternative</div>
+        <p>If the outcome is ordinal or normality is severely violated with small samples, use <strong>Friedman's ANOVA</strong> (Chapter 19).</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">09 / 22</div>
+</section>
+
+<!-- SLIDE 10: HYPOTHESES -->
+<section class="slide" data-slide="10">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Inference</div>
+  <h2 class="stitle r">Hypotheses and the Omnibus Test</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.5em;">Null hypothesis (H₀)</h3>
+        <div class="formula" style="margin:.4em 0;">μ<sub>pre</sub> = μ<sub>mid</sub> = μ<sub>post</sub></div>
+        <p style="font-size:var(--bs);">The population mean is equal at all time points — time has no effect on the dependent variable.</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.5em;">Alternative hypothesis (H₁)</h3>
+        <p style="font-size:var(--bs);">At least one population mean differs from the others across time points.</p>
+      </div>
+    </div>
+    <div>
+      <div class="callout" style="margin-top:0;margin-bottom:var(--gap);">
+        <div class="ct">The omnibus test as gatekeeper</div>
+        <p style="font-size:var(--bs);line-height:1.6;">A significant omnibus F only establishes that <em>somewhere</em> across the time points there is a meaningful change. It does not tell you <em>which specific pairs differ</em>. Post hoc Bonferroni-corrected pairwise comparisons identify where the changes are.</p>
+      </div>
+      <div class="callout warn">
+        <div class="ct">Critical rule</div>
+        <p style="font-size:var(--bs);line-height:1.6;">Post hoc pairwise comparisons are only appropriate <strong>after a significant omnibus F</strong>. Running them after a non-significant result inflates Type I error.</p>
+      </div>
+      <div class="panel" style="margin-top:var(--gap);">
+        <p style="font-size:var(--bs);"><strong style="color:var(--gold);">α = .05</strong> throughout — the familywise error rate is maintained at 5% by the omnibus test, avoiding the inflation that would result from multiple uncorrected t-tests.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">10 / 22</div>
+</section>
+
+<!-- SLIDE 11: WORKED EXAMPLE -->
+<section class="slide" data-slide="11">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Worked Example</div>
+  <h2 class="stitle r">Strength Gains Across a 12-Week Program</h2>
+  <div class="cols r cols-55">
+    <div>
+      <p style="margin-bottom:var(--gap);">Thirty university students had muscular strength (kg) measured at three time points during a 12-week resistance training program.</p>
+      <table class="dtable r" style="margin-bottom:var(--gap);">
+        <thead><tr><th>Time Point</th><th class="c">n</th><th class="c">M (kg)</th><th class="c">SD</th></tr></thead>
+        <tbody>
+          <tr><td>Pre-training</td><td class="c">30</td><td class="c">79.7</td><td class="c">12.3</td></tr>
+          <tr><td>Mid-training (6-wk)</td><td class="c">30</td><td class="c">81.7</td><td class="c">12.3</td></tr>
+          <tr><td>Post-training (12-wk)</td><td class="c">30</td><td class="c sig">85.1</td><td class="c">12.5</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:var(--bs);">Progressive increases are visible: +2.0 kg from pre to mid, +3.4 kg from mid to post, +5.4 kg total.</p>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Mauchly's Test of Sphericity</h3>
+        <table class="dtable">
+          <thead><tr><th>W</th><th>χ²(df)</th><th>p</th><th>ε<sub>GG</sub></th></tr></thead>
+          <tbody>
+            <tr><td>.623</td><td>13.234 (2)</td><td class="sig">.001</td><td>.726</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:var(--ss);color:var(--rust);margin-top:.4em;">p = .001 → sphericity violated</p>
+        <p style="font-size:var(--ss);color:var(--gold);margin-top:.2em;">ε<sub>GG</sub> = .726 &lt; .75 → apply Greenhouse-Geisser</p>
+      </div>
+      <div class="callout info">
+        <div class="ct">What happens next</div>
+        <p style="font-size:var(--bs);">Because sphericity is violated, the standard F-test degrees of freedom (df = 2, 58) are too liberal. GG correction adjusts them to fractional values — df ≈ 1.45, 42.11 — restoring the proper Type I error rate.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">11 / 22</div>
+</section>
+
+<!-- SLIDE 12: SPHERICITY -->
+<section class="slide" data-slide="12">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Key Assumption</div>
+  <h2 class="stitle r">The Sphericity Assumption</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">Sphericity requires that the <strong style="color:var(--gold)">variances of the difference scores between all pairs of time points are approximately equal</strong>.</p>
+      <p style="margin-bottom:var(--gap);">For a pre/mid/post design, sphericity requires:</p>
+      <div class="formula">Var(mid − pre) ≈ Var(post − pre) ≈ Var(post − mid)</div>
+      <p style="margin-bottom:var(--gap);">In plain language: the <em>consistency</em> of each participant's change should be similar across all pairs of intervals.</p>
+      <div class="callout warn">
+        <div class="ct">Why it matters</div>
+        <p>When sphericity is violated, the standard F-test uses degrees of freedom that are <strong>too large</strong> — it rejects H₀ more often than the stated α. Type I error is inflated.</p>
+      </div>
+    </div>
+    <div>
+      <div class="callout info" style="margin-top:0;margin-bottom:var(--gap);">
+        <div class="ct">Common misconception</div>
+        <p style="font-size:var(--bs);line-height:1.6;">Sphericity is <strong>not</strong> about equal raw standard deviations at each time point. A dataset can have very different SDs at pre, mid, and post and still meet sphericity — what matters is whether the <em>change scores</em> are similarly variable across all pairs.</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.45em;">Violation example</h3>
+        <p style="font-size:var(--bs);line-height:1.6;margin-bottom:.4em;">Interval pre→mid: everyone improves 2 kg (very consistent → small variance)</p>
+        <p style="font-size:var(--bs);line-height:1.6;">Interval mid→post: some improve 8 kg, others plateau (very variable → large variance)</p>
+        <p style="font-size:var(--ss);color:var(--rust);margin-top:.4em;">→ The two intervals have very different change variances → sphericity violated.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">12 / 22</div>
+</section>
+
+
+<!-- KC 3: SPHERICITY -->
+<section class="slide kc-slide" data-slide="kc3" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc3">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">An exercise scientist tells a student: "Sphericity means the raw standard deviations at pre, mid, and post must be approximately equal." Is this correct?</p>
+  <div class="kc-opts r" id="kc3-opts">
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">A &nbsp; Yes — sphericity is equivalent to homogeneity of variance applied to time points instead of groups</button>
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">B &nbsp; No — sphericity requires the correlations between all pairs of time points to be equal, not the SDs</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc3',this,true)">C &nbsp; No — sphericity requires the variances of the pairwise difference scores (mid−pre, post−pre, post−mid) to be approximately equal, not the raw SDs</button>
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">D &nbsp; Yes — if the SDs at each time point are within 10% of each other, sphericity is satisfied</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc3-explain">
+  <strong>C is correct.</strong> Sphericity is specifically about consistency of change, not consistency of raw spread. It asks whether the variability of (mid−pre) scores is similar to the variability of (post−pre) and (post−mid) scores. A dataset can have quite different raw SDs at pre, mid, and post and still meet sphericity — what matters is whether individual change scores are similarly variable across all pairs of time intervals. Treating sphericity as a raw-SD assumption is one of the most common misconceptions about this design.
+</div>
+<div class="kc-num">KC · 3 / 10</div>
+</section>
+
+<!-- SLIDE 13: MAUCHLY'S TEST -->
+<section class="slide" data-slide="13">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Assumption Testing</div>
+  <h2 class="stitle r">Mauchly's Test of Sphericity</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">SPSS automatically produces <strong style="color:var(--gold)">Mauchly's W</strong> for every repeated measures ANOVA. W ranges from 0 (complete non-sphericity) to 1 (perfect sphericity).</p>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Decision rule</h3>
+        <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+          <li><strong style="color:var(--sage)">p &gt; .05 →</strong> sphericity not rejected; use <em>Sphericity Assumed</em> row</li>
+          <li><strong style="color:var(--rust)">p &lt; .05 →</strong> sphericity violated; apply GG or HF correction</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Epsilon (ε) estimates</h3>
+        <p style="font-size:var(--bs);line-height:1.55;margin-bottom:.3em;">SPSS reports two epsilon estimates quantifying departure from sphericity. Epsilon ranges from 1/(k−1) to 1.0 (k = number of time points). For 3 time points, minimum ε = .50.</p>
+        <ul class="dl" style="gap:clamp(.15rem,.4vw,.4rem);">
+          <li><strong>ε close to 1.0</strong> → sphericity nearly met</li>
+          <li><strong>ε far below 1.0</strong> → serious violation</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="callout warn" style="margin-top:0;margin-bottom:var(--gap);">
+        <div class="ct">Sample size sensitivity</div>
+        <p style="font-size:var(--bs);line-height:1.6;">Mauchly's test is sensitive to sample size. With <strong>small samples</strong>, it may miss real violations. With <strong>large samples</strong>, trivial departures produce significant results. Always inspect the epsilon value alongside the p-value.</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Practical guide</h3>
+        <table class="dtable">
+          <thead><tr><th>Mauchly's p</th><th>ε<sub>GG</sub></th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--sage)">&gt; .05</td><td>—</td><td>Sphericity Assumed</td></tr>
+            <tr><td style="color:var(--rust)">&lt; .05</td><td style="color:var(--rust)">&lt; .75</td><td>Greenhouse-Geisser</td></tr>
+            <tr><td style="color:var(--rust)">&lt; .05</td><td style="color:var(--gold)">≥ .75</td><td>Huynh-Feldt</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:var(--ss);color:var(--muted);margin-top:.5em;">Also apply GG/HF if ε is notably below 1.0 even when p is marginal, especially with small samples.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">13 / 22</div>
+</section>
+
+<!-- KC 4: MAUCHLY'S DECISION -->
+<section class="slide kc-slide" data-slide="kc4" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc4">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A researcher runs a repeated measures ANOVA on three time points and gets: Mauchly's W = .623, p = .001, ε<sub>GG</sub> = .726, ε<sub>HF</sub> = .789. What is the correct course of action?</p>
+  <div class="kc-opts r" id="kc4-opts">
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">A &nbsp; Use the Sphericity Assumed row — W = .623 is close enough to 1.0 that corrections are unnecessary</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc4',this,true)">B &nbsp; Apply Greenhouse-Geisser because p &lt; .05 and ε<sub>GG</sub> = .726 &lt; .75</button>
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">C &nbsp; Apply Huynh-Feldt because ε<sub>HF</sub> &gt; ε<sub>GG</sub> and HF is always preferred when sphericity is violated</button>
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">D &nbsp; Apply the Lower-Bound correction as it is the most conservative option and will prevent any Type I error</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc4-explain">
+  <strong>B is correct.</strong> Because Mauchly's test is significant (p = .001), sphericity is violated and the uncorrected F-test cannot be used. The decision between GG and HF depends on the GG epsilon: when ε<sub>GG</sub> &lt; .75, Greenhouse-Geisser is the appropriate choice because the violation is substantial enough to warrant the more conservative correction. With ε<sub>GG</sub> = .726 — just below the .75 threshold — GG applies here. Had ε<sub>GG</sub> been .75 or above, Huynh-Feldt would be preferred as it corrects less aggressively and preserves more power when the violation is mild.
+</div>
+<div class="kc-num">KC · 4 / 10</div>
+</section>
+
+<!-- SLIDE 14: GG vs HF -->
+<section class="slide" data-slide="14">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Corrections</div>
+  <h2 class="stitle r">Greenhouse-Geisser vs. Huynh-Feldt</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);border-color:var(--rust);">
+        <h3 style="color:var(--rust);margin-bottom:.4em;">Greenhouse-Geisser (GG)</h3>
+        <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+          <li>Multiplies both df by ε<sub>GG</sub> — more conservative</li>
+          <li>Use when <strong>ε<sub>GG</sub> &lt; .75</strong> (serious violation)</li>
+          <li>Tends to overcorrect when violation is mild</li>
+          <li>F-statistic does not change — only df and p change</li>
+        </ul>
+      </div>
+      <div class="panel" style="border-color:var(--sage);">
+        <h3 style="color:var(--sage);margin-bottom:.4em;">Huynh-Feldt (HF)</h3>
+        <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+          <li>Uses a larger, less conservative epsilon estimate</li>
+          <li>Use when <strong>ε<sub>GG</sub> ≥ .75</strong> (mild violation)</li>
+          <li>Better balance of Type I error control and power</li>
+          <li>ε<sub>HF</sub> is always ≥ ε<sub>GG</sub></li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.5em;">The decision rule</h3>
+        <div class="steps" style="flex:unset;">
+          <div class="step"><span class="step-n" style="color:var(--sage);">p &gt; .05</span><span class="step-t">Mauchly's not significant → use <strong>Sphericity Assumed</strong></span></div>
+          <div class="step"><span class="step-n" style="color:var(--rust);font-size:.7rem;">&lt;.75</span><span class="step-t">p &lt; .05 and ε<sub>GG</sub> &lt; .75 → use <strong>Greenhouse-Geisser</strong></span></div>
+          <div class="step"><span class="step-n" style="color:var(--gold);font-size:.7rem;">≥.75</span><span class="step-t">p &lt; .05 and ε<sub>GG</sub> ≥ .75 → use <strong>Huynh-Feldt</strong></span></div>
+        </div>
+      </div>
+      <div class="callout">
+        <div class="ct">Always report the correction</div>
+        <p style="font-size:var(--bs);">Name the correction used and report the epsilon value. Readers need this to evaluate whether the p-value is trustworthy and to compare results across studies.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">14 / 22</div>
+</section>
+
+<!-- KC 5: GG vs HF -->
+<section class="slide kc-slide" data-slide="kc5" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc5">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">Two researchers analyze the same dataset. Researcher A applies Greenhouse-Geisser; Researcher B applies Huynh-Feldt. Both report the same F-statistic. Who will have the larger (less corrected) degrees of freedom?</p>
+  <div class="kc-opts r" id="kc5-opts">
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">A &nbsp; Researcher A, because GG is used for milder violations and therefore corrects less</button>
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">B &nbsp; Both have identical degrees of freedom — the corrections only change the p-value, not the df</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc5',this,true)">C &nbsp; Researcher B, because the Huynh-Feldt epsilon is always at least as large as GG, producing less reduction in df</button>
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">D &nbsp; Researcher A, because GG multiplies the numerator df but not the denominator df</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc5-explain">
+  <strong>C is correct.</strong> Both corrections work by multiplying the original degrees of freedom by an epsilon estimate. Because the Huynh-Feldt epsilon is always at least as large as the GG epsilon — and often considerably larger — HF applies less shrinkage to the degrees of freedom. Larger corrected df shifts the critical F value downward, generally resulting in a lower p-value. This is why HF is the less conservative correction and is preferred when ε<sub>GG</sub> ≥ .75: the sphericity violation is mild enough that less aggressive correction still provides adequate Type I error control while sacrificing less power.
+</div>
+<div class="kc-num">KC · 5 / 10</div>
+</section>
+
+<!-- SLIDE 15: SOURCE TABLE -->
+<section class="slide" data-slide="15">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Results</div>
+  <h2 class="stitle r">ANOVA Source Table — Strength Training Example</h2>
+  <div class="cols r cols-55">
+    <div>
+      <table class="dtable r" style="margin-bottom:var(--gap);">
+        <thead><tr><th>Source</th><th class="c">SS</th><th class="c">df</th><th class="c">MS</th><th class="c">F</th><th class="c">p</th><th class="c">η²<sub>p</sub></th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--gold)">Time</strong></td><td class="c">443.73</td><td class="c sig">1.452</td><td class="c">305.60</td><td class="c sig">116.0</td><td class="c sig">&lt;.001</td><td class="c sig">.80</td></tr>
+          <tr class="err"><td>Error (Time)</td><td class="c">110.94</td><td class="c">42.11</td><td class="c">2.63</td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+          <tr class="bs-row"><td>Participants</td><td class="c">13,120.63</td><td class="c">29</td><td class="c">—</td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+        </tbody>
+      </table>
+      <div class="callout info r">
+        <div class="ct">Reading the table</div>
+        <ul style="margin-left:1em;font-size:var(--bs);line-height:1.7;">
+          <li>df = <strong>1.452</strong> (not 2) — Greenhouse-Geisser corrected</li>
+          <li>F = MS<sub>time</sub> / MS<sub>error</sub> = 305.60 / 2.63 = <strong>116.0</strong></li>
+          <li>Participants row is <em>never</em> part of the F-ratio</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Interpretation</h3>
+        <p style="font-size:var(--bs);line-height:1.6;margin-bottom:.4em;">F(1.45, 42.11) = 116.0, p &lt; .001, η²<sub>p</sub> = .80</p>
+        <p style="font-size:var(--bs);line-height:1.6;">The within-subjects effect of training time on muscular strength was statistically significant and very large. Strength increased progressively across the 12-week program.</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Why the F-ratio is so large</h3>
+        <p style="font-size:var(--bs);line-height:1.6;">MS<sub>error</sub> = 2.63 is tiny compared to MS<sub>time</sub> = 305.60. The error term captures only within-person inconsistency in strength gains — a very small source of variability when training effects are consistent across participants.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">15 / 22</div>
+</section>
+
+<!-- SLIDE 16: POST HOC TESTS -->
+<section class="slide" data-slide="16">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Follow-Up</div>
+  <h2 class="stitle r">Bonferroni-Corrected Pairwise Comparisons</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">With three time points (pre, mid, post), three pairwise comparisons are possible. SPSS produces these automatically via <em>Estimated Marginal Means → Compare main effects → Bonferroni</em>.</p>
+      <table class="dtable r">
+        <thead><tr><th>Comparison</th><th class="c">Mean Diff (kg)</th><th class="c">SE</th><th class="c">p (adj)</th><th>95% CI</th></tr></thead>
+        <tbody>
+          <tr><td>Mid − Pre</td><td class="c sig">2.02</td><td class="c">.27</td><td class="c sig">&lt;.001</td><td>[1.34, 2.70]</td></tr>
+          <tr><td>Post − Pre</td><td class="c sig">5.38</td><td class="c">.33</td><td class="c sig">&lt;.001</td><td>[4.54, 6.22]</td></tr>
+          <tr><td>Post − Mid</td><td class="c sig">3.36</td><td class="c">.45</td><td class="c sig">&lt;.001</td><td>[2.22, 4.50]</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:var(--ss);color:var(--muted);margin-top:.4em;">All three comparisons significant — strength increased significantly at each stage of the program.</p>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">What to report for each comparison</h3>
+        <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+          <li>Mean difference and its direction</li>
+          <li>Standard error (SE)</li>
+          <li>Bonferroni-adjusted p-value</li>
+          <li>95% confidence interval</li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <div class="ct">The gatekeeper rule</div>
+        <p style="font-size:var(--bs);line-height:1.6;">Post hoc pairwise comparisons are only appropriate <strong>after a significant omnibus F-test</strong>. Running them following a non-significant result capitalizes on chance and inflates Type I error — even with Bonferroni corrections applied.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">16 / 22</div>
+</section>
+
+<!-- KC 6: POST HOC LOGIC -->
+<section class="slide kc-slide" data-slide="kc6" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc6">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A repeated measures ANOVA yields F(1.45, 42.11) = 1.93, p = .158, η²<sub>p</sub> = .06. A colleague suggests: "Just run the Bonferroni comparisons anyway — maybe pre vs. post is significant." What is wrong with this approach?</p>
+  <div class="kc-opts r" id="kc6-opts">
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">A &nbsp; Nothing — Bonferroni corrections are conservative enough that running them after a non-significant F is always safe</button>
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">B &nbsp; The corrected df indicates sphericity was violated, which prevents any follow-up tests</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc6',this,true)">C &nbsp; Running pairwise comparisons after a non-significant omnibus F inflates Type I error and is not statistically justified</button>
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">D &nbsp; Bonferroni comparisons are only valid when ε<sub>GG</sub> ≥ .75, regardless of the omnibus result</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc6-explain">
+  <strong>C is correct.</strong> The omnibus F-test acts as a gatekeeper: it must be significant before pairwise comparisons are warranted. Running pairwise tests after a non-significant overall result — hoping to find significance in individual pairs — is a form of fishing that inflates the probability of a false positive beyond the stated α level. Even with Bonferroni corrections applied, this practice is not defensible because the corrections assume the omnibus test was significant. A non-significant F tells you the data are consistent with no time effect; the appropriate response is to interpret that finding, not to search for any significant pair.
+</div>
+<div class="kc-num">KC · 6 / 10</div>
+</section>
+
+<!-- SLIDE 17: EFFECT SIZES η²p -->
+<section class="slide" data-slide="17">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Effect Sizes</div>
+  <h2 class="stitle r">Partial Eta-Squared (η²<sub>p</sub>)</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">SPSS reports <strong style="color:var(--gold)">partial eta-squared</strong> as the default effect size. Unlike full η², the partial version excludes between-subjects variance from the denominator:</p>
+      <div class="formula">η²<sub>p</sub> = SS<sub>time</sub> / (SS<sub>time</sub> + SS<sub>error</sub>)</div>
+      <p style="margin-bottom:var(--gap);">Note: SS<sub>between subjects</sub> does not appear in this formula.</p>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Cohen's benchmarks</h3>
+        <table class="dtable">
+          <thead><tr><th>η²<sub>p</sub></th><th>Interpretation</th></tr></thead>
+          <tbody>
+            <tr><td>.01</td><td>Small effect</td></tr>
+            <tr><td>.06</td><td>Medium effect</td></tr>
+            <tr><td class="sig">.14</td><td>Large effect</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="callout warn" style="margin-top:0;margin-bottom:var(--gap);">
+        <div class="ct">Why η²<sub>p</sub> is larger than full η²</div>
+        <p style="font-size:var(--bs);line-height:1.6;">By excluding SS<sub>between subjects</sub> from the denominator, η²<sub>p</sub> answers "what fraction of <em>within-subject</em> variance does time explain?" — not "what fraction of total variance?" In human performance data, between-subjects variance is often enormous, so η²<sub>p</sub> can be considerably larger than full η² from the same data. Always label it as <em>partial</em>.</p>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Strength training example</h3>
+        <p style="font-size:var(--bs);line-height:1.6;">η²<sub>p</sub> = 443.73 / (443.73 + 110.94) = <strong style="color:var(--gold)">.80</strong></p>
+        <p style="font-size:var(--bs);line-height:1.6;margin-top:.4em;">80% of within-subject (error + time) variance is accounted for by the time effect — a very large, consistent training effect across all 30 participants.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">17 / 22</div>
+</section>
+
+<!-- KC 7: PARTIAL η²p -->
+<section class="slide kc-slide" data-slide="kc7" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc7">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">SPSS reports η²<sub>p</sub> = .80 for a repeated measures time effect. A classmate says "time explained 80% of the total variance in strength scores." What is wrong with this interpretation?</p>
+  <div class="kc-opts r" id="kc7-opts">
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">A &nbsp; Nothing — partial eta-squared in repeated measures ANOVA equals the proportion of total variance explained by time</button>
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">B &nbsp; η²<sub>p</sub> = .80 is impossible in SPSS — values above .50 indicate a calculation error</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc7',this,true)">C &nbsp; Partial eta-squared excludes between-subjects variance from its denominator, so it is larger than the proportion of total variance that time actually explains</button>
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">D &nbsp; The interpretation is wrong because η²<sub>p</sub> measures effect size in standard deviation units, not variance proportions</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc7-explain">
+  <strong>C is correct.</strong> Partial eta-squared is computed as SS<sub>time</sub> / (SS<sub>time</sub> + SS<sub>error</sub>), deliberately leaving SS<sub>between subjects</sub> out of the denominator. In human performance research, between-subjects variance — individual differences in baseline ability — is often enormous. By excluding it, η²<sub>p</sub> answers "what fraction of within-subject variance does time explain?" rather than "what fraction of total variance?" The denominator is therefore much smaller than total SS, which makes η²<sub>p</sub> larger than full η² computed from the same data. Reporting it as "proportion of total variance" overstates the time effect's footprint in the overall data.
+</div>
+<div class="kc-num">KC · 7 / 10</div>
+</section>
+
+<!-- SLIDE 18: ω²p + COHEN'S d -->
+<section class="slide" data-slide="18">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Effect Sizes</div>
+  <h2 class="stitle r">Partial Omega-Squared and Cohen's d</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Partial omega-squared (ω²<sub>p</sub>)</h3>
+        <p style="font-size:var(--bs);line-height:1.5;margin-bottom:.4em;">Less biased than η²<sub>p</sub> — recommended for small-to-moderate samples. SPSS does not compute it; calculate from source table values:</p>
+        <div class="formula" style="font-size:clamp(.54rem,.82vw,.76rem);">ω²<sub>p</sub> = [(k−1)(MS<sub>time</sub> − MS<sub>error</sub>)] / [(k−1)·MS<sub>time</sub> + (n−k+1)·MS<sub>error</sub>]</div>
+        <p style="font-size:var(--ss);color:var(--muted);margin-top:.4em;">k = number of time points, n = number of participants</p>
+        <p style="font-size:var(--bs);margin-top:.4em;"><strong>Example:</strong> ω²<sub>p</sub> = [(2)(305.60 − 2.63)] / [(2)(305.60) + (29)(2.63)] = 605.94 / 687.47 ≈ <strong style="color:var(--gold)">.88</strong></p>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Cohen's d for pairwise comparisons</h3>
+        <p style="font-size:var(--bs);line-height:1.5;margin-bottom:.4em;">For each Bonferroni comparison, d is computed from the mean difference divided by the SD of the difference scores:</p>
+        <div class="formula">d = D̄ / SD<sub>D</sub></div>
+        <table class="dtable" style="margin-top:.5em;">
+          <thead><tr><th>Comparison</th><th class="c">d</th><th>Size</th></tr></thead>
+          <tbody>
+            <tr><td>Mid vs. Pre</td><td class="c sig">1.38</td><td>Large</td></tr>
+            <tr><td>Post vs. Pre</td><td class="c sig">2.97</td><td>Very large</td></tr>
+            <tr><td>Post vs. Mid</td><td class="c sig">1.36</td><td>Large</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <div class="ct">Why d values are large here</div>
+        <p style="font-size:var(--bs);">Consistent training effects produce tight distributions of difference scores — small SD<sub>D</sub> in the denominator yields a large d, even for moderate mean differences.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">18 / 22</div>
+</section>
+
+<!-- KC 8: ERROR TERM -->
+<section class="slide kc-slide" data-slide="kc8" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc8">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">In a between-subjects ANOVA, the error term includes individual differences among participants. What does MS<sub>error</sub> contain in a repeated measures ANOVA instead?</p>
+  <div class="kc-opts r" id="kc8-opts">
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">A &nbsp; The same individual differences — the two designs only differ in how the numerator is computed</button>
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">B &nbsp; Random measurement error only — repeated measurements allow individual differences to cancel out exactly</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc8',this,true)">C &nbsp; The variability in how differently each participant responds across time points — inconsistency in individual change patterns</button>
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">D &nbsp; The average of between-subjects and within-subjects variances, weighted by the number of time points</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc8-explain">
+  <strong>C is correct.</strong> In a repeated measures design, consistent between-subjects variability — the fact that some people are consistently stronger or faster than others — is partitioned out as SS<sub>between subjects</sub>. The error term that remains (sometimes labeled subjects × time interaction or MS<sub>residual</sub>) reflects how unpredictably each participant's score changes from one time point to another relative to the group trajectory. If everyone improved by exactly the same amount at each interval, this term would approach zero. What inflates it is inconsistency: some participants plateau while others surge. This residual inconsistency — not raw individual differences — is what the F-ratio is divided by.
+</div>
+<div class="kc-num">KC · 8 / 10</div>
+</section>
+
+<!-- SLIDE 19: VISUALIZATION -->
+<section class="slide" data-slide="19">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Visualization</div>
+  <h2 class="stitle r">Visualizing Repeated Measures Results</h2>
+  <div class="cols r">
+    <div>
+      <h3 style="margin-bottom:.4em;font-size:var(--h3);">Line plot with 95% CIs</h3>
+      <svg viewBox="0 0 220 160" style="max-width:100%;height:auto;display:block;margin-bottom:.5rem;">
+        <line x1="30" y1="20" x2="30" y2="140" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <line x1="30" y1="140" x2="210" y2="140" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <!-- Y labels -->
+        <text x="26" y="124" text-anchor="end" fill="rgba(255,255,255,.4)" font-size="8">78</text>
+        <text x="26" y="93" text-anchor="end" fill="rgba(255,255,255,.4)" font-size="8">82</text>
+        <text x="26" y="62" text-anchor="end" fill="rgba(255,255,255,.4)" font-size="8">86</text>
+        <!-- Error bars (95% CI ~±4.4kg → ±14px) -->
+        <line x1="68" y1="107" x2="68" y2="135" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="58" y1="107" x2="78" y2="107" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="58" y1="135" x2="78" y2="135" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="130" y1="101" x2="130" y2="129" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="120" y1="101" x2="140" y2="101" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="120" y1="129" x2="140" y2="129" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="192" y1="89" x2="192" y2="117" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="182" y1="89" x2="202" y2="89" stroke="#7eb8a0" stroke-width="1.5"/>
+        <line x1="182" y1="117" x2="202" y2="117" stroke="#7eb8a0" stroke-width="1.5"/>
+        <!-- Mean line -->
+        <polyline points="68,121 130,115 192,103" fill="none" stroke="#7eb8a0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Mean dots -->
+        <circle cx="68" cy="121" r="4" fill="#7eb8a0"/>
+        <circle cx="130" cy="115" r="4" fill="#7eb8a0"/>
+        <circle cx="192" cy="103" r="4" fill="#7eb8a0"/>
+        <!-- X labels -->
+        <text x="68" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Pre</text>
+        <text x="130" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Mid</text>
+        <text x="192" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Post</text>
+      </svg>
+      <p style="font-size:var(--ss);color:var(--muted);">Shows means and precision at each time point. Use when communicating group-level change.</p>
+    </div>
+    <div>
+      <h3 style="margin-bottom:.4em;font-size:var(--h3);">Spaghetti plot — individual trajectories</h3>
+      <svg viewBox="0 0 220 160" style="max-width:100%;height:auto;display:block;margin-bottom:.5rem;">
+        <line x1="30" y1="20" x2="30" y2="140" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <line x1="30" y1="140" x2="210" y2="140" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+        <!-- Individual lines (grey) -->
+        <polyline points="68,100 130,95 192,83" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <polyline points="68,135 130,130 192,120" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <polyline points="68,115 130,110 192,98" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <polyline points="68,128 130,125 192,114" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <polyline points="68,93 130,86 192,75" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <!-- slight reversal line (dashed) -->
+        <polyline points="68,108 130,113 192,101" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1" stroke-dasharray="3,2"/>
+        <polyline points="68,122 130,118 192,107" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <!-- Group mean (bold) -->
+        <polyline points="68,121 130,115 192,103" fill="none" stroke="#7eb8a0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="68" cy="121" r="4" fill="#7eb8a0"/>
+        <circle cx="130" cy="115" r="4" fill="#7eb8a0"/>
+        <circle cx="192" cy="103" r="4" fill="#7eb8a0"/>
+        <!-- X labels -->
+        <text x="68" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Pre</text>
+        <text x="130" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Mid</text>
+        <text x="192" y="153" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="8">Post</text>
+      </svg>
+      <p style="font-size:var(--ss);color:var(--muted);">Each line = one participant. Lines mostly upward = small within-subject error, large F, high power. Crossing lines inflate MS<sub>error</sub>.</p>
+    </div>
+  </div>
+</div>
+<div class="slide-num">19 / 22</div>
+</section>
+
+<!-- KC 9: SPAGHETTI PLOT -->
+<section class="slide kc-slide" data-slide="kc9" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc9">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A spaghetti plot shows that most individual lines move upward from pre to post, but about one-third of lines cross or reverse direction. Compared to a plot where all lines move cleanly upward, what does this crossing pattern suggest?</p>
+  <div class="kc-opts r" id="kc9-opts">
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">A &nbsp; Crossing lines indicate a normality violation — the analysis is invalid without further checks</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc9',this,true)">B &nbsp; Crossing lines signal larger within-subject error, which shrinks the F-ratio and reduces statistical power</button>
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">C &nbsp; Crossing lines indicate between-subjects variability, which the repeated measures design removes from the error term</button>
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">D &nbsp; Crossing lines indicate that a spaghetti plot is inappropriate for this data — a bar chart should be used instead</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc9-explain">
+  <strong>B is correct.</strong> The error term in a repeated measures ANOVA captures exactly how inconsistently participants change across time points. When spaghetti lines all move in the same direction, individual trajectories are similar — within-subject error is small, the F-ratio is large, and power is high. When lines cross or reverse, different participants are responding differently: some improve, others plateau, some decline. This inconsistency increases MS<sub>error</sub>, which is the denominator of the F-ratio. A larger denominator produces a smaller F and reduces the probability of detecting the time effect as significant — even when the average trajectory is clearly upward.
+</div>
+<div class="kc-num">KC · 9 / 10</div>
+</section>
+
+<!-- SLIDE 20: APA REPORTING -->
+<section class="slide" data-slide="20">
+<div class="slide-bar"></div>
+<div class="slide-content" style="justify-content:flex-start;padding-top:clamp(1.2rem,3vw,2.4rem);">
+  <div class="kicker r">Communication</div>
+  <h2 class="stitle r">APA Reporting Template and Example</h2>
+  <div class="cols r">
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Template</h3>
+        <p style="font-size:clamp(.6rem,.92vw,.82rem);line-height:1.65;font-family:var(--font-b);">
+          "A one-way repeated measures ANOVA examined the effect of [factor] on [DV]. Mauchly's test indicated that the sphericity assumption [was/was not] violated, W([df]) = [W], p = [p]. [Degrees of freedom were corrected using [GG/HF], ε = [ε].] The within-subjects effect was [significant/not significant], F([df<sub>time</sub>], [df<sub>error</sub>]) = [F], p = [p], η²<sub>p</sub> = [value]. Post hoc Bonferroni comparisons revealed that [pairwise results]."
+        </p>
+      </div>
+      <div class="callout info">
+        <div class="ct">Required elements</div>
+        <ul style="margin-left:1em;font-size:var(--ss);line-height:1.8;">
+          <li>Mauchly's W, χ², df, p</li>
+          <li>Correction name + epsilon (if violated)</li>
+          <li>F with corrected df, exact p, η²<sub>p</sub></li>
+          <li>Descriptives (M, SD) at each time point</li>
+          <li>Each pairwise: mean diff, SE, adj. p, 95% CI</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="panel" style="padding:clamp(.45rem,1vw,.9rem);">
+        <h3 style="margin-bottom:.4em;">Full example</h3>
+        <p style="font-size:clamp(.58rem,.9vw,.78rem);line-height:1.7;font-family:var(--font-b);">
+          "A one-way repeated measures ANOVA was conducted to examine the effect of training time (pre, mid, post) on muscular strength. Mauchly's test indicated that the sphericity assumption was violated, W = .623, χ²(2) = 13.234, p = .001. Because ε<sub>GG</sub> = .726, the Greenhouse-Geisser correction was applied. The within-subjects effect of time was statistically significant, F(1.45, 42.11) = 116.0, p &lt; .001, η²<sub>p</sub> = .80, ω²<sub>p</sub> = .88. Post hoc Bonferroni-corrected pairwise comparisons indicated that strength increased significantly from pre-training (M = 79.7, SD = 12.3 kg) to mid-training (M = 81.7, SD = 12.3 kg), mean difference = 2.02 kg, p &lt; .001, 95% CI [1.34, 2.70]; from mid- to post-training (M = 85.1, SD = 12.5 kg), mean difference = 3.36 kg, p &lt; .001, 95% CI [2.22, 4.50]; and from pre- to post-training, mean difference = 5.38 kg, p &lt; .001, 95% CI [4.54, 6.22]."
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">20 / 22</div>
+</section>
+
+<!-- KC 10: APA REPORTING -->
+<section class="slide kc-slide" data-slide="kc10" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc10">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Power Advantage"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Mauchly's Test"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="GG vs HF"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Post Hoc Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="Partial η²p"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Error Term"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Spaghetti Plot"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A student writes: "The within-subjects effect of time was significant, F(2, 58) = 116.0, p &lt; .001, η²<sub>p</sub> = .80." Their professor says this report is incomplete. What critical element is missing?</p>
+  <div class="kc-opts r" id="kc10-opts">
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">A &nbsp; The student should report Cohen's d instead of η²<sub>p</sub> — partial eta-squared is not APA-compliant</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc10',this,true)">B &nbsp; The student failed to report Mauchly's test result and — if sphericity was violated — which correction was applied and its epsilon value</button>
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">C &nbsp; The student needs to include the Bonferroni comparisons in the same sentence as the omnibus F</button>
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">D &nbsp; The student should replace the exact p with "p &lt; .05" to match APA 7th edition style</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc10-explain">
+  <strong>B is correct.</strong> A complete APA report of a repeated measures ANOVA requires more than the F, df, p, and effect size. Because sphericity is a key assumption unique to within-subjects designs — and because violating it without correction inflates Type I error — readers need to know whether Mauchly's test was run, what it found, and which row of the SPSS output was used. The uncorrected df(2, 58) in this student's report is itself a red flag: sphericity correction typically produces fractional df like F(1.45, 42.11). Without reporting Mauchly's result and the correction applied, readers cannot evaluate whether the p-value is trustworthy.
+</div>
+<div class="kc-num">KC · 10 / 10</div>
+</section>
+
+<!-- SLIDE 21: COMMON PITFALLS -->
+<section class="slide" data-slide="21">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Cautions</div>
+  <h2 class="stitle r">Common Pitfalls</h2>
+  <div class="steps r">
+    <div class="step"><span class="step-n" style="color:var(--rust);">1</span><span class="step-t"><strong>Ignoring Mauchly's test and always using "Sphericity Assumed."</strong> When Mauchly's p &lt; .05 and epsilon is notably below 1.0, the uncorrected F-test rejects H₀ too often. Always check Mauchly's first.</span></div>
+    <div class="step"><span class="step-n" style="color:var(--rust);">2</span><span class="step-t"><strong>Interpreting η²<sub>p</sub> as proportion of total variance.</strong> Partial eta-squared excludes between-subjects variance from the denominator, making it larger than full η² from the same data. Always label it as <em>partial</em> and interpret accordingly.</span></div>
+    <div class="step"><span class="step-n" style="color:var(--rust);">3</span><span class="step-t"><strong>Running post hoc comparisons after a non-significant omnibus F.</strong> The same gatekeeper rule applies as in between-subjects ANOVA — pairwise tests are only appropriate following a significant overall F.</span></div>
+    <div class="step"><span class="step-n" style="color:var(--rust);">4</span><span class="step-t"><strong>Confusing the repeated measures error term with between-subjects within-groups error.</strong> MS<sub>error</sub> in repeated measures ANOVA is the subjects × time interaction — individual inconsistency in change — not total within-group variability. These are conceptually and numerically different.</span></div>
+  </div>
+</div>
+<div class="slide-num">21 / 22</div>
+</section>
+
+<!-- SLIDE 22: CHAPTER SUMMARY + KEY TERMS -->
+<section class="slide" data-slide="22">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Wrap-Up</div>
+  <h2 class="stitle r">Chapter Summary &amp; Key Terms</h2>
+  <div class="cols r">
+    <div>
+      <ul class="dl" style="gap:clamp(.2rem,.6vw,.6rem);">
+        <li>Repeated measures designs remove between-subjects variability from the error term → <strong style="color:var(--gold)">greater power with fewer participants</strong></li>
+        <li>SS partitions into three parts: SS<sub>between subjects</sub> (removed), SS<sub>time</sub> (effect), SS<sub>error</sub> (denominator of F)</li>
+        <li><strong style="color:var(--gold)">Sphericity</strong> requires equal variance of pairwise difference scores — unique to within-subjects designs</li>
+        <li><strong style="color:var(--gold)">Mauchly's W</strong> tests sphericity; epsilon quantifies severity</li>
+        <li>Decision rule: ε<sub>GG</sub> &lt; .75 → <strong style="color:var(--rust)">GG</strong>; ε<sub>GG</sub> ≥ .75 → <strong style="color:var(--sage)">HF</strong></li>
+        <li>Post hoc <strong style="color:var(--gold)">Bonferroni</strong> comparisons identify which time points differ — only after significant F</li>
+        <li>η²<sub>p</sub> is partial (excludes SS<sub>between subjects</sub>); ω²<sub>p</sub> corrects upward bias; Cohen's d for pairwise</li>
+        <li>APA write-up must include: Mauchly's W, correction applied, ε, corrected df, descriptives, pairwise results</li>
+      </ul>
+    </div>
+    <div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Key terms</h3>
+        <p style="font-size:clamp(.6rem,.9vw,.78rem);line-height:1.75;color:var(--muted);">
+          repeated measures ANOVA · within-subjects design · between-subjects design · sphericity · Mauchly's test · epsilon · Greenhouse-Geisser correction · Huynh-Feldt correction · partial eta-squared · partial omega-squared · within-subjects factor · between-subjects variance · error term (subjects × time) · post hoc comparisons · Bonferroni correction · spaghetti plot · line plot · familywise error rate · within-subject error · power advantage · difference scores
+        </p>
+      </div>
+      <div class="callout info" style="margin-top:var(--gap);">
+        <div class="ct">Next chapter</div>
+        <p style="font-size:var(--bs);">Chapter 16 extends this framework to <strong>factorial ANOVA</strong> — two or more factors simultaneously, introducing main effects, interactions, and simple effects analysis.</p>
+      </div>
+      <div class="callout" style="margin-top:var(--gap);">
+        <div class="ct">Navigation</div>
+        <p style="font-size:var(--ss);">Arrow keys or Space to advance · Click nav dots · Press <strong>N</strong> to toggle transcript · Touch/swipe on mobile</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">22 / 22</div>
+</section>
+
+<!-- BADGE COLLECTION SLIDE -->
+<section class="slide badge-collection-slide" data-slide="badges" data-badges="true">
+<div class="slide-bar" style="background:linear-gradient(to bottom,var(--gold),var(--sage))"></div>
+<div class="slide-content" style="justify-content:flex-start;padding-top:clamp(1.4rem,3.5vh,3rem);">
+  <div class="kicker r">Achievement</div>
+  <h2 class="stitle r" id="badge-headline" style="font-family:var(--font-h);">Badge Collection</h2>
+  <p class="r" id="badge-sub" style="font-family:var(--font-m);font-size:var(--ss);color:var(--muted);margin-bottom:.2em;"></p>
+  <div class="badge-coll-grid r" id="badge-coll-grid"></div>
+  <div class="r" style="display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;margin-top:var(--gap);">
+    <div>
+      <div style="font-family:var(--font-h);font-size:clamp(.95rem,2vw,1.4rem);font-weight:700;" id="badge-score-ct"></div>
+      <div style="font-size:var(--bs);color:var(--muted);margin-top:.2em;" id="badge-score-text"></div>
+    </div>
+    <div id="verify-wrap" style="display:none;">
+      <div style="border:1.5px solid var(--border);border-radius:8px;padding:.6em 1.1em;background:var(--gold-dim);">
+        <div style="font-family:var(--font-m);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.25em;">Verification Code</div>
+        <div style="font-family:var(--font-m);font-size:clamp(1rem,2vw,1.5rem);color:var(--gold);font-weight:700;letter-spacing:.18em;" id="verify-code"></div>
+        <div style="font-size:var(--ss);color:var(--muted);margin-top:.2em;">Submit this code with your PDF to your instructor</div>
+      </div>
+    </div>
+  </div>
+  <div class="r" style="display:flex;gap:.8rem;margin-top:var(--gap);flex-wrap:wrap;">
+    <button onclick="savePDF()" style="background:var(--gold);color:#000;border:none;border-radius:7px;padding:.55em 1.3em;font-family:var(--font-b);font-weight:600;font-size:var(--bs);cursor:pointer;transition:background .2s;" onmouseover="this.style.background='#e8bc57'" onmouseout="this.style.background='var(--gold)'">⬇ Save as PDF</button>
+    <button onclick="resetBadges()" style="background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:7px;padding:.55em 1.3em;font-family:var(--font-b);font-weight:600;font-size:var(--bs);cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--bg2)'" onmouseout="this.style.background='var(--surface)'">↺ Try Again</button>
+  </div>
+</div>
+</section>
+
+</div><!-- /slides-wrap -->
+
+<!-- NOTES PANEL -->
+<aside id="notes-panel">
+  <button id="notes-toggle" onclick="toggleTranscript()">Transcript</button>
+  <div id="notes-inner">
+    <div class="notes-label">
+      Transcript &nbsp;
+      <span class="notes-slide-num" id="notes-slide-num">01 / 22</span>
+    </div>
+    <div id="notes-text"></div>
+  </div>
+</aside>
+</div><!-- /app -->
+
+<script>
+/* ============================================
+   SLIDE PRESENTATION ENGINE
+   ============================================ */
+const NOTES = [
+  // Slide 1 — Title
+  `<p>Chapter 15 builds directly on the one-way between-subjects ANOVA from Chapter 14, extending it to designs where the same participants are measured at three or more time points or conditions. This "within-subjects" approach is among the most common in movement science — pre/mid/post training studies, repeated condition testing, practice-trial learning curves.</p>
+   <p>The statistical logic is elegant: because the same people appear at every time point, their consistent personal baseline can be mathematically removed from the error, producing a more sensitive test with fewer participants.</p>`,
+
+  // Slide 2 — Instructions
+  `<p>Read each slide and follow this transcript panel, then pause on Knowledge Check slides to test your understanding before moving on. Earning all 10 badges requires a correct first pick on each KC — if you miss one, review the relevant slides and use <strong>Try Again</strong> to reset.</p>
+   <p>The verification code on your badge collection is tied to your student ID: your instructor uses it to confirm your submission is authentic without needing to see your individual answers.</p>`,
+
+  // Slide 3 — Roadmap
+  `<p>Movement science research is saturated with within-subjects designs. A physical therapist tracking pain scores at baseline, four weeks, and eight weeks; an exercise scientist measuring VO₂max at three time points; a motor learning researcher recording error across five practice blocks — all of these require analyzing change <em>within</em> individuals over time.</p>
+   <p>The one-way repeated measures ANOVA is the natural extension of the paired t-test to three or more time points, preserving its power advantage while controlling the familywise error rate.</p>`,
+
+  // Slide 4 — Learning Objectives
+  `<p>Walk through these seven objectives to understand what you are building toward.</p>
+   <p>Objectives 1–2 are foundational: understanding why repeated measures designs are more powerful and how total variance is partitioned differently from between-subjects ANOVA. Objectives 3–4 address sphericity — the assumption unique to this design — and the decision rules for GG vs HF corrections.</p>
+   <p>Objective 5 covers post hoc tests; 6 covers effect sizes including both η²<sub>p</sub> and the less-biased ω²<sub>p</sub>. Objective 7 is APA reporting — critically, correct reporting requires explicitly stating whether a sphericity correction was applied.</p>`,
+
+  // Slide 5 — Workflow
+  `<p>The seven-step workflow is your decision tree for every repeated measures analysis.</p>
+   <p>Step 3 is critical: inspect Mauchly's test <em>before</em> reading the F-ratio. The row you use in SPSS output — sphericity assumed, GG-corrected, or HF-corrected — is determined by Mauchly's result and the GG epsilon, not by habit. Step 4 makes this selection explicit.</p>
+   <p>Steps 5–7 follow automatically: post hoc comparisons only after a significant omnibus F, effect sizes always, APA reporting always.</p>`,
+
+  // Slide 6 — Within vs Between
+  `<p>The fundamental contrast is this: in a between-subjects design, every source of individual difference — genetics, training history, baseline fitness, motivation — sits in the error term and inflates the denominator of F.</p>
+   <p>In a within-subjects design, the same person appears at every time point. Their consistent personal level cancels out across comparisons. What remains in the error is only how unpredictably each individual's change deviates from the group pattern. In human performance research, that consistent between-person variability is enormous — removing it is a massive efficiency gain.</p>`,
+
+  // Slide 7 — Power Advantage
+  `<p>Think of measuring grip strength before, midway, and after a 12-week program. Participant A (competitive athlete) starts at 110 kg; Participant B (sedentary) starts at 60 kg. A between-subjects design leaves that 50-kg difference in the error, inflating the denominator and obscuring the training effect.</p>
+   <p>A repeated measures design asks instead: relative to each person's own baseline, how much did they change? The 50-kg individual difference cancels out. The F-ratio denominator shrinks dramatically, producing a much larger F for the same training effect. The efficiency gain depends on the correlation among repeated measurements — higher correlation means more individual difference removed, and greater power advantage.</p>`,
+
+  // Slide 8 — Variance Partitioning
+  `<p>In between-subjects ANOVA (Chapter 14), SS<sub>total</sub> splits into just two parts: between-groups and within-groups. In repeated measures ANOVA, a third partition is possible because the same individuals appear at every time point.</p>
+   <p>SS<sub>between subjects</sub> — the consistent individual differences in overall performance level — is extracted as its own component and removed from the error term entirely. What remains as error is only the subjects × time interaction: the variability in how <em>differently</em> each participant responds across conditions. Because SS<sub>between subjects</sub> can be very large in human performance data, its removal produces a much smaller MS<sub>error</sub> and therefore a much larger F.</p>`,
+
+  // Slide 9 — When to Use
+  `<p>One-way repeated measures ANOVA is appropriate when the same participants provide continuous outcome data under three or more conditions or time points. It reduces exactly to the paired t-test when there are only two time points.</p>
+   <p>If the design has only two levels, sphericity cannot be violated and Mauchly's test will not appear in SPSS output. If the outcome variable is ordinal or normality is severely violated with small samples, Friedman's ANOVA (Chapter 19) is the nonparametric alternative. Missing data at any time point requires attention before analysis — a participant with a missing mid-point cannot contribute to the full within-subjects comparison.</p>`,
+
+  // Slide 10 — Hypotheses
+  `<p>The null hypothesis is exact equality of all population means across time — time has no effect. The alternative is that at least one time point differs from the others. Like between-subjects ANOVA, a significant omnibus F only establishes that change occurred <em>somewhere</em> — post hoc tests identify which specific pairs differ.</p>
+   <p>The omnibus test maintains the familywise error rate at α across all comparisons simultaneously, which is why it has more power than running separate t-tests and why it must be significant before pairwise follow-ups are run.</p>`,
+
+  // Slide 11 — Worked Example
+  `<p>The example tracks 30 university students across a 12-week resistance training program. Descriptive statistics show a progressive increase: 79.7 → 81.7 → 85.1 kg. Mauchly's test indicated sphericity was violated (p = .001), and with ε<sub>GG</sub> = .726 — just below the .75 threshold — the Greenhouse-Geisser correction was applied.</p>
+   <p>The corrected degrees of freedom become fractional: df(1.45, 42.11) instead of the uncorrected df(2, 58). The F-ratio of 116.0 is enormous, and η²<sub>p</sub> = .80 indicates that 80% of within-subject variance is accounted for by time — a massive, consistent training effect.</p>`,
+
+  // Slide 12 — Sphericity
+  `<p>Sphericity requires that the variability in individual change scores is similar across all pairs of time points. In a pre/mid/post design, the variance of (mid−pre) should be similar to the variance of (post−pre) and (post−mid).</p>
+   <p>When some intervals produce highly variable changes (some participants improve dramatically, others not at all) and other intervals produce uniform changes, sphericity is violated. The standard repeated measures F-test uses degrees of freedom that are too large when sphericity is violated, causing it to reject H₀ more often than stated — anticonservative behavior. The critical callout to remember: sphericity is about <em>difference variances</em>, not raw SDs.</p>`,
+
+  // Slide 13 — Mauchly's Test
+  `<p>SPSS automatically produces Mauchly's W whenever you run a repeated measures ANOVA. W ranges from 0 to 1; values below 1 indicate departures from sphericity. Two epsilon estimates are reported: the Greenhouse-Geisser epsilon (ε<sub>GG</sub>) and the Huynh-Feldt epsilon (ε<sub>HF</sub>). Epsilon ranges from 1/(k−1) to 1.0 — for three time points, the minimum possible epsilon is .50.</p>
+   <p>A caution: Mauchly's test is sensitive to sample size. With large samples, trivial departures produce significant results; with small samples, meaningful violations may go undetected. Always examine the epsilon alongside the p-value.</p>`,
+
+  // Slide 14 — GG vs HF
+  `<p>Both corrections work by multiplying the degrees of freedom by an epsilon estimate, reducing them from their uncorrected values. The F-statistic itself does not change — only the df changes, which alters the critical value and p-value.</p>
+   <p>The Huynh-Feldt epsilon is always at least as large as the GG epsilon, so HF applies less shrinkage and is the less conservative option. When ε<sub>GG</sub> ≥ .75, using GG would overcorrect and sacrifice unnecessary power — HF is the better choice. When ε<sub>GG</sub> &lt; .75, the violation is serious enough to warrant GG's more conservative adjustment. Always report the correction used and the epsilon value in your write-up.</p>`,
+
+  // Slide 15 — Source Table
+  `<p>The source table structure is the key to reading repeated measures ANOVA output. SS<sub>time</sub> tests whether strength means differ across time points. SS<sub>error</sub> is the subjects × time interaction — individual inconsistency. SS<sub>participants</sub> is the between-subjects component, which never enters the F-ratio.</p>
+   <p>The Greenhouse-Geisser corrected df are fractional: 1.452 and 42.11. F(1.45, 42.11) = 116.0, p &lt; .001, η²<sub>p</sub> = .80. All three Bonferroni pairwise comparisons were significant, confirming progressive strength gains at each stage.</p>`,
+
+  // Slide 16 — Post Hoc
+  `<p>Bonferroni-corrected pairwise comparisons are requested through SPSS's Estimated Marginal Means → Compare main effects → Bonferroni. Each comparison is reported with a mean difference, SE, Bonferroni-adjusted p, and 95% CI.</p>
+   <p>In the strength example, all three pairs differ significantly. The critical rule: do not run post hoc tests following a non-significant omnibus F. The same gatekeeper logic applies here as in between-subjects ANOVA — running comparisons without a significant overall test inflates Type I error.</p>`,
+
+  // Slide 17 — Effect Sizes η²p
+  `<p>SPSS reports partial eta-squared as η²<sub>p</sub> = SS<sub>time</sub> / (SS<sub>time</sub> + SS<sub>error</sub>). Note carefully: SS<sub>between subjects</sub> is excluded from the denominator. This makes η²<sub>p</sub> larger than full η² computed from the same data — sometimes dramatically larger when between-subjects variance is enormous.</p>
+   <p>In the strength example, η²<sub>p</sub> = .80 indicates that 80% of within-subject variance is accounted for by the training program. The Cohen benchmarks (small = .01, medium = .06, large = .14) apply. Always label η²<sub>p</sub> as <em>partial</em> — never report it as "proportion of total variance explained."</p>`,
+
+  // Slide 18 — ω²p + Cohen's d
+  `<p>Partial omega-squared (ω²<sub>p</sub>) corrects for the upward bias in η²<sub>p</sub>, particularly in small samples. SPSS does not compute it directly; calculate it from the source table values using the formula shown.</p>
+   <p>Cohen's d for each Bonferroni-corrected pairwise comparison is computed from the mean difference divided by the SD of the difference scores. Very large d values in the strength example (1.36–2.97) are consistent with what the data show: consistent, reliable strength gains with little individual inconsistency — tight difference score distributions.</p>`,
+
+  // Slide 19 — Visualization
+  `<p>Two plots are standard for repeated measures results. The <strong>line plot with 95% CIs</strong> shows means and their precision at each time point — useful for communicating the group-level change and its uncertainty.</p>
+   <p>The <strong>spaghetti plot</strong> is unique to repeated measures data: each thin line is one participant. When all lines move in the same direction, within-subject error is small and power is high. When lines cross or reverse, some participants respond differently, inflating MS<sub>error</sub>. Read the spaghetti plot before interpreting the F — it tells the within-person story that means and CIs cannot.</p>`,
+
+  // Slide 20 — APA Reporting
+  `<p>A complete APA-style write-up integrates: Mauchly's test (W, df, p); the correction applied and its epsilon; the omnibus F with corrected df, exact p, and η²<sub>p</sub>; descriptive statistics at each time point; and Bonferroni-corrected pairwise results with mean differences, SEs, adjusted p-values, and 95% CIs.</p>
+   <p>Always name the correction — "Greenhouse-Geisser" or "Huynh-Feldt" — and report the epsilon value. Reporting only the corrected df without naming the method leaves readers unable to evaluate the decision or replicate the analysis.</p>`,
+
+  // Slide 21 — Common Pitfalls
+  `<p>Four pitfalls account for the majority of errors in repeated measures analyses.</p>
+   <p>Pitfall 1 (always using Sphericity Assumed) inflates Type I error when violated. Pitfall 2 (misinterpreting η²<sub>p</sub> as total variance) overstates the effect's footprint. Pitfall 3 (post hoc after non-significant F) capitalizes on chance. Pitfall 4 (confusing error terms) leads to misunderstanding what MS<sub>error</sub> represents — it is the subjects × time interaction, not total within-group variability as in between-subjects ANOVA.</p>`,
+
+  // Slide 22 — Summary + Key Terms
+  `<p>Repeated measures designs are the most statistically efficient approach in movement science: removing between-subjects variability from the error term substantially increases power, often halving the required sample size.</p>
+   <p>Sphericity is the design's characteristic assumption — unique to within-subjects factors — and its violation inflates Type I error unless corrected. The GG/HF decision based on ε<sub>GG</sub> is a concrete rule to follow every time. Partial eta-squared reported by SPSS is a partial effect size; always label it as such. Chapter 16 extends this framework to factorial designs with two or more factors.</p>`,
+];
+
+class SlidePresentation {
+  constructor() {
+    this.wrap   = document.getElementById('slides-wrap');
+    this.slides = this.wrap.querySelectorAll('.slide');
+    this.total  = this.slides.length;
+    this.current = 0;
+    this.progress  = document.getElementById('progress');
+    this.navdots   = document.getElementById('navdots');
+    this.notesText = document.getElementById('notes-text');
+    this.notesNum  = document.getElementById('notes-slide-num');
+    this.buildDots();
+    this.observe();
+    this.keyboard();
+    this.wheel();
+    this.touch();
+    this.updateProgress(0);
+    this.updateNotes(0);
+  }
+
+  buildDots() {
+    this.navdots.innerHTML = '';
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = `Slide ${i + 1}`;
+      d.onclick = () => this.goTo(i);
+      this.navdots.appendChild(d);
+    });
+  }
+
+  observe() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('vis');
+          const i = Array.from(this.slides).indexOf(e.target);
+          if (i !== -1) {
+            this.current = i;
+            this.updateProgress(i);
+            this.updateDots(i);
+            this.updateNotes(i);
+            if (e.target.dataset.badges) renderBadgeCollection();
+          }
+        }
+      });
+    }, { root: this.wrap, threshold: 0.55 });
+    this.slides.forEach(s => io.observe(s));
+  }
+
+  updateProgress(i) {
+    const pct = this.total > 1 ? (i / (this.total - 1)) * 100 : 0;
+    if (this.progress) this.progress.style.width = pct + '%';
+  }
+
+  updateDots(i) {
+    document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+  }
+
+  updateNotes(i) {
+    if (!this.notesText) return;
+    const slide = this.slides[i];
+    if (slide && slide.dataset.badges) {
+      this.notesText.innerHTML = `<p><strong>Badge Collection.</strong> This is your final achievement summary. Each badge represents a concept from Chapter 15 that you demonstrated understanding of. If your instructor requires proof of badge completion, save this slide as a PDF using the button below — your verification code will be included.</p>`;
+      if (this.notesNum) this.notesNum.textContent = '🏆';
+      return;
+    }
+    if (slide && slide.dataset.kc) {
+      this.notesText.innerHTML = `<p><strong>Knowledge Check.</strong> Before selecting an answer, reason through each option independently. After seeing the result, ask yourself: <em>"What would need to be different about the scenario for the other options to be correct?"</em> This counterfactual thinking deepens understanding more than simply identifying the right answer.</p>`;
+      if (this.notesNum) this.notesNum.textContent = 'KC';
+      return;
+    }
+    const kcBefore = Array.from(this.slides).slice(0, i).filter(s => s.dataset.kc).length;
+    const noteIdx  = i - kcBefore;
+    this.notesText.innerHTML = NOTES[noteIdx] || '<p><em>No notes for this slide.</em></p>';
+    const curStr   = String(i + 1).padStart(2, '0');
+    const totalStr = String(this.total).padStart(2, '0');
+    if (this.notesNum) this.notesNum.textContent = `${curStr} / ${totalStr}`;
+  }
+
+  goTo(i) {
+    if (i < 0 || i >= this.total) return;
+    this.slides[i].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  keyboard() {
+    document.addEventListener('keydown', e => {
+      if (e.target.getAttribute('contenteditable')) return;
+      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+      switch (e.key) {
+        case 'ArrowDown': case 'ArrowRight': case ' ': case 'PageDown':
+          e.preventDefault(); this.goTo(this.current + 1); break;
+        case 'ArrowUp': case 'ArrowLeft': case 'PageUp':
+          e.preventDefault(); this.goTo(this.current - 1); break;
+        case 'Home': e.preventDefault(); this.goTo(0); break;
+        case 'End':  e.preventDefault(); this.goTo(this.total - 1); break;
+        case 'n': case 'N': toggleTranscript(); break;
+      }
+    });
+  }
+
+  wheel() {
+    const THRESHOLD = 180;
+    const COOLDOWN  = 1000;
+    let accumulated = 0;
+    let cooldown    = false;
+    let resetTimer  = null;
+    this.wrap.addEventListener('wheel', e => {
+      e.preventDefault();
+      if (cooldown) return;
+      accumulated += e.deltaY;
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { accumulated = 0; }, 250);
+      if (Math.abs(accumulated) >= THRESHOLD) {
+        accumulated = 0;
+        cooldown = true;
+        setTimeout(() => { cooldown = false; }, COOLDOWN);
+        this.goTo(this.current + (e.deltaY > 0 ? 1 : -1));
+      }
+    }, { passive: false });
+  }
+
+  touch() {
+    let startY = 0;
+    this.wrap.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    this.wrap.addEventListener('touchend', e => {
+      const dy = startY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 40) this.goTo(this.current + (dy > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+}
+
+/* ============================================
+   BADGE SYSTEM
+   ============================================ */
+// ── INSTRUCTOR: change this key each semester ──
+// Keep private — do NOT share with students.
+const VERIFY_KEY = 'KIN610-SP26';
+// ──────────────────────────────────────────────
+
+function genVerifyCode(studentId, earnedSet) {
+  const pattern = ['kc1','kc2','kc3','kc4','kc5','kc6','kc7','kc8','kc9','kc10']
+    .map(id => earnedSet.has(id) ? '1' : '0').join('');
+  const payload = studentId.trim().replace(/\s+/g, '') + '|' + pattern + '|' + VERIFY_KEY;
+  let h = 5381;
+  for (let i = 0; i < payload.length; i++) h = (((h << 5) + h) ^ payload.charCodeAt(i)) >>> 0;
+  const code = h.toString(36).toUpperCase().padStart(8, '0').slice(-8);
+  return code.slice(0, 4) + '-' + code.slice(4);
+}
+
+const BADGE_DEFS = {
+  kc1:  { title: 'Power Advantage',  icon: '⚡', sub: 'Why fewer participants?' },
+  kc2:  { title: 'SS Partitioning',  icon: '🔢', sub: 'Role of between-subjects SS' },
+  kc3:  { title: 'Sphericity',       icon: '🔵', sub: 'Difference variance equality' },
+  kc4:  { title: "Mauchly's Test",   icon: '🧪', sub: 'Detect & correct violations' },
+  kc5:  { title: 'GG vs HF',         icon: '🎯', sub: 'Choosing the correction' },
+  kc6:  { title: 'Post Hoc Logic',   icon: '📊', sub: 'When comparisons are valid' },
+  kc7:  { title: 'Partial η²p',      icon: '📐', sub: 'What the denominator excludes' },
+  kc8:  { title: 'Error Term',       icon: '⚙️', sub: 'What RM error actually is' },
+  kc9:  { title: 'Spaghetti Plot',   icon: '📈', sub: 'Reading individual trajectories' },
+  kc10: { title: 'APA Reporting',    icon: '📝', sub: 'Complete write-up elements' },
+};
+
+const _earned = new Set();
+let _badgePopupTimer = null;
+
+function awardBadge(kcId) {
+  if (_earned.has(kcId)) return;
+  _earned.add(kcId);
+  showBadgePopup(kcId);
+  updateAllShelves();
+}
+
+function showBadgePopup(kcId) {
+  const def = BADGE_DEFS[kcId];
+  document.getElementById('bp-icon').textContent = def.icon;
+  document.getElementById('bp-name').textContent = def.title;
+  const popup = document.getElementById('badge-popup');
+  popup.classList.add('show');
+  clearTimeout(_badgePopupTimer);
+  _badgePopupTimer = setTimeout(() => popup.classList.remove('show'), 3200);
+}
+
+function updateAllShelves() {
+  document.querySelectorAll('.kc-shelf-dot').forEach(dot => {
+    dot.classList.toggle('earned', _earned.has(dot.dataset.badge));
+  });
+}
+
+function savePDF() {
+  renderBadgeCollection();
+  const name  = document.getElementById('student-name-input')?.value.trim() || '';
+  const sid   = document.getElementById('student-id-input')?.value.trim() || '';
+  const score = _earned.size;
+  const total = Object.keys(BADGE_DEFS).length;
+  const code  = sid ? genVerifyCode(sid, _earned) : '';
+  const date  = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const badgesHTML = Object.entries(BADGE_DEFS).map(([id, def]) => {
+    const earned = _earned.has(id);
+    return `<div class="bi ${earned ? 'earned' : 'locked'}">
+      <div class="bc">${earned ? def.icon : '🔒'}<span class="ch">Ch. 15</span></div>
+      <div class="bt">${def.title}</div>
+      ${earned ? '<div class="bck">✓ Earned</div>' : '<div class="bck" style="color:#aaa">Not earned</div>'}
+    </div>`;
+  }).join('');
+
+  const scoreMsg = score === total
+    ? (name ? `Outstanding, ${name}! All ${total} badges earned.` : `All ${total} badges earned!`)
+    : `${score} of ${total} badges earned`;
+
+  const html = `<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/>
+<title>KIN 610 · Ch. 15 · Badge Collection${name ? ' — ' + name : ''}</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,sans-serif;background:#fff;color:#111;padding:48px 56px;max-width:720px;margin:0 auto}
+  .meta{font-size:.72rem;color:#888;margin-bottom:1.6rem;display:flex;justify-content:space-between}
+  h1{font-size:1.9rem;font-weight:700;margin-bottom:.2em}
+  .score{color:#666;font-size:.95rem;margin-bottom:1.6rem}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-bottom:2rem}
+  .bi{text-align:center}
+  .bc{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;margin:0 auto .5em;font-size:1.8rem;
+      background:#f5f0e8;border:2px solid #c8a84b;position:relative}
+  .bi.locked .bc{background:#eee;border-color:#ccc}
+  .ch{font-size:.55rem;color:#888;display:block;line-height:1}
+  .bt{font-weight:600;font-size:.82rem;margin-bottom:.2em}
+  .bck{font-size:.72rem;color:#4a7c4a}
+  .divider{border:none;border-top:1px solid #e0d9cc;margin:1.4rem 0}
+  .verify-box{display:inline-block;border:1.5px solid #c8a84b;border-radius:8px;
+              padding:.8em 1.5em;background:#fdf8ee;text-align:center}
+  .vl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#999;margin-bottom:.3em}
+  .vc{font-family:monospace;font-size:1.5rem;color:#7a5c00;font-weight:700;letter-spacing:.18em}
+  .vn{font-size:.68rem;color:#999;margin-top:.3em}
+  .footer{margin-top:2rem;font-size:.68rem;color:#bbb;text-align:center}
+  @media print{body{padding:24px 32px}@page{margin:.6in}}
+</style></head><body>
+<div class="meta"><span>KIN 610 · Chapter 15 · Repeated Measures ANOVA</span><span>${date}</span></div>
+<h1>${name ? name + '\u2019s Badge Collection' : 'Badge Collection'}</h1>
+${sid ? `<p style="font-family:monospace;font-size:.8rem;color:#888;margin-bottom:.3em;">Student ID: ${sid}</p>` : ''}
+<p class="score">${scoreMsg}</p>
+<div class="grid">${badgesHTML}</div>
+<hr class="divider"/>
+${code ? `<div class="verify-box">
+  <div class="vl">Verification Code</div>
+  <div class="vc">${code}</div>
+  <div class="vn">Submit this code with your name to your instructor</div>
+</div>` : '<p style="color:#aaa;font-size:.8rem">Enter your student ID on slide 2 to generate a verification code.</p>'}
+<div class="footer">Generated by the KIN 610 Ch. 15 self-study deck &nbsp;·&nbsp; ${date}</div>
+<script>window.onload=function(){window.print()}<\/script>
+</body></html>`;
+
+  const win = window.open('', '_blank', 'width=760,height=680');
+  if (!win) { alert('Pop-up blocked. Please allow pop-ups for this page and try again.'); return; }
+  win.document.write(html);
+  win.document.close();
+}
+
+function resetBadges() {
+  _earned.clear();
+  document.querySelectorAll('.kc-opt').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('correct', 'wrong');
+  });
+  document.querySelectorAll('.kc-explain').forEach(el => el.classList.remove('show'));
+  updateAllShelves();
+  if (window._deck) window._deck.goTo(0);
+}
+
+function renderBadgeCollection() {
+  const nameEl = document.getElementById('student-name-input');
+  const idEl   = document.getElementById('student-id-input');
+  const name   = nameEl?.value.trim() || '';
+  const sid    = idEl?.value.trim() || '';
+  const headline = document.getElementById('badge-headline');
+  if (headline) headline.textContent = name ? `${name}'s Badge Collection` : 'Badge Collection';
+  const subEl = document.getElementById('badge-sub');
+  if (subEl) subEl.textContent = sid ? `Student ID: ${sid}` : '';
+
+  const grid = document.getElementById('badge-coll-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  Object.entries(BADGE_DEFS).forEach(([id, def]) => {
+    const isEarned = _earned.has(id);
+    const item = document.createElement('div');
+    item.className = 'ba-item ' + (isEarned ? 'earned' : 'locked');
+    item.innerHTML = `
+      <div class="ba-circle">
+        <div class="ba-circle-icon">${isEarned ? def.icon : '🔒'}</div>
+        <div class="ba-circle-ch">Ch. 15</div>
+      </div>
+      <div class="ba-title">${def.title}</div>
+      ${isEarned ? '<div class="ba-check">✓ Earned</div>' : ''}
+    `;
+    grid.appendChild(item);
+  });
+
+  const total = Object.keys(BADGE_DEFS).length;
+  const score = _earned.size;
+  const pct   = Math.round((score / total) * 100);
+  const ct    = document.getElementById('badge-score-ct');
+  const txt   = document.getElementById('badge-score-text');
+  if (ct)  ct.textContent  = score === total ? '🏆 All badges earned!' : `${score} of ${total} badges earned`;
+  if (txt) txt.textContent = score === total
+    ? (name ? `Outstanding, ${name}! You answered every KC correctly.` : 'Outstanding! All questions correct.')
+    : (score === 0
+        ? 'Go back and try the Knowledge Check slides — answer correctly to collect badges.'
+        : `You earned ${pct}% of available badges. Review the KC slides you missed before moving on.`);
+
+  const codeEl   = document.getElementById('verify-code');
+  const codeWrap = document.getElementById('verify-wrap');
+  if (codeEl && codeWrap) {
+    if (sid) {
+      codeEl.textContent = genVerifyCode(sid, _earned);
+      codeWrap.style.display = '';
+    } else {
+      codeWrap.style.display = 'none';
+    }
+  }
+}
+
+function answerKC(id, btn, isCorrect) {
+  const opts    = document.querySelectorAll(`#${id}-opts .kc-opt`);
+  const explain = document.getElementById(`${id}-explain`);
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    opts.forEach(o => { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+  }
+  if (explain) explain.classList.add('show');
+  if (isCorrect) awardBadge(id);
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  document.getElementById('icon-moon').style.display = isLight ? 'none' : '';
+  document.getElementById('icon-sun').style.display  = isLight ? ''     : 'none';
+  try { localStorage.setItem('kin610-theme', isLight ? 'light' : 'dark'); } catch(e){}
+}
+(function(){
+  try {
+    if (localStorage.getItem('kin610-theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('icon-moon').style.display = 'none';
+      document.getElementById('icon-sun').style.display  = '';
+    }
+  } catch(e){}
+})();
+
+function toggleTranscript() {
+  const panel = document.getElementById('notes-panel');
+  const dots  = document.getElementById('navdots');
+  const collapsed = panel.classList.toggle('collapsed');
+  dots.classList.toggle('shifted', collapsed);
+}
+
+const pres = new SlidePresentation();
+window._deck = pres;
+</script>
+</body>
+</html>

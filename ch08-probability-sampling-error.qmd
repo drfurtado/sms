@@ -1,0 +1,866 @@
+---
+title: "Probability and Sampling Error"
+subtitle: "Understanding uncertainty, sampling distributions, and the bridge to inference"
+---
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to simulate sampling distributions and estimate sampling error in SPSS! See the **[SPSS Tutorial: Simulating Sampling Distributions](appendix-spss-sampling.qmd)** in the appendix for step-by-step instructions on using Monte Carlo methods, bootstrapping, and understanding the Central Limit Theorem through simulation.
+:::
+
+## Chapter roadmap
+
+Statistical inference—the process of drawing conclusions about populations based on sample data—rests fundamentally on understanding probability and sampling error [@moore_ips; @cumming2012]. Every sample we collect in Movement Science research (gait measurements from 30 participants, reaction times from 50 trials, strength assessments from 25 athletes) represents just one of many possible samples we could have drawn from the population [@field_discovering]. If we had tested a different group of participants or collected data on a different day, we would have obtained different numerical results. This inevitable variability across samples is called **sampling error**, and it is not a mistake or flaw—it is an inherent property of working with incomplete information about populations [@moore_ips; @krzywinski2013]. Understanding sampling error allows us to quantify uncertainty, appreciate the role of sample size, and make principled inferences from limited data [@cumming2014].
+
+The bridge between descriptive statistics (describing our sample) and inferential statistics (making claims about populations) is built on **sampling distributions**—theoretical probability distributions that describe what would happen if we repeated our study infinitely many times [@moore_ips]. While we conduct only one study and observe one sample mean, one sample standard deviation, or one correlation coefficient, the sampling distribution tells us how much those statistics would vary across hypothetical repeated samples from the same population [@field_discovering; @cumming2012]. The **Central Limit Theorem** guarantees that, under broad conditions, the sampling distribution of the mean approaches a normal distribution as sample size increases, regardless of the shape of the original population distribution [@moore_ips]. This powerful result underpins much of statistical inference, enabling us to use normal distribution theory even when working with non-normal data, provided sample sizes are adequate [@lumley2002; @blanca2013].
+
+This chapter introduces probability concepts essential for Movement Science research, explains how sampling distributions arise and what they reveal, and demonstrates how to estimate and interpret sampling error through the **standard error of the mean** [@moore_ips; @field_discovering]. You will learn why larger samples produce more precise estimates, how to predict population parameters from sample statistics, and how to think probabilistically about your own research findings [@cumming2014; @krzywinski2013]. The goal is not to memorize formulas mechanically, but to develop intuition for uncertainty, variability, and the logic of inference—skills that apply across all subsequent statistical procedures from confidence intervals to hypothesis tests [@schmidt1996; @kline2013].
+
+By the end of this chapter, you will be able to:
+
+* Explain basic probability concepts and apply them to Movement Science scenarios.
+* Describe what a sampling distribution is and how it differs from a population or sample distribution.
+* State the Central Limit Theorem and explain its importance for statistical inference.
+* Compute and interpret the standard error of the mean.
+* Understand how sample size affects sampling error and precision.
+* Use sampling distributions to make probabilistic statements about population parameters.
+
+## Workflow for understanding sampling error
+
+Use this sequence when interpreting sample-based research findings:
+
+1. Recognize that your sample is one of many possible samples from the population.
+2. Acknowledge that sampling error exists and affects all sample statistics.
+3. Quantify uncertainty using the standard error (SE) or confidence intervals.
+4. Consider how sample size influences the precision of estimates.
+5. Make probabilistic (not absolute) statements about populations based on samples.
+
+## What is probability?
+
+**Probability** is a numerical measure of how likely an event is to occur, ranging from 0 (impossible) to 1 (certain) [@moore_ips]. A probability of 0 means an event will never happen (e.g., a human running 100 meters in 1 second), while a probability of 1 means an event will always happen (e.g., gravity affecting a dropped object). Most real-world events fall somewhere in between—for example, if 60 out of 100 athletes can complete a specific agility task, the probability of success is 0.60, or 60%.
+
+In Movement Science, probability allows us to formalize statements about uncertainty and make evidence-based predictions [@field_discovering]. For instance:
+
+* **Performance thresholds**: What is the probability that a randomly selected collegiate basketball player can vertical jump higher than 70 cm? If 25 out of 80 tested players exceed this threshold, the empirical probability is 25/80 = 0.31 (31%).
+
+* **Outcome likelihood**: What is the probability of observing a 10% improvement in sprint time purely by chance (random day-to-day variability) rather than due to a training intervention? Statistical inference helps us quantify this.
+
+* **Treatment effects**: If we observe a difference between experimental and control groups, what is the probability that this difference is real versus simply due to sampling variability? Hypothesis testing [(Chapter 10)](ch10-hypothesis-testing.qmd) provides a framework for answering this question.
+
+Understanding probability is essential because Movement Science research inherently involves uncertainty. We work with samples rather than entire populations, measurements contain variability, and outcomes are influenced by numerous factors we cannot fully control [@cumming2012]. Probability gives us a precise, mathematical language to describe and reason about this uncertainty [@moore_ips].
+
+### Defining probability
+
+There are several ways to define probability [@moore_ips]:
+
+1. **Classical (theoretical) probability**: Based on equally likely outcomes. For a fair six-sided die, P(rolling a 4) = 1/6 because one outcome (4) occurs out of six equally likely possibilities.
+
+2. **Empirical (frequentist) probability**: Based on observed relative frequencies. If we test 100 athletes and 30 can vertical jump higher than 50 cm, the empirical probability is P(jump > 50 cm) = 30/100 = 0.30, or 30%.
+
+3. **Subjective probability**: Based on personal judgment, expertise, or prior evidence. A coach might estimate P(athlete recovers within 2 weeks) = 0.75 based on experience and context.
+
+In statistical inference, we primarily use **frequentist probability**, interpreting probability as the long-run relative frequency of an event if we could repeat the process infinitely many times [@moore_ips; @cumming2012].
+
+### Probability notation and rules
+
+Basic notation [@moore_ips]:
+
+* **P(A)**: Probability that event A occurs
+* **P(A or B)**: Probability that A or B (or both) occur
+* **P(A and B)**: Probability that both A and B occur simultaneously
+
+**Key probability rules:**
+
+1. **Complement rule**: P(not A) = 1 − P(A)
+   - If P(athlete completes task) = 0.80, then P(athlete does not complete task) = 1 − 0.80 = 0.20
+
+2. **Addition rule for mutually exclusive events**: P(A or B) = P(A) + P(B)
+   - Events are mutually exclusive if they cannot both happen (e.g., classifying a movement as flexion OR extension)
+
+3. **Multiplication rule for independent events**: P(A and B) = P(A) × P(B)
+   - Events are independent if the occurrence of one does not affect the probability of the other
+
+::: callout-note
+## Real example: Interpreting success rates in rehabilitation
+
+Suppose 70% of patients with ACL reconstruction return to sport within 12 months. If we randomly select 3 patients (assuming independence), what is the probability that all 3 return to sport?
+
+$$
+P(\text{all 3 return}) = 0.70 \times 0.70 \times 0.70 = 0.343
+$$
+
+There is approximately a 34% chance that all three patients return to sport, illustrating that even with a high individual success rate (70%), achieving success across multiple independent cases becomes less probable [@batterham2006].
+:::
+
+### Worked example: Computing probability from sample proportions
+
+A researcher tests vertical jump performance in 80 college basketball players and finds that 56 can jump higher than 60 cm.
+
+**Step 1: Compute the empirical probability**
+
+$$
+P(\text{jump} > 60 \text{ cm}) = \frac{56}{80} = 0.70
+$$
+
+**Step 2: Interpret**
+
+If we randomly select one player from this sample, the probability that their vertical jump exceeds 60 cm is 0.70, or 70%. This empirical probability estimates the population probability, but includes sampling error—a different sample of 80 players might yield a slightly different proportion (perhaps 0.68 or 0.73).
+
+**Why select one player from the sample?** In practice, researchers often use sample data to make predictions about individual cases. For example, a coach might ask: "If I recruit a new player from this same population (college basketball players), what's the likelihood they can jump higher than 60 cm?" Since we don't have data on every possible player, we use our sample to estimate this probability.
+
+**Step 3: Compute the complement**
+
+$$
+P(\text{jump} \leq 60 \text{ cm}) = 1 - 0.70 = 0.30
+$$
+
+30% of the sample jumped 60 cm or less.
+
+**Interpretation:**
+
+These sample-based probabilities provide estimates of the true population probabilities, but we must recognize that different samples would yield different proportions due to sampling variability [@moore_ips; @field_discovering].
+
+::: callout-warning
+## Common mistake
+
+Treating sample proportions as if they perfectly represent population probabilities. A sample proportion of 0.70 does not mean the population proportion is exactly 0.70—it means our best estimate is 0.70, subject to sampling error. Confidence intervals (Chapter 9) quantify this uncertainty [@cumming2014; @krzywinski2013].
+:::
+
+## Populations, samples, and sampling error
+
+### Populations and parameters
+
+A **population** is the entire group of individuals or observations about which we want to draw conclusions [@moore_ips]. In Movement Science, the population might be all professional soccer players, all individuals with Parkinson's disease, or all possible gait cycles from a single participant tested under specific conditions.
+
+**Parameters** are numerical characteristics of populations, typically unknown and estimated from samples [@moore_ips]:
+
+* Population mean: $\mu$ (mu)
+* Population standard deviation: $\sigma$ (sigma)
+* Population proportion: $p$
+
+We rarely know true population parameters. Instead, we estimate them from samples.
+
+### Samples and statistics
+
+A **sample** is a subset of the population selected for study [@moore_ips]. Ideally, samples are **random**, meaning every member of the population has a known probability of selection, which helps ensure representativeness and allows us to apply probability theory [@field_discovering].
+
+**Statistics** are numerical summaries computed from samples, used to estimate population parameters [@moore_ips]:
+
+* Sample mean: $\bar{x}$ (estimates $\mu$)
+* Sample standard deviation: $s$ (estimates $\sigma$)
+* Sample proportion: $\hat{p}$ (estimates $p$)
+
+Statistics vary from sample to sample, which brings us to sampling error.
+
+### What is sampling error?
+
+**Sampling error** is the difference between a sample statistic (e.g., $\bar{x}$) and the corresponding population parameter (e.g., $\mu$) [@moore_ips; @cumming2012]. It arises because a sample captures only part of the population, and different samples yield different statistics even when drawn from the same population [@field_discovering].
+
+**Example:**
+
+Suppose the true population mean vertical jump for college athletes is μ = 52 cm. If we test three different random samples:
+
+* Sample 1 (n = 30): $\bar{x}_1$ = 51.2 cm → Sampling error = 51.2 − 52 = −0.8 cm
+* Sample 2 (n = 30): $\bar{x}_2$ = 53.1 cm → Sampling error = 53.1 − 52 = +1.1 cm
+* Sample 3 (n = 30): $\bar{x}_3$ = 52.5 cm → Sampling error = 52.5 − 52 = +0.5 cm
+
+Each sample mean differs from μ due to sampling error. Importantly, sampling error is not a mistake—it is an unavoidable consequence of working with incomplete information [@moore_ips; @krzywinski2013].
+
+```{r}
+#| label: fig-sampling-error-illustration
+#| fig-cap: "Illustration of sampling error: three different samples from the same population yield different sample means"
+#| code-fold: true
+
+# Set seed for reproducibility
+set.seed(456)
+
+# True population parameters
+mu <- 52
+sigma <- 6
+population_size <- 10000
+
+# Generate population
+population <- rnorm(population_size, mean = mu, sd = sigma)
+
+# Draw three samples
+n <- 30
+sample1 <- sample(population, n)
+sample2 <- sample(population, n)
+sample3 <- sample(population, n)
+
+# Compute sample means
+xbar1 <- mean(sample1)
+xbar2 <- mean(sample2)
+xbar3 <- mean(sample3)
+
+# Plot
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 1))
+
+hist(sample1, breaks = 10, col = "lightblue", border = "black",
+     main = paste("Sample 1\nMean =", round(xbar1, 1), "cm"),
+     xlab = "Vertical Jump (cm)", ylab = "Frequency", xlim = c(35, 70))
+abline(v = mu, col = "red", lwd = 2, lty = 2)
+abline(v = xbar1, col = "blue", lwd = 2)
+legend("topright", legend = c("Population μ", "Sample mean"),
+       col = c("red", "blue"), lty = c(2, 1), lwd = 2, cex = 0.8)
+
+hist(sample2, breaks = 10, col = "lightgreen", border = "black",
+     main = paste("Sample 2\nMean =", round(xbar2, 1), "cm"),
+     xlab = "Vertical Jump (cm)", ylab = "Frequency", xlim = c(35, 70))
+abline(v = mu, col = "red", lwd = 2, lty = 2)
+abline(v = xbar2, col = "blue", lwd = 2)
+
+hist(sample3, breaks = 10, col = "lightcoral", border = "black",
+     main = paste("Sample 3\nMean =", round(xbar3, 1), "cm"),
+     xlab = "Vertical Jump (cm)", ylab = "Frequency", xlim = c(35, 70))
+abline(v = mu, col = "red", lwd = 2, lty = 2)
+abline(v = xbar3, col = "blue", lwd = 2)
+
+par(mfrow = c(1, 1))
+```
+
+This figure illustrates sampling error by showing three independent random samples (n = 30 each) drawn from the same population with μ = 52 cm (red dashed line). Each sample yields a different sample mean (blue solid line): Sample 1 underestimates μ, Sample 2 overestimates μ, and Sample 3 is close to μ. The differences between the sample means and the population mean represent sampling error, which is random and unavoidable [@field_discovering]. 
+
+**Key insight:** Even though all three samples come from the *same* population with the *same* true mean (μ = 52 cm), each sample produces a different estimate. This variability is not due to measurement error or methodological flaws—it is an inherent property of random sampling. If we conducted a study and obtained Sample 1, we would estimate μ = 51.2 cm; if we obtained Sample 2, we would estimate μ = 53.1 cm. Both are legitimate estimates, but neither is exactly correct due to sampling error.
+
+If we repeated this process infinitely many times, the `distribution of all sample means` would form the **sampling distribution of the mean**, which we explore next. This theoretical distribution tells us how much sample means typically vary around the true population mean, providing the foundation for quantifying uncertainty [@moore_ips].
+
+Notice that while individual observations vary widely (spread of histograms reflects σ = 6 cm), the sample means cluster much closer to μ. For example, individual vertical jumps range from roughly 40 to 65 cm, but the three sample means fall between 51.2 and 53.1 cm—a much narrower range. This demonstrates that **means are less variable than individual observations**, foreshadowing the concept of standard error [@cumming2012; @krzywinski2013].
+
+::: callout-important
+## Key insight
+
+Sampling error is not something to eliminate or "correct"—it is a natural property of statistical sampling. Our goal is to **quantify** and **account for** sampling error through tools like standard error and confidence intervals, allowing us to make informed inferences despite uncertainty [@cumming2014; @moore_ips].
+:::
+
+## Sampling distributions
+
+### What is a sampling distribution?
+
+A **sampling distribution** is the probability distribution of a statistic (e.g., the mean) across all possible samples of a given size from a population [@moore_ips]. It describes how much the statistic would vary if we repeatedly drew samples and computed the statistic each time [@field_discovering; @cumming2012].
+
+**Key distinction:**
+
+* **Population distribution**: Distribution of individual observations in the population
+* **Sample distribution**: Distribution of individual observations in one specific sample
+* **Sampling distribution**: Distribution of a statistic (e.g., sample means) across many samples
+
+We never fully observe the sampling distribution in practice (we collect just one sample), but we can:
+
+1. **Simulate** it by repeatedly drawing samples (e.g., via computer simulation or bootstrapping)
+2. **Approximate** it using probability theory (Central Limit Theorem)
+
+### Simulating a sampling distribution
+
+```{r}
+#| label: fig-sampling-distribution-simulation
+#| fig-cap: "Comparison of population distribution (left) and sampling distribution of the mean (right)"
+#| fig-width: 10
+#| fig-height: 4
+#| code-fold: true
+
+# Set seed
+set.seed(789)
+
+# Population parameters
+mu <- 52
+sigma <- 6
+n <- 30
+n_samples <- 10000
+
+# Generate population
+population <- rnorm(100000, mean = mu, sd = sigma)
+
+# Simulate sampling distribution
+sample_means <- replicate(n_samples, mean(rnorm(n, mean = mu, sd = sigma)))
+
+# Side-by-side plots
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 1))
+
+# LEFT: Population distribution
+hist(population, breaks = 50, col = "lightcoral", border = "white",
+     main = "Population Distribution\n(Individual Observations)",
+     xlab = "Vertical Jump (cm)",
+     ylab = "Density", probability = TRUE, xlim = c(35, 70))
+curve(dnorm(x, mean = mu, sd = sigma),
+      col = "darkred", lwd = 3, add = TRUE)
+abline(v = mu, col = "blue", lwd = 2, lty = 2)
+text(mu, 0.065, labels = expression(mu == 52), pos = 4, col = "blue", cex = 1.1)
+text(35, 0.065, labels = paste("SD =", sigma, "cm"), pos = 4, cex = 1.1)
+
+# RIGHT: Sampling distribution
+hist(sample_means, breaks = 50, col = "skyblue", border = "white",
+     main = "Sampling Distribution\n(Sample Means, n = 30)",
+     xlab = expression(bar(x)~"(Sample Mean, cm)"),
+     ylab = "Density", probability = TRUE, xlim = c(35, 70))
+curve(dnorm(x, mean = mean(sample_means), sd = sd(sample_means)),
+      col = "darkblue", lwd = 3, add = TRUE)
+abline(v = mu, col = "blue", lwd = 2, lty = 2)
+text(mu, 0.36, labels = expression(mu == 52), pos = 4, col = "blue", cex = 1.1)
+text(35, 0.36, labels = paste("SE =", round(sd(sample_means), 2), "cm"), pos = 4, cex = 1.1)
+
+par(mfrow = c(1, 1))
+```
+
+**Left panel (Population Distribution):** Shows the distribution of individual vertical jump measurements from the population (μ = 52 cm, σ = 6 cm). Individual observations are widely spread—some athletes jump as low as 35 cm, others as high as 70 cm.
+
+**Right panel (Sampling Distribution):** Shows the distribution of 10,000 sample means, where each sample mean is calculated from n = 30 observations. Notice three critical differences:
+
+1. **Same center:** Both distributions center at μ = 52 cm (blue dashed line), showing that sample means are unbiased estimators [@moore_ips; @field_discovering]
+
+2. **Much narrower spread:** The sampling distribution (SE ≈ 1.1 cm) is much narrower than the population distribution (SD = 6 cm). Sample means cluster tightly around μ, while individual observations vary widely [@cumming2012]
+
+3. **Normal shape:** The sampling distribution is approximately normal (bell-shaped) because we're sampling from a normal population. The Central Limit Theorem tells us that sampling distributions of means are approximately normal for moderate to large sample sizes (n ≥ 30), even when the population itself is not normal [@moore_ips]
+
+**Key insight:** Means are less variable than individuals. If you measure one person, their jump might be anywhere from 35-70 cm. But if you measure 30 people and take the average, that average will almost certainly fall between 49-55 cm. This reduced variability is quantified by the **standard error** (SE), which we explore next [@krzywinski2013; @cumming2014].
+
+### Properties of the sampling distribution of the mean
+
+The sampling distribution of the mean has three key properties [@moore_ips]:
+
+1. **Center**: The mean of the sampling distribution equals the population mean: $\mu_{\bar{x}} = \mu$
+   - The sample mean is an **unbiased estimator** of μ
+
+2. **Spread**: The standard deviation of the sampling distribution is called the **standard error of the mean (SE or SEM)**:
+
+$$
+\text{SE} = \frac{\sigma}{\sqrt{n}}
+$$
+
+   - The standard error decreases as sample size (n) increases
+   - Larger samples produce more precise estimates (less sampling variability)
+
+3. **Shape**: As sample size increases, the sampling distribution approaches a **normal distribution**, regardless of the shape of the population distribution (Central Limit Theorem)
+
+### The Central Limit Theorem
+
+The **Central Limit Theorem (CLT)** is one of the most important theorems in statistics [@moore_ips; @field_discovering]. It states:
+
+> As the sample size (*n*) increases, the sampling distribution of the sample mean ($\bar{x}$) approaches a normal distribution with mean ($\mu$) and standard deviation ($\sigma / \sqrt{n}$), regardless of the shape of the population distribution.
+
+**Implications:**
+
+* We can use normal distribution theory to make inferences about the population mean (μ) using sample means ($\bar{x}$), even when the population distribution itself is non-normal (skewed, heavy-tailed, etc.)
+* The approximation improves as n increases
+* For most distributions, n ≥ 30 is sufficient for the CLT to provide reasonable normal approximation; for highly skewed distributions, larger samples may be needed [@moore_ips; @lumley2002]
+
+::: {.callout-note}
+## Why do we still check normality in samples?
+
+Students often ask: "If the CLT says sampling distributions are normal regardless of population shape, why do we check if our sample data are normal?"
+
+**Answer:** The CLT applies to the **sampling distribution of the mean**, not to individual observations (population distribution). We check sample normality for different reasons:
+
+1. **Small samples (n < 30):** The CLT may not yet "kick in," so we need the population (and thus our sample) to be approximately normal for valid inferences about means
+2. **Other statistics:** The CLT doesn't apply to medians, standard deviations, or other statistics—these may require normality assumptions
+3. **Outliers and data quality:** Extreme non-normality in sample data may indicate outliers, data entry errors, or violations of other assumptions
+4. **Descriptive purposes:** Understanding the shape of your data helps interpret results and choose appropriate summary statistics
+
+**Bottom line:** For means with large samples (n ≥ 30), the CLT protects us. For small samples or other statistics, normality matters [@field_discovering; @moore_ips].
+:::
+
+To see the Central Limit Theorem in action, let's examine how the sampling distribution of the mean becomes increasingly normal as sample size increases, even when sampling from a highly skewed population:
+
+```{r}
+#| label: fig-central-limit-theorem
+#| fig-cap: "Central Limit Theorem demonstration: sampling distributions of the mean for different sample sizes (n = 5, 15, 30) from a right-skewed population"
+#| code-fold: true
+
+# Set seed
+set.seed(101)
+
+# Generate right-skewed population (exponential distribution)
+population_skewed <- rexp(50000, rate = 0.05) + 20
+mu_skewed <- mean(population_skewed)
+sigma_skewed <- sd(population_skewed)
+
+# Simulate sampling distributions for different n
+sample_sizes <- c(5, 15, 30)
+n_simulations <- 5000
+
+par(mfrow = c(2, 2), mar = c(4, 4, 3, 1))
+
+# Plot population
+hist(population_skewed, breaks = 50, col = "lightcoral", border = "white",
+     main = "Population Distribution\n(Right-Skewed)",
+     xlab = "Value", ylab = "Frequency", xlim = c(20, 150), probability = TRUE)
+abline(v = mu_skewed, col = "red", lwd = 2, lty = 2)
+text(mu_skewed + 10, 0.04, labels = paste("μ =", round(mu_skewed, 1)), col = "red")
+
+# Sampling distributions for different n
+for (n in sample_sizes) {
+  # Simulate
+  sample_means <- replicate(n_simulations, mean(sample(population_skewed, n)))
+  
+  # Plot
+  hist(sample_means, breaks = 50, col = "skyblue", border = "white",
+       main = paste("Sampling Dist. of Mean\nn =", n),
+       xlab = expression(bar(x)), ylab = "Frequency",
+       xlim = c(20, 100), probability = TRUE)
+  
+  # Overlay normal curve
+  curve(dnorm(x, mean = mu_skewed, sd = sigma_skewed / sqrt(n)),
+        col = "darkblue", lwd = 2, add = TRUE)
+  
+  abline(v = mu_skewed, col = "red", lwd = 2, lty = 2)
+}
+
+par(mfrow = c(1, 1))
+```
+
+**What this figure shows:** The Central Limit Theorem in action, using a strongly right-skewed population (top left panel).
+
+**Top left (Population):** The original population distribution is heavily right-skewed—far from normal.
+
+**Top right (n = 5):** When we take small samples (n = 5) and plot their means, the sampling distribution still shows some right skew, reflecting the population's shape.
+
+**Bottom left (n = 15):** With moderate samples (n = 15), the sampling distribution becomes more symmetric and bell-shaped, even though the population hasn't changed.
+
+**Bottom right (n = 30):** With larger samples (n = 30), the sampling distribution is nearly perfectly normal, closely matching the theoretical normal curve (dark blue line) with mean μ and standard error σ/√n.
+
+**Key insight:** Despite starting with a highly skewed population, the sampling distribution of the mean becomes approximately normal as sample size increases [@moore_ips; @field_discovering]. This is why statistical procedures `based on means` (t-tests, ANOVA) work reliably even when raw data are non-normal, provided sample sizes are adequate (typically n ≥ 30) [@lumley2002; @blanca2013].
+
+::: callout-note
+## Why the Central Limit Theorem matters for Movement Science
+
+Many movement variables (reaction time, muscle activation, postural sway) are non-normally distributed `at the individual observation level` [@limpert2001; @micceri1989]. However, because we typically compare **means** (average reaction time across trials, mean EMG amplitude, average sway area), the Central Limit Theorem ensures that the distribution of those means is approximately normal, provided our sample size is adequate [@moore_ips]. This is why procedures like t-tests and ANOVA remain valid even with non-normal individual observations, as long as sample sizes meet reasonable thresholds (typically n ≥ 30 per group for moderate skew) [@lumley2002; @blanca2013].
+:::
+
+## Standard error: quantifying sampling variability
+
+### Defining the standard error
+
+The **standard error of the mean (SE or SEM)** is the standard deviation of the sampling distribution of the mean [@moore_ips]. It quantifies how much sample means typically vary from the population mean due to sampling error [@field_discovering; @cumming2012].
+
+**Formula (when population σ is known):**
+
+$$
+\text{SE} = \frac{\sigma}{\sqrt{n}}
+$$
+
+**Formula (when population σ is unknown, estimated by sample s):**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}}
+$$
+
+where:
+
+* $s$ = sample standard deviation
+* $n$ = sample size
+
+### Interpreting the standard error
+
+The standard error tells us the typical amount by which sample means deviate from the population mean [@moore_ips; @krzywinski2013]. Smaller SE indicates more precise estimates (sample means cluster tightly around μ), while larger SE indicates less precise estimates (sample means vary widely) [@cumming2014].
+
+**Key insights:**
+
+1. **Larger samples → smaller SE**: SE decreases with $\sqrt{n}$, so doubling the sample size reduces SE by a factor of $\sqrt{2} \approx 1.41$, not by half [@moore_ips].
+
+2. **More variable populations → larger SE**: Populations with larger σ produce more variable sample means, increasing SE [@field_discovering].
+
+3. **SE quantifies precision, not accuracy**: A small SE means our estimate is precise (repeatable), but it could still be biased if sampling is not random [@moore_ips].
+
+### Worked example: Computing standard error
+
+A researcher measures vertical jump height in a sample of 25 college basketball players and finds:
+
+* Sample mean: $\bar{x}$ = 58.4 cm
+* Sample standard deviation: $s$ = 7.2 cm
+* Sample size: $n$ = 25
+
+**Compute the standard error:**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{7.2}{\sqrt{25}} = \frac{7.2}{5} = 1.44 \text{ cm}
+$$
+
+**Interpretation:**
+
+The standard error of 1.44 cm quantifies the uncertainty in our estimate of the population mean. If we repeated this study many times with different random samples of n = 25, the sample means would typically deviate from the true population mean by about 1.44 cm [@moore_ips; @cumming2014]. This SE will be used in Chapter 9 to construct a confidence interval, allowing us to state a range of plausible values for μ [@cumming2012; @krzywinski2013].
+
+### Visualizing the effect of sample size on SE
+
+```{r}
+#| label: fig-sample-size-se
+#| fig-cap: "Effect of sample size on standard error: larger samples produce smaller SE and more precise estimates"
+#| code-fold: true
+
+# Parameters
+sigma <- 10  # Population SD
+sample_sizes <- c(10, 20, 30, 50, 100, 200)
+se_values <- sigma / sqrt(sample_sizes)
+
+# Plot
+plot(sample_sizes, se_values, type = "b", pch = 19, col = "darkblue", lwd = 2,
+     xlab = "Sample Size (n)", ylab = "Standard Error (SE)",
+     main = "Standard Error Decreases with Sample Size",
+     ylim = c(0, max(se_values) * 1.1), las = 1)
+
+# Add reference lines
+abline(h = 0, lty = 2, col = "gray")
+grid()
+
+# Annotate
+text(50, se_values[4] + 0.3, 
+     labels = expression(SE == sigma / sqrt(n)), cex = 1.2, col = "darkred")
+```
+
+This plot illustrates the relationship between sample size and standard error, demonstrating that SE decreases as n increases, following the formula $\text{SE} = \sigma / \sqrt{n}$ [@moore_ips]. Doubling the sample size from 10 to 20 reduces SE from 3.16 to 2.24 (a reduction of 29%), while increasing from 100 to 200 reduces SE from 1.00 to 0.71 (also 29%) [@field_discovering]. The curve shows diminishing returns: each additional participant contributes less to precision as sample size grows, which has practical implications for research design and resource allocation [@button2013]. For Movement Science studies, this relationship guides decisions about how many participants are needed to achieve acceptable precision [@batterham2006; @hopkins2000]. Notice that to cut SE in half, sample size must increase by a factor of four (e.g., from 25 to 100), not two, due to the square root relationship [@moore_ips; @cohen1988].
+
+::: callout-important
+## SE vs. SD: critical distinction
+
+* **Standard deviation (SD or $s$)**: Measures variability among **individual observations** in a sample. It describes how much individuals differ from each other [@moore_ips].
+  
+* **Standard error (SE)**: Measures variability among **sample means** across repeated sampling. It describes how much our estimate of μ is likely to vary due to sampling error [@cumming2012; @krzywinski2013].
+
+**Example:** If vertical jump SD = 7.2 cm, individual athletes vary by about 7.2 cm from the mean. If SE = 1.44 cm (n = 25), the sample mean is precise to within about 1.44 cm of the true population mean [@field_discovering]. Always report SE (or confidence intervals) when making inferences, not just SD [@cumming2014].
+:::
+
+### Standard error for other statistics
+
+While this chapter focuses on the standard error of the mean, the concept extends to other statistics [@moore_ips]:
+
+* **Standard error of a proportion**: $\text{SE}_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}}$
+* **Standard error of a difference between means**: Depends on both samples' SEs and sample sizes
+* **Standard error of a correlation**: More complex formula involving the correlation itself and sample size
+
+All standard errors share the property that they decrease as sample size increases, quantifying the precision of parameter estimates [@cumming2012; @field_discovering].
+
+## Using sampling distributions for inference
+
+### Predicting population parameters from samples
+
+The sampling distribution is the foundation for statistical inference—it allows us to make probabilistic statements about unknown population parameters based on sample statistics [@moore_ips]. 
+
+**Here's the key idea:** We observe one sample and calculate one sample mean ($\bar{x}$). We don't know the true population mean (μ), but the sampling distribution tells us how sample means typically behave. Specifically, it tells us:
+
+1. **Where sample means center:** Around the true population mean μ (unbiased estimator)
+2. **How much they vary:** Quantified by the standard error (SE = σ/√n)
+3. **Their shape:** Approximately normal for moderate to large samples (CLT)
+
+With this knowledge, we can construct **confidence intervals**—ranges of values likely to contain the true population mean μ [@cumming2014]. For example, if we measure a sample mean of $\bar{x}$ = 52 cm with SE = 1.1 cm, we can say with 95% confidence that μ falls within approximately 52 ± 2(1.1) = 49.8 to 54.2 cm. This inference is possible only because we understand the sampling distribution.
+
+**Key idea:**
+
+If the sampling distribution of $\bar{x}$ is approximately normal with mean μ and standard deviation SE, then:
+
+* Approximately 68% of sample means fall within $\mu \pm 1 \times \text{SE}$
+* Approximately 95% of sample means fall within $\mu \pm 2 \times \text{SE}$ (more precisely, 1.96 × SE)
+* Approximately 99.7% of sample means fall within $\mu \pm 3 \times \text{SE}$
+
+**Reversing the logic** (foundation of confidence intervals, Chapter 9):
+
+If $\bar{x}$ is likely to be within 2 × SE of μ, then μ is likely to be within 2 × SE of $\bar{x}$ [@cumming2012; @krzywinski2013].
+
+**Why this works:** This is a symmetric relationship. Imagine μ is at the center of a circle with radius 2 × SE. If we know that 95% of sample means fall within this circle, then when we observe a particular sample mean $\bar{x}$, we can reverse the logic: draw a circle of radius 2 × SE around $\bar{x}$, and we can be 95% confident that μ falls within it.
+
+**Concrete example:** 
+
+- We know from the sampling distribution that 95% of sample means fall within μ ± 2 × SE
+- Suppose the true population mean is `μ = 52 cm`, and `SE = 1.1 cm`
+- We observe a sample mean of $\bar{x}$ = `53 cm`
+- **Forward logic:** If `μ = 52`, then 95% of sample means would fall between 49.8 and 54.2 cm (because 52 ± 2(1.1) = 49.8 to 54.2 cm (using the 95% rule from above). Our observed $\bar{x}$ = 53 falls within this range—perfectly normal!
+- **Reversed logic:** We observe $\bar{x}$ = 53 cm—this is just an *estimate* of the true population mean, which we don't know. However, we can be 95% confident that the true population mean μ falls between 50.8 and 55.2 cm (because 53 ± 2(1.1) = 50.8 to 55.2 cm). **Important:** "95% confident" means that if we repeated this process many times with different samples, about 95% of our intervals would capture the true μ, but about 5% would miss it—we could be wrong! In this example, the true `μ = 52` does indeed fall within this interval—our confidence interval "captured" the true value!
+
+```{r}
+#| label: fig-confidence-interval-logic
+#| fig-cap: "Visual illustration of the symmetric relationship underlying confidence intervals"
+#| fig-width: 10
+#| fig-height: 5
+#| code-fold: true
+
+par(mfrow = c(1, 2), mar = c(4, 4, 3, 2))
+
+# Parameters
+mu <- 52
+se <- 1.1
+xbar <- 53  # Observed sample mean (different from μ to show the concept)
+ci_multiplier <- 2  # approximately 95%
+
+# LEFT PANEL: Forward logic (sampling distribution)
+plot(NULL, xlim = c(48, 57), ylim = c(0, 0.4), 
+     xlab = "Vertical Jump (cm)", ylab = "Density",
+     main = "Forward Logic:\nWhere do sample means fall?")
+
+# Draw sampling distribution centered at μ
+x_vals <- seq(48, 57, length.out = 200)
+y_vals <- dnorm(x_vals, mean = mu, sd = se)
+polygon(c(x_vals, rev(x_vals)), c(y_vals, rep(0, length(y_vals))),
+        col = rgb(0.5, 0.7, 1, 0.3), border = "darkblue", lwd = 2)
+
+# Mark μ and the 95% interval
+abline(v = mu, col = "red", lwd = 3, lty = 1)
+text(mu, 0.38, expression(mu == 52), col = "red", cex = 1.2, pos = 3)
+
+# Shade 95% region
+x_95 <- seq(mu - ci_multiplier*se, mu + ci_multiplier*se, length.out = 100)
+y_95 <- dnorm(x_95, mean = mu, sd = se)
+polygon(c(x_95, rev(x_95)), c(y_95, rep(0, length(y_95))),
+        col = rgb(1, 0.8, 0, 0.5), border = NA)
+
+# Mark boundaries
+arrows(mu - ci_multiplier*se, 0.15, mu + ci_multiplier*se, 0.15,
+       code = 3, angle = 90, length = 0.1, lwd = 2, col = "darkorange")
+text(mu, 0.18, "95% of sample means\nfall in this range\n(49.8 to 54.2)", cex = 0.85, col = "darkorange")
+
+# Mark the observed sample mean
+points(xbar, 0.05, pch = 19, cex = 1.5, col = "purple")
+text(xbar, 0.08, expression(bar(x) == 53), col = "purple", cex = 1, pos = 4)
+
+# RIGHT PANEL: Reversed logic (confidence interval)
+plot(NULL, xlim = c(48, 57), ylim = c(0, 0.4), 
+     xlab = "Vertical Jump (cm)", ylab = "",
+     main = "Reversed Logic:\nWhere does μ fall?")
+
+# Draw a point for observed sample mean
+points(xbar, 0.05, pch = 19, cex = 2, col = "darkblue")
+text(xbar, 0.08, expression(bar(x) == 53), col = "darkblue", cex = 1.2, pos = 3)
+
+# Draw confidence interval around xbar
+arrows(xbar - ci_multiplier*se, 0.25, xbar + ci_multiplier*se, 0.25,
+       code = 3, angle = 90, length = 0.1, lwd = 3, col = "darkgreen")
+text(xbar, 0.28, "95% confident μ\nfalls in this range\n(50.8 to 55.2)", cex = 0.85, col = "darkgreen")
+
+# Mark the interval bounds
+segments(xbar - ci_multiplier*se, 0, xbar - ci_multiplier*se, 0.25, 
+         lty = 2, col = "darkgreen", lwd = 2)
+segments(xbar + ci_multiplier*se, 0, xbar + ci_multiplier*se, 0.25, 
+         lty = 2, col = "darkgreen", lwd = 2)
+
+text(xbar - ci_multiplier*se, 0.32, "50.8", cex = 0.9, col = "darkgreen")
+text(xbar + ci_multiplier*se, 0.32, "55.2", cex = 0.9, col = "darkgreen")
+
+# Add a shaded region to show where μ likely is
+rect(xbar - ci_multiplier*se, 0, xbar + ci_multiplier*se, 0.4,
+     col = rgb(0, 0.8, 0, 0.15), border = NA)
+
+# Mark the true μ to show it falls within the CI
+abline(v = mu, col = "red", lwd = 2, lty = 2)
+text(mu, 0.38, expression(mu == 52), col = "red", cex = 1.2, pos = 3)
+text(mu, 0.35, "(true value)", col = "red", cex = 0.8, pos = 1)
+
+par(mfrow = c(1, 1))
+```
+
+::: {.callout-note}
+## Why 95% confidence?
+
+Students often ask: "Why 95%? Why not 90% or 99%?"
+
+**Answer:** The 95% confidence level is a **convention** in statistics, not a mathematical requirement [@cumming2012; @moore_ips]. Here's the reasoning:
+
+- **95% is a balance:** It's high enough to provide reasonable confidence (we'd be wrong only 5% of the time in the long run), but not so high that our intervals become impractically wide
+- **Historical precedent:** The 95% level corresponds to approximately ±2 standard errors (more precisely, ±1.96 SE), which comes from the normal distribution and has been standard practice since the early 20th century
+- **Other levels are valid:** Researchers sometimes use 90% (less stringent, narrower intervals) or 99% (more stringent, wider intervals) depending on the context. For example, quality control might use 99%, while exploratory research might use 90%
+- **The key insight:** The confidence level is a choice that reflects how much uncertainty we're willing to accept. Higher confidence = wider intervals = more uncertainty about precision, but more certainty that we've captured the true value [@field_discovering]
+
+In Chapter 9, we'll explore confidence intervals in depth, including how to construct them for different confidence levels.
+:::
+
+::: {.callout-note}
+## Connection to Type I and Type II Errors
+
+The 5% error rate in confidence intervals is related to the concept of **Type I error** in hypothesis testing. Here's a brief overview:
+
+| Error Type | What It Means | Probability | Example |
+|------------|---------------|-------------|---------|
+| **Type I Error** | Rejecting a true null hypothesis (false positive) | α (alpha), typically 0.05 | Concluding a training program works when it actually doesn't |
+| **Type II Error** | Failing to reject a false null hypothesis (false negative) | β (beta), varies by study | Concluding a training program doesn't work when it actually does |
+
+**In the context of confidence intervals:** When we use a 95% confidence interval, we accept a 5% chance (α = 0.05) that our interval will *not* capture the true population parameter. This is analogous to the Type I error rate in hypothesis testing.
+
+We'll explore Type I and Type II errors in detail in **Chapter 10: Hypothesis Testing**, where you'll learn how these error rates guide statistical decision-making and how to balance them in research design.
+:::
+
+This reversal is the foundation of confidence intervals, which we explore in detail in Chapter 9. Now let's apply these concepts to interpret real research findings.
+
+### Worked example: Interpreting results with SE
+
+A study reports that the mean reaction time in older adults (n = 40) is $\bar{x}$ = 285 ms, SE = 12 ms.
+
+**Step 1: Understand what SE tells us**
+
+The standard error of 12 ms quantifies the uncertainty due to sampling error. If the study were repeated with different samples of 40 older adults, the sample means would typically vary by about 12 ms from the true population mean [@moore_ips].
+
+**Step 2: Construct an approximate 95% interval**
+
+Using the rule that approximately 95% of sample means fall within 2 × SE of μ:
+
+$$
+\bar{x} \pm 2 \times \text{SE} = 285 \pm 2(12) = 285 \pm 24 = [261, 309] \text{ ms}
+$$
+
+**Step 3: Interpret**
+
+We estimate the population mean reaction time for older adults to be approximately 285 ms, with uncertainty quantified by SE = 12 ms. An approximate 95% confidence interval is [261, 309] ms, meaning we can be reasonably confident that the true population mean falls within this range - Chapter 9 provides the formal method for computing confidence intervals using the t-distribution.
+
+**Important note:** This interpretation is informal and approximate. Confidence intervals (Chapter 9) provide the rigorous probabilistic framework for inference [@moore_ips; @krzywinski2013].
+
+::: callout-warning
+## Common mistake
+
+Confusing the standard error with the standard deviation. Reporting "Mean = 285 ms, SD = 12 ms" when you mean "Mean = 285 ms, SE = 12 ms" fundamentally changes the interpretation. SD describes individual variability; SE describes uncertainty in the mean estimate [@cumming2014]. Most research contexts require reporting SE or confidence intervals, not SD, when making inferences about populations [@cumming2012; @ho2019].
+:::
+
+## Sample size, precision, and study design
+
+### Why sample size matters
+
+Sample size (n) directly affects the precision of statistical estimates through its influence on standard error [@moore_ips; @button2013]. Larger samples provide:
+
+1. **Smaller standard errors**: SE = $s / \sqrt{n}$ decreases as n increases
+2. **Narrower confidence intervals**: Intervals are proportional to SE
+3. **Greater statistical power**: Ability to detect true effects (Chapter 10)
+4. **More stable parameter estimates**: Less influenced by outliers or extreme values
+
+**Trade-offs:**
+
+Larger samples require more time, resources, and participant burden [@batterham2006]. The goal is to choose n large enough to achieve acceptable precision without wasting resources [@cohen1988; @button2013].
+
+### How much does increasing n help?
+
+Because SE depends on $\sqrt{n}$, gains in precision diminish as n increases [@moore_ips]:
+
+* Increasing from n = 10 to n = 40 reduces SE by a factor of $\sqrt{40/10} = 2$ (cuts SE in half)
+* Increasing from n = 40 to n = 160 also reduces SE by a factor of 2, but requires adding 120 participants instead of 30
+
+This square-root relationship has practical implications:
+
+* Pilot studies with very small samples (n < 15) have large SE and unstable estimates [@button2013]
+* Moderate samples (n = 30–50 per group) often provide reasonable precision for many Movement Science applications [@batterham2006; @hopkins2000]
+* Very large samples (n > 200) offer high precision but may reveal trivial differences as "statistically significant" [@schmidt1996; @lakens2013]
+
+### Planning sample size
+
+Formal sample size planning (power analysis, Chapter 10) requires specifying:
+
+1. **Desired precision** (width of confidence interval)
+2. **Expected effect size** (magnitude of difference or relationship)
+3. **Acceptable Type I and Type II error rates** (Chapter 10)
+
+**Rule of thumb for Movement Science studies:**
+
+For estimating a mean with reasonable precision (SE ≈ 0.15 × SD), aim for n ≥ 30–50 participants per group [@batterham2006; @hopkins2000]. For smaller or more subtle effects, larger samples may be needed [@button2013; @cohen1988].
+
+```{r}
+#| label: fig-precision-sample-size
+#| fig-cap: "Confidence interval width decreases with sample size: larger samples provide more precise estimates of the population mean"
+#| code-fold: true
+
+# Simulate
+set.seed(202)
+population <- rnorm(100000, mean = 50, sd = 10)
+
+# Sample sizes
+sample_sizes <- c(10, 20, 30, 50, 100)
+n_sims <- 100
+
+# Compute 95% CI widths for each n
+ci_widths <- sapply(sample_sizes, function(n) {
+  means <- replicate(n_sims, {
+    samp <- sample(population, n)
+    mean(samp)
+  })
+  
+  sems <- replicate(n_sims, {
+    samp <- sample(population, n)
+    sd(samp) / sqrt(n)
+  })
+  
+  # Approximate CI width = 2 * 1.96 * SE = 3.92 * SE
+  widths <- 3.92 * sems
+  mean(widths)
+})
+
+# Plot
+barplot(ci_widths, names.arg = sample_sizes, col = "steelblue", border = "black",
+        xlab = "Sample Size (n)", ylab = "Mean 95% CI Width",
+        main = "Precision Improves with Larger Samples",
+        ylim = c(0, max(ci_widths) * 1.1), las = 1)
+
+# Add text
+text(1:length(sample_sizes) * 1.2, ci_widths + 0.5, 
+     labels = round(ci_widths, 1), cex = 0.9, font = 2)
+```
+
+This bar plot shows how confidence interval width decreases as sample size increases, reflecting improved precision [@moore_ips]. With n = 10, the mean 95% CI width is approximately 12.5 units, indicating substantial uncertainty. Doubling to n = 20 cuts the width nearly in half (to ~8.8), while increasing to n = 100 yields a narrow interval width of ~3.9 units [@cumming2012; @krzywinski2013]. The diminishing returns are evident: moving from 10 to 20 participants provides a larger gain in precision than moving from 50 to 100 [@button2013]. For Movement Science research, this visualization underscores the importance of adequate sample sizes—small studies (n < 20) produce wide confidence intervals and low precision, limiting the informativeness of findings [@batterham2006; @hopkins2000]. Researchers should plan sample sizes to achieve CI widths narrow enough to distinguish meaningful effects from trivial ones [@cumming2014; @lakens2013].
+
+## Probability distributions for inference
+
+### The t-distribution
+
+For small samples, when σ is unknown and estimated by $s$, the sampling distribution of $\bar{x}$ does not follow a normal distribution—it follows a **t-distribution** [@moore_ips]. The t-distribution:
+
+* Is symmetric and bell-shaped like the normal distribution
+* Has heavier tails, reflecting greater uncertainty with small n
+* Depends on **degrees of freedom (df)**, where df = n − 1 for a single sample
+* Approaches the normal distribution as n increases (for n > 30, t and normal are nearly identical) [@field_discovering]
+
+**Why t instead of z?**
+
+When we estimate σ with $s$, we introduce additional uncertainty. The t-distribution accounts for this by spreading probability more into the tails, making intervals wider and tests more conservative [@moore_ips; @cumming2012].
+
+::: callout-note
+## Historical note
+
+The t-distribution was developed by William Sealy Gosset, who published under the pseudonym "Student" while working for the Guinness Brewery in the early 1900s. It is often called "Student's t-distribution" in his honor [@moore_ips].
+:::
+
+## Chapter summary
+
+This chapter introduced the foundational concepts of probability and sampling error that underpin all statistical inference [@moore_ips; @cumming2012]. Probability provides a formal language for quantifying uncertainty, allowing researchers to make statements about the likelihood of events, outcomes, and parameter values [@field_discovering]. Sampling error—the inevitable variability that arises when estimating population parameters from finite samples—is not a flaw to eliminate but a property to quantify and account for [@krzywinski2013; @cumming2014]. The sampling distribution, particularly the sampling distribution of the mean, reveals how sample statistics would vary across hypothetical repeated samples, providing the theoretical foundation for inference [@moore_ips].
+
+The Central Limit Theorem guarantees that the sampling distribution of the mean approaches normality as sample size increases, regardless of the population distribution's shape [@moore_ips; @lumley2002]. This powerful result enables the use of normal-based inference procedures (t-tests, confidence intervals) even with non-normal Movement Science data such as reaction times, postural sway, or EMG amplitudes, provided sample sizes are adequate [@micceri1989; @blanca2013]. The standard error of the mean quantifies the precision of our estimates, decreasing as sample size increases according to the formula $\text{SE} = s / \sqrt{n}$ [@cumming2012; @field_discovering]. Understanding SE allows researchers to distinguish between variability among observations (SD) and uncertainty about the population mean (SE)—a critical distinction when reporting and interpreting findings [@cumming2014; @ho2019].
+
+Sample size emerges as a central determinant of inferential precision: larger samples yield smaller standard errors, narrower confidence intervals, and more stable estimates [@button2013; @batterham2006]. However, the square-root relationship between n and SE means that doubling precision requires quadrupling sample size, creating trade-offs between statistical rigor and resource constraints [@cohen1988; @moore_ips]. Moving forward, the principles of sampling distributions and standard error will be applied directly in constructing confidence intervals (Chapter 9), conducting hypothesis tests (Chapter 10), and making informed decisions about study design and sample size planning [@cumming2012; @schmidt1996; @kline2013]. The goal is to embrace uncertainty, quantify it honestly using tools like SE, and make probabilistic statements that respect the limits of what sample data can reveal about populations [@krzywinski2013; @cumming2014].
+
+## Key terms
+
+probability; sampling error; population; parameter; sample; statistic; sampling distribution; Central Limit Theorem; standard error of the mean; unbiased estimator; degrees of freedom; t-distribution; precision; confidence interval; simulation
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### Question 1: Why does sampling error occur, and is it a mistake? {icon="1-square-fill"}
+
+Sampling error occurs because samples capture only part of the population, and random variability means that different samples yield different statistics (means, proportions, etc.) even when drawn from the same population. It is **not** a mistake or error in the methodological sense—it is an unavoidable property of working with incomplete information. Our goal is not to eliminate sampling error (which is impossible) but to quantify it using standard error and account for it through confidence intervals and hypothesis tests. Recognizing and reporting sampling error honestly is a hallmark of rigorous science.
+
+### Question 2: Explain the Central Limit Theorem in your own words and why it matters for Movement Science research. {icon="2-square-fill"}
+
+The Central Limit Theorem states that as sample size increases, the sampling distribution of the sample mean becomes approximately normal, regardless of the shape of the population distribution. This is crucial for Movement Science because many movement variables (reaction time, sway area, EMG) are not normally distributed—they may be skewed or have heavy tails. However, because the CLT ensures that **means** are approximately normally distributed with adequate sample sizes (typically n ≥ 30), we can use normal-based inferential procedures (t-tests, ANOVA, confidence intervals) even when raw data violate normality assumptions. This makes the mean a robust and widely applicable summary statistic.
+
+### Question 3: A study reports mean vertical jump = 52 cm, SD = 6 cm, n = 36. Compute the standard error and interpret it. {icon="3-square-fill"}
+
+**Compute SE:**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{6}{\sqrt{36}} = \frac{6}{6} = 1.0 \text{ cm}
+$$
+
+**Interpretation:**
+
+The standard error of 1.0 cm quantifies the uncertainty in our estimate of the population mean vertical jump. If we repeated this study many times with different samples of 36 participants, the sample means would typically vary by about 1.0 cm from the true population mean. This SE indicates reasonable precision. The standard deviation (6 cm) describes variability among individual athletes, while the standard error (1 cm) describes uncertainty about the population mean estimate. We would use this SE to construct confidence intervals (Chapter 9) or conduct hypothesis tests (Chapter 10).
+
+### Question 4: Why does doubling the sample size not cut the standard error in half? {icon="4-square-fill"}
+
+Because standard error depends on the square root of sample size: $\text{SE} = s / \sqrt{n}$. Doubling n means multiplying the denominator by $\sqrt{2} \approx 1.41$, which reduces SE by a factor of 1.41 (about 29%), not by half (50%). To cut SE in half, you must increase n by a factor of four (multiply by 2², since $\sqrt{4} = 2$). For example, if SE = 2.0 with n = 25, then doubling to n = 50 yields SE ≈ 1.41, but increasing to n = 100 yields SE = 1.0 (half the original). This square-root relationship reflects diminishing returns: each additional participant contributes less to precision as sample size grows.
+
+### Question 5: Distinguish between the population distribution, sample distribution, and sampling distribution. {icon="5-square-fill"}
+
+* **Population distribution**: The distribution of all individual observations in the population. It describes how the variable (e.g., vertical jump height) is distributed across the entire population. We rarely know its exact shape.
+
+* **Sample distribution**: The distribution of individual observations in one specific sample drawn from the population. It resembles the population distribution but includes sampling variability and is finite in size.
+
+* **Sampling distribution**: The probability distribution of a statistic (e.g., the sample mean) across all possible samples of a given size. It describes how much the statistic would vary if we repeated sampling infinitely. The sampling distribution is central to inference because it quantifies sampling error—how much $\bar{x}$ varies around μ.
+
+**Example:** If we measure 30 athletes' jump heights (sample distribution) from a population of all athletes (population distribution), the sampling distribution tells us how much the mean of those 30 would vary if we drew different samples of 30 repeatedly.
+
+### Question 6: A researcher claims "Our sample mean is exactly equal to the population mean." What is wrong with this statement? {icon="6-square-fill"}
+
+This statement treats the sample mean as if it has no sampling error, which is almost certainly false. Due to random sampling variability, the sample mean $\bar{x}$ will differ from the population mean μ by some amount, even if sampling is unbiased and random. The probability that $\bar{x} = \mu$ exactly is effectively zero. Instead, the researcher should acknowledge uncertainty: "Our sample mean estimates the population mean, with sampling error quantified by SE = [value]. A 95% confidence interval for μ is [lower, upper], indicating the range of plausible values consistent with our data." Recognizing and reporting sampling error is essential for honest, transparent inference.
+
+:::
+

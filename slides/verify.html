@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KIN 610 · Badge Verification Tool</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,sans-serif;background:#f5f2ec;color:#1a1a1a;
+     min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.card{background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.1);
+      padding:2.4rem 2.8rem;max-width:480px;width:100%}
+h1{font-size:1.35rem;font-weight:700;margin-bottom:.25em}
+.sub{color:#888;font-size:.82rem;margin-bottom:1.8rem;line-height:1.5}
+label.field-label{display:block;font-size:.75rem;font-weight:600;text-transform:uppercase;
+                   letter-spacing:.08em;color:#666;margin-bottom:.4em}
+input[type=text]{width:100%;padding:.5em .8em;border:1.5px solid #ddd;border-radius:6px;
+                 font-size:.95rem;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:#c8a84b}
+.badges{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.4rem;margin-bottom:1.4rem}
+.badge-check{display:flex;align-items:center;gap:.55em;padding:.55em .8em;
+             border:1.5px solid #e0d9cc;border-radius:7px;cursor:pointer;
+             transition:border-color .2s,background .2s;user-select:none}
+.badge-check:hover{border-color:#c8a84b;background:#fdf8ee}
+.badge-check input{accent-color:#c8a84b;width:16px;height:16px;cursor:pointer}
+.badge-check .icon{font-size:1.1rem}
+.badge-check .lbl{font-size:.82rem;font-weight:500}
+button{width:100%;padding:.65em;background:#c8a84b;color:#fff;border:none;border-radius:7px;
+       font-size:.95rem;font-weight:600;cursor:pointer;transition:background .2s;margin-top:.5rem}
+button:hover{background:#b8942f}
+.result{margin-top:1.4rem;border-radius:8px;padding:1.1em 1.3em;display:none}
+.result.match{background:#edf7ed;border:1.5px solid #5a9c5a}
+.result.mismatch{background:#fdecea;border:1.5px solid #c0614a}
+.result-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:.3em}
+.result.match .result-label{color:#3a7c3a}
+.result.mismatch .result-label{color:#c0614a}
+.result-code{font-family:monospace;font-size:1.25rem;font-weight:700;letter-spacing:.15em}
+.result-msg{font-size:.82rem;margin-top:.4em;color:#444}
+.key-note{font-size:.72rem;color:#aaa;margin-top:1.5rem;line-height:1.55;border-top:1px solid #eee;padding-top:1rem}
+.key-note code{background:#f0ebe0;padding:.1em .4em;border-radius:3px;font-size:.9em}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Badge Verification Tool</h1>
+  <p class="sub">KIN 610 · Chapter 16 · Instructor use only<br>
+  Enter the student's ID number and the badges they claim to have earned, then check whether the code matches.</p>
+
+  <label class="field-label" for="v-sid">Student ID number</label>
+  <input type="text" id="v-sid" placeholder="e.g. 123456789" autocomplete="off"
+         inputmode="numeric" style="font-family:monospace;letter-spacing:.05em"/>
+
+  <div class="badges" style="margin-top:1.2rem;grid-template-columns:1fr 1fr 1fr;">
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc1"/>
+      <span class="icon">⚡</span>
+      <span class="lbl">Factorial Logic</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc2"/>
+      <span class="icon">📈</span>
+      <span class="lbl">Interaction Plots</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc3"/>
+      <span class="icon">🎯</span>
+      <span class="lbl">Error Terms</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc4"/>
+      <span class="icon">📐</span>
+      <span class="lbl">Effect Sizes</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc5"/>
+      <span class="icon">🧩</span>
+      <span class="lbl">Design Structure</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc6"/>
+      <span class="icon">📊</span>
+      <span class="lbl">Main Effects</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc7"/>
+      <span class="icon">🔢</span>
+      <span class="lbl">SS Partitioning</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc8"/>
+      <span class="icon">🔵</span>
+      <span class="lbl">Sphericity</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc9"/>
+      <span class="icon">🔍</span>
+      <span class="lbl">Simple Effects</span>
+    </label>
+    <label class="badge-check">
+      <input type="checkbox" id="cb-kc10"/>
+      <span class="icon">📝</span>
+      <span class="lbl">APA Reporting</span>
+    </label>
+  </div>
+
+  <label class="field-label" for="v-submitted">Student's submitted code</label>
+  <input type="text" id="v-submitted" placeholder="e.g. A3F7-B2C4" autocomplete="off"
+         style="text-transform:uppercase;letter-spacing:.1em;font-family:monospace"/>
+
+  <button onclick="verify()">Verify Code</button>
+
+  <div class="result" id="result">
+    <div class="result-label" id="result-label"></div>
+    <div class="result-code" id="result-code"></div>
+    <div class="result-msg"  id="result-msg"></div>
+  </div>
+
+  <div class="key-note">
+    <strong>Secret key in use:</strong> <code id="key-display"></code><br>
+    To change the key, update <code>VERIFY_KEY</code> in both <em>ch16-slides.html</em> and this file. Keep this page private — do not share with students.
+  </div>
+</div>
+
+<script>
+// ── Must match VERIFY_KEY in ch16-slides.html exactly ──────────────────────
+const VERIFY_KEY = 'KIN610-SP26';
+// ───────────────────────────────────────────────────────────────────────────
+
+document.getElementById('key-display').textContent = VERIFY_KEY;
+
+function genVerifyCode(studentId, earnedIds) {
+  const pattern = ['kc1','kc2','kc3','kc4','kc5','kc6','kc7','kc8','kc9','kc10'].map(id => earnedIds.includes(id) ? '1' : '0').join('');
+  const payload  = studentId.trim().replace(/\s+/g,'') + '|' + pattern + '|' + VERIFY_KEY;
+  let h = 5381;
+  for (let i = 0; i < payload.length; i++) h = (((h << 5) + h) ^ payload.charCodeAt(i)) >>> 0;
+  const code = h.toString(36).toUpperCase().padStart(8,'0').slice(-8);
+  return code.slice(0,4) + '-' + code.slice(4);
+}
+
+function verify() {
+  const sid       = document.getElementById('v-sid').value.trim();
+  const submitted = document.getElementById('v-submitted').value.trim().toUpperCase();
+  const earned    = ['kc1','kc2','kc3','kc4','kc5','kc6','kc7','kc8','kc9','kc10'].filter(id =>
+    document.getElementById('cb-' + id).checked);
+
+  const result  = document.getElementById('result');
+  const lbl     = document.getElementById('result-label');
+  const codeEl  = document.getElementById('result-code');
+  const msg     = document.getElementById('result-msg');
+
+  if (!sid) { alert('Enter the student ID first.'); return; }
+  if (!submitted) { alert('Enter the code the student submitted.'); return; }
+
+  const expected = genVerifyCode(sid, earned);
+  const match    = expected === submitted;
+
+  result.style.display = '';
+  result.className = 'result ' + (match ? 'match' : 'mismatch');
+  lbl.textContent  = match ? '✓ Code is valid' : '✗ Code does not match';
+  codeEl.textContent = `Expected: ${expected}`;
+  msg.textContent = match
+    ? `The code is consistent with student ID "${sid}" earning the selected badges.`
+    : `The submitted code does not match. Check that the ID is entered exactly as the student typed it and that the badge selection is correct.`;
+}
+
+// Allow Enter key to trigger verify
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') verify();
+});
+</script>
+</body>
+</html>

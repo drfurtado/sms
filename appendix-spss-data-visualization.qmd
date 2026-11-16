@@ -1,0 +1,765 @@
+---
+title: "Data Visualizations"
+subtitle: "Tutorial for Creating Graphs in SPSS"
+code-fold: true
+execute:
+  message: false
+---
+
+# Data Visualizations {#sec-appendix-spss-data-visualization}
+
+::: callout-note
+## R Examples
+
+The graphical examples in this appendix are created using R and ggplot2. The SPSS version of these charts will look slightly different in terms of styling, colors, and exact layout, but the core information and structure will be the same. The R examples serve as a reference for what the final visualization should communicate.
+:::
+
+## Before you make any charts
+
+### Open the dataset
+
+If you are using the Core Dataset CSV files:
+
+- File → Open → Data…
+- Change “Files of type” to “Comma Separated Values (*.csv)”
+- Select the file (for example `core_session.csv`)
+- Click Open
+- In the Text Import Wizard:
+  - Ensure “Delimited” is selected
+  - Ensure “Comma” is selected as delimiter
+  - Ensure the first row contains variable names
+  - Finish
+
+Repeat for `core_trials.csv` when you need trial-level plots.
+
+### Confirm variable types and measurement levels
+
+You will get better default chart behavior if variables are set correctly.
+
+- Variable View
+  - For categorical variables (example: `group`, `time`, `sex_category`):
+    - Measure: Nominal (or Ordinal if appropriate)
+    - Add Value Labels if you want readable output
+  - For quantitative variables (example: `sprint_20m_s`, `vo2_mlkgmin`, `peak_force_n`):
+    - Measure: Scale
+
+Optional but helpful:
+- Data → Sort Cases… (use `time` and `group` when you want organized output)
+- Data → Select Cases… (if you need to filter to a single time point, like pre only)
+
+## Bar chart (counts)
+
+Use this when the variable is categorical and you want to show how many cases fall in each category (example: number of participants in training vs control).
+
+### Menu steps in SPSS
+
+- Graphs → Chart Builder…
+- If prompted, click OK to define measurement levels, or continue
+- In the Gallery, choose Bar
+- Drag “Simple Bar” to the chart preview area
+- Drag the categorical variable to the x-axis (example: `group`)
+- In Element Properties:
+  - Statistic should be Count
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/bar_counts_group.png){fig-alt="Bar chart showing counts by group" fig-cap="Bar chart (counts): group distribution"} -->
+
+### R Example
+
+```{r}
+# Load necessary libraries
+suppressMessages(library(ggplot2))
+suppressMessages(library(dplyr))
+
+# Create sample data (replace with your actual data)
+set.seed(123)
+data <- data.frame(
+  group = sample(c("Control", "Training"), 100, replace = TRUE)
+)
+
+# Create bar chart for counts
+ggplot(data, aes(x = group)) +
+  geom_bar(fill = "gray80", color = "black") +
+  labs(title = "Bar Chart (Counts): Group Distribution",
+       x = "Group",
+       y = "Count") +
+  theme_minimal()
+```
+
+## Bar chart (percentages)
+
+Use this when you want relative frequencies (example: percent in each group, or percent injury yes vs no).
+
+### Menu steps in SPSS
+
+- Graphs → Chart Builder…
+- Gallery: Bar
+- Drag “Simple Bar” to the preview
+- Drag the categorical variable to the x-axis (example: `group`)
+- In Element Properties:
+  - Change Statistic from Count to Percent
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/bar_percent_group.png){fig-alt="Bar chart showing percentages by group" fig-cap="Bar chart (percent): group distribution"} -->
+
+### R Example
+
+```{r}
+# Create bar chart for percentages
+ggplot(data, aes(x = group)) +
+  geom_bar(aes(y = after_stat(count)/sum(after_stat(count))), fill = "gray70", color = "black") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Bar Chart (Percentages): Group Distribution",
+       x = "Group",
+       y = "Percentage") +
+  theme_minimal()
+```
+
+## Grouped bar chart (clustered)
+
+Use this to compare category distributions across groups (example: sex category by group, injury status by group).
+
+### Menu steps in SPSS
+
+- Graphs → Chart Builder…
+- Gallery: Bar
+- Drag “Clustered Bar” to the preview
+- Drag the main categorical variable to the x-axis (example: `sex_category`)
+- Drag the grouping variable to “Cluster on X” or to the “Set color” drop zone (example: `group`)
+- In Element Properties:
+  - Choose Count or Percent depending on your goal
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/bar_clustered_sex_by_group.png){fig-alt="Clustered bar chart comparing sex_category across group" fig-cap="Clustered bar chart: sex category by group"} -->
+
+### R Example
+
+```{r}
+# Create sample data with sex_category
+set.seed(123)
+data_clustered <- data.frame(
+  group = sample(c("Control", "Training"), 200, replace = TRUE),
+  sex_category = sample(c("Male", "Female"), 200, replace = TRUE)
+)
+
+# Create clustered bar chart
+ggplot(data_clustered, aes(x = sex_category, fill = group)) +
+  geom_bar(position = "dodge", color = "black") +
+  scale_fill_manual(values = c("Control" = "gray80", "Training" = "gray50")) +
+  labs(title = "Clustered Bar Chart: Sex Category by Group",
+       x = "Sex Category",
+       y = "Count",
+       fill = "Group") +
+  theme_minimal()
+```
+
+## Histogram
+
+Use this to understand distribution shape for a quantitative variable (example: `vo2_mlkgmin`, `sprint_20m_s`, `emg_rms_uv`, `sway_area_cm2`).
+
+### Option A: Chart Builder (recommended)
+
+- Graphs → Chart Builder…
+- Gallery: Histogram
+- Drag “Simple Histogram” to the preview
+- Drag the quantitative variable to the x-axis (example: `sprint_20m_s`)
+- Optional: In Element Properties, turn on a normal curve if desired
+- Click OK
+
+### Option B: Legacy Dialogs (quick)
+
+- Graphs → Legacy Dialogs → Histogram…
+- Move the variable into “Variable”
+- Optional: Check “Display normal curve”
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/hist_sprint_20m.png){fig-alt="Histogram of sprint_20m_s" fig-cap="Histogram: sprint_20m_s"} -->
+
+### R Example
+
+```{r}
+# Create sample quantitative data
+set.seed(123)
+data_hist <- data.frame(
+  sprint_20m_s = rnorm(100, mean = 3.5, sd = 0.3)
+)
+
+# Create histogram with properly scaled density curve
+ggplot(data_hist, aes(x = sprint_20m_s)) +
+  geom_histogram(binwidth = 0.1, fill = "gray70", color = "black", alpha = 0.7) +
+  geom_density(aes(y = after_stat(density) * 0.1 * 100), alpha = 0.3, fill = "gray40", color = "black") +
+  labs(title = "Histogram: Sprint 20m Time",
+       x = "Sprint 20m (s)",
+       y = "Frequency") +
+  theme_minimal()
+```
+
+## Boxplot
+
+Use this to compare distributions or to see outliers (example: sprint time by group, sway area by time point).
+
+### Menu steps in SPSS
+
+- Graphs → Chart Builder…
+- Gallery: Boxplot
+- Drag “Simple Boxplot” to the preview
+- Drag the quantitative variable to the y-axis (example: `sprint_20m_s`)
+- Drag the grouping variable to the x-axis (example: `group`)
+- Click OK
+
+If you want boxplots across time:
+
+- Use `time` on the x-axis
+- Optionally split by `group` using paneling (Panels tab) or “Set color” if available for your chosen template
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/box_sprint_by_group.png){fig-alt="Boxplot of sprint_20m_s by group" fig-cap="Boxplot: sprint_20m_s by group"} -->
+
+### R Example
+
+```{r}
+# Create sample data for boxplot
+set.seed(123)
+data_box <- data.frame(
+  group = sample(c("Control", "Training"), 100, replace = TRUE),
+  sprint_20m_s = rnorm(100, mean = 3.5, sd = 0.3)
+)
+
+# Create boxplot
+ggplot(data_box, aes(x = group, y = sprint_20m_s)) +
+  geom_boxplot(fill = "gray80", color = "black") +
+  labs(title = "Boxplot: Sprint 20m by Group",
+       x = "Group",
+       y = "Sprint 20m (s)") +
+  theme_minimal()
+```
+
+## Dot plot (show individual values)
+
+Use this when sample sizes are small or moderate and you want to show every observation (example: sprint time by group at pre).
+
+SPSS dot plots are available through Legacy Dialogs and through some Chart Builder templates.
+
+### Menu steps in SPSS (Legacy Dialogs)
+
+- Graphs → Legacy Dialogs → Dot…
+- Choose “Simple Dot” and click Define
+- Choose “Summaries for groups of cases”
+- Move the quantitative variable into “Variable” (example: `sprint_20m_s`)
+- Move the group variable into “Category Axis” (example: `group`)
+- Click OK
+
+If you want pre only:
+
+- Data → Select Cases… (choose `time = "pre"`) then create the plot
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/dot_sprint_by_group_pre.png){fig-alt="Dot plot of sprint_20m_s by group at pre" fig-cap="Dot plot: sprint_20m_s by group at pre"} -->
+
+### R Example
+
+```{r}
+# Create dot plot
+ggplot(data_box, aes(x = group, y = sprint_20m_s)) +
+  geom_dotplot(binaxis = "y", stackdir = "center", fill = "gray60", color = "black", binwidth = 0.05) +
+  labs(title = "Dot Plot: Sprint 20m by Group at Pre",
+       x = "Group",
+       y = "Sprint 20m (s)") +
+  theme_minimal()
+```
+
+## Scatterplot
+
+Use this to visualize the relationship between two quantitative variables (example: `peak_force_n` vs `sprint_20m_s`, `vo2_mlkgmin` vs `agility_ttest_s`).
+
+### Menu steps in SPSS (Chart Builder)
+
+- Graphs → Chart Builder…
+- Gallery: Scatter/Dot
+- Drag “Simple Scatter” to the preview
+- Drag the predictor to the x-axis (example: `peak_force_n`)
+- Drag the outcome to the y-axis (example: `sprint_20m_s`)
+- Optional: In Element Properties, add a fit line
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/scatter_force_vs_sprint.png){fig-alt="Scatterplot of peak_force_n vs sprint_20m_s" fig-cap="Scatterplot: peak_force_n vs sprint_20m_s"} -->
+
+### R Example
+
+```{r}
+# Create sample data for scatterplot
+set.seed(123)
+data_scatter <- data.frame(
+  peak_force_n = rnorm(50, mean = 1000, sd = 200),
+  sprint_20m_s = rnorm(50, mean = 3.5, sd = 0.3)
+)
+
+# Create scatterplot
+ggplot(data_scatter, aes(x = peak_force_n, y = sprint_20m_s)) +
+  geom_point(color = "black") +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "black") +
+  labs(title = "Scatterplot: Peak Force vs Sprint 20m",
+       x = "Peak Force (N)",
+       y = "Sprint 20m (s)") +
+  theme_minimal()
+```
+
+## Scatterplot with groups (colored or separate panels)
+
+Use this when group membership may explain clustering (example: training vs control).
+
+### Option A: Color by group (Chart Builder)
+
+- Graphs → Chart Builder…
+- Gallery: Scatter/Dot → Simple Scatter
+- Place x and y variables
+- Drag `group` into “Set color” (if available in your chart template)
+- Click OK
+
+### Option B: Panels (more reliable)
+
+- Graphs → Chart Builder…
+- Build the scatterplot as usual
+- Click the Groups/Point ID tab or the Panels tab (name varies by SPSS setup)
+- Add `group` to panel rows or columns
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/scatter_force_vs_sprint_by_group.png){fig-alt="Scatterplot of peak_force_n vs sprint_20m_s separated by group" fig-cap="Scatterplot by group: peak_force_n vs sprint_20m_s"} -->
+
+### R Example
+
+```{r}
+# Add group to scatter data
+data_scatter_group <- data_scatter
+data_scatter_group$group <- sample(c("Control", "Training"), 50, replace = TRUE)
+
+# Create scatterplot with groups
+ggplot(data_scatter_group, aes(x = peak_force_n, y = sprint_20m_s, color = group, shape = group)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+  scale_color_manual(values = c("Control" = "gray60", "Training" = "black")) +
+  scale_shape_manual(values = c("Control" = 16, "Training" = 17)) +
+  labs(title = "Scatterplot by Group: Peak Force vs Sprint 20m",
+       x = "Peak Force (N)",
+       y = "Sprint 20m (s)",
+       color = "Group",
+       shape = "Group") +
+  theme_minimal()
+```
+
+## Line graph (group means across time)
+
+Use this to show average change across time points (pre, mid, post) for a quantitative variable (example: mean sprint time by group across time).
+
+### Menu steps in SPSS (Chart Builder)
+
+- Graphs → Chart Builder…
+- Gallery: Line
+- Drag “Multiple Line” (or “Simple Line” depending on layout) to the preview
+- Drag `time` to the x-axis
+- Drag the quantitative variable to the y-axis (example: `sprint_20m_s`)
+- In Element Properties:
+  - Statistic: Mean
+- To include group lines:
+  - Drag `group` to “Set color” or the line grouping drop zone
+- Click OK
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/line_mean_sprint_by_time_group.png){fig-alt="Line graph of mean sprint_20m_s across time by group" fig-cap="Line graph: mean sprint_20m_s across time by group"} -->
+
+### R Example
+
+```{r}
+# Create sample data for line graph
+set.seed(123)
+data_line <- data.frame(
+  time = rep(c("Pre", "Mid", "Post"), each = 60),
+  group = rep(c("Control", "Training"), each = 30, times = 3),
+  sprint_20m_s = c(rnorm(30, 3.6, 0.3), rnorm(30, 3.4, 0.3), rnorm(30, 3.5, 0.3),
+                   rnorm(30, 3.6, 0.3), rnorm(30, 3.3, 0.3), rnorm(30, 3.2, 0.3))
+)
+
+# Calculate means
+data_line_summary <- data_line %>%
+  group_by(time, group) %>%
+  summarise(mean_sprint = mean(sprint_20m_s), .groups = 'drop')
+
+# Create line graph
+ggplot(data_line_summary, aes(x = time, y = mean_sprint, color = group, group = group, shape = group)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Control" = "gray60", "Training" = "black")) +
+  scale_shape_manual(values = c("Control" = 16, "Training" = 17)) +
+  labs(title = "Line Graph: Mean Sprint 20m across Time by Group",
+       x = "Time",
+       y = "Mean Sprint 20m (s)",
+       color = "Group",
+       shape = "Group") +
+  theme_minimal()
+```
+
+## Paired line plot (pre to post within-person)
+
+Use this to show each participant’s change across two time points (example: function score pre vs post). This is often called a paired plot or slopegraph.
+
+SPSS can do this using Legacy Line with “Values of individual cases” after restructuring or filtering to two time points.
+
+### Recommended setup
+
+Create a dataset that includes only pre and post rows for one outcome, and sort by `id` and `time`.
+
+- Data → Select Cases…
+  - If condition is satisfied: `time = "pre" OR time = "post"`
+  - Continue
+- Data → Sort Cases…
+  - Sort by `id` then `time`
+
+### Menu steps in SPSS (Legacy Dialogs)
+
+- Graphs → Legacy Dialogs → Line…
+- Choose “Multiple” then click Define
+- Choose “Values of individual cases”
+- Category Axis: `time`
+- Lines Represent: `id`
+- Define Lines By: `group` (optional, if you want separate plots by group you can instead use Split File)
+- Click OK
+
+If the plot looks too busy, use Split File:
+
+- Data → Split File…
+  - Organize output by groups: `group`
+  - OK
+Then create the plot again.
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/paired_function_pre_post.png){fig-alt="Paired line plot of function_0_100 from pre to post" fig-cap="Paired plot: function_0_100 pre to post"} -->
+
+### R Example
+
+```{r}
+# Create sample data for paired plot
+set.seed(123)
+data_paired <- data.frame(
+  id = rep(1:20, each = 2),
+  time = rep(c("Pre", "Post"), 20),
+  function_0_100 = c(rnorm(20, 70, 10), rnorm(20, 75, 10))
+)
+
+# Create paired line plot
+ggplot(data_paired, aes(x = time, y = function_0_100, group = id)) +
+  geom_line(alpha = 0.5) +
+  geom_point() +
+  labs(title = "Paired Line Plot: Function Score Pre to Post",
+       x = "Time",
+       y = "Function Score (0-100)") +
+  theme_minimal()
+```
+
+## Spaghetti plot (individual trajectories across pre, mid, post)
+
+Use this to show each participant’s trajectory across multiple time points.
+
+This is most useful for moderate sample sizes or when you split by group. If you include everyone in one plot, it can become visually dense.
+
+### Menu steps in SPSS (Legacy Dialogs)
+
+- Data → Sort Cases… (sort by `id` then `time`)
+- Graphs → Legacy Dialogs → Line…
+- Choose “Multiple” then Define
+- Choose “Values of individual cases”
+- Category Axis: `time`
+- Lines Represent: `id`
+- If you want separate plots per group:
+  - Data → Split File… (Organize output by `group`)
+  - Then run the plot
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/spaghetti_sprint_by_time.png){fig-alt="Spaghetti plot of sprint_20m_s across time" fig-cap="Spaghetti plot: sprint_20m_s across time"} -->
+
+### R Example
+
+```{r}
+# Create sample data for line graph
+set.seed(123)
+data_line <- data.frame(
+  id = rep(1:20, each = 9),  # 20 participants, 3 time points, 3 groups? Wait, adjust
+  time = rep(rep(c("Pre", "Mid", "Post"), each = 20), 3),  # Wait, better structure
+  group = rep(c("Control", "Training"), each = 30),
+  sprint_20m_s = rnorm(60, mean = 3.5, sd = 0.3)
+)
+
+# Actually, let's restructure properly
+data_line <- expand.grid(id = 1:20, time = c("Pre", "Mid", "Post"), group = c("Control", "Training"))
+data_line$sprint_20m_s <- rnorm(nrow(data_line), mean = 3.5, sd = 0.3)
+
+# Create spaghetti plot
+ggplot(data_line, aes(x = time, y = sprint_20m_s, group = id, color = group)) +
+  geom_line(alpha = 0.3) +
+  scale_color_manual(values = c("Control" = "gray60", "Training" = "black")) +
+  labs(title = "Spaghetti Plot: Sprint 20m across Time",
+       x = "Time",
+       y = "Sprint 20m (s)",
+       color = "Group") +
+  theme_minimal()
+```
+
+## Trial-by-trial plot (within-session pattern)
+
+Use this to visualize patterns across trials (example: trial 1–3 jump height, peak force, sway area). This is typically done with `core_trials.csv`.
+
+### Recommended setup
+
+Work within a single time point first, then compare time points after you understand the trial pattern.
+
+- Data → Select Cases…
+  - Example: `time = "pre"`
+- Data → Sort Cases…
+  - Sort by `id` then `trial`
+
+### Menu steps in SPSS (Legacy Dialogs)
+
+- Graphs → Legacy Dialogs → Line…
+- Choose “Multiple” then Define
+- Choose “Values of individual cases”
+- Category Axis: `trial`
+- Lines Represent: `id`
+- Optional:
+  - Split File by `group` to reduce clutter
+- Click OK
+
+To compare time points, remove the Select Cases filter and instead:
+
+- Use Split File by `time`, or
+- Use Panels in Chart Builder if you prefer panel layouts
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/trial_by_trial_jump_pre.png){fig-alt="Trial-by-trial plot of jump_height_cm at pre" fig-cap="Trial-by-trial plot: jump_height_cm at pre"} -->
+
+### R Example
+
+```{r}
+# Create sample trial data
+set.seed(123)
+data_trial <- data.frame(
+  id = rep(1:10, each = 3),
+  trial = rep(1:3, 10),
+  jump_height_cm = rnorm(30, mean = 40, sd = 5)
+)
+
+# Create trial-by-trial plot
+ggplot(data_trial, aes(x = trial, y = jump_height_cm, group = id)) +
+  geom_line(alpha = 0.5) +
+  geom_point() +
+  labs(title = "Trial-by-Trial Plot: Jump Height at Pre",
+       x = "Trial",
+       y = "Jump Height (cm)") +
+  theme_minimal()
+```
+
+## Error bars (mean with confidence interval)
+
+Use error bars to show uncertainty in group means across conditions or time points. Use these cautiously and pair them with raw points when sample sizes are not large.
+
+### Menu steps in SPSS (Chart Builder)
+
+- Graphs → Chart Builder…
+- Gallery: Error Bar
+- Drag “Simple Error Bar” to the preview
+- Put the grouping variable on the x-axis (example: `group`)
+- Put the quantitative variable on the y-axis (example: `vo2_mlkgmin`)
+- In Element Properties:
+  - Statistic: Mean
+  - Error Bars: Confidence Interval (choose level, commonly 95%)
+- Click OK
+
+To show time on the x-axis, use `time` as the x variable and set color by `group`.
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/errorbar_vo2_by_group.png){fig-alt="Error bar plot of vo2_mlkgmin by group" fig-cap="Error bars: vo2_mlkgmin by group"} -->
+
+### R Example
+
+```{r}
+# Create sample data for error bars
+set.seed(123)
+data_error <- data.frame(
+  group = sample(c("Control", "Training"), 50, replace = TRUE),
+  vo2_mlkgmin = rnorm(50, mean = 35, sd = 5)
+)
+
+# Calculate means and confidence intervals
+data_error_summary <- data_error %>%
+  group_by(group) %>%
+  summarise(
+    mean_vo2 = mean(vo2_mlkgmin),
+    se = sd(vo2_mlkgmin) / sqrt(n()),
+    ci_lower = mean_vo2 - 1.96 * se,
+    ci_upper = mean_vo2 + 1.96 * se
+  )
+
+# Create error bar plot
+ggplot(data_error_summary, aes(x = group, y = mean_vo2)) +
+  geom_bar(stat = "identity", fill = "gray70", color = "black", alpha = 0.7) +
+  geom_errorbar(aes(ymin = ci_lower, ymax = ci_upper), width = 0.2, color = "black") +
+  labs(title = "Error Bars: VO2 by Group",
+       x = "Group",
+       y = "VO2 (mL/kg/min)") +
+  theme_minimal()
+```
+
+## Bland-Altman plot (method comparison)
+
+Use this to assess agreement between two measurement methods (example: comparing test-retest reliability, or different assessment tools for the same outcome).
+
+### Built-in Method (SPSS 31 Feature)
+
+SPSS 31 includes a dedicated Bland-Altman analysis feature:
+
+- Analyze → Descriptive Statistics → Bland-Altman Analysis…
+- Select your two measurement variables (example: `method1_score` and `method2_score`)
+- Choose the first variable as "Method 1" and second as "Method 2"
+- In Options:
+  - Check "Confidence limits" (default 95%)
+  - Optionally check "Bias correction" if needed
+- Click OK
+
+This will automatically generate the Bland-Altman plot with:
+
+- Mean difference line
+- Limits of agreement (±1.96 SD)
+- Confidence intervals
+- Bias assessment statistics
+
+### How to Interpret Bland-Altman Plots
+
+Bland-Altman plots assess agreement between two measurement methods by plotting the difference between methods against their average. Here's how to interpret the key elements:
+
+**Key Reference Lines:**
+
+- **Zero line (dotted)**: Perfect agreement between methods
+- **Mean difference line (solid)**: Average bias between methods
+- **Limits of agreement (dashed)**: ±1.96 SD range containing 95% of differences
+
+**Interpretation Guidelines:**
+
+- **Good agreement**: Most points fall within the limits of agreement, mean difference close to zero
+- **Systematic bias**: Mean difference line far from zero (one method consistently higher/lower)
+- **Proportional bias**: Points fan out or cluster in a pattern (agreement varies by measurement magnitude)
+- **Outliers**: Points outside limits of agreement indicate poor agreement for those measurements
+
+**Clinical/Practical Significance:**
+
+- Consider both statistical agreement and whether the limits of agreement are acceptable for your application
+- For example: VO₂ max methods might tolerate ±3 mL·kg⁻¹·min⁻¹, but force measurements might need ±10 N
+- Report: "Mean bias = X (95% LoA: Y to Z)"
+
+### Screenshot placeholder
+
+<!-- ### Screenshot placeholder
+
+![](ch03/images/bland_altman_reliability.png){fig-alt="Bland-Altman plot showing agreement between two measurement methods" fig-cap="Bland-Altman plot: method agreement assessment"} -->
+
+### R Example
+
+```{r}
+# Create sample data for Bland-Altman plot (paired measurements)
+set.seed(123)
+n <- 50
+method1 <- rnorm(n, mean = 75, sd = 10)
+# Method 2 has slight systematic bias (+2) and more variability
+method2 <- method1 + 2 + rnorm(n, mean = 0, sd = 3)
+
+# Calculate Bland-Altman metrics
+mean_score <- (method1 + method2) / 2
+difference <- method1 - method2
+mean_diff <- mean(difference)
+sd_diff <- sd(difference)
+loa_upper <- mean_diff + 1.96 * sd_diff
+loa_lower <- mean_diff - 1.96 * sd_diff
+
+# Create Bland-Altman plot
+bland_altman_data <- data.frame(mean_score, difference)
+
+ggplot(bland_altman_data, aes(x = mean_score, y = difference)) +
+  geom_point(color = "black", alpha = 0.7) +
+  geom_hline(yintercept = mean_diff, color = "gray40", linetype = "solid", linewidth = 1) +
+  geom_hline(yintercept = loa_upper, color = "gray60", linetype = "dashed", linewidth = 0.8) +
+  geom_hline(yintercept = loa_lower, color = "gray60", linetype = "dashed", linewidth = 0.8) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dotted", linewidth = 0.5) +
+  labs(title = "Bland-Altman Plot: Method Agreement",
+       x = "Mean of Two Methods",
+       y = "Difference (Method 1 - Method 2)") +
+  theme_minimal() +
+  annotate("text", x = min(mean_score) + 5, y = loa_upper + 1,
+           label = paste("Upper LoA:", round(loa_upper, 2)), hjust = 0, color = "gray40") +
+  annotate("text", x = min(mean_score) + 5, y = loa_lower - 1,
+           label = paste("Lower LoA:", round(loa_lower, 2)), hjust = 0, color = "gray40") +
+  annotate("text", x = min(mean_score) + 5, y = mean_diff + 1,
+           label = paste("Mean Diff:", round(mean_diff, 2)), hjust = 0, color = "gray40")
+```
+
+## Graph editing essentials in SPSS
+
+After a chart is created, you can edit labels, scales, and formatting in the Chart Editor.
+
+### Open the Chart Editor
+
+- Double-click the chart in the Output Viewer
+
+Common edits:
+
+- Add or edit titles and axis labels
+- Add units to axis labels (s, cm², N, mL·kg⁻¹·min⁻¹)
+- Adjust axis scale to improve readability
+- Change category order for ordinal variables (if needed)
+
+## Exporting charts for your book
+
+### Export a single chart
+
+- In the Output Viewer, click the chart
+- File → Export…
+- Choose a format (PNG recommended)
+- Choose a destination folder
+- Export
+
+### Export with consistent sizing
+
+If you want consistent image sizes, set output options before exporting:
+
+- Edit → Options…
+- Look for Output or Charts settings (varies by SPSS installation)
+- Use a consistent width/height when exporting
+
+## Common mistakes to avoid
+
+- Using pie charts for comparisons
+- Showing mean-only bar charts without any sense of variability
+- Truncating bar chart y-axes in a way that exaggerates differences
+- Ignoring trial order when trials might show learning or fatigue
+- Treating repeated measures as independent without visual checks
+
+::: callout-tip
+## Practical habit
+
+For each analysis, save at least one plot that shows the raw data pattern and one plot that shows a summary. This prevents summary-only reporting from hiding important structure.
+:::

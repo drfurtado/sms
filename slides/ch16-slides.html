@@ -1,0 +1,2503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KIN 610 · Ch. 16 · Factorial ANOVA</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+/* =============================================
+   RESET + ROOT VARIABLES
+   ============================================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:        #0f1623;
+  --bg2:       #17202f;
+  --surface:   #1e2d42;
+  --gold:      #d4a843;
+  --gold-dim:  rgba(212,168,67,.14);
+  --sage:      #7eb8a0;
+  --rust:      #c0614a;
+  --text:      #ede9e2;
+  --muted:     #7a8ca0;
+  --border:    rgba(212,168,67,.22);
+  --font-h:    'Playfair Display',Georgia,serif;
+  --font-b:    'DM Sans',system-ui,sans-serif;
+  --font-m:    'JetBrains Mono',monospace;
+  --ease:      cubic-bezier(.16,1,.3,1);
+  --ts:   clamp(1.5rem,4.5vw,3.4rem);
+  --h2:   clamp(1.1rem,2.6vw,2rem);
+  --h3:   clamp(.9rem,1.8vw,1.3rem);
+  --bs:   clamp(.72rem,1.2vw,.98rem);
+  --ss:   clamp(.6rem,.9vw,.8rem);
+  --pad:  clamp(1.2rem,3.5vw,3.2rem);
+  --gap:  clamp(.4rem,1.1vw,1.1rem);
+}
+
+/* =============================================
+   LAYOUT WRAPPER (flex: slides + notes panel)
+   ============================================= */
+html,body{height:100%;overflow:hidden}
+#app{display:flex;height:100dvh;overflow:hidden;background:var(--bg)}
+
+/* =============================================
+   SLIDES CONTAINER
+   ============================================= */
+#slides-wrap{
+  flex:1;min-width:0;
+  overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+#slides-wrap::-webkit-scrollbar{display:none}
+
+.slide{
+  width:100%;height:100dvh;overflow:hidden;
+  scroll-snap-align:start;
+  display:flex;flex-direction:column;position:relative;
+  background:var(--bg);color:var(--text);font-family:var(--font-b);
+}
+.slide-content{
+  flex:1;display:flex;flex-direction:column;
+  justify-content:center;max-height:100%;overflow:hidden;
+  padding:var(--pad);
+}
+
+/* Breakpoint scaling */
+@media(max-height:700px){:root{--pad:clamp(.8rem,2.5vw,2rem);--gap:clamp(.3rem,.8vw,.8rem);--ts:clamp(1.2rem,4vw,2.4rem);--h2:clamp(.95rem,2.2vw,1.6rem);--bs:clamp(.66rem,1.1vw,.88rem)}}
+@media(max-height:600px){:root{--pad:clamp(.5rem,2vw,1.4rem);--gap:clamp(.2rem,.6vw,.6rem);--ts:clamp(1rem,3.5vw,1.8rem);--bs:clamp(.6rem,1vw,.8rem)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important}}
+
+
+/* =============================================
+   NOTES PANEL
+   ============================================= */
+#notes-panel{
+  width:300px;flex-shrink:0;
+  background:var(--bg2);
+  border-left:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transition:width .35s var(--ease);
+  position:relative;overflow:hidden;
+}
+/* Collapsed: shrink to just the tab width so the toggle is always visible */
+#notes-panel.collapsed{width:26px}
+
+#notes-toggle{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  background:var(--gold);color:#000;
+  border:none;cursor:pointer;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:var(--font-b);font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.7em .32em;border-radius:0 6px 6px 0;
+  transition:background .2s;z-index:20;white-space:nowrap;
+  height:auto;
+}
+#notes-toggle:hover{background:#e8bc57}
+
+#notes-inner{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:1.2rem 1rem 1.2rem 1.7rem;
+  min-width:300px;  /* prevents inner content from squishing during animation */
+}
+#notes-inner::-webkit-scrollbar{width:4px}
+#notes-inner::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.notes-label{
+  font-family:var(--font-m);font-size:.6rem;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:.5rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.notes-slide-num{
+  background:var(--gold-dim);border:1px solid var(--border);
+  color:var(--gold);font-family:var(--font-m);font-size:.55rem;
+  padding:.15em .45em;border-radius:3px;
+}
+#notes-text{
+  font-family:var(--font-b);font-size:.78rem;line-height:1.75;color:var(--text);
+}
+#notes-text p{margin-bottom:.75rem}
+#notes-text p:last-child{margin-bottom:0}
+#notes-text strong{color:var(--gold)}
+#notes-text em{color:var(--sage)}
+
+/* =============================================
+   CHROME: progress bar + nav dots
+   ============================================= */
+#progress{
+  position:fixed;top:0;left:0;z-index:200;
+  height:3px;background:linear-gradient(90deg,var(--gold),var(--sage));
+  width:0%;transition:width .3s ease;
+}
+#navdots{
+  position:fixed;right:calc(300px + .6rem);top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:.38rem;z-index:199;
+  transition:right .3s var(--ease);
+}
+#navdots.shifted{right:calc(26px + .5rem)}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.18);cursor:pointer;
+  transition:background .25s,transform .25s;
+}
+.dot.active{background:var(--gold);transform:scale(1.5)}
+
+/* =============================================
+   SLIDE CHROME
+   ============================================= */
+.slide-bar{width:4px;background:var(--gold);position:absolute;left:0;top:0;bottom:0}
+.slide-num{
+  position:absolute;bottom:clamp(.6rem,1.4vw,1.1rem);right:clamp(.7rem,1.8vw,1.6rem);
+  font-family:var(--font-m);font-size:var(--ss);color:var(--muted);letter-spacing:.08em;
+}
+.kicker{
+  font-family:var(--font-m);font-size:var(--ss);color:var(--gold);
+  text-transform:uppercase;letter-spacing:.14em;margin-bottom:clamp(.3rem,.8vw,.8rem);
+}
+h2.stitle{
+  font-family:var(--font-h);font-size:var(--h2);font-weight:700;
+  padding-bottom:clamp(.28rem,.6vw,.6rem);margin-bottom:var(--gap);
+  position:relative;
+}
+h2.stitle::after{
+  content:'';position:absolute;left:0;bottom:0;
+  width:clamp(1.8rem,5vw,4rem);height:3px;
+  background:var(--gold);border-radius:2px;
+}
+h1{font-family:var(--font-h);font-size:var(--ts);font-weight:900;line-height:1.08}
+h3{font-family:var(--font-h);font-size:var(--h3);font-weight:600}
+
+/* =============================================
+   ANIMATIONS
+   ============================================= */
+.r{opacity:0;transform:translateY(18px);transition:opacity .55s var(--ease),transform .55s var(--ease)}
+.slide.vis .r{opacity:1;transform:none}
+.r:nth-child(1){transition-delay:.07s}.r:nth-child(2){transition-delay:.16s}
+.r:nth-child(3){transition-delay:.25s}.r:nth-child(4){transition-delay:.34s}
+.r:nth-child(5){transition-delay:.43s}.r:nth-child(6){transition-delay:.52s}
+.r:nth-child(7){transition-delay:.61s}.r:nth-child(8){transition-delay:.70s}
+.r:nth-child(9){transition-delay:.79s}
+
+/* =============================================
+   LAYOUT HELPERS
+   ============================================= */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.8vw,1.8rem);flex:1;overflow:hidden;align-content:start}
+.cols-55{grid-template-columns:55fr 45fr}
+.cols-65{grid-template-columns:65fr 35fr}
+.cols-3{grid-template-columns:1fr 1fr 1fr;gap:clamp(.4rem,1.1vw,1rem)}
+p,li{font-size:var(--bs);line-height:1.55}
+
+ul.dl{list-style:none;display:flex;flex-direction:column;gap:clamp(.22rem,.65vh,.65rem)}
+ul.dl li{padding-left:clamp(.75rem,1.4vw,1.3rem);position:relative;font-size:var(--bs);line-height:1.5}
+ul.dl li::before{content:'→';position:absolute;left:0;color:var(--gold);font-family:var(--font-m);font-size:.9em}
+
+/* =============================================
+   COMPONENTS
+   ============================================= */
+.panel{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:clamp(.5rem,1.1vw,1.1rem) clamp(.6rem,1.4vw,1.4rem);overflow:hidden}
+
+.callout{border-left:3px solid var(--gold);background:var(--gold-dim);padding:clamp(.35rem,.9vw,.9rem) clamp(.55rem,1.3vw,1.3rem);border-radius:0 6px 6px 0;margin-top:var(--gap)}
+.callout.info{border-color:var(--sage);background:rgba(126,184,160,.12)}
+.callout.warn{border-color:var(--rust);background:rgba(192,97,74,.12)}
+.ct{font-family:var(--font-b);font-size:clamp(.62rem,1vw,.88rem);font-weight:600;margin-bottom:.28em;color:var(--gold)}
+.callout.info .ct{color:var(--sage)}.callout.warn .ct{color:var(--rust)}
+
+.formula{
+  font-family:var(--font-m);font-size:clamp(.62rem,.98vw,.88rem);
+  background:var(--bg2);border:1px solid var(--border);border-radius:6px;
+  padding:clamp(.38rem,.9vw,.9rem) clamp(.55rem,1.3vw,1.3rem);
+  color:#7dd3fc;line-height:1.85;margin:clamp(.28rem,.65vw,.65rem) 0;overflow:hidden;
+}
+
+.dtable{width:100%;border-collapse:collapse;font-size:clamp(.56rem,.95vw,.82rem)}
+.dtable th{background:var(--surface);color:var(--gold);font-family:var(--font-b);font-weight:600;
+  padding:clamp(.18rem,.45vw,.45rem) clamp(.28rem,.7vw,.7rem);text-align:left;border-bottom:2px solid var(--border)}
+.dtable td{padding:clamp(.16rem,.4vw,.4rem) clamp(.28rem,.7vw,.7rem);border-bottom:1px solid rgba(255,255,255,.055);line-height:1.4}
+.dtable tr:last-child td{border-bottom:none}
+.dtable .sig{color:var(--gold);font-weight:600}
+.dtable .err td{color:var(--muted);font-style:italic}
+.c{text-align:center}
+
+.badge{display:inline-block;background:var(--gold-dim);border:1px solid var(--border);color:var(--gold);font-family:var(--font-m);font-size:clamp(.5rem,.82vw,.72rem);padding:.14em .5em;border-radius:4px}
+
+/* =============================================
+   TITLE SLIDE SPECIFICS
+   ============================================= */
+.title-slide{background:radial-gradient(ellipse at 25% 65%,rgba(212,168,67,.11) 0%,transparent 55%),radial-gradient(ellipse at 75% 20%,rgba(126,184,160,.08) 0%,transparent 45%),var(--bg)}
+.title-accent{position:absolute;right:clamp(2rem,8vw,8rem);bottom:clamp(2rem,6vh,6rem);width:clamp(80px,14vw,170px);height:clamp(80px,14vw,170px);border-radius:50%;border:1px solid var(--border);opacity:.4}
+.title-accent::before{content:'';position:absolute;inset:18%;border-radius:50%;border:1px solid var(--border)}
+
+/* =============================================
+   INTERACTION PLOT PANELS
+   ============================================= */
+.iplot-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(.38rem,.9vw,.9rem);flex:1;overflow:hidden}
+.iplot-p{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:clamp(.28rem,.7vw,.7rem);display:flex;flex-direction:column;overflow:hidden}
+.iplot-t{font-family:var(--font-b);font-size:clamp(.58rem,.92vw,.8rem);font-weight:600;color:var(--gold);text-align:center;margin-bottom:.28em}
+.chart-svg{max-width:100%;max-height:min(32vh,220px)}
+
+/* =============================================
+   WORKFLOW STEPS
+   ============================================= */
+.steps{display:flex;flex-direction:column;gap:clamp(.22rem,.65vw,.65rem);flex:1;overflow:hidden}
+.step{display:flex;gap:clamp(.5rem,1.1vw,1rem);align-items:flex-start;padding:clamp(.3rem,.7vw,.7rem) clamp(.5rem,1.1vw,1rem);background:var(--bg2);border-radius:6px;border:1px solid rgba(255,255,255,.05)}
+.step-n{font-family:var(--font-m);font-size:clamp(.7rem,1.2vw,1rem);font-weight:600;color:var(--gold);flex-shrink:0;min-width:1.4em}
+.step-t{font-size:var(--bs);line-height:1.45}
+
+/* SKILL BOX for worked examples */
+.skill-box{background:var(--surface);border-radius:8px;padding:clamp(.45rem,1vw,1rem);overflow:hidden}
+
+/* =============================================
+   BADGE SYSTEM
+   ============================================= */
+/* Slide-in popup when a badge is earned */
+#badge-popup{
+  position:fixed;top:1.4rem;right:1.5rem;z-index:500;
+  transform:translateX(130%);
+  transition:transform .5s var(--ease);
+  background:var(--surface);border:2px solid var(--gold);border-radius:12px;
+  padding:.8rem 1.2rem .8rem .9rem;
+  display:flex;align-items:center;gap:.85rem;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);min-width:210px;
+}
+#badge-popup.show{transform:translateX(0)}
+.bp-medal{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 35% 30%,#f5d060,#b8860b);
+  border:2px solid rgba(255,255,255,.28);
+  box-shadow:0 0 16px rgba(212,168,67,.45);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+}
+.bp-medal-icon{font-size:1.3rem;line-height:1}
+.bp-medal-ch{font-family:var(--font-m);font-size:.44rem;color:rgba(255,255,255,.8);font-weight:700;letter-spacing:.06em}
+.bp-text{flex:1}
+.bp-label{font-family:var(--font-b);font-size:.58rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.18em}
+.bp-name{font-family:var(--font-h);font-size:.88rem;font-weight:700;color:var(--text);line-height:1.2}
+
+/* Badge shelf — small dots inside each KC slide */
+.kc-shelf{display:flex;align-items:center;gap:.32rem;margin-bottom:.5rem}
+.kc-shelf-dot{
+  width:7px;height:7px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.07);
+  transition:background .35s,box-shadow .35s;
+}
+.kc-shelf-dot.earned{background:var(--gold);border-color:var(--gold);box-shadow:0 0 7px rgba(212,168,67,.55)}
+
+/* Badge collection (final slide) */
+.badge-collection-slide{
+  background:radial-gradient(ellipse at 50% 80%,rgba(212,168,67,.12) 0%,transparent 60%),var(--bg);
+}
+.badge-coll-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:clamp(.5rem,1.4vw,1.4rem);margin:var(--gap) 0;
+  justify-items:center;
+}
+.ba-item{display:flex;flex-direction:column;align-items:center;gap:.38em}
+.ba-circle{
+  width:clamp(68px,9vw,96px);height:clamp(68px,9vw,96px);border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  transition:transform .3s var(--ease);
+}
+.ba-item.earned .ba-circle{
+  background:radial-gradient(circle at 35% 30%,#f5d060,#b8860b);
+  border:2.5px solid rgba(255,255,255,.25);
+  box-shadow:0 0 22px rgba(212,168,67,.5),0 4px 14px rgba(0,0,0,.3);
+}
+.ba-item.locked .ba-circle{
+  background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);
+}
+.ba-circle-icon{font-size:clamp(1.3rem,2.5vw,1.8rem);line-height:1}
+.ba-circle-ch{font-family:var(--font-m);font-size:.5rem;color:rgba(255,255,255,.75);font-weight:700;letter-spacing:.07em}
+.ba-title{font-family:var(--font-b);font-size:clamp(.52rem,.85vw,.72rem);color:var(--text);text-align:center;line-height:1.3}
+.ba-item.locked .ba-title{color:var(--muted)}
+.ba-check{font-size:.7rem;color:var(--sage);font-weight:700}
+@keyframes badgePop{
+  0%{transform:scale(0) rotate(-15deg);opacity:0}
+  65%{transform:scale(1.18) rotate(3deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+.ba-item.earned .ba-circle{animation:badgePop .65s var(--ease) both}
+
+/* Student name input */
+.name-input-wrap{
+  margin-top:clamp(.6rem,1.6vw,1.4rem);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+}
+.name-input-wrap label{font-size:var(--ss);color:var(--muted);font-family:var(--font-b)}
+#student-name-input{
+  background:var(--surface);border:1px solid var(--border);border-radius:5px;
+  color:var(--text);font-family:var(--font-b);font-size:var(--bs);
+  padding:.3em .7em;outline:none;width:clamp(130px,20vw,220px);
+  transition:border-color .2s;
+}
+#student-name-input:focus{border-color:var(--gold)}
+#student-name-input::placeholder{color:var(--muted)}
+body.light-mode #student-name-input{background:var(--bg2)}
+body.light-mode #badge-popup{background:var(--bg2);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+body.light-mode .ba-item.locked .ba-circle{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.07)}
+body.light-mode .ba-circle-ch{color:rgba(0,0,0,.45)}
+body.light-mode .badge-collection-slide{background:radial-gradient(ellipse at 50% 80%,rgba(150,98,10,.1) 0%,transparent 60%),var(--bg)}
+
+/* =============================================
+   LIGHT MODE OVERRIDES
+   ============================================= */
+body.light-mode{
+  --bg:      #f5f1eb;
+  --bg2:     #ebe5da;
+  --surface: #ddd5c6;
+  --text:    #1a2332;
+  --muted:   #5a6a7a;
+  --gold:    #96620a;
+  --gold-dim:rgba(150,98,10,.12);
+  --sage:    #306e56;
+  --rust:    #a03828;
+  --border:  rgba(150,98,10,.28);
+}
+body.light-mode .slide{background:var(--bg)}
+body.light-mode .title-slide{
+  background:radial-gradient(ellipse at 25% 65%,rgba(150,98,10,.1) 0%,transparent 55%),
+             radial-gradient(ellipse at 75% 20%,rgba(48,110,86,.08) 0%,transparent 45%),
+             var(--bg);
+}
+body.light-mode #app{background:var(--bg)}
+body.light-mode #notes-panel{background:var(--bg2)}
+body.light-mode .formula{background:var(--bg2);color:#1e5c8a}
+body.light-mode #progress{background:linear-gradient(90deg,var(--gold),var(--sage))}
+body.light-mode .dot{background:rgba(0,0,0,.2)}
+body.light-mode .dot.active{background:var(--gold)}
+
+/* Theme toggle button */
+#theme-btn{
+  position:fixed;bottom:1rem;left:1rem;z-index:300;
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--muted);border-radius:50%;width:2.1rem;height:2.1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .25s,border-color .25s,color .25s,transform .2s;
+  padding:0;
+}
+#theme-btn svg{display:block;flex-shrink:0}
+#theme-btn:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold);transform:scale(1.1)}
+
+/* =============================================
+   KNOWLEDGE CHECK SLIDES
+   ============================================= */
+.kc-slide{background:radial-gradient(ellipse at 70% 30%,rgba(126,184,160,.08) 0%,transparent 55%),var(--bg)}
+/* Top-align KC content so explanation doesn't clip at bottom */
+.kc-slide .slide-content{justify-content:flex-start;padding-top:clamp(1.8rem,5vh,4rem)}
+.kc-badge{
+  display:inline-flex;align-items:center;gap:.4em;
+  background:rgba(126,184,160,.15);border:1px solid var(--sage);
+  color:var(--sage);font-family:var(--font-m);font-size:var(--ss);
+  font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:.2em .65em;border-radius:4px;margin-bottom:clamp(.3rem,.8vw,.8rem);
+}
+.kc-q{
+  font-family:var(--font-h);font-size:clamp(.88rem,1.9vw,1.35rem);
+  font-weight:700;line-height:1.28;margin-bottom:clamp(.45rem,1.1vw,1rem);
+  color:var(--text);
+}
+.kc-opts{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(.3rem,.75vw,.75rem);margin-bottom:clamp(.3rem,.75vw,.75rem);
+}
+.kc-opt{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:7px;padding:clamp(.38rem,.85vw,.85rem) clamp(.5rem,1.1vw,1.1rem);
+  font-family:var(--font-b);font-size:clamp(.68rem,1.1vw,.9rem);line-height:1.38;
+  cursor:pointer;text-align:left;color:var(--text);
+  transition:border-color .2s,background .2s,transform .15s;
+  position:relative;
+}
+.kc-opt:hover:not(:disabled){border-color:var(--sage);background:rgba(126,184,160,.1);transform:translateY(-1px)}
+.kc-opt:disabled{cursor:default;transform:none}
+.kc-opt.correct{background:rgba(126,184,160,.2);border-color:var(--sage);color:var(--sage)}
+.kc-opt.wrong{background:rgba(192,97,74,.15);border-color:var(--rust);color:var(--rust)}
+.kc-opt.correct::after{content:'✓';position:absolute;right:.55em;top:50%;transform:translateY(-50%);font-weight:700}
+.kc-opt.wrong::after{content:'✗';position:absolute;right:.55em;top:50%;transform:translateY(-50%);font-weight:700}
+.kc-explain{
+  /* Anchored to bottom of slide, slides up as overlay — never clips */
+  position:absolute;bottom:0;left:0;right:0;
+  border-top:2px solid var(--sage);
+  background:rgba(18,30,45,.97);
+  padding:clamp(.55rem,1.4vw,1.1rem) clamp(.8rem,2.5vw,2.4rem);
+  font-size:clamp(.7rem,1.1vw,.9rem);line-height:1.6;
+  transform:translateY(100%);opacity:0;
+  transition:transform .4s var(--ease),opacity .3s ease;
+  z-index:10;
+}
+.kc-explain.show{transform:translateY(0);opacity:1}
+.kc-explain strong{color:var(--sage)}
+body.light-mode .kc-explain{background:rgba(235,229,218,.97);border-top-color:var(--sage)}
+.kc-num{
+  position:absolute;bottom:clamp(.6rem,1.4vw,1.1rem);right:clamp(.7rem,1.8vw,1.6rem);
+  font-family:var(--font-m);font-size:var(--ss);color:var(--sage);letter-spacing:.08em;
+}
+body.light-mode .kc-slide{background:radial-gradient(ellipse at 70% 30%,rgba(48,110,86,.07) 0%,transparent 55%),var(--bg)}
+body.light-mode .kc-opt{background:var(--bg2)}
+
+/* =============================================
+   SVG LINE-DRAWING ANIMATION (slides 9, 19)
+   ============================================= */
+.anim-line{
+  stroke-dasharray:300;
+  stroke-dashoffset:300;
+  transition:stroke-dashoffset .9s var(--ease);
+}
+.anim-line[data-delay="1"]{transition-delay:.15s}
+.anim-line[data-delay="2"]{transition-delay:.55s}
+.anim-line[data-delay="3"]{transition-delay:.25s}
+.anim-line[data-delay="4"]{transition-delay:.65s}
+.anim-line[data-delay="5"]{transition-delay:.4s}
+.anim-line[data-delay="6"]{transition-delay:.8s}
+.slide.vis .anim-line{stroke-dashoffset:0}
+
+/* =============================================
+   MAIN EFFECT COLLAPSING DEMO (slide 7)
+   ============================================= */
+.me-demo{font-size:clamp(.52rem,.8vw,.75rem);}
+.me-tbl{width:100%;border-collapse:collapse;margin-bottom:.4em}
+.me-tbl th,.me-tbl td{padding:.2em .35em;text-align:center;border:1px solid var(--border)}
+.me-tbl th{background:var(--surface);color:var(--gold);font-family:var(--font-b);font-weight:600;font-size:.9em}
+.me-tbl td{font-family:var(--font-m)}
+.me-sex-row{transition:opacity .45s ease,transform .45s ease}
+.me-arrow-row{text-align:center;color:var(--sage);padding:.2em 0;opacity:0;transition:opacity .4s ease .35s;font-size:.8em}
+.me-marginal-row td{background:rgba(212,168,67,.2);color:var(--gold);font-weight:700;opacity:0;transition:opacity .45s ease .5s}
+.me-demo.collapsed .me-sex-row{opacity:0;transform:translateY(6px)}
+.me-demo.collapsed .me-arrow-row{opacity:1}
+.me-demo.collapsed .me-marginal-row td{opacity:1}
+.me-btn{
+  background:var(--gold);color:#000;border:none;cursor:pointer;
+  font-family:var(--font-b);font-size:clamp(.5rem,.78vw,.7rem);font-weight:600;
+  padding:.28em .65em;border-radius:4px;margin-top:.45em;
+  transition:background .2s;display:block;
+}
+.me-btn:hover{background:#e8bc57}
+
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav id="navdots"></nav>
+<!-- Badge earned popup -->
+<div id="badge-popup">
+  <div class="bp-medal">
+    <div class="bp-medal-icon" id="bp-icon">⚡</div>
+    <div class="bp-medal-ch">Ch. 16</div>
+  </div>
+  <div class="bp-text">
+    <div class="bp-label">Badge Earned!</div>
+    <div class="bp-name" id="bp-name">Factorial Logic</div>
+  </div>
+</div>
+
+<button id="theme-btn" title="Toggle light/dark mode" onclick="toggleTheme()">
+  <!-- moon shown in dark mode; sun shown in light mode -->
+  <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg id="icon-sun"  xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+
+<div id="app">
+<!-- =================== SLIDES =================== -->
+<div id="slides-wrap">
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide title-slide" data-slide="1">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">KIN 610 · Quantitative Methods in Kinesiology</div>
+  <h1 class="r">Factorial Analysis<br>of Variance</h1>
+  <p class="r" style="margin-top:clamp(.4rem,1.2vw,1.2rem);font-size:clamp(.9rem,2vw,1.5rem);color:var(--muted);font-style:italic;">Chapter 16</p>
+  <div class="r" style="margin-top:clamp(.8rem,2vw,2rem);display:flex;flex-direction:column;gap:.3em;">
+    <span style="font-size:var(--bs);color:var(--muted)"><strong style="color:var(--text)">Ovande Furtado Jr., PhD</strong> &nbsp;·&nbsp; Cal State Northridge</span>
+  </div>
+</div>
+<div class="title-accent"></div>
+<div class="slide-num">01 / 28</div>
+</section>
+
+<!-- SLIDE 2: HOW TO USE / INSTRUCTIONS -->
+<section class="slide" data-slide="2">
+<div class="slide-bar"></div>
+<div class="slide-content" style="justify-content:flex-start;padding-top:clamp(1.2rem,3vw,2.8rem);">
+  <div class="kicker r">Welcome</div>
+  <h2 class="stitle r">How to Use This Deck</h2>
+
+  <div class="cols r" style="align-items:flex-start;margin-top:var(--gap);">
+    <!-- Left: name input + badge system info -->
+    <div style="display:flex;flex-direction:column;gap:var(--gap);">
+      <div class="panel" style="padding:clamp(.7rem,1.5vw,1.2rem);">
+        <h3 style="margin-bottom:.6em;">🎓 Identify yourself</h3>
+        <div class="name-input-wrap" style="margin-bottom:.4em;">
+          <label for="student-name-input">Your name:</label>
+          <input id="student-name-input" type="text" placeholder="First Last" autocomplete="name"/>
+        </div>
+        <div class="name-input-wrap" style="margin-bottom:.45em;">
+          <label for="student-id-input">Student ID:</label>
+          <input id="student-id-input" type="text" placeholder="e.g. 123456789" autocomplete="off"
+                 inputmode="numeric" style="letter-spacing:.05em;font-family:var(--font-m);"/>
+        </div>
+        <p style="font-size:var(--ss);color:var(--muted);line-height:1.55;">
+          🔒 <strong style="color:var(--text);">Privacy note:</strong> Your name and ID personalize the badge collection and generate your verification code. They are stored only in your browser's memory for this session — never transmitted or saved anywhere.
+        </p>
+      </div>
+
+      <div class="callout info">
+        <div class="ct">Study flow</div>
+        <ol style="margin-left:1.1em;line-height:1.7;font-size:var(--bs);">
+          <li>Read each slide and follow the <strong>Transcript</strong> panel on the right</li>
+          <li>At each <strong>Knowledge Check (KC)</strong>, answer before moving on</li>
+          <li>A correct first pick earns a <strong style="color:var(--gold)">badge ⭐</strong> — wrong picks do not</li>
+          <li>Reach the end, then save your <strong>Badge Collection</strong> as a PDF</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Right: badge system & instructor note -->
+    <div style="display:flex;flex-direction:column;gap:var(--gap);">
+      <div class="panel" style="padding:clamp(.7rem,1.5vw,1.2rem);">
+        <h3 style="margin-bottom:.5em;">🏅 How badges work</h3>
+        <p style="margin-bottom:.6em;font-size:var(--bs);line-height:1.6;">
+          There are <strong style="color:var(--gold)">10 Knowledge Checks</strong> spread across the deck. Each badge is awarded only if you pick the correct answer <em>on your first try within a run</em>.
+        </p>
+        <p style="margin-bottom:.6em;font-size:var(--bs);line-height:1.6;">
+          If you answer a KC incorrectly, <strong>no badge is lost yet</strong> — just scroll to the end and click <strong>↺ Try Again</strong>. This wipes the slate clean: all badges reset, all KC questions reset, and you return to slide 1 for a fresh run.
+        </p>
+        <p style="font-size:var(--bs);line-height:1.6;">
+          <strong>You can repeat as many times as you need.</strong> The goal is to go through the material until you can answer every KC correctly on the first pick. That mastery — not the number of attempts — is what the badge proves.
+        </p>
+      </div>
+
+      <div class="callout" style="border-color:var(--rust);">
+        <div class="ct" style="color:var(--rust);">📋 If submitting for credit</div>
+        <p style="font-size:var(--bs);line-height:1.6;">
+          When you earn all 10 badges, click <strong>⬇ Save as PDF</strong> on the final slide. The PDF shows your name, student ID, earned badges, and a <strong>verification code</strong> unique to your ID. Submit that PDF — your instructor will use the code to confirm it is authentic.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">02 / 28</div>
+</section>
+
+<!-- SLIDE 3: CHAPTER ROADMAP -->
+<section class="slide" data-slide="2">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Context</div>
+  <h2 class="stitle r">Chapter Roadmap</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">Previous chapters answered <strong style="color:var(--gold)">one question at a time</strong>: Does training affect strength? Does group predict aerobic capacity?</p>
+      <p>These are incomplete. In practice, researchers ask:</p>
+      <ul class="dl" style="margin-top:var(--gap);">
+        <li><em>Who</em> benefits from training?</li>
+        <li><em>By how much</em> do gains differ?</li>
+        <li><em>When</em> do gains emerge?</li>
+      </ul>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Three design types covered</h3>
+        <ul class="dl">
+          <li><strong style="color:var(--gold)">Between-subjects factorial</strong> — two between-groups factors, one cell per person</li>
+          <li><strong style="color:var(--gold)">Mixed factorial</strong> — between + within factors (most common in training research)</li>
+          <li><strong style="color:var(--gold)">Within-within factorial</strong> — all factors within-subjects</li>
+        </ul>
+      </div>
+      <div class="callout info">
+        <div class="ct">Running example</div>
+        <p>Did a 12-week training program produce strength gains, and did those gains differ by sex or across time?</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">03 / 28</div>
+</section>
+
+<!-- SLIDE 3: LEARNING OBJECTIVES -->
+<section class="slide" data-slide="3">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Chapter 16</div>
+  <h2 class="stitle r">Learning Objectives</h2>
+  <ul class="dl r">
+    <li>Define a factorial design; explain how it differs from multiple one-way ANOVAs</li>
+    <li>Distinguish between <strong style="color:var(--gold)">main effects</strong> and <strong style="color:var(--gold)">interaction effects</strong>; explain what an interaction means</li>
+    <li>Describe variance partitioning in between-subjects, mixed, and within-within factorial ANOVAs</li>
+    <li>Identify the correct <strong style="color:var(--gold)">error term</strong> for each F-ratio in a mixed ANOVA</li>
+    <li>Interpret an <strong style="color:var(--gold)">interaction plot</strong>; distinguish qualitative from quantitative interactions</li>
+    <li>Conduct <strong style="color:var(--gold)">simple effects analysis</strong> to decompose a significant interaction</li>
+    <li>Compute and interpret η²<sub>p</sub> and ω²<sub>p</sub> for each effect</li>
+    <li>Report factorial ANOVA results in <strong style="color:var(--gold)">APA format</strong></li>
+  </ul>
+</div>
+<div class="slide-num">04 / 28</div>
+</section>
+
+<!-- SLIDE 4: WORKFLOW -->
+<section class="slide" data-slide="4">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Procedure</div>
+  <h2 class="stitle r">Workflow for Factorial ANOVA</h2>
+  <div class="steps r">
+    <div class="step"><span class="step-n">1</span><span class="step-t"><strong>Identify the design</strong> — how many factors? Is each between-subjects or within-subjects?</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-t"><strong>Check assumptions</strong> — normality, homogeneity of variance (between-subjects), sphericity (within-subjects ≥ 3 levels)</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-t"><strong>Run the factorial ANOVA</strong> — inspect Factor A, Factor B, and A × B interaction</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-t"><strong>Interpret the interaction first</strong> — if significant, main effects cannot be interpreted in isolation</span></div>
+    <div class="step"><span class="step-n">5</span><span class="step-t"><strong>If interaction significant</strong> — run simple effects: test each factor at each level of the other</span></div>
+    <div class="step"><span class="step-n">6</span><span class="step-t"><strong>If interaction not significant</strong> — interpret main effects; apply post hoc tests for factors with ≥ 3 levels</span></div>
+    <div class="step"><span class="step-n">7</span><span class="step-t"><strong>Calculate effect sizes</strong> — η²<sub>p</sub> and ω²<sub>p</sub> for every source</span></div>
+    <div class="step"><span class="step-n">8</span><span class="step-t"><strong>Report in APA format</strong> — interaction first, then main effects, with descriptives</span></div>
+  </div>
+</div>
+<div class="slide-num">05 / 28</div>
+</section>
+
+<!-- SLIDE 5: FACTORIAL DESIGN VOCABULARY -->
+<section class="slide" data-slide="5">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Definitions</div>
+  <h2 class="stitle r">Factors, Levels, and Cells</h2>
+  <div class="cols r">
+    <div>
+      <ul class="dl" style="gap:clamp(.35rem,.9vw,.9rem);">
+        <li><strong style="color:var(--gold)">Factor</strong> — each independent variable in the design (e.g., Sex, Group, Time)</li>
+        <li><strong style="color:var(--gold)">Level</strong> — a discrete category of a factor (Female/Male; Control/Training)</li>
+        <li><strong style="color:var(--gold)">Cell</strong> — unique intersection of factor levels; each cell has its own mean — the raw material of factorial ANOVA</li>
+        <li><strong style="color:var(--gold)">Design notation</strong> — 2 × 3 means Factor A has 2 levels, Factor B has 3 → 6 cells</li>
+        <li><strong style="color:var(--gold)">Balanced</strong> — equal n per cell → factors are orthogonal, SS partitions cleanly</li>
+        <li><strong style="color:var(--gold)">Unbalanced</strong> — unequal n → SPSS uses Type III SS (default), which handles this correctly</li>
+      </ul>
+    </div>
+    <div>
+      <div class="badge" style="margin-bottom:.5em;">2(Sex) × 2(Group) — 4 cells</div>
+      <table class="dtable" style="margin-top:.4em;margin-bottom:var(--gap);">
+        <thead><tr><th></th><th class="c">Control</th><th class="c">Training</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Female</strong></td><td class="c" style="color:var(--muted)">Female-Control</td><td class="c" style="color:var(--sage)">Female-Training</td></tr>
+          <tr><td><strong>Male</strong></td><td class="c" style="color:var(--muted)">Male-Control</td><td class="c" style="color:var(--sage)">Male-Training</td></tr>
+        </tbody>
+      </table>
+      <div class="callout info">
+        <div class="ct">Complexity grows fast</div>
+        <p>A 3 × 3 design has 9 cells. Adding a third 2-level factor creates 2 × 3 × 2 = 12 cells. Most applied research uses two-factor designs.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">06 / 28</div>
+</section>
+
+<!-- KC 5: DESIGN STRUCTURE -->
+<section class="slide kc-slide" data-slide="kc5" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc5">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">In a 2(Group: Control/Training) × 2(Sex: Female/Male) factorial design, what does the cell mean for "Female-Training" specifically represent?</p>
+  <div class="kc-opts r" id="kc5-opts">
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">A &nbsp; The average score for all Training participants, regardless of sex</button>
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">B &nbsp; The average score for all Female participants, regardless of group</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc5',this,true)">C &nbsp; The average score for Female participants who were in the Training condition specifically</button>
+    <button class="kc-opt" onclick="answerKC('kc5',this,false)">D &nbsp; The difference in scores between Female-Training and Female-Control participants</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc5-explain">
+  <strong>C is correct.</strong> A cell mean represents one unique combination of factor levels — in this case, only the Female participants assigned to Training. Options A and B describe marginal means, which collapse across the other factor. Option D describes a contrast, not a mean.
+</div>
+<div class="kc-num">KC · 5 / 10</div>
+</section>
+
+<!-- SLIDE 6: WHY NOT SEPARATE ANOVAs -->
+<section class="slide" data-slide="6">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Motivation</div>
+  <h2 class="stitle r">Why Not Run Separate One-Way ANOVAs?</h2>
+  <div class="cols r">
+    <div class="panel">
+      <h3 style="color:var(--rust);margin-bottom:.5em;">Three Fatal Flaws</h3>
+      <ul class="dl" style="gap:clamp(.35rem,.9vw,.9rem);">
+        <li><strong style="color:var(--rust)">Inflated Type I error</strong> — each test at α = .05 adds ~5% false positive risk; two tests ≈ 10% familywise error</li>
+        <li><strong style="color:var(--rust)">Cannot detect interactions</strong> — the effect of Group depending on Sex simply does not exist in separate analyses; the test is absent</li>
+        <li><strong style="color:var(--rust)">Larger error term</strong> — separate ANOVAs cannot remove variance from other factors before estimating error → less power</li>
+      </ul>
+    </div>
+    <div>
+      <div class="callout" style="margin-bottom:var(--gap);">
+        <div class="ct">The factorial ANOVA solves all three simultaneously</div>
+        <p>One model, controlled error rate, smaller error term, and — crucially — the ability to detect and estimate interactions.</p>
+      </div>
+      <div class="callout warn">
+        <div class="ct">The interaction is the exclusive contribution</div>
+        <p>Whether a training program benefits males and females <em>differently</em> is a question that lives only inside a factorial design. It cannot be answered any other way.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">07 / 28</div>
+</section>
+
+<!-- KC 1: WHY FACTORIAL? -->
+<section class="slide kc-slide" data-slide="kc1" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc1">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A researcher runs two separate one-way ANOVAs — one for Group, one for Sex — instead of a single factorial ANOVA. Which problem is <em>impossible</em> to fix within that approach?</p>
+  <div class="kc-opts r" id="kc1-opts">
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">A &nbsp; Effect sizes cannot be calculated for either factor</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc1',this,true)">B &nbsp; The interaction between Group and Sex cannot be detected or estimated</button>
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">C &nbsp; Cell means will be biased by unequal sample sizes</button>
+    <button class="kc-opt" onclick="answerKC('kc1',this,false)">D &nbsp; The sphericity assumption cannot be tested</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc1-explain">
+  <strong>B is correct.</strong> Separate one-way ANOVAs test each main effect in isolation but have no mechanism to estimate an interaction term — the question of whether Group's effect <em>depends</em> on Sex simply has no answer in that analysis. Factorial ANOVA is the only design that can test it.
+</div>
+<div class="kc-num">KC · 1 / 10</div>
+</section>
+
+<!-- SLIDE 7: MAIN EFFECTS -->
+<section class="slide" data-slide="7">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Core Concepts</div>
+  <h2 class="stitle r">Main Effects</h2>
+  <div class="cols r cols-65">
+    <div>
+      <p style="margin-bottom:var(--gap);">A <strong style="color:var(--gold)">main effect</strong> is the <em>overall</em> effect of one factor, averaging — collapsing — across all levels of the other factor(s).</p>
+      <ul class="dl" style="margin-bottom:var(--gap);">
+        <li><strong>Main effect of Group:</strong> Training (85 kg) vs. Control (77 kg), averaged across both sexes</li>
+        <li><strong>Main effect of Sex:</strong> Male vs. Female, averaged across both training conditions</li>
+      </ul>
+      <p style="margin-bottom:var(--gap);">Main effects tell the simple, unconditional story — and they are perfectly interpretable <em>when no interaction is present</em>.</p>
+      <div class="callout warn">
+        <div class="ct">When an interaction is significant</div>
+        <p>The main effect averages two different patterns into one number that accurately describes neither. It is technically correct but substantively misleading.</p>
+      </div>
+    </div>
+    <div>
+      <div class="panel me-demo" id="me-demo">
+        <h3 style="margin-bottom:.45em;">Collapsing to a Main Effect</h3>
+        <p style="font-size:var(--ss);color:var(--muted);margin-bottom:.5em;">To get the main effect of <strong style="color:var(--gold)">Group</strong>, average across Sex ↓</p>
+        <table class="me-tbl">
+          <thead><tr><th></th><th>Control</th><th>Training</th></tr></thead>
+          <tbody>
+            <tr class="me-sex-row"><td style="color:var(--gold);font-family:var(--font-b)">Female</td><td>77.54</td><td>87.18</td></tr>
+            <tr class="me-sex-row"><td style="color:var(--sage);font-family:var(--font-b)">Male</td><td>76.22</td><td>83.64</td></tr>
+            <tr class="me-arrow-row"><td colspan="3">⬇ average across Sex</td></tr>
+            <tr class="me-marginal-row"><td style="font-family:var(--font-b);color:var(--muted)">Marginal M</td><td>77.14</td><td>85.06</td></tr>
+          </tbody>
+        </table>
+        <button class="me-btn" onclick="runMeDemo()" data-state="expanded">▶ Collapse rows</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">08 / 28</div>
+</section>
+
+<!-- SLIDE 8: INTERACTIONS -->
+<section class="slide" data-slide="8">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Core Concepts</div>
+  <h2 class="stitle r">Interactions: Quantitative vs. Qualitative</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">An <strong style="color:var(--gold)">interaction</strong> occurs when the effect of one factor <em>depends on</em> the level of another factor.</p>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="color:var(--gold);margin-bottom:.4em;">Quantitative (Ordinal) Interaction</h3>
+        <p>Both groups change in the <strong>same direction</strong>, but the magnitude differs. Lines diverge — do not cross. <em>Example: training adds 12 kg for males, 4 kg for females — both improve.</em></p>
+      </div>
+      <div class="panel">
+        <h3 style="color:var(--rust);margin-bottom:.4em;">Qualitative (Disordinal) Interaction</h3>
+        <p>The <strong>direction reverses</strong> across levels — training helps one group but impairs another. Lines cross. Rare but scientifically dramatic.</p>
+      </div>
+    </div>
+    <div>
+      <div class="callout" style="margin-bottom:var(--gap);">
+        <div class="ct">Cardinal rule — permanent</div>
+        <p>Always interpret the interaction <strong>before</strong> the main effects. A significant interaction means the main effects are incomplete summaries.</p>
+      </div>
+      <table class="dtable">
+        <thead><tr><th>Type</th><th>Pattern</th><th>Lines</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--sage)">Quantitative</strong></td><td>Same direction, different magnitude</td><td>Diverge</td></tr>
+          <tr><td><strong style="color:var(--rust)">Qualitative</strong></td><td>Direction reverses</td><td>Cross</td></tr>
+          <tr><td><strong style="color:var(--muted)">None</strong></td><td>Identical effect across groups</td><td>Parallel</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:var(--ss);color:var(--muted);margin-top:.5em;">Quantitative interactions are common in movement science; qualitative interactions are rare but most compelling.</p>
+    </div>
+  </div>
+</div>
+<div class="slide-num">09 / 28</div>
+</section>
+
+<!-- KC 6: MAIN EFFECTS -->
+<section class="slide kc-slide" data-slide="kc6" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc6">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A 2×2 factorial ANOVA shows a significant main effect of Group (<em>p</em> = .003) and a non-significant interaction (<em>p</em> = .54). What is the correct next step?</p>
+  <div class="kc-opts r" id="kc6-opts">
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">A &nbsp; Do not report the main effect — it is only meaningful when the interaction is significant</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc6',this,true)">B &nbsp; Interpret the main effect of Group directly — no interaction means it describes the overall effect accurately</button>
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">C &nbsp; Run simple effects before interpreting any main effect</button>
+    <button class="kc-opt" onclick="answerKC('kc6',this,false)">D &nbsp; The result is inconclusive until a significant interaction is also found</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc6-explain">
+  <strong>B is correct.</strong> When the interaction is non-significant, the main effect averages across levels of the other factor without misrepresenting any subgroup — it can be reported and interpreted directly. Simple effects analysis is only required <em>after</em> a significant interaction.
+</div>
+<div class="kc-num">KC · 6 / 10</div>
+</section>
+
+<!-- SLIDE 9: INTERACTION PLOTS -->
+<section class="slide" data-slide="9">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Visualization</div>
+  <h2 class="stitle r">Reading Interaction Plots</h2>
+  <div class="iplot-grid r">
+    <!-- Panel 1: No interaction -->
+    <div class="iplot-p">
+      <div class="iplot-t">No Interaction</div>
+      <svg viewBox="0 0 180 120" class="chart-svg">
+        <line x1="28" y1="8" x2="28" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <line x1="28" y1="100" x2="165" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <polyline class="anim-line" data-delay="1" points="60,38 130,38" stroke="#d4a843" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="38" r="4" fill="#d4a843"/>
+        <circle cx="130" cy="38" r="4" fill="#d4a843"/>
+        <polyline class="anim-line" data-delay="2" points="60,65 130,65" stroke="#7eb8a0" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="65" r="4" fill="#7eb8a0"/>
+        <circle cx="130" cy="65" r="4" fill="#7eb8a0"/>
+        <text x="60" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Control</text>
+        <text x="130" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Training</text>
+        <text x="162" y="41" font-size="8" fill="#d4a843" font-family="sans-serif">F</text>
+        <text x="162" y="68" font-size="8" fill="#7eb8a0" font-family="sans-serif">M</text>
+      </svg>
+      <p style="font-size:var(--ss);color:var(--sage);text-align:center;margin-top:.3em;">Parallel → interpret main effects directly</p>
+    </div>
+    <!-- Panel 2: Quantitative -->
+    <div class="iplot-p">
+      <div class="iplot-t" style="color:var(--gold);">Quantitative Interaction</div>
+      <svg viewBox="0 0 180 120" class="chart-svg">
+        <line x1="28" y1="8" x2="28" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <line x1="28" y1="100" x2="165" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <polyline class="anim-line" data-delay="3" points="60,60 130,30" stroke="#d4a843" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="60" r="4" fill="#d4a843"/>
+        <circle cx="130" cy="30" r="4" fill="#d4a843"/>
+        <polyline class="anim-line" data-delay="4" points="60,68 130,60" stroke="#7eb8a0" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="68" r="4" fill="#7eb8a0"/>
+        <circle cx="130" cy="60" r="4" fill="#7eb8a0"/>
+        <text x="60" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Control</text>
+        <text x="130" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Training</text>
+        <text x="162" y="33" font-size="8" fill="#d4a843" font-family="sans-serif">F</text>
+        <text x="162" y="63" font-size="8" fill="#7eb8a0" font-family="sans-serif">M</text>
+      </svg>
+      <p style="font-size:var(--ss);color:var(--gold);text-align:center;margin-top:.3em;">Diverge — same direction, different magnitude</p>
+    </div>
+    <!-- Panel 3: Qualitative -->
+    <div class="iplot-p">
+      <div class="iplot-t" style="color:var(--rust);">Qualitative Interaction</div>
+      <svg viewBox="0 0 180 120" class="chart-svg">
+        <line x1="28" y1="8" x2="28" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <line x1="28" y1="100" x2="165" y2="100" stroke="#7a8ca0" stroke-width="1"/>
+        <polyline class="anim-line" data-delay="5" points="60,32 130,78" stroke="#d4a843" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="32" r="4" fill="#d4a843"/>
+        <circle cx="130" cy="78" r="4" fill="#d4a843"/>
+        <polyline class="anim-line" data-delay="6" points="60,78 130,32" stroke="#7eb8a0" stroke-width="2.5" fill="none"/>
+        <circle cx="60" cy="78" r="4" fill="#7eb8a0"/>
+        <circle cx="130" cy="32" r="4" fill="#7eb8a0"/>
+        <text x="60" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Control</text>
+        <text x="130" y="112" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Training</text>
+        <text x="162" y="78" font-size="8" fill="#d4a843" font-family="sans-serif">F</text>
+        <text x="162" y="35" font-size="8" fill="#7eb8a0" font-family="sans-serif">M</text>
+      </svg>
+      <p style="font-size:var(--ss);color:var(--rust);text-align:center;margin-top:.3em;">Cross — direction reverses between groups</p>
+    </div>
+  </div>
+  <div class="callout r" style="margin-top:var(--gap);">
+    <div class="ct">The one-question visual test</div>
+    <p>Are the lines <strong>parallel</strong>? Yes → no interaction, interpret main effects. No → interaction present, run simple effects before interpreting anything else.</p>
+  </div>
+</div>
+<div class="slide-num">10 / 28</div>
+</section>
+
+<!-- KC 2: IDENTIFY INTERACTION TYPE -->
+<section class="slide kc-slide" data-slide="kc2" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc2">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <div class="cols r" style="grid-template-columns:1fr 1.6fr;align-items:center;">
+    <div>
+      <svg viewBox="0 0 160 130" style="max-width:100%;max-height:min(36vh,230px);">
+        <line x1="28" y1="8" x2="28" y2="105" stroke="#7a8ca0" stroke-width="1"/>
+        <line x1="28" y1="105" x2="148" y2="105" stroke="#7a8ca0" stroke-width="1"/>
+        <text x="20" y="108" font-size="7.5" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">70</text>
+        <text x="20" y="75"  font-size="7.5" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">78</text>
+        <text x="20" y="42"  font-size="7.5" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">86</text>
+        <line x1="28" y1="75" x2="148" y2="75" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="28" y1="42" x2="148" y2="42" stroke="rgba(255,255,255,.07)" stroke-width="1" stroke-dasharray="3,3"/>
+        <!-- Female: Control 84→36, Training 57→17 (steep rise) -->
+        <polyline points="58,78 118,38" stroke="#d4a843" stroke-width="2.5" fill="none"/>
+        <circle cx="58" cy="78" r="4" fill="#d4a843"/>
+        <circle cx="118" cy="38" r="4" fill="#d4a843"/>
+        <!-- Male: Control 84→70, Training 57→55 (shallow rise) -->
+        <polyline points="58,88 118,76" stroke="#7eb8a0" stroke-width="2.5" fill="none"/>
+        <circle cx="58" cy="88" r="4" fill="#7eb8a0"/>
+        <circle cx="118" cy="76" r="4" fill="#7eb8a0"/>
+        <text x="58"  y="118" font-size="8.5" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Control</text>
+        <text x="118" y="118" font-size="8.5" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Training</text>
+        <rect x="34" y="12" width="7" height="3" fill="#d4a843" rx="1"/>
+        <text x="43" y="16" font-size="7.5" fill="#d4a843" font-family="sans-serif">Female</text>
+        <rect x="34" y="22" width="7" height="3" fill="#7eb8a0" rx="1"/>
+        <text x="43" y="26" font-size="7.5" fill="#7eb8a0" font-family="sans-serif">Male</text>
+      </svg>
+    </div>
+    <div>
+      <p class="kc-q" style="font-size:clamp(.88rem,2vw,1.35rem);">The plot shows training improved both groups, but Females gained far more than Males. What type of interaction is this?</p>
+      <div class="kc-opts" id="kc2-opts" style="grid-template-columns:1fr;">
+        <button class="kc-opt" onclick="answerKC('kc2',this,false)">A &nbsp; No interaction — both groups improved</button>
+        <button class="kc-opt" data-correct="true" onclick="answerKC('kc2',this,true)">B &nbsp; Quantitative (ordinal) — same direction, different magnitude</button>
+        <button class="kc-opt" onclick="answerKC('kc2',this,false)">C &nbsp; Qualitative (disordinal) — direction reverses</button>
+        <button class="kc-opt" onclick="answerKC('kc2',this,false)">D &nbsp; A main effect of Group only, no interaction</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="kc-explain" id="kc2-explain">
+  <strong>B is correct.</strong> Both groups improve (same direction), but the magnitude differs — lines diverge without crossing. That's the defining signature of a quantitative/ordinal interaction. A qualitative interaction requires the lines to <em>cross</em>.
+</div>
+<div class="kc-num">KC · 2 / 10</div>
+</section>
+
+<!-- SLIDE 10: BETWEEN-SUBJECTS VARIANCE PARTITIONING -->
+<section class="slide" data-slide="10">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Between-Subjects Factorial ANOVA</div>
+  <h2 class="stitle r">Variance Partitioning</h2>
+  <div class="r">
+    <p style="margin-bottom:var(--gap);">Every participant belongs to exactly <strong style="color:var(--gold)">one cell</strong>. Total variance splits into four sources:</p>
+    <div class="formula">SS<sub>total</sub> = SS<sub>A</sub> + SS<sub>B</sub> + SS<sub>A×B</sub> + SS<sub>error</sub></div>
+    <p style="margin-bottom:var(--gap);">All three effects share the <strong style="color:var(--gold)">same within-cell error term</strong>:</p>
+    <div class="formula">F<sub>A</sub> = MS<sub>A</sub> / MS<sub>error</sub> &nbsp;&nbsp;|&nbsp;&nbsp; F<sub>B</sub> = MS<sub>B</sub> / MS<sub>error</sub> &nbsp;&nbsp;|&nbsp;&nbsp; F<sub>A×B</sub> = MS<sub>A×B</sub> / MS<sub>error</sub></div>
+  </div>
+  <div class="r">
+    <table class="dtable" style="margin-top:var(--gap);">
+      <thead><tr><th>Source</th><th class="c">df</th><th>Denominator</th></tr></thead>
+      <tbody>
+        <tr><td>Factor A</td><td class="c font-mono">a − 1</td><td style="color:var(--sage)">MS<sub>error</sub></td></tr>
+        <tr><td>Factor B</td><td class="c font-mono">b − 1</td><td style="color:var(--sage)">MS<sub>error</sub></td></tr>
+        <tr><td>A × B Interaction</td><td class="c font-mono">(a−1)(b−1)</td><td style="color:var(--sage)">MS<sub>error</sub></td></tr>
+        <tr class="err"><td>Error (within-cell)</td><td class="c font-mono">N − ab</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:var(--ss);color:var(--muted);margin-top:.4em;">a = levels of A &nbsp;·&nbsp; b = levels of B &nbsp;·&nbsp; N = total sample size &nbsp;·&nbsp; ab = number of cells</p>
+  </div>
+  <div class="callout info r">
+    <div class="ct">SPSS handles all computation</div>
+    <p>Focus on <em>what</em> each source tests and <em>which</em> error term it uses. You must understand this to interpret the output correctly.</p>
+  </div>
+</div>
+<div class="slide-num">11 / 28</div>
+</section>
+
+<!-- SLIDE 11: WORKED EXAMPLE 2×2 — MEANS -->
+<section class="slide" data-slide="11">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Worked Example</div>
+  <h2 class="stitle r">2(Sex) × 2(Group) Between-Subjects ANOVA</h2>
+  <div class="r">
+    <div class="callout info" style="margin-bottom:var(--gap);">
+      <div class="ct">Research question</div>
+      <p>Did a 12-week training program improve post-test strength, and did this effect differ between male and female participants? N = 60</p>
+    </div>
+  </div>
+  <div class="cols r" style="align-items:start;">
+    <div>
+      <div class="badge" style="margin-bottom:.4em;">Cell Means (M ± SD)</div>
+      <table class="dtable" style="margin-top:.4em;">
+        <thead><tr><th>Sex</th><th>Group</th><th class="c">n</th><th class="c">M (kg)</th><th class="c">SD</th></tr></thead>
+        <tbody>
+          <tr><td>Female</td><td>Control</td><td class="c">21</td><td class="c">77.54</td><td class="c">14.70</td></tr>
+          <tr><td>Female</td><td>Training</td><td class="c">12</td><td class="c">87.18</td><td class="c">8.21</td></tr>
+          <tr><td>Male</td><td>Control</td><td class="c">9</td><td class="c">76.22</td><td class="c">12.92</td></tr>
+          <tr><td>Male</td><td>Training</td><td class="c">18</td><td class="c">83.64</td><td class="c">14.72</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="badge" style="margin-bottom:.4em;">Marginal Means</div>
+      <table class="dtable" style="margin-top:.4em;">
+        <thead><tr><th>Group</th><th class="c">n</th><th class="c">M (kg)</th><th class="c">SD</th></tr></thead>
+        <tbody>
+          <tr><td>Control (total)</td><td class="c">30</td><td class="c">77.14</td><td class="c">13.98</td></tr>
+          <tr><td>Training (total)</td><td class="c">30</td><td class="c sig">85.06</td><td class="c">12.48</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:var(--ss);color:var(--muted);margin-top:.5em;">Unbalanced design (unequal cell n) → SPSS uses Type III SS automatically.</p>
+      <div class="callout" style="margin-top:var(--gap);">
+        <div class="ct">Before reading the table</div>
+        <p>Look at the cell means visually first. Do the female and male training gains look similar in magnitude? That will tell you what the interaction test should show.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">12 / 28</div>
+</section>
+
+<!-- SLIDE 12: WORKED EXAMPLE 2×2 — RESULTS -->
+<section class="slide" data-slide="12">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Worked Example</div>
+  <h2 class="stitle r">2 × 2 Results and Interpretation</h2>
+  <div class="r">
+    <table class="dtable">
+      <thead><tr><th>Source</th><th class="c">SS</th><th class="c">df</th><th class="c">MS</th><th class="c">F</th><th class="c">p</th><th class="c">η²<sub>p</sub></th></tr></thead>
+      <tbody>
+        <tr><td>Sex</td><td class="c">0.22</td><td class="c">1</td><td class="c">0.22</td><td class="c">0.00</td><td class="c">.974</td><td class="c">.000</td></tr>
+        <tr><td>Group</td><td class="c">939.31</td><td class="c">1</td><td class="c">939.31</td><td class="c sig">5.22</td><td class="c sig">.026</td><td class="c sig">.085</td></tr>
+        <tr><td>Sex × Group</td><td class="c">101.14</td><td class="c">1</td><td class="c">101.14</td><td class="c">0.56</td><td class="c">.457</td><td class="c">.010</td></tr>
+        <tr class="err"><td>Error</td><td class="c">10,084.70</td><td class="c">56</td><td class="c">180.08</td><td class="c" colspan="3">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cols r" style="align-items:start;margin-top:var(--gap);">
+    <div class="callout info">
+      <div class="ct">Step 1: Interaction first</div>
+      <p>Sex × Group: F(1,56) = 0.56, p = .457, η²<sub>p</sub> = .010 — <strong>not significant, negligible effect</strong>. The training benefit did not differ between males and females. ✓ Main effects can be interpreted.</p>
+    </div>
+    <div class="callout">
+      <div class="ct">Step 2: Main effects</div>
+      <p><strong style="color:var(--gold)">Group:</strong> F(1,56) = 5.22, p = .026, η²<sub>p</sub> = .085 — significant, medium effect. Training (85.06 kg) outperformed Control (77.14 kg).</p>
+      <p style="margin-top:.4em;"><strong style="color:var(--muted)">Sex:</strong> F(1,56) = 0.00, p = .974 — not significant. Males and females had similar post-test strength.</p>
+    </div>
+  </div>
+  <div class="callout info r" style="margin-top:var(--gap);">
+    <div class="ct">Null interaction = substantive finding</div>
+    <p>The same training prescription was equally effective for both sexes. No sex-specific program modifications are indicated. Null interaction results are not failures.</p>
+  </div>
+</div>
+<div class="slide-num">13 / 28</div>
+</section>
+
+<!-- SLIDE 13: MIXED ANOVA — THE DESIGN -->
+<section class="slide" data-slide="13">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Mixed Factorial ANOVA</div>
+  <h2 class="stitle r">The Workhorse of Training Research</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);">The <strong style="color:var(--gold)">mixed factorial ANOVA</strong> (also: split-plot design) combines:</p>
+      <ul class="dl" style="margin-bottom:var(--gap);">
+        <li>≥ 1 <strong>between-subjects factor</strong> (e.g., Group: Control vs. Training — different people)</li>
+        <li>≥ 1 <strong>within-subjects factor</strong> (e.g., Time: Pre, Mid, Post — same people measured repeatedly)</li>
+      </ul>
+      <div class="callout" style="margin-bottom:var(--gap);">
+        <div class="ct">The question it answers</div>
+        <p>Do groups differ in their <em>trajectory of change</em> over time? Neither a between-subjects ANOVA nor a repeated-measures ANOVA alone can answer this.</p>
+      </div>
+      <p style="font-size:var(--bs);">The Group × Time <strong style="color:var(--gold)">interaction</strong> is the scientific heart of most longitudinal intervention studies in movement science.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <h3 style="margin-bottom:.5em;">Why two separate error terms?</h3>
+        <p style="margin-bottom:.5em;">Between-subjects variation is large — people differ enormously in baseline strength.</p>
+        <p style="margin-bottom:.5em;">Within-subjects variation is much smaller — it captures only how <em>inconsistently</em> each person responds across time, stripped of their individual baseline.</p>
+        <div class="callout warn" style="margin-top:.5em;">
+          <div class="ct">Critical asymmetry</div>
+          <p>Within-subjects F-ratios are not comparable in magnitude to between-subjects F-ratios. Use <strong>η²<sub>p</sub></strong> to compare effect sizes across sources.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">14 / 28</div>
+</section>
+
+<!-- KC 7: SS PARTITIONING -->
+<section class="slide kc-slide" data-slide="kc7" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc7">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A 2(Group: Control/Training) × 2(Sex: Female/Male) ANOVA yields: main effect of Group <em>p</em> = .001, main effect of Sex <em>p</em> = .04, interaction <em>p</em> = .71. Which statement is best supported by these results?</p>
+  <div class="kc-opts r" id="kc7-opts">
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">A &nbsp; Training benefited males and females to different degrees</button>
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">B &nbsp; Simple effects must be run to determine who benefited from training</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc7',this,true)">C &nbsp; Training improved strength overall and males scored higher overall, but the training benefit was similar for both sexes</button>
+    <button class="kc-opt" onclick="answerKC('kc7',this,false)">D &nbsp; The Group effect matters more than the Sex effect because its p-value is smaller</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc7-explain">
+  <strong>C is correct.</strong> A non-significant interaction means the effect of training did not depend on sex — both main effects can be interpreted directly and independently. Option A implies a significant interaction. Option B is wrong because simple effects are only needed after a significant interaction. Option D is wrong because p-values reflect evidence against the null, not the size or importance of an effect — effect sizes do that.
+</div>
+<div class="kc-num">KC · 7 / 10</div>
+</section>
+
+<!-- SLIDE 14: MIXED ANOVA — TWO ERROR TERMS -->
+<section class="slide" data-slide="14">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Mixed Factorial ANOVA</div>
+  <h2 class="stitle r">Two Error Terms — One Model</h2>
+  <div class="r">
+    <table class="dtable">
+      <thead><tr><th>Effect</th><th>Type</th><th>Error Term</th><th>Why?</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--gold)">Group</strong></td><td>Between-subjects</td><td class="font-mono" style="color:#7dd3fc;font-family:var(--font-m);font-size:.8em;">MS<sub>Subjects/Group</sub></td><td>Captures stable individual differences in baseline strength</td></tr>
+        <tr><td><strong style="color:var(--sage)">Time</strong></td><td>Within-subjects</td><td class="font-mono" style="color:#7dd3fc;font-family:var(--font-m);font-size:.8em;">MS<sub>Time×Subj/Group</sub></td><td>Individual inconsistency across time only, after removing baselines</td></tr>
+        <tr><td><strong style="color:var(--gold)">Group × Time</strong></td><td>Within-subjects</td><td class="font-mono" style="color:#7dd3fc;font-family:var(--font-m);font-size:.8em;">MS<sub>Time×Subj/Group</sub></td><td>Same within-subjects error as Time</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="r" style="margin-top:var(--gap);">
+    <h3 style="margin-bottom:.5em;">Three F-Ratios</h3>
+    <div class="formula" style="line-height:2.2;">
+      F<sub>Group</sub> = MS<sub>Group</sub> / MS<sub>Subjects/Group</sub><br>
+      F<sub>Time</sub> = MS<sub>Time</sub> / MS<sub>Time×Subj/Group</sub><br>
+      F<sub>Group×Time</sub> = MS<sub>Group×Time</sub> / MS<sub>Time×Subj/Group</sub>
+    </div>
+  </div>
+  <div class="callout warn r" style="margin-top:var(--gap);">
+    <div class="ct">Common mistake — wrong error term</div>
+    <p>Using the within-subjects error for the Group effect produces an artificially large F, because MS<sub>within</sub> is far smaller than MS<sub>Subjects/Group</sub>. SPSS prevents this automatically in Repeated Measures GLM.</p>
+  </div>
+</div>
+<div class="slide-num">15 / 28</div>
+</section>
+
+<!-- KC 3: MIXED ANOVA ERROR TERMS -->
+<section class="slide kc-slide" data-slide="kc3" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc3">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A researcher is puzzled: "Why does SPSS report a different error term for the Group effect than for the Time effect in my mixed ANOVA?" Which explanation is correct?</p>
+  <div class="kc-opts r" id="kc3-opts">
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">A &nbsp; SPSS uses two error terms only when Mauchly's test of sphericity is violated</button>
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">B &nbsp; The two error terms are mathematically identical — SPSS reports them separately only for display purposes</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc3',this,true)">C &nbsp; Individual differences between participants are relevant noise when comparing groups, but cancel out when the same person is measured repeatedly across time</button>
+    <button class="kc-opt" onclick="answerKC('kc3',this,false)">D &nbsp; The between-subjects error is always larger, so SPSS separates it to prevent it from inflating the Time F-ratio</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc3-explain">
+  <strong>C is correct.</strong> In a mixed ANOVA, comparing groups requires accounting for the fact that people differ from each other — that person-to-person variability is the relevant noise for the Group effect. But when looking at change over time, each participant serves as their own baseline, so those individual differences subtract out. Two fundamentally different sources of variability mean two different error terms. SPSS handles the calculation automatically.
+</div>
+<div class="kc-num">KC · 3 / 10</div>
+</section>
+
+<!-- SLIDE 15: MIXED ANOVA — VARIANCE PARTITIONING -->
+<section class="slide" data-slide="15">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Mixed Factorial ANOVA</div>
+  <h2 class="stitle r">Variance Partitioning — 2(Group) × 3(Time)</h2>
+  <div class="cols r" style="align-items:start;">
+    <div>
+      <h3 style="margin-bottom:.4em;">Between-Subjects Partition</h3>
+      <div class="formula">SS<sub>between subjects</sub> = SS<sub>Group</sub> + SS<sub>Subj/Group</sub></div>
+      <p style="font-size:var(--ss);color:var(--muted);margin-bottom:var(--gap);">SS<sub>Subj/Group</sub> = between-subjects error → denominator for F<sub>Group</sub></p>
+      <h3 style="margin-bottom:.4em;">Within-Subjects Partition</h3>
+      <div class="formula">SS<sub>within subjects</sub> = SS<sub>Time</sub> + SS<sub>Group×Time</sub> + SS<sub>Time×Subj/Group</sub></div>
+      <p style="font-size:var(--ss);color:var(--muted);">SS<sub>Time×Subj/Group</sub> = within-subjects error → denominator for F<sub>Time</sub> and F<sub>Group×Time</sub></p>
+    </div>
+    <div>
+      <h3 style="margin-bottom:.5em;">Why within-subjects error is smaller</h3>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <p>The between-subjects error reflects <strong>all stable individual differences</strong> in absolute strength — a large, noisy term.</p>
+        <p style="margin-top:.4em;">The within-subjects error captures only <strong>how inconsistently each person responds across time</strong>, after removing individual baselines — typically much smaller.</p>
+      </div>
+      <div class="callout info">
+        <div class="ct">Power asymmetry</div>
+        <p>Time and Group×Time effects are tested against the small within-subjects error → much higher statistical power than the Group effect, which uses the large between-subjects error.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">16 / 28</div>
+</section>
+
+<!-- SLIDE 16: SPHERICITY -->
+<section class="slide" data-slide="16">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Assumption Check</div>
+  <h2 class="stitle r">Sphericity in the Mixed ANOVA</h2>
+  <div class="r">
+    <p style="margin-bottom:var(--gap);">Sphericity requires that the variances of all pairwise <em>differences</em> among within-subjects levels be approximately equal. In the mixed design, this applies to:</p>
+    <ul class="dl" style="margin-bottom:var(--gap);">
+      <li><strong style="color:var(--gold)">Time</strong> main effect — uses within-subjects error</li>
+      <li><strong style="color:var(--gold)">Group × Time</strong> interaction — uses the same within-subjects error</li>
+      <li><strong style="color:var(--muted)">Group</strong> (between-subjects) — <em>not affected</em> by sphericity; uses between-subjects error</li>
+    </ul>
+  </div>
+  <div class="r">
+    <table class="dtable">
+      <thead><tr><th>Mauchly's Result</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><em>p</em> &gt; .05</td><td><strong style="color:var(--sage)">Sphericity Assumed</strong> — use those rows for Time and Group×Time</td></tr>
+        <tr><td><em>p</em> &lt; .05, ε<sub>GG</sub> &lt; .75</td><td><strong style="color:var(--gold)">Greenhouse-Geisser</strong> correction — apply to Time and Group×Time</td></tr>
+        <tr><td><em>p</em> &lt; .05, ε<sub>GG</sub> ≥ .75</td><td><strong style="color:var(--sage)">Huynh-Feldt</strong> correction — apply to Time and Group×Time</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout info r" style="margin-top:var(--gap);">
+    <div class="ct">Always report in APA write-up</div>
+    <p>Report Mauchly's W, df, and p. If a correction was applied, report the epsilon (ε) value and state which correction was used — even when sphericity is not violated.</p>
+  </div>
+</div>
+<div class="slide-num">17 / 28</div>
+</section>
+
+<!-- SLIDE 17: WORKED EXAMPLE 2×3 — SETUP -->
+<section class="slide" data-slide="17">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Worked Example</div>
+  <h2 class="stitle r">2(Group) × 3(Time) Mixed ANOVA — Setup</h2>
+  <div class="r">
+    <div class="callout info" style="margin-bottom:var(--gap);">
+      <div class="ct">Research question</div>
+      <p>Did strength change over a 12-week training program, and did the trajectory of change differ between the training and control groups? n = 30 per group; outcome: strength (kg)</p>
+    </div>
+  </div>
+  <div class="cols r" style="align-items:start;">
+    <div>
+      <div class="badge" style="margin-bottom:.4em;">Cell Means (SD)</div>
+      <table class="dtable" style="margin-top:.4em;">
+        <thead><tr><th>Group</th><th class="c">Pre</th><th class="c">Mid</th><th class="c">Post</th></tr></thead>
+        <tbody>
+          <tr><td>Control</td><td class="c">76.34 (13.70)</td><td class="c">76.85 (13.87)</td><td class="c">77.14 (13.98)</td></tr>
+          <tr><td><strong style="color:var(--gold)">Training</strong></td><td class="c">79.67 (12.26)</td><td class="c">81.69 (12.26)</td><td class="c sig">85.06 (12.48)</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:var(--ss);color:var(--muted);margin-top:.4em;">Before reading ANOVA output: inspect the pattern. Control is essentially flat. Training climbs steadily. Expect a significant Group×Time interaction.</p>
+    </div>
+    <div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Sphericity Check</h3>
+        <p style="margin-bottom:.4em;">Mauchly's <em>W</em>(2) = .93, <em>p</em> = .059</p>
+        <p style="color:var(--sage);margin-bottom:.4em;"><strong>Not violated</strong> (p &gt; .05) → use Sphericity Assumed rows for Time and Group×Time</p>
+        <div class="callout info">
+          <div class="ct">Why check this first?</div>
+          <p>If you read the Sphericity Assumed F-values when sphericity is violated, your p-values will be too small and you'll over-reject H₀. Always check Mauchly's before reading Time and interaction results.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">18 / 28</div>
+</section>
+
+<!-- KC 8: SPHERICITY -->
+<section class="slide kc-slide" data-slide="kc8" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc8">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">Mauchly's test of sphericity is significant (<em>W</em> = .68, <em>p</em> = .02). What is the correct next step?</p>
+  <div class="kc-opts r" id="kc8-opts">
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">A &nbsp; Proceed with the standard uncorrected F-ratio — Mauchly's is only a guideline</button>
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">B &nbsp; Remove the within-subjects factor from the model to avoid the assumption</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc8',this,true)">C &nbsp; Apply the Greenhouse-Geisser or Huynh-Feldt correction to the degrees of freedom</button>
+    <button class="kc-opt" onclick="answerKC('kc8',this,false)">D &nbsp; Switch the entire analysis to MANOVA, which has no sphericity assumption</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc8-explain">
+  <strong>C is correct.</strong> A significant Mauchly's test means the sphericity assumption is violated, inflating the F-ratio if left uncorrected. The standard remedy is to adjust the degrees of freedom using Greenhouse-Geisser (more conservative) or Huynh-Feldt (less conservative when ε &gt; .75). Removing the factor or switching to MANOVA are not appropriate responses to a sphericity violation.
+</div>
+<div class="kc-num">KC · 8 / 10</div>
+</section>
+
+<!-- SLIDE 18: WORKED EXAMPLE 2×3 — RESULTS -->
+<section class="slide" data-slide="18">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Worked Example</div>
+  <h2 class="stitle r">2 × 3 Mixed ANOVA Results</h2>
+  <div class="r">
+    <table class="dtable">
+      <thead><tr><th>Source</th><th class="c">df</th><th class="c">MS</th><th class="c">F</th><th class="c">p</th><th class="c">η²<sub>p</sub></th><th class="c">ω²<sub>p</sub></th></tr></thead>
+      <tbody>
+        <tr><td>Group</td><td class="c">1</td><td class="c">1,294.44</td><td class="c">2.52</td><td class="c">.117</td><td class="c">.042</td><td class="c">.008</td></tr>
+        <tr class="err"><td><em>Subjects/Group (error B)</em></td><td class="c">58</td><td class="c">513.32</td><td class="c" colspan="4">—</td></tr>
+        <tr><td>Time</td><td class="c">2</td><td class="c">145.24</td><td class="c sig">108.55</td><td class="c sig">&lt;.001</td><td class="c sig">.652</td><td class="c sig">.544</td></tr>
+        <tr><td><strong style="color:var(--gold)">Group × Time</strong></td><td class="c">2</td><td class="c">81.63</td><td class="c sig">61.00</td><td class="c sig">&lt;.001</td><td class="c sig">.513</td><td class="c sig">.400</td></tr>
+        <tr class="err"><td><em>Time × Subj/Group (error W)</em></td><td class="c">116</td><td class="c">1.34</td><td class="c" colspan="4">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cols r" style="margin-top:var(--gap);align-items:start;">
+    <div class="callout warn">
+      <div class="ct">Step 1: Interaction — significant</div>
+      <p>Group × Time: F(2,116) = 61.00, p &lt; .001, η²<sub>p</sub> = .513, ω²<sub>p</sub> = .400 — a <em>large</em> effect. The groups followed different strength trajectories. → Run simple effects; interpret main effects in context.</p>
+    </div>
+    <div class="callout info">
+      <div class="ct">Why is Group not significant?</div>
+      <p>Groups start at similar levels and diverge over time. Their time-averaged means aren't dramatically different — so the Group main effect (p = .117) misses the pattern the interaction reveals. The interaction is more sensitive to diverging trajectories.</p>
+    </div>
+  </div>
+</div>
+<div class="slide-num">19 / 28</div>
+</section>
+
+<!-- SLIDE 19: GROUP × TIME INTERACTION PLOT -->
+<section class="slide" data-slide="19">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Visualization</div>
+  <h2 class="stitle r">Group × Time Interaction — Diverging Trajectories</h2>
+  <div class="cols r" style="grid-template-columns:3fr 2fr;align-items:center;">
+    <div style="display:flex;align-items:center;justify-content:center;overflow:hidden;">
+      <svg viewBox="0 0 300 190" style="max-width:100%;max-height:min(48vh,300px);" role="img" aria-label="Line chart: Training group rises steeply from pre to post; Control group stays flat">
+        <!-- axes -->
+        <line x1="48" y1="10" x2="48" y2="158" stroke="#1e2d42" stroke-width="1.5"/>
+        <line x1="48" y1="158" x2="285" y2="158" stroke="#7a8ca0" stroke-width="1"/>
+        <!-- y gridlines + labels (70–90, 5-unit steps) -->
+        <line x1="48" y1="158" x2="285" y2="158" stroke="#1e2d42" stroke-dasharray="3,3" stroke-width="1"/>
+        <line x1="48" y1="122" x2="285" y2="122" stroke="#1e2d42" stroke-dasharray="3,3" stroke-width="1"/>
+        <line x1="48" y1="86"  x2="285" y2="86"  stroke="#1e2d42" stroke-dasharray="3,3" stroke-width="1"/>
+        <line x1="48" y1="50"  x2="285" y2="50"  stroke="#1e2d42" stroke-dasharray="3,3" stroke-width="1"/>
+        <text x="43" y="161" font-size="8" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">70</text>
+        <text x="43" y="125" font-size="8" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">75</text>
+        <text x="43" y="89"  font-size="8" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">80</text>
+        <text x="43" y="53"  font-size="8" fill="#7a8ca0" text-anchor="end" font-family="sans-serif">85</text>
+        <!-- x ticks: Pre=88, Mid=168, Post=248 -->
+        <text x="88"  y="174" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Pre</text>
+        <text x="168" y="174" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Mid</text>
+        <text x="248" y="174" font-size="9" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Post</text>
+        <!-- Control: flat trajectory -->
+        <polyline class="anim-line" data-delay="1" points="88,122 168,119 248,117" stroke="#7eb8a0" stroke-width="2.5" fill="none"/>
+        <circle cx="88"  cy="122" r="5" fill="#7eb8a0"/>
+        <circle cx="168" cy="119" r="5" fill="#7eb8a0"/>
+        <circle cx="248" cy="117" r="5" fill="#7eb8a0"/>
+        <!-- Training: rising trajectory (drawn after Control for dramatic effect) -->
+        <polyline class="anim-line" data-delay="2" points="88,86 168,72 248,47" stroke="#d4a843" stroke-width="2.5" fill="none"/>
+        <circle cx="88"  cy="86" r="5" fill="#d4a843"/>
+        <circle cx="168" cy="72" r="5" fill="#d4a843"/>
+        <circle cx="248" cy="47" r="5" fill="#d4a843"/>
+        <!-- legend -->
+        <rect x="190" y="14" width="10" height="3" fill="#d4a843" rx="1"/>
+        <text x="204" y="18" font-size="9" fill="#d4a843" font-family="sans-serif">Training</text>
+        <rect x="190" y="26" width="10" height="3" fill="#7eb8a0" rx="1"/>
+        <text x="204" y="30" font-size="9" fill="#7eb8a0" font-family="sans-serif">Control</text>
+        <!-- y-axis label -->
+        <text transform="rotate(-90,14,90)" x="14" y="90" font-size="8.5" fill="#7a8ca0" text-anchor="middle" font-family="sans-serif">Strength (kg)</text>
+      </svg>
+    </div>
+    <div>
+      <h3 style="margin-bottom:var(--gap);">Key Observations</h3>
+      <ul class="dl">
+        <li><strong style="color:var(--sage)">Control:</strong> flat across 12 weeks — Δ &lt; 1 kg total; Time effect non-significant within this group</li>
+        <li><strong style="color:var(--gold)">Training:</strong> progressive gains — +2.02 kg by Mid, +5.39 kg by Post</li>
+        <li>Lines <strong>diverge without crossing</strong> → <em>quantitative</em> interaction; training benefits are larger, not reversed</li>
+      </ul>
+      <div class="callout warn" style="margin-top:var(--gap);">
+        <div class="ct">Next step</div>
+        <p>Significant interaction → decompose with <strong>simple effects analysis</strong> before drawing conclusions about Time or Group.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">20 / 28</div>
+</section>
+
+<!-- SLIDE 20: SIMPLE EFFECTS ANALYSIS -->
+<section class="slide" data-slide="20">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Decomposing the Interaction</div>
+  <h2 class="stitle r">Simple Effects Analysis</h2>
+  <div class="cols r">
+    <div>
+      <p style="margin-bottom:var(--gap);"><strong style="color:var(--gold)">Simple effects</strong> test the effect of one factor separately at each level of the other factor. Run only after a significant omnibus interaction.</p>
+      <div class="panel" style="margin-bottom:var(--gap);">
+        <h3 style="margin-bottom:.4em;">Perspective 1: Time within each Group</h3>
+        <ul class="dl">
+          <li>Does strength change across time in <strong>Control</strong>? → No (76.34, 76.85, 77.14 — &lt;1 kg, non-significant)</li>
+          <li>Does strength change across time in <strong>Training</strong>? → Yes, strongly (79.67 → 85.06, +5.39 kg, p &lt; .001)</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin-bottom:.4em;">Perspective 2: Group at each Time point</h3>
+        <ul class="dl">
+          <li><strong>Pre:</strong> groups comparable (76.34 vs. 79.67 kg) — randomization check ✓</li>
+          <li><strong>Mid:</strong> emerging difference (76.85 vs. 81.69 kg)</li>
+          <li><strong>Post:</strong> significant divergence (77.14 vs. 85.06 kg, Δ = 7.92 kg)</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="callout warn" style="margin-bottom:var(--gap);">
+        <div class="ct">When to run simple effects</div>
+        <p>Only after a <strong>statistically significant interaction</strong>. Running them after a non-significant interaction capitalizes on chance and inflates Type I error — the omnibus test is your gate.</p>
+      </div>
+      <div class="callout info" style="margin-bottom:var(--gap);">
+        <div class="ct">In SPSS</div>
+        <p>General Linear Model → Repeated Measures → Options → Compare main effects → Bonferroni. Or: split file by Group, run separate one-way repeated-measures ANOVAs.</p>
+      </div>
+      <div class="callout">
+        <div class="ct">Examine the plot first</div>
+        <p>The interaction plot tells you <em>where</em> the interaction lives. Run only theoretically motivated simple effects — not all possible combinations.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">21 / 28</div>
+</section>
+
+<!-- SLIDE 21: EFFECT SIZES -->
+<section class="slide" data-slide="21">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Quantifying Practical Significance</div>
+  <h2 class="stitle r">Effect Sizes: η²<sub>p</sub> and ω²<sub>p</sub></h2>
+  <div class="cols r" style="align-items:start;">
+    <div>
+      <h3 style="margin-bottom:.4em;">Partial Eta-Squared (η²<sub>p</sub>)</h3>
+      <p style="font-size:var(--ss);color:var(--muted);margin-bottom:.4em;">Reported automatically by SPSS</p>
+      <div class="formula">η²<sub>p</sub> = SS<sub>effect</sub> / (SS<sub>effect</sub> + SS<sub>error for that effect</sub>)</div>
+      <p style="font-size:var(--ss);color:var(--muted);margin-bottom:var(--gap);">The "partial" means each effect is sized relative to <em>its own</em> error term, not total variance. This correctly isolates each effect.</p>
+      <table class="dtable">
+        <thead><tr><th>Effect</th><th>Error in denominator</th></tr></thead>
+        <tbody>
+          <tr><td>Group</td><td>SS<sub>Subjects/Group</sub> (between)</td></tr>
+          <tr><td>Time</td><td>SS<sub>Time×Subj/Group</sub> (within)</td></tr>
+          <tr><td>Group × Time</td><td>SS<sub>Time×Subj/Group</sub> (within)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="margin-bottom:.4em;">Partial Omega-Squared (ω²<sub>p</sub>)</h3>
+      <p style="font-size:var(--ss);color:var(--muted);margin-bottom:.4em;">Less biased — recommended for small-to-moderate samples</p>
+      <div class="formula" style="font-size:clamp(.55rem,.88vw,.78rem);">ω²<sub>p</sub> = (SS<sub>effect</sub> − df<sub>effect</sub> · MS<sub>error</sub>) / (SS<sub>effect</sub> + (N·p − df<sub>effect</sub>) · MS<sub>error</sub>)</div>
+      <div class="callout info" style="margin-top:var(--gap);">
+        <div class="ct">Cohen's benchmarks (apply cautiously)</div>
+        <p>Small ≈ .01 &nbsp;|&nbsp; Medium ≈ .06 &nbsp;|&nbsp; Large ≥ .14</p>
+        <p style="margin-top:.3em;font-size:var(--ss);color:var(--muted);">Well-controlled lab training studies routinely produce η²<sub>p</sub> &gt; .50 for within-subjects effects. That's not unusual — it reflects the favorable signal-to-noise ratio of within-subject designs.</p>
+      </div>
+      <div class="callout warn" style="margin-top:var(--gap);">
+        <div class="ct">Report for every source</div>
+        <p>η²<sub>p</sub> AND ω²<sub>p</sub> for Group, Time, and the interaction — including non-significant effects. Readers need all values to evaluate power.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">22 / 28</div>
+</section>
+
+<!-- KC 9: SIMPLE EFFECTS -->
+<section class="slide kc-slide" data-slide="kc9" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc9">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">A Group × Time interaction is significant. Simple effects show the Group effect at Time 1 is <em>F</em>(1, 46) = 0.23, <em>p</em> = .63. What does this finding mean?</p>
+  <div class="kc-opts r" id="kc9-opts">
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">A &nbsp; The significant interaction was likely a Type I error</button>
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">B &nbsp; The main effect of Group must also be non-significant</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc9',this,true)">C &nbsp; At Time 1 specifically, the groups do not differ significantly from each other</button>
+    <button class="kc-opt" onclick="answerKC('kc9',this,false)">D &nbsp; Time 1 should be excluded from the analysis</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc9-explain">
+  <strong>C is correct.</strong> A non-significant simple effect at one level is entirely consistent with a significant interaction — it tells you <em>where</em> the interaction does not manifest. The group difference simply emerged at a later time point. This is a substantive finding to report, not evidence against the interaction or grounds for excluding data.
+</div>
+<div class="kc-num">KC · 9 / 10</div>
+</section>
+
+<!-- KC 4: EFFECT SIZE INTERPRETATION -->
+<section class="slide kc-slide" data-slide="kc4" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc4">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">The Group × Time interaction yields η²<sub>p</sub> = .42, <em>p</em> &lt; .001. A colleague concludes: <em>"The training program caused 42% of all outcome variance."</em> What is wrong with this statement?</p>
+  <div class="kc-opts r" id="kc4-opts">
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">A &nbsp; Nothing — η²<sub>p</sub> = .42 means training caused 42% of total variance</button>
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">B &nbsp; The p-value must be reported before interpreting effect size</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc4',this,true)">C &nbsp; η²<sub>p</sub> is a <em>partial</em> statistic — its denominator excludes other effects; it overstates the share of total variance, and effect sizes never establish causation</button>
+    <button class="kc-opt" onclick="answerKC('kc4',this,false)">D &nbsp; Cohen's benchmarks require ω²<sub>p</sub>, not η²<sub>p</sub>, for this interpretation</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc4-explain">
+  <strong>C is correct.</strong> η²<sub>p</sub> = SS<sub>effect</sub> / (SS<sub>effect</sub> + SS<sub>error</sub>) — variance from <em>other</em> effects is removed from the denominator, so partial η² is always ≥ total η² and cannot be interpreted as a proportion of total variance. More critically, no ANOVA statistic implies causation — that inference requires experimental design logic, not the size of F.
+</div>
+<div class="kc-num">KC · 4 / 10</div>
+</section>
+
+<!-- SLIDE 22: COHEN'S f -->
+<section class="slide" data-slide="22">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Power Planning</div>
+  <h2 class="stitle r">Cohen's <em>f</em> for Power Calculations</h2>
+  <div class="cols r" style="align-items:start;">
+    <div>
+      <p style="margin-bottom:var(--gap);">G*Power requires <strong style="color:var(--gold)">Cohen's <em>f</em></strong> — not η²<sub>p</sub> — as its effect size input for factorial ANOVA power analyses.</p>
+      <div class="formula">f = √(η²<sub>p</sub> / (1 − η²<sub>p</sub>))</div>
+      <div class="panel" style="margin-top:var(--gap);">
+        <h3 style="margin-bottom:.5em;">Conversions from our example</h3>
+        <table class="dtable">
+          <thead><tr><th>Effect</th><th class="c">η²<sub>p</sub></th><th class="c">f</th><th>Interpretation</th></tr></thead>
+          <tbody>
+            <tr><td>Group × Time</td><td class="c sig">.513</td><td class="c sig">1.03</td><td>Very large</td></tr>
+            <tr><td>Time</td><td class="c">.652</td><td class="c">1.37</td><td>Very large</td></tr>
+            <tr><td>Group</td><td class="c">.042</td><td class="c">0.21</td><td>Small-medium</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="callout" style="margin-bottom:var(--gap);">
+        <div class="ct">Power asymmetry in mixed designs</div>
+        <p>The interaction (f = 1.03) and Time (f = 1.37) have enormous effect sizes because they're tested against the tiny within-subjects error. Group (f = 0.21) uses the noisy between-subjects error — it requires a much larger N to achieve equivalent power.</p>
+      </div>
+      <div class="callout info">
+        <div class="ct">G*Power settings for mixed ANOVA</div>
+        <p>Use: <em>F-test → ANOVA: Repeated Measures, between-within interaction</em>. Key extra input: expected correlation among repeated measures. In training studies with strength, pre-mid-post correlations are typically r = .96–.98, explaining the very high power of within-subjects effects.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="slide-num">23 / 28</div>
+</section>
+
+<!-- SLIDE 23: APA TEMPLATE -->
+<section class="slide" data-slide="23">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Reporting</div>
+  <h2 class="stitle r">APA Reporting Template</h2>
+  <div class="r">
+    <p style="font-size:var(--ss);color:var(--muted);margin-bottom:var(--gap);">Required order — always follow this sequence:</p>
+    <div class="steps" style="gap:clamp(.2rem,.55vw,.55rem);">
+      <div class="step"><span class="step-n">1</span><span class="step-t">State the design: <em>"A 2(Group: control, training) × 3(Time: pre, mid, post) mixed ANOVA was conducted with [DV] as the dependent variable."</em></span></div>
+      <div class="step"><span class="step-n">2</span><span class="step-t">Report Mauchly's test: W(df) = value, p = value. State whether sphericity was violated and which correction was applied.</span></div>
+      <div class="step" style="border-color:var(--gold);background:var(--gold-dim)"><span class="step-n">3</span><span class="step-t"><strong style="color:var(--gold)">Interaction first:</strong> F(df1, df2) = value, p = value, η²<sub>p</sub> = value, ω²<sub>p</sub> = value. State what the interaction means substantively.</span></div>
+      <div class="step"><span class="step-n">4</span><span class="step-t">If interaction significant: report simple effects findings with descriptive statistics (M, SD) for key comparisons.</span></div>
+      <div class="step"><span class="step-n">5</span><span class="step-t">Main effects: report F, p, η²<sub>p</sub>, ω²<sub>p</sub> for each. Interpret in context of the interaction.</span></div>
+    </div>
+    <div class="callout warn r" style="margin-top:var(--gap);">
+      <div class="ct">Never omit effect sizes for non-significant effects</div>
+      <p>Report η²<sub>p</sub> and ω²<sub>p</sub> for <em>every</em> source. A non-significant Group effect with η²<sub>p</sub> = .04 tells a different story than one with η²<sub>p</sub> = .30 that a study was underpowered to detect.</p>
+    </div>
+  </div>
+</div>
+<div class="slide-num">24 / 28</div>
+</section>
+
+<!-- SLIDE 24: FULL APA EXAMPLE -->
+<section class="slide" data-slide="24">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Full Write-Up</div>
+  <h2 class="stitle r">APA Example — Group × Time Mixed ANOVA</h2>
+  <div class="panel r" style="font-size:clamp(.65rem,1.05vw,.88rem);line-height:1.78;overflow:hidden;">
+    <p>"A <strong style="color:var(--gold)">2 (Group: control, training) × 3 (Time: pre, mid, post) mixed ANOVA</strong> was conducted with strength (kg) as the dependent variable. Mauchly's test indicated that the sphericity assumption was <strong style="color:var(--sage)">not violated</strong>, <em>W</em>(2) = .93, <em>p</em> = .059.</p>
+    <p>The <strong style="color:var(--gold)">Group × Time interaction was statistically significant</strong>, <em>F</em>(2, 116) = 61.00, <em>p</em> &lt; .001, η²<sub>p</sub> = .51, ω²<sub>p</sub> = .40, indicating that the two groups followed different strength trajectories over the 12-week program. Simple effects analysis revealed a significant effect of Time within the training group, with progressive gains from pre-test (<em>M</em> = 79.67 kg, <em>SD</em> = 12.26) to post-test (<em>M</em> = 85.06 kg, <em>SD</em> = 12.48). The effect of Time was not significant within the control group, which remained essentially unchanged (76.34, 76.85, 77.14 kg).</p>
+    <p>The <strong style="color:var(--sage)">main effect of Time</strong> was significant, <em>F</em>(2, 116) = 108.55, <em>p</em> &lt; .001, η²<sub>p</sub> = .65, ω²<sub>p</sub> = .54. The <strong style="color:var(--muted)">main effect of Group</strong> was not significant, <em>F</em>(1, 58) = 2.52, <em>p</em> = .117, η²<sub>p</sub> = .04, ω²<sub>p</sub> = .008."</p>
+  </div>
+</div>
+<div class="slide-num">25 / 28</div>
+</section>
+
+<!-- SLIDE 25: COMMON PITFALLS -->
+<section class="slide" data-slide="25">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Avoid These Mistakes</div>
+  <h2 class="stitle r">Common Pitfalls</h2>
+  <ul class="dl r" style="gap:clamp(.32rem,.85vw,.85rem);">
+    <li><strong style="color:var(--rust)">Interpreting main effects when the interaction is significant.</strong> A main effect of Group averaged over two different sex-specific patterns is a statistical fiction — it describes neither pattern accurately. Interaction first, always.</li>
+    <li><strong style="color:var(--rust)">Concluding "no interaction" from a non-significant p-value.</strong> An underpowered study cannot distinguish a small interaction from no interaction. Report η²<sub>p</sub> for the interaction regardless of significance.</li>
+    <li><strong style="color:var(--rust)">Using the wrong error term in a mixed ANOVA.</strong> Group uses the between-subjects error; Time and the interaction use the within-subjects error. Never compare those F-values directly to judge importance.</li>
+    <li><strong style="color:var(--rust)">Reporting effect sizes only for significant effects.</strong> Every source needs η²<sub>p</sub> and ω²<sub>p</sub>. Non-significant effects with large η²<sub>p</sub> signal underpowered studies, not trivial effects.</li>
+    <li><strong style="color:var(--rust)">Running simple effects without a significant interaction.</strong> Simple effects tests are only justified after a significant omnibus interaction. Running them otherwise capitalizes on chance and inflates Type I error.</li>
+  </ul>
+</div>
+<div class="slide-num">26 / 28</div>
+</section>
+
+<!-- SLIDE 26: CHAPTER SUMMARY -->
+<section class="slide" data-slide="26">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Chapter 16 Summary</div>
+  <h2 class="stitle r">Key Takeaways</h2>
+  <div class="cols r" style="align-items:start;">
+    <ul class="dl" style="gap:clamp(.3rem,.8vw,.8rem);">
+      <li>Factorial ANOVA simultaneously tests main effects and the interaction — the interaction is its <strong style="color:var(--gold)">exclusive contribution</strong> over separate one-way tests</li>
+      <li><strong>Between-subjects factorial:</strong> all factors between-groups; all effects share one within-cell error term</li>
+      <li><strong>Mixed factorial:</strong> between-subjects Group + within-subjects Time; <strong style="color:var(--gold)">two error terms</strong> — Group uses between-subjects error, Time and interaction use within-subjects error</li>
+      <li>The <strong style="color:var(--gold)">interaction must be interpreted first</strong> — when significant, main effects alone are incomplete and can mislead</li>
+    </ul>
+    <ul class="dl" style="gap:clamp(.3rem,.8vw,.8rem);">
+      <li><strong>Simple effects analysis</strong> decomposes a significant interaction — test one factor at each level of the other; requires significant omnibus interaction</li>
+      <li><strong>Sphericity</strong> (Mauchly's test, GG/HF corrections) applies only to within-subjects effects — not to the between-subjects Group main effect</li>
+      <li>Report <strong>η²<sub>p</sub></strong> and <strong>ω²<sub>p</sub></strong> for every source — Group, Time, and the interaction — including non-significant effects</li>
+      <li>APA sequence: design → Mauchly's → <strong style="color:var(--gold)">interaction first</strong> → simple effects → main effects → descriptives</li>
+    </ul>
+  </div>
+</div>
+<div class="slide-num">27 / 28</div>
+</section>
+
+<!-- KC 10: APA REPORTING -->
+<section class="slide kc-slide" data-slide="kc10" data-kc="true">
+<div class="slide-bar" style="background:var(--sage)"></div>
+<div class="slide-content">
+  <div class="kc-shelf r" id="shelf-kc10">
+    <div class="kc-shelf-dot" data-badge="kc1"  title="Factorial Logic"></div>
+    <div class="kc-shelf-dot" data-badge="kc2"  title="Interaction Plots"></div>
+    <div class="kc-shelf-dot" data-badge="kc3"  title="Error Terms"></div>
+    <div class="kc-shelf-dot" data-badge="kc4"  title="Effect Sizes"></div>
+    <div class="kc-shelf-dot" data-badge="kc5"  title="Design Structure"></div>
+    <div class="kc-shelf-dot" data-badge="kc6"  title="Main Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc7"  title="SS Partitioning"></div>
+    <div class="kc-shelf-dot" data-badge="kc8"  title="Sphericity"></div>
+    <div class="kc-shelf-dot" data-badge="kc9"  title="Simple Effects"></div>
+    <div class="kc-shelf-dot" data-badge="kc10" title="APA Reporting"></div>
+  </div>
+  <div class="kc-badge r">🎯 Knowledge Check</div>
+  <p class="kc-q r">Which of the following correctly reports a mixed ANOVA interaction effect in APA format?</p>
+  <div class="kc-opts r" id="kc10-opts">
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">A &nbsp; "There was a significant Group × Time interaction, <em>F</em>(2, 48) = 8.14, <em>p</em> = .001."</button>
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">B &nbsp; "The interaction was significant (<em>p</em> &lt; .001), indicating a large effect size."</button>
+    <button class="kc-opt" onclick="answerKC('kc10',this,false)">C &nbsp; "<em>F</em>(2, 48) = 8.14, <em>p</em> = .001, η²<sub>p</sub> = .25 — the Group × Time interaction was significant."</button>
+    <button class="kc-opt" data-correct="true" onclick="answerKC('kc10',this,true)">D &nbsp; "The Group × Time interaction was significant, <em>F</em>(2, 48) = 8.14, <em>p</em> = .001, η²<sub>p</sub> = .25."</button>
+  </div>
+</div>
+<div class="kc-explain" id="kc10-explain">
+  <strong>D is correct.</strong> APA format requires: narrative statement first, then F-ratio with both degrees of freedom, exact p-value, and a numeric effect size — all in that order. Option A omits the effect size. Option B gives no F-ratio or numeric effect size. Option C puts the statistics before the narrative, which is non-standard.
+</div>
+<div class="kc-num">KC · 10 / 10</div>
+</section>
+
+<!-- SLIDE 27: KEY TERMS -->
+<section class="slide" data-slide="27">
+<div class="slide-bar"></div>
+<div class="slide-content">
+  <div class="kicker r">Reference</div>
+  <h2 class="stitle r">Key Terms</h2>
+  <div class="cols r cols-3" style="align-items:start;">
+    <div class="panel">
+      <h3 style="color:var(--gold);margin-bottom:.4em;">Design</h3>
+      <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+        <li>Factorial design</li>
+        <li>Factor / Level / Cell</li>
+        <li>Between-subjects factorial</li>
+        <li>Mixed factorial (split-plot)</li>
+        <li>Within-within factorial</li>
+        <li>Balanced / Unbalanced</li>
+        <li>Type III SS</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3 style="color:var(--gold);margin-bottom:.4em;">Effects</h3>
+      <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+        <li>Main effect</li>
+        <li>Interaction effect</li>
+        <li>Quantitative interaction</li>
+        <li>Qualitative interaction</li>
+        <li>Simple effects analysis</li>
+        <li>Interaction plot</li>
+        <li>Between- vs. within-subjects error</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3 style="color:var(--gold);margin-bottom:.4em;">Measurement</h3>
+      <ul class="dl" style="gap:clamp(.18rem,.5vw,.5rem);">
+        <li>Partial eta-squared (η²<sub>p</sub>)</li>
+        <li>Partial omega-squared (ω²<sub>p</sub>)</li>
+        <li>Cohen's <em>f</em></li>
+        <li>Sphericity</li>
+        <li>Mauchly's test</li>
+        <li>Greenhouse-Geisser (ε<sub>GG</sub>)</li>
+        <li>Huynh-Feldt correction</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout info r" style="margin-top:var(--gap);">
+    <div class="ct">Navigation</div>
+    <p>Arrow keys or Space to advance &nbsp;·&nbsp; Click nav dots on right &nbsp;·&nbsp; Press <strong>N</strong> to toggle transcript &nbsp;·&nbsp; Touch/swipe on mobile</p>
+  </div>
+</div>
+<div class="slide-num">28 / 28</div>
+</section>
+
+<!-- BADGE COLLECTION SLIDE -->
+<section class="slide badge-collection-slide" data-slide="badges" data-badges="true">
+<div class="slide-bar" style="background:linear-gradient(to bottom,var(--gold),var(--sage))"></div>
+<div class="slide-content" style="justify-content:center;align-items:center;text-align:center;">
+  <div class="kicker r" style="text-align:center;">Ch. 16 · Achievement</div>
+  <h2 class="stitle r" id="badge-headline" style="text-align:center;display:block;">Badge Collection</h2>
+  <p id="badge-sub" style="text-align:center;font-size:var(--ss);color:var(--muted);margin-top:.2em;font-family:var(--font-m);"></p>
+  <div class="badge-coll-grid r" id="badge-coll-grid">
+    <!-- populated by JS on slide entry -->
+  </div>
+  <div class="r" id="badge-score-wrap" style="margin-top:var(--gap);">
+    <div class="callout" id="badge-score-callout" style="text-align:center;max-width:400px;margin:0 auto;">
+      <div class="ct" id="badge-score-ct">Earn badges by answering Knowledge Check questions correctly</div>
+      <p id="badge-score-text"></p>
+    </div>
+  </div>
+  <!-- Verification code — hidden until name is entered -->
+  <div id="verify-wrap" style="margin-top:var(--gap);display:none;">
+    <div style="display:inline-flex;flex-direction:column;align-items:center;gap:.3em;
+                border:1.5px solid var(--border);border-radius:8px;padding:.6em 1.4em;
+                background:rgba(212,168,67,.07);">
+      <span style="font-size:var(--ss);color:var(--muted);letter-spacing:.08em;text-transform:uppercase;">Verification Code</span>
+      <span id="verify-code" style="font-family:var(--font-m);font-size:clamp(1.1rem,2.2vw,1.6rem);
+            color:var(--gold);letter-spacing:.15em;font-weight:600;"></span>
+      <span style="font-size:var(--ss);color:var(--muted);">Submit this code with your name to your instructor</span>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="r" style="margin-top:clamp(.5rem,1.2vw,1rem);display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;align-items:center;">
+    <button id="save-pdf-btn" onclick="savePDF()" style="
+      background:var(--gold);border:none;color:#000;
+      font-family:var(--font-b);font-size:var(--bs);font-weight:600;padding:.4em 1.2em;
+      border-radius:5px;cursor:pointer;transition:background .2s;
+    " onmouseover="this.style.background='#e8bc57'" onmouseout="this.style.background='var(--gold)'">
+      ⬇ Save as PDF
+    </button>
+    <button onclick="resetBadges()" style="
+      background:transparent;border:1.5px solid var(--muted);color:var(--muted);
+      font-family:var(--font-b);font-size:var(--bs);padding:.4em 1.1em;
+      border-radius:5px;cursor:pointer;transition:border-color .2s,color .2s;
+    " onmouseover="this.style.borderColor='var(--rust)';this.style.color='var(--rust)'"
+       onmouseout="this.style.borderColor='var(--muted)';this.style.color='var(--muted)'">
+      ↺ Try Again
+    </button>
+  </div>
+  <p class="r" style="font-size:var(--ss);color:var(--muted);margin-top:.3em;line-height:1.5;text-align:center;">
+    <em>Save as PDF</em> opens your browser's print dialog — choose "Save as PDF." &nbsp;|&nbsp; <em>Try Again</em> clears badges and returns to slide 1.
+  </p>
+</div>
+</section>
+
+</div><!-- end #slides-wrap -->
+
+<!-- =================== NOTES PANEL =================== -->
+<div id="notes-panel">
+  <button id="notes-toggle" onclick="toggleTranscript()" title="Toggle transcript">Transcript</button>
+  <div id="notes-inner">
+    <div class="notes-label">
+      Transcript
+      <span class="notes-slide-num" id="notes-slide-num">01 / 28</span>
+    </div>
+    <div id="notes-text"></div>
+  </div>
+</div>
+
+</div><!-- end #app -->
+
+<script>
+// =============================================
+// TRANSCRIPT — one entry per content slide (0-indexed, KC slides handled separately)
+// =============================================
+const NOTES = [
+  // Slide 1 — Title
+  `<p>Chapter 16 marks a genuine turning point in your statistical toolkit. Up to now, analyses have been limited to one independent variable at a time — one-way ANOVA in Chapter 14, repeated measures in Chapter 15. Both are powerful, but they share a fundamental limitation: they can only answer one question at a time.</p>
+   <p>In movement science that is rarely enough. A strength researcher doesn't just ask whether training improves strength — the real questions are <strong>who benefits, by how much, and when the gains emerge</strong>. These questions involve multiple factors operating simultaneously, and the tool for that is the factorial ANOVA.</p>
+   <p>By the end of this chapter you should be able to read a factorial ANOVA output, identify interactions, and write a complete APA report.</p>`,
+
+  // Slide 2 — How to Use
+  `<p>This slide deck is your self-study companion for Chapter 16. Read through each slide, follow the transcript here in the sidebar, and pause on the <strong>Knowledge Check</strong> slides to test your understanding before moving on.</p>
+   <p>Earning all four badges requires correctly answering each Knowledge Check on the first attempt — if you get one wrong, review the relevant slides and use the <em>Try Again</em> button at the end to reset and try the full deck again. Repetition strengthens retention.</p>
+   <p>The transcript on each slide is not a summary — it's a complete explanation of the concept. Read it alongside the slide visuals for full understanding.</p>`,
+
+  // Slide 3 — Chapter Roadmap
+  `<p>Consider a realistic research question: <em>Did a 12-week training program produce strength gains, and did the magnitude of those gains differ by sex or by when in the program they were measured?</em> That question has multiple factors — Group and Sex, or Group and Time — and answering it requires examining both simultaneously.</p>
+   <p>Three factorial design types are covered in this chapter. The <strong>between-subjects factorial</strong> is the simplest: both factors are between-groups, one cell per person. The <strong>mixed factorial</strong> — the most common in kinesiology research — combines a between-subjects factor like Group with a within-subjects factor like Time. The <strong>within-within factorial</strong> puts all factors within-subjects.</p>
+   <p>The running example — the strength training dataset — carries through all three designs, so you will see the same data analyzed from multiple angles.</p>`,
+
+  // Slide 4 — Learning Objectives
+  `<p>Walk through these eight objectives to understand what you are building toward in this chapter.</p>
+   <p>The first two are conceptual foundations: defining the factorial design and distinguishing main effects from interactions. These need to be solid before the rest makes sense.</p>
+   <p>Objectives three and four address the mechanics of how variance is partitioned differently depending on whether factors are between- or within-subjects — and critically, which error term is used for which F-ratio. In the mixed design this is where most mistakes occur.</p>
+   <p>Objectives five and six are skills: reading interaction plots and running simple effects analysis to decompose a significant interaction. You will use these every time you encounter factorial output.</p>
+   <p>Seven and eight are about communicating results: computing effect sizes for every source and writing a complete APA report. Note — every source, not just the significant ones. Omitting effect sizes for non-significant effects is a common reporting gap.</p>`,
+
+  // Slide 5 — Workflow
+  `<p>This eight-step workflow is your decision tree for every factorial analysis. Several steps deserve particular attention.</p>
+   <p>Step 1 is identification: how many factors, and what type is each one? This determines whether you use the between-subjects factorial procedure or the mixed ANOVA procedure in SPSS. Getting this wrong cascades through everything downstream.</p>
+   <p>Step 2 is assumptions. For between-subjects factors: normality and homogeneity of variance. For within-subjects factors: sphericity — covered in detail on a later slide.</p>
+   <p>Step 4 is the most important procedural rule in factorial ANOVA: <strong>interpret the interaction first</strong> — before main effects, before writing your results section. The interaction status determines how you interpret everything else. Internalize this permanently.</p>
+   <p>Steps 5 and 6 branch based on that interaction result. Steps 7 and 8 always apply — calculate effect sizes for every source and write APA format.</p>`,
+
+  // Slide 6 — Factorial Design Vocabulary
+  `<p>These terms have precise statistical meanings that are sometimes blurred — study them carefully.</p>
+   <p>A <strong>factor</strong> is an independent variable — just like in one-way ANOVA, except now there is more than one. Each factor has <strong>levels</strong> — its discrete categories. The unique intersection of one level from each factor forms a <strong>cell</strong>. Every cell has its own mean, and those cell means are the raw material from which every effect in factorial ANOVA is derived.</p>
+   <p>Design notation — 2×2, 2×3 — compactly describes how many cells you have. A 2×2 has four cells; a 2×3 has six; a 2×3×2 has twelve. Complexity grows multiplicatively.</p>
+   <p>The distinction between balanced and unbalanced designs matters computationally. When cell sizes are equal, factors are orthogonal and sums of squares partition cleanly. When cells are unequal, SPSS uses Type III sums of squares automatically — no settings change is needed — but understanding why is important.</p>`,
+
+  // Slide 7 — Why Not Separate ANOVAs
+  `<p>There are three distinct reasons why running separate one-way ANOVAs instead of a factorial ANOVA is statistically incorrect.</p>
+   <p>First, <strong>Type I error inflation</strong>. Each test at α = .05 has a 5% false positive rate. Two independent tests raise the familywise error to about 10%. The factorial design tests all effects in a single model, keeping the error rate at .05.</p>
+   <p>Second, and most important: <strong>separate ANOVAs are completely blind to interactions</strong>. The question of whether training benefits male and female participants differently requires examining Group and Sex simultaneously. That interaction test simply does not exist in any series of separate one-way analyses — you cannot discover it no matter how many univariate tests you run.</p>
+   <p>Third, <strong>statistical power</strong>. The factorial ANOVA removes the variance attributable to all factors before computing the error term, producing a smaller residual error than a separate one-way ANOVA would. Smaller error term means higher power.</p>`,
+
+  // Slide 8 — Main Effects
+  `<p>A main effect is the overall effect of one factor, computed by <em>collapsing</em> across all levels of the other factor. Think of it as folding the two-way table in half along one dimension.</p>
+   <p>In the 2×2 design, the main effect of Group is the difference between Training and Control averaged across both sexes. The 21 female-controls and 9 male-controls together produce one control mean of 77.14 kg, and the 12 female-training and 18 male-training produce one training mean of 85.06 kg. The main effect is that 7.9-kilogram difference.</p>
+   <p>The critical caveat: main effects are clean, interpretable, and meaningful <em>only when the interaction is absent</em>. When the lines in the interaction plot are parallel, the Group effect is the same for both sexes and averaging is legitimate. The moment the lines diverge or cross, that average describes neither group accurately. Use the interactive demo to see how collapsing works.</p>`,
+
+  // Slide 9 — Interactions
+  `<p>An interaction is present when the effect of one factor <em>changes depending on which level of the other factor you are looking at</em>. Memorize that definition in those exact words.</p>
+   <p>Consider two scenarios. Scenario A: training adds 8 kg for both males and females — the Group effect is constant across Sex — no interaction. Scenario B: training adds 12 kg for males but only 4 kg for females — the Group effect is larger for males — there is a <strong>quantitative (ordinal) interaction</strong>, because both groups still improve in the same direction.</p>
+   <p>A <strong>qualitative (disordinal) interaction</strong> is when the direction actually reverses — training improves one group but impairs another, and the lines cross rather than just diverge. These are scientifically dramatic findings but relatively rare in movement science. Quantitative interactions — same direction, different magnitude — are far more common and often the most meaningful finding in training research.</p>`,
+
+  // Slide 10 — Interaction Plots
+  `<p>Develop fluency at reading interaction plots — you will encounter them in every factorial study you read or conduct. The skill comes down to one visual question: <strong>are the lines parallel?</strong></p>
+   <p>The left panel shows perfect parallel lines — no interaction. You can interpret the main effect of Group directly.</p>
+   <p>The middle panel shows diverging lines — both groups improve but Females gain more. The lines diverge without crossing. This is a <strong>quantitative interaction</strong>. The Group effect exists for both sexes but is larger for one.</p>
+   <p>The right panel shows crossing lines — what helps Males hurts Females. This is a <strong>qualitative interaction</strong>. The Group effect reverses direction across Sex. The main effect of Group — which averages those two opposite patterns — is close to meaningless in this case.</p>
+   <p>Before running any simple effects tests, examine the plot. It tells you exactly where the interaction lives and helps you formulate theoretically grounded follow-up comparisons.</p>`,
+
+  // Slide 11 — Between-Subjects Variance Partitioning
+  `<p>The math behind the between-subjects factorial ANOVA is worth understanding — not for hand computation, but for understanding the logic of the partitioning.</p>
+   <p>In a two-way between-subjects design, every participant is in exactly one cell. The total sum of squares splits into four pieces: the main effect of A, the main effect of B, the A×B interaction, and the within-cell error.</p>
+   <p>All three effects — A, B, and A×B — are tested against the <strong>same error term</strong>: variance within cells after accounting for group membership. This is the residual variance that cannot be explained by either factor or their combination.</p>
+   <p>When reading SPSS output, verify that the source df and error df are reasonable, and that the F-ratios for all three effects use the same denominator mean square. That shared denominator is a key feature that distinguishes the between-subjects design from the mixed design you will study next.</p>`,
+
+  // Slide 12 — Worked Example 2×2 Means
+  `<p>The first worked example is a 2×2 between-subjects design with Sex and Group, measuring post-test strength in 60 participants.</p>
+   <p>Before looking at any ANOVA output, study the cell means and reason about what the results should show. Female-Control: 77.54 kg. Female-Training: 87.18 kg — a gain of about 9.6 kg. Male-Control: 76.22 kg. Male-Training: 83.64 kg — a gain of about 7.4 kg.</p>
+   <p>Females gained about 9.6 kg and males about 7.4 kg. The gains go in the same direction and the difference in magnitude is not dramatic. If you are thinking quantitative interaction at best, possibly no interaction — you are reading these numbers correctly. This is the pattern-recognition skill to develop: predicting the ANOVA outcome from descriptives before running the test.</p>
+   <p>Note the unbalanced design: 21 female-controls, 12 female-training, 9 male-controls, 18 male-training. SPSS handles this with Type III sums of squares automatically.</p>`,
+
+  // Slide 13 — Worked Example 2×2 Results
+  `<p>Read this ANOVA table systematically using the workflow.</p>
+   <p><strong>Step one — the interaction.</strong> Sex×Group: F = 0.56, p = .457, η²p = .010. Not significant and the effect size is essentially zero. The training benefit was equivalent for male and female participants. This is the license to proceed to the main effects.</p>
+   <p><strong>Step two — main effects.</strong> Group is significant: F = 5.22, p = .026, η²p = .085 — a medium effect. The training group outperformed control by approximately 8 kg regardless of sex. Sex is not significant: F ≈ 0, p = .974.</p>
+   <p>A non-significant interaction is not a failure — it is a substantive finding. It tells you the training program was equally effective for both sexes. A strength coach reading this study can apply the same prescription to male and female clients with confidence it will work equivalently. Always report the interaction result first, even when non-significant.</p>`,
+
+  // Slide 14 — Mixed ANOVA: The Design
+  `<p>The mixed factorial ANOVA is the most important design in training and rehabilitation research. It is called mixed because it combines a between-subjects factor with a within-subjects factor in the same model.</p>
+   <p>The canonical version in kinesiology is a 2×3 design: two groups — Control and Training — measured at three time points — Pre, Mid, Post. Group is between-subjects because different people are in each group. Time is within-subjects because the same people provide data at all three time points.</p>
+   <p>The core question this design answers: <em>do the groups follow different trajectories of change over time?</em> That is a Group×Time interaction question, and detecting it requires the mixed design.</p>
+   <p>Two separate error terms are needed because between-subjects variation and within-subjects variation are fundamentally different in magnitude. People differ enormously in baseline strength — large between-subjects noise. But how consistently each person responds across three time points — stripped of individual baseline — is much more stable. The mixed ANOVA keeps these two sources separate, giving each effect a fair test against its own appropriate error.</p>`,
+
+  // Slide 15 — Mixed ANOVA: Two Error Terms
+  `<p>The two-error-term structure is where mistakes most consistently occur in mixed ANOVA interpretation — study this carefully.</p>
+   <p>The <strong>Group effect</strong> — a between-subjects comparison — uses MS-Subjects-within-Group as its error term. This captures all the stable individual differences among participants in their overall strength level. It is large, because people vary a lot in absolute strength.</p>
+   <p>The <strong>Time main effect</strong> and the <strong>Group×Time interaction</strong> — both within-subjects effects — use MS-Time×Subjects-within-Group. This captures only how inconsistently each person responds across the three time points after removing their individual baseline. It is typically small.</p>
+   <p>The consequence: Time and the interaction will almost always have larger F-ratios than Group, even if the underlying effects are similar in practical magnitude. This does not mean Time is more important just because its F is larger — the denominators are completely different. This is why you must use η²p to compare effect sizes across sources in a mixed ANOVA.</p>`,
+
+  // Slide 16 — Variance Partitioning Mixed
+  `<p>The total variance in the mixed design splits into two master partitions. Understanding this structure is essential for reading SPSS output correctly.</p>
+   <p>The <strong>between-subjects partition</strong> contains the Group effect and the Subjects-within-Group error. This error term is large because people vary substantially in absolute strength.</p>
+   <p>The <strong>within-subjects partition</strong> contains Time, the Group×Time interaction, and the Time×Subjects-within-Group error. That within-subjects error is tiny by comparison — it captures only how inconsistently each person tracks across the three time points relative to their own trajectory.</p>
+   <p>In the training dataset, the within-subjects error MS is 1.34 while the between-subjects error MS is 513.32 — a ratio of nearly 400 to 1. Within-subjects effects will always appear statistically stronger not because they are more important, but because they are measured against far less noise. Keep this asymmetry in mind whenever you interpret F-ratios across a mixed ANOVA output.</p>`,
+
+  // Slide 17 — Sphericity
+  `<p>Sphericity was covered in Chapter 15 for one-way repeated measures ANOVA, and the same logic applies here. Be precise about which parts of the mixed ANOVA it affects.</p>
+   <p>Sphericity requires that the variances of all pairwise differences among the within-subjects levels be approximately equal. With three time points — Pre, Mid, Post — there are three pairwise differences. Sphericity says those three difference scores should have similar variance.</p>
+   <p>In the mixed ANOVA, sphericity applies to the <strong>Time main effect</strong> and the <strong>Group×Time interaction</strong> — both use the within-subjects error. The <strong>Group main effect is completely unaffected</strong> because it uses the between-subjects error.</p>
+   <p>Decision rule: if Mauchly's p &gt; .05, use Sphericity Assumed rows. If p &lt; .05, check epsilon — below .75 use Greenhouse-Geisser; at .75 or above use Huynh-Feldt. In your APA write-up, always report Mauchly's W, df, and p-value — and if you applied a correction, state which one and report epsilon.</p>`,
+
+  // Slide 18 — Worked Example 2×3 Setup
+  `<p>Practice reading cell means the way an experienced researcher would — with pattern recognition, not just number processing.</p>
+   <p>Control group: 76.34 at Pre, 76.85 at Mid, 77.14 at Post. Less than one kilogram of change over twelve weeks. The trajectory is essentially flat. Prediction: Time within Control — non-significant.</p>
+   <p>Training group: 79.67 at Pre, 81.69 at Mid, 85.06 at Post. The gains are progressive — about 2 kg from Pre to Mid, then another 3.4 kg from Mid to Post — with accelerating gains in the second half of the program. Prediction: Time within Training — strongly significant, large effect.</p>
+   <p>Before opening the ANOVA table, you have already diagnosed the interaction: one flat line and one rising line will diverge. Mauchly's W = .93, p = .059 — since p &gt; .05, sphericity is not violated and you read the Sphericity Assumed rows. Inspecting descriptives before the inferential table is a professional habit worth developing: the ANOVA tells you if something is significant; the means tell you what the pattern actually is.</p>`,
+
+  // Slide 19 — Worked Example 2×3 Results
+  `<p>Read this table systematically using the workflow.</p>
+   <p><strong>Step one — the interaction.</strong> Group×Time: F = 61.00, p &lt; .001, η²p = .513, ω²p = .400. Over half the within-subjects variance is explained by the differential trajectories of the two groups. This is the headline finding. Because the interaction is significant, you must decompose it — you cannot simply summarize the main effects.</p>
+   <p>Notice the Group main effect: F = 2.52, p = .117 — not significant. This seems paradoxical given the dramatic training effect, but it makes sense: the groups start at comparable levels and only separate progressively over time. Averaging their means across all three time points — including Pre where they are similar — dampens the overall Group difference. The interaction captures the divergence; the main effect averages it away.</p>
+   <p>The Time main effect is large — F = 108.55, η²p = .652 — but this averages both groups together, driven mostly by the training group. The interaction is the more informative finding.</p>`,
+
+  // Slide 20 — Group × Time Plot
+  `<p>Study this plot carefully — it is the clearest possible representation of a significant Group×Time interaction in training data.</p>
+   <p>The sage-green Control line is essentially horizontal across Pre, Mid, and Post. Less than one kilogram of total change over twelve weeks — a group that is maintaining, exactly what you would expect from a condition without the training stimulus.</p>
+   <p>The gold Training line tells a different story: 79.67 → 81.69 at Mid (+2 kg in six weeks) → 85.06 at Post (+3.4 kg in the next six weeks). Progressive gains with acceleration in the second half of the program.</p>
+   <p>The lines diverge without crossing. That visual signature — diverging, not crossing — confirms a <strong>quantitative interaction</strong>. The control group does not get worse while training improves; it simply stays flat while training rises. The separation at Post, combined with the negligible difference at Pre, is your visual evidence that randomization worked and the intervention produced meaningful adaptation.</p>`,
+
+  // Slide 21 — Simple Effects
+  `<p>A significant interaction tells you that something interesting is happening — but not exactly where. Simple effects analysis locates and describes it.</p>
+   <p>There are two natural perspectives for the Group×Time interaction. The first asks about Time within each Group. Within Control: 76.34, 76.85, 77.14 — less than 1 kg of change, non-significant. Within Training: 79.67 → 85.06 — 5.4 kg from Pre to Post, highly significant with a large effect.</p>
+   <p>The second perspective asks about Group at each time point. At Pre: comparable groups (76.34 vs. 79.67) — confirms successful randomization. By Post: groups have diverged to 77.14 vs. 85.06 — nearly 8 kg, statistically significant.</p>
+   <p>Both perspectives are valid. In training studies, Time within each Group is usually most theoretically interesting because it directly tests whether the intervention group changed. In comparative effectiveness studies, Group at each Time may be more clinically informative.</p>
+   <p>Critical rule: run simple effects <strong>only after a significant omnibus interaction</strong>. Running them after a non-significant interaction is data dredging.</p>`,
+
+  // Slide 22 — Effect Sizes
+  `<p>Effect sizes are required components in factorial ANOVA reporting — they carry information the p-value cannot provide.</p>
+   <p>Partial eta-squared (η²p) is what SPSS produces automatically. The "partial" qualifier matters: it sizes each effect relative to that effect's own error term, not relative to total variance. This is appropriate because different effects use different error terms in factorial designs. Comparing Group and Time using the same denominator would be unfair.</p>
+   <p>Partial omega-squared (ω²p) corrects for positive bias in η²p. Eta-squared overestimates the population effect size in smaller samples because it uses sample SS in both numerator and denominator. In the training example, the Group×Time interaction has η²p = .513 but ω²p = .400 — that gap of .11 is non-trivial and reflects the bias correction.</p>
+   <p>Cohen's benchmarks (.01, .06, .14) are useful reference points, but apply them with judgment in movement science. Well-controlled laboratory training studies with physiological outcomes routinely produce within-subjects η²p values above .50 — this is not unusually large but reflects the precision advantage of within-subject measurement.</p>`,
+
+  // Slide 23 — Cohen's f
+  `<p>When planning a study and determining sample size using G*Power, Cohen's f is needed rather than η²p. The conversion is: f = √(η²p / (1 − η²p)).</p>
+   <p>These conversions reveal something important about the training example. The Group×Time interaction: f = 1.03 — enormous by conventional standards. The Time main effect: f = 1.37. The Group main effect: f = 0.21 — small to medium. Three effects from the same dataset with dramatically different f values, because each is tested against a different error term.</p>
+   <p>If the Group×Time interaction is your primary question — as it usually is in intervention research — plan your sample size for the power of the interaction, not just the Group main effect. The interaction uses the within-subjects error and therefore requires fewer participants to achieve adequate power than the between-subjects comparison does.</p>
+   <p>For G*Power, use "ANOVA: Repeated Measures, between-within interaction" for mixed designs. The key additional input is the expected correlation among repeated measures — in strength training research, pre-mid-post correlations are typically .96–.98. That high correlation explains the exceptional statistical power of within-subjects effects in training studies.</p>`,
+
+  // Slide 24 — APA Template
+  `<p>The APA reporting sequence has a specific structure — deviating from it, particularly by reporting main effects before the interaction, is one of the most common reasons results sections are returned for revision.</p>
+   <p>Step one: state the design clearly. Name the factors, their levels, which is between-subjects and which is within-subjects, the dependent variable, and sample size. This one-sentence setup orients the reader before any numbers appear.</p>
+   <p>Step two: Mauchly's test. This always precedes Time or interaction results, because the sphericity status determines which SPSS output row you are reading. Reporting F and p without first addressing sphericity makes the values unverifiable.</p>
+   <p>Step three — non-negotiable — report the interaction first. F, df, p, η²p, ω²p, and a one-sentence substantive interpretation: what does the interaction mean in plain language?</p>
+   <p>Step four: if the interaction is significant, report simple effects findings with means and SDs for the key comparisons — this is where you describe the pattern in concrete numbers.</p>
+   <p>Step five: main effects, interpreted in the context of the interaction result.</p>`,
+
+  // Slide 25 — Full APA Example
+  `<p>Read through this write-up and study the structure as you go.</p>
+   <p>The opening sentence names the design, factors, levels, factor types, and dependent variable — everything a reader needs before seeing a single number.</p>
+   <p>Mauchly's test comes next: W = .93, p = .059, not violated — so the Sphericity Assumed rows are used. Stating this explicitly tells the reader the F-values are not corrected.</p>
+   <p>Then the interaction — the headline: F = 61.00, p &lt; .001, η²p = .51, ω²p = .40, followed by the substantive sentence: <em>"indicating that the two groups followed different strength trajectories over the 12-week program."</em> That sentence translates the statistic into a finding about human behavior.</p>
+   <p>Then simple effects with specific means at each time point — concrete and clinically meaningful. Then main effects, with effect sizes reported even for the non-significant Group comparison. A reader seeing η²p = .04 and ω²p = .008 knows the Group effect is genuinely small, not just underpowered — information the p-value alone does not convey.</p>`,
+
+  // Slide 26 — Common Pitfalls
+  `<p>These five pitfalls represent the most common errors found in student work and published papers.</p>
+   <p>The first — interpreting main effects when the interaction is significant — is the most consequential. Imagine a 2×2 where training adds 12 kg for males but reduces strength by 4 kg for females. The main effect of Group averages those two patterns and shows a 4-kg improvement overall — a number that accurately describes nobody. Always test the interaction first.</p>
+   <p>The second pitfall is language: saying "no interaction" when the interaction F is non-significant. Non-significance is not evidence of absence — it is evidence of insufficient power to detect an effect of at least a certain size. Report η²p so readers can evaluate whether the study could have detected a meaningful interaction if one existed.</p>
+   <p>The third — wrong error term — is prevented automatically by SPSS in Repeated Measures GLM, but understanding why it matters helps catch it in other contexts.</p>
+   <p>Pitfalls four and five are about discipline: report effect sizes for everything, and do not run simple effects without the omnibus interaction as the gating criterion.</p>`,
+
+  // Slide 27 — Chapter Summary
+  `<p>Review these major conceptual and procedural points before your assessment.</p>
+   <p>The central contribution of the factorial ANOVA is the interaction effect — the finding that the influence of one factor depends on the level of another. This finding is completely unavailable in any series of one-way ANOVAs. Interactions answer the most clinically actionable questions: who benefits, under what conditions, and to what degree?</p>
+   <p>The between-subjects factorial is conceptually simpler: all factors between-groups, all effects share one error term. The mixed factorial is the workhorse of intervention research: two different error terms, different power implications for each effect.</p>
+   <p>Procedural rules that are absolute: interaction first → simple effects if significant → main effects in context. Sphericity applies only to within-subjects effects. Effect sizes for every source. APA format follows the interaction-first sequence.</p>
+   <p>Both worked examples — the 2×2 between-subjects showing a null interaction with a significant Group effect, and the 2×3 mixed showing a massive Group×Time interaction — illustrate two patterns you must be able to interpret correctly.</p>`,
+
+  // Slide 28 — Key Terms
+  `<p>Use this slide as a reference when working on assignments or reading journal articles. These are the terms you will encounter consistently in the factorial ANOVA literature.</p>
+   <p><strong>Design vocabulary:</strong> factorial design is the umbrella; factor, level, and cell are the building blocks; between-subjects vs. within-subjects determines the error term structure; balanced vs. unbalanced determines whether Type III SS is needed.</p>
+   <p><strong>Effect vocabulary:</strong> main effect and interaction effect are the two types of findings; quantitative vs. qualitative describes the interaction pattern; simple effects analysis is the follow-up procedure; the interaction plot is your primary diagnostic visualization; between-subjects vs. within-subjects error captures the two-error-term structure of the mixed design.</p>
+   <p>Under Measurement: partial eta-squared and partial omega-squared are both required for complete reporting; Cohen's f is what G*Power needs for sample size planning; sphericity, Mauchly's test, and the two correction methods are all assumption-checking tools that apply specifically to within-subjects effects.</p>
+   <p>Chapter 17 will build directly on this framework by adding a continuous covariate — that's ANCOVA — which is especially useful when you can't perfectly equate groups at baseline, a common situation in applied exercise and rehabilitation research. See you then.</p>`,
+];
+
+window._ALL_NOTES = NOTES;
+
+// =============================================
+// SLIDE PRESENTATION CONTROLLER
+// =============================================
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.total  = this.slides.length;
+    this.current = 0;
+    this.notesOpen = true;
+
+    this.progress = document.getElementById('progress');
+    this.navdots  = document.getElementById('navdots');
+    this.notesText = document.getElementById('notes-text');
+    this.notesNum  = document.getElementById('notes-slide-num');
+
+    this.buildDots();
+    this.observe();
+    this.keyboard();
+    this.wheel();
+    this.touch();
+    this.updateProgress(0);
+    this.updateNotes(0);
+  }
+
+  buildDots() {
+    this.navdots.innerHTML = '';
+    this.slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = `Slide ${i + 1}`;
+      d.onclick = () => this.goTo(i);
+      this.navdots.appendChild(d);
+    });
+  }
+
+  observe() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('vis');
+          const i = Array.from(this.slides).indexOf(e.target);
+          if (i !== -1) {
+            this.current = i;
+            this.updateProgress(i);
+            this.updateDots(i);
+            this.updateNotes(i);
+            // Render badge collection when that slide enters view
+            if (e.target.dataset.badges) renderBadgeCollection();
+          }
+        }
+      });
+    }, { root: document.getElementById('slides-wrap'), threshold: 0.55 });
+    this.slides.forEach(s => io.observe(s));
+  }
+
+  updateProgress(i) {
+    const pct = this.total > 1 ? (i / (this.total - 1)) * 100 : 0;
+    if (this.progress) this.progress.style.width = pct + '%';
+  }
+
+  updateDots(i) {
+    document.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+  }
+
+  updateNotes(i) {
+    if (!this.notesText) return;
+    const slide = this.slides[i];
+    // KC slides get instructor guidance, not a NOTES entry
+    if (slide && slide.dataset.badges) {
+      this.notesText.innerHTML = `<p><strong>Badge Collection.</strong> This is your final achievement summary. Each badge you earned represents a concept from Chapter 16 that you demonstrated understanding of. If your instructor requires proof of badge completion, take a screenshot of this slide showing your name and the badges you earned.</p>`;
+      if (this.notesNum) this.notesNum.textContent = `🏆`;
+      return;
+    }
+    if (slide && slide.dataset.kc) {
+      this.notesText.innerHTML = `<p><strong>Knowledge Check.</strong> Before selecting an answer, take a moment to reason through each option independently. After seeing the result, ask yourself: <em>"What would need to be different about the scenario for the other options to be correct?"</em> This kind of counterfactual thinking deepens your understanding more than simply identifying the right answer.</p>`;
+      if (this.notesNum) this.notesNum.textContent = `KC`;
+      return;
+    }
+    // For regular slides, offset index by number of KC slides that appear before position i
+    const kcBefore = Array.from(this.slides).slice(0, i).filter(s => s.dataset.kc).length;
+    const allNotes = window._ALL_NOTES || NOTES;
+    const noteIdx  = i - kcBefore;
+    this.notesText.innerHTML = allNotes[noteIdx] || '<p><em>No notes for this slide.</em></p>';
+    const totalStr = String(this.total).padStart(2, '0');
+    const curStr   = String(i + 1).padStart(2, '0');
+    if (this.notesNum) this.notesNum.textContent = `${curStr} / ${totalStr}`;
+  }
+
+  goTo(i) {
+    if (i < 0 || i >= this.total) return;
+    this.slides[i].scrollIntoView({ behavior: 'smooth' });
+  }
+
+  keyboard() {
+    document.addEventListener('keydown', e => {
+      if (e.target.getAttribute('contenteditable')) return;
+      if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+      switch (e.key) {
+        case 'ArrowDown': case 'ArrowRight': case ' ': case 'PageDown':
+          e.preventDefault(); this.goTo(this.current + 1); break;
+        case 'ArrowUp': case 'ArrowLeft': case 'PageUp':
+          e.preventDefault(); this.goTo(this.current - 1); break;
+        case 'Home': e.preventDefault(); this.goTo(0); break;
+        case 'End':  e.preventDefault(); this.goTo(this.total - 1); break;
+        case 'n': case 'N': toggleTranscript(); break;
+      }
+    });
+  }
+
+  wheel() {
+    // Magic Mouse fix: accumulate tiny deltas until a real threshold is crossed.
+    // This prevents a light touch from immediately jumping a slide.
+    const THRESHOLD = 180;  // total pixel delta required to advance one slide
+    const COOLDOWN  = 1000; // ms lockout after each slide change
+    let accumulated = 0;
+    let cooldown    = false;
+    let resetTimer  = null;
+
+    document.getElementById('slides-wrap').addEventListener('wheel', e => {
+      e.preventDefault(); // stop CSS scroll-snap from also reacting
+
+      if (cooldown) return;
+
+      accumulated += e.deltaY;
+
+      // If the user pauses, reset the accumulator so a gentle stop doesn't
+      // carry momentum into the next gesture.
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { accumulated = 0; }, 250);
+
+      if (Math.abs(accumulated) >= THRESHOLD) {
+        const dir = accumulated > 0 ? 1 : -1;
+        accumulated = 0;
+        cooldown = true;
+        this.goTo(this.current + dir);
+        setTimeout(() => { cooldown = false; }, COOLDOWN);
+      }
+    }, { passive: false }); // passive:false required to allow preventDefault
+  }
+
+  touch() {
+    let y0 = 0;
+    const sw = document.getElementById('slides-wrap');
+    sw.addEventListener('touchstart', e => { y0 = e.touches[0].clientY; }, { passive: true });
+    sw.addEventListener('touchend',   e => {
+      const dy = y0 - e.changedTouches[0].clientY;
+      if (Math.abs(dy) > 45) {
+        if (dy > 0) this.goTo(this.current + 1);
+        else this.goTo(this.current - 1);
+      }
+    }, { passive: true });
+  }
+}
+
+/* ============================================
+   BADGE SYSTEM
+   ============================================ */
+
+// ── INSTRUCTOR: change this key each semester ──────────────────────────────
+// Keep it private — do NOT share with students.
+// To verify a submission, paste this key + the student's name + badge pattern
+// into the companion verify.html page (or contact the course developer).
+const VERIFY_KEY = 'KIN610-SP26';
+// ──────────────────────────────────────────────────────────────────────────
+
+function genVerifyCode(studentId, earnedSet) {
+  // Badge pattern: '1' if earned, '0' if not, in kc1-kc4 order
+  const pattern = ['kc1','kc2','kc3','kc4','kc5','kc6','kc7','kc8','kc9','kc10'].map(id => earnedSet.has(id) ? '1' : '0').join('');
+  const payload  = studentId.trim().replace(/\s+/g,'') + '|' + pattern + '|' + VERIFY_KEY;
+  // djb2-style hash — deterministic, short output
+  let h = 5381;
+  for (let i = 0; i < payload.length; i++) h = (((h << 5) + h) ^ payload.charCodeAt(i)) >>> 0;
+  const code = h.toString(36).toUpperCase().padStart(8,'0').slice(-8);
+  return code.slice(0,4) + '-' + code.slice(4); // e.g. A3F7-B2C4
+}
+
+const BADGE_DEFS = {
+  kc1:  { title:'Factorial Logic',    icon:'⚡', sub:'Why factorial ANOVA?' },
+  kc2:  { title:'Interaction Plots',  icon:'📈', sub:'Reading interaction plots' },
+  kc3:  { title:'Error Terms',        icon:'🎯', sub:'Mixed ANOVA denominators' },
+  kc4:  { title:'Effect Sizes',       icon:'📐', sub:'Interpreting η²p' },
+  kc5:  { title:'Design Structure',   icon:'🧩', sub:'Cells, factors & levels' },
+  kc6:  { title:'Main Effects',       icon:'📊', sub:'When & how to interpret' },
+  kc7:  { title:'SS Partitioning',    icon:'🔢', sub:'Between-subjects ANOVA' },
+  kc8:  { title:'Sphericity',         icon:'🔵', sub:'Violations & corrections' },
+  kc9:  { title:'Simple Effects',     icon:'🔍', sub:'Follow-up decomposition' },
+  kc10: { title:'APA Reporting',      icon:'📝', sub:'Writing up results' },
+};
+const _earned = new Set();
+let _badgePopupTimer = null;
+
+function awardBadge(kcId) {
+  if (_earned.has(kcId)) return;
+  _earned.add(kcId);
+  showBadgePopup(kcId);
+  updateAllShelves();
+}
+
+function showBadgePopup(kcId) {
+  const def = BADGE_DEFS[kcId];
+  document.getElementById('bp-icon').textContent = def.icon;
+  document.getElementById('bp-name').textContent = def.title;
+  const popup = document.getElementById('badge-popup');
+  popup.classList.add('show');
+  clearTimeout(_badgePopupTimer);
+  _badgePopupTimer = setTimeout(() => popup.classList.remove('show'), 3200);
+}
+
+function updateAllShelves() {
+  document.querySelectorAll('.kc-shelf-dot').forEach(dot => {
+    dot.classList.toggle('earned', _earned.has(dot.dataset.badge));
+  });
+}
+
+function savePDF() {
+  renderBadgeCollection();
+  const name  = document.getElementById('student-name-input')?.value.trim() || '';
+  const sid   = document.getElementById('student-id-input')?.value.trim() || '';
+  const score = _earned.size;
+  const total = Object.keys(BADGE_DEFS).length;
+  const code  = sid ? genVerifyCode(sid, _earned) : '';
+  const date  = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+  const badgesHTML = Object.entries(BADGE_DEFS).map(([id, def]) => {
+    const earned = _earned.has(id);
+    return `<div class="bi ${earned ? 'earned' : 'locked'}">
+      <div class="bc">${earned ? def.icon : '🔒'}<span class="ch">Ch. 16</span></div>
+      <div class="bt">${def.title}</div>
+      ${earned ? '<div class="bck">✓ Earned</div>' : '<div class="bck" style="color:#aaa">Not earned</div>'}
+    </div>`;
+  }).join('');
+
+  const scoreMsg = score === total
+    ? (name ? `Outstanding, ${name}! All ${total} badges earned.` : `All ${total} badges earned!`)
+    : `${score} of ${total} badges earned`;
+
+  const html = `<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/>
+<title>KIN 610 · Ch. 16 · Badge Collection${name ? ' — ' + name : ''}</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:system-ui,sans-serif;background:#fff;color:#111;padding:48px 56px;max-width:720px;margin:0 auto}
+  .meta{font-size:.72rem;color:#888;margin-bottom:1.6rem;display:flex;justify-content:space-between}
+  h1{font-size:1.9rem;font-weight:700;margin-bottom:.2em}
+  .score{color:#666;font-size:.95rem;margin-bottom:1.6rem}
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-bottom:2rem}
+  .bi{text-align:center}
+  .bc{width:80px;height:80px;border-radius:50%;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;margin:0 auto .5em;font-size:1.8rem;
+      background:#f5f0e8;border:2px solid #c8a84b;position:relative}
+  .bi.locked .bc{background:#eee;border-color:#ccc}
+  .ch{font-size:.55rem;color:#888;display:block;line-height:1}
+  .bt{font-weight:600;font-size:.82rem;margin-bottom:.2em}
+  .bck{font-size:.72rem;color:#4a7c4a}
+  .divider{border:none;border-top:1px solid #e0d9cc;margin:1.4rem 0}
+  .verify-box{display:inline-block;border:1.5px solid #c8a84b;border-radius:8px;
+              padding:.8em 1.5em;background:#fdf8ee;text-align:center}
+  .vl{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#999;margin-bottom:.3em}
+  .vc{font-family:monospace;font-size:1.5rem;color:#7a5c00;font-weight:700;letter-spacing:.18em}
+  .vn{font-size:.68rem;color:#999;margin-top:.3em}
+  .footer{margin-top:2rem;font-size:.68rem;color:#bbb;text-align:center}
+  @media print{body{padding:24px 32px}@page{margin:.6in}}
+</style></head><body>
+<div class="meta"><span>KIN 610 · Chapter 16 · Factorial ANOVA</span><span>${date}</span></div>
+<h1>${name ? name + '\u2019s Badge Collection' : 'Badge Collection'}</h1>
+${sid ? `<p style="font-family:monospace;font-size:.8rem;color:#888;margin-bottom:.3em;">Student ID: ${sid}</p>` : ''}
+<p class="score">${scoreMsg}</p>
+<div class="grid">${badgesHTML}</div>
+<hr class="divider"/>
+${code ? `<div class="verify-box">
+  <div class="vl">Verification Code</div>
+  <div class="vc">${code}</div>
+  <div class="vn">Submit this code with your name to your instructor</div>
+</div>` : '<p style="color:#aaa;font-size:.8rem">Enter your name on slide 2 to generate a verification code.</p>'}
+<div class="footer">Generated by the KIN 610 Ch. 16 self-study deck &nbsp;·&nbsp; ${date}</div>
+<script>window.onload=function(){window.print()}<\/script>
+</body></html>`;
+
+  const win = window.open('', '_blank', 'width=760,height=680');
+  if (!win) { alert('Pop-up blocked. Please allow pop-ups for this page and try again.'); return; }
+  win.document.write(html);
+  win.document.close();
+}
+
+function resetBadges() {
+  // Clear all earned badges
+  _earned.clear();
+  // Reset all KC answer buttons: remove correct/wrong styling, re-enable, hide explanations
+  document.querySelectorAll('.kc-opt').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('correct', 'wrong');
+  });
+  document.querySelectorAll('.kc-explain').forEach(el => el.classList.remove('show'));
+  // Update shelf dots
+  updateAllShelves();
+  // Navigate back to slide 1 (index 0)
+  if (window._deck) window._deck.goTo(0);
+}
+
+function renderBadgeCollection() {
+  const nameEl = document.getElementById('student-name-input');
+  const idEl   = document.getElementById('student-id-input');
+  const name   = nameEl?.value.trim() || '';
+  const sid    = idEl?.value.trim() || '';
+  const headline = document.getElementById('badge-headline');
+  if (headline) headline.textContent = name ? `${name}'s Badge Collection` : 'Badge Collection';
+  const subEl = document.getElementById('badge-sub');
+  if (subEl) subEl.textContent = sid ? `Student ID: ${sid}` : '';
+
+  const grid = document.getElementById('badge-coll-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  Object.entries(BADGE_DEFS).forEach(([id, def]) => {
+    const isEarned = _earned.has(id);
+    const item = document.createElement('div');
+    item.className = 'ba-item ' + (isEarned ? 'earned' : 'locked');
+    item.innerHTML = `
+      <div class="ba-circle">
+        <div class="ba-circle-icon">${isEarned ? def.icon : '🔒'}</div>
+        <div class="ba-circle-ch">Ch. 16</div>
+      </div>
+      <div class="ba-title">${def.title}</div>
+      ${isEarned ? '<div class="ba-check">✓ Earned</div>' : ''}
+    `;
+    grid.appendChild(item);
+  });
+
+  const total = Object.keys(BADGE_DEFS).length;
+  const score = _earned.size;
+  const pct   = Math.round((score / total) * 100);
+  const ct    = document.getElementById('badge-score-ct');
+  const txt   = document.getElementById('badge-score-text');
+  if (ct)  ct.textContent  = score === total ? '🏆 All badges earned!' : `${score} of ${total} badges earned`;
+  if (txt) txt.textContent = score === total
+    ? (name ? `Outstanding, ${name}! You answered every KC question correctly.` : 'Outstanding! All questions correct.')
+    : (score === 0
+        ? 'Go back and try the Knowledge Check slides — answer correctly to collect badges.'
+        : `You earned ${pct}% of available badges. Review the KC slides you missed before class.`);
+
+  // Verification code — encodes student ID + badge pattern + secret key
+  const codeEl = document.getElementById('verify-code');
+  const codeWrap = document.getElementById('verify-wrap');
+  if (codeEl && codeWrap) {
+    if (sid) {
+      codeEl.textContent = genVerifyCode(sid, _earned);
+      codeWrap.style.display = '';
+    } else {
+      codeWrap.style.display = 'none';
+    }
+  }
+}
+
+/* ---- Knowledge Check answer handler ---- */
+function answerKC(id, btn, isCorrect) {
+  const opts = document.querySelectorAll(`#${id}-opts .kc-opt`);
+  const explain = document.getElementById(`${id}-explain`);
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    opts.forEach(o => { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+  }
+  if (explain) explain.classList.add('show');
+  if (isCorrect) awardBadge(id);
+}
+
+/* ---- Light / Dark mode toggle ---- */
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  document.getElementById('icon-moon').style.display = isLight ? 'none'  : '';
+  document.getElementById('icon-sun').style.display  = isLight ? ''      : 'none';
+  try { localStorage.setItem('kin610-theme', isLight ? 'light' : 'dark'); } catch(e){}
+}
+// Restore saved preference on load
+(function(){
+  try {
+    if (localStorage.getItem('kin610-theme') === 'light') {
+      document.body.classList.add('light-mode');
+      document.getElementById('icon-moon').style.display = 'none';
+      document.getElementById('icon-sun').style.display  = '';
+    }
+  } catch(e){}
+})();
+
+/* ---- Main Effects collapsing demo (slide 7) ---- */
+function runMeDemo() {
+  const demo = document.getElementById('me-demo');
+  const btn  = demo.querySelector('.me-btn');
+  if (btn.dataset.state === 'collapsed') {
+    // Reset
+    demo.classList.remove('collapsed');
+    btn.textContent = '▶ Collapse rows';
+    btn.dataset.state = 'expanded';
+  } else {
+    // Animate collapse
+    demo.classList.add('collapsed');
+    btn.textContent = '↺ Reset';
+    btn.dataset.state = 'collapsed';
+  }
+}
+
+function toggleTranscript() {
+  const panel = document.getElementById('notes-panel');
+  const dots  = document.getElementById('navdots');
+  const collapsed = panel.classList.toggle('collapsed');
+  dots.classList.toggle('shifted', collapsed);
+}
+
+const pres = new SlidePresentation();
+window._deck = pres; // exposed for resetBadges()
+</script>
+</body>
+</html>

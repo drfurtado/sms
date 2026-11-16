@@ -1,0 +1,550 @@
+---
+title: "SPSS Tutorial: Comparing Two Means"
+subtitle: "Conducting independent and paired t-tests in SPSS"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Conduct one-sample t-tests in SPSS
+* Conduct independent-samples t-tests in SPSS
+* Conduct paired-samples t-tests in SPSS
+* Interpret Levene's test for equality of variances
+* Choose between Student's t-test and Welch's t-test
+* Check normality assumptions using SPSS
+* Compute and interpret Cohen's d effect sizes
+* Create visualizations for group comparisons
+* Report results following APA guidelines
+:::
+
+## Overview
+
+Comparing means between groups or conditions is one of the most common statistical procedures in Movement Science research. SPSS provides comprehensive tools for conducting **one-sample t-tests** (comparing one group to a benchmark), **independent-samples t-tests** (comparing two separate groups), and **paired-samples t-tests** (comparing two related measurements). This tutorial demonstrates:
+
+* How to distinguish between independent and paired designs
+* How to perform and interpret both types of t-tests
+* How to check assumptions (normality, equal variances)
+* How to interpret Levene's test and choose appropriate test versions
+* How to compute effect sizes and confidence intervals
+* How to create effective visualizations for mean comparisons
+
+Understanding SPSS output for t-tests is critical because the software provides multiple versions of tests (Student's vs. Welch's) and assumption diagnostics that guide interpretation. Learning to read these outputs ensures you select the correct analysis and report results accurately.
+
+**Prerequisites:** Familiarity with SPSS data entry, descriptive statistics, and basic hypothesis testing concepts (see Chapter 10 and Chapter 13).
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`). Download it here: [core_session.csv](data/core_session.csv)
+
+For this tutorial, we will:
+
+1. **Independent-samples t-test**: Compare `sprint_20m_s` (20-m sprint time) between the **training** and **control** groups at pre-training (*N* = 60, 30 per group)
+2. **Paired-samples t-test**: Compare `sprint_20m_s` at **pre** vs. **post** across all participants with complete data (*N* = 55 pairs)
+3. **One-sample t-test**: Test whether mean `vo2_mlkgmin` differs from a population reference value of 40 mL·kg⁻¹·min⁻¹
+
+Open the file in SPSS using **File → Open → Data**, choose the CSV file type, and import using the Text Import Wizard.
+
+## Part 0: One-sample t-test {#part-0-one-sample-t-test}
+
+The **one-sample t-test** compares the mean of a single group to a known benchmark or population mean.
+
+### Example scenario
+
+We test whether the mean **maximal oxygen consumption (`vo2_mlkgmin`)** in our sample (*N* = 60) differs from a population reference value of **40 mL·kg⁻¹·min⁻¹**.
+
+### Procedure
+
+1. **Analyze → Compare Means → One-Sample T Test...**
+2. Move `vo2_mlkgmin` to the **Test Variable(s)** list.
+3. In the **Test Value** box, enter `40`.
+4. Ensure **Estimate effect sizes** is checked.
+5. Click **OK**.
+
+### Interpreting the output
+
+SPSS produces two main tables:
+
+#### Table 1: One-Sample Statistics
+
+Shows the sample mean, standard deviation, and standard error. If your sample mean is 42.5, you can see at a glance that it is higher than the test value of 40.
+
+#### Table 2: One-Sample Test
+
+* **t**: The test statistic (larger absolute values indicate stronger evidence against the null).
+* **df**: Degrees of freedom (*n* - 1).
+* **Sig. (2-tailed)**: The p-value. If $p < .05$, the difference is statistically significant.
+* **Mean Difference**: The difference between your sample mean and the test value.
+* **95% Confidence Interval**: The range of plausible values for the true population difference.
+
+### Reporting the results
+
+"The sample mean VO₂max (M = 42.5 mL/kg/min, SD = 5.2, n = 60) was significantly higher than the population reference value of 40 mL/kg/min, t(59) = 3.72, p < .001, mean difference = 2.5, 95% CI [1.16, 3.84], Cohen's d = 0.48."
+
+## Part 1: Independent-samples t-test
+
+The **independent-samples t-test** compares the means of two separate, unrelated groups (e.g., experimental vs. control, males vs. females, trained vs. untrained).
+
+### Example scenario
+
+We compare **20-meter sprint time (s)** between the **training group** (n = 30) and **control group** (n = 30) at baseline (pre-training) to determine whether the two groups started with equivalent sprint performance.
+
+### Data structure
+
+For independent-samples t-tests, your data should have:
+
+* **One grouping variable** (e.g., `group`) with two levels: `training` and `control`
+* **One continuous dependent variable** (e.g., `sprint_20m_s`)
+* Each row represents **one participant**
+
+Filter to pre-training: **Data → Select Cases → If: `time = 'pre'`**
+
+### Procedure
+
+1. **Analyze → Compare Means → Independent-Samples T Test...**
+2. Move `sprint_20m_s` to **Test Variable(s)**
+3. Move `group` to **Grouping Variable**
+4. Click **Define Groups...** and enter `control` and `training`
+5. Ensure **Estimate effect sizes** is checked (this will output Cohen's d and other effect size metrics directly).
+6. Click **Continue → OK**
+
+### Interpreting the output
+
+SPSS produces three main tables:
+
+#### Table 1: Group Statistics
+
+```
+Group Statistics
+            group      N    Mean   Std. Deviation   Std. Error Mean
+sprint_20m_s control   30   3.811  .340             .062
+             training  30   3.772  .373             .068
+```
+
+**Initial observation:** Control and training groups have nearly identical means at baseline (3.81 vs. 3.77 s), as expected for a pre-intervention comparison.
+
+#### Table 2: Levene's Test for Equality of Variances
+
+```
+Independent Samples Test
+Levene's Test for Equality of Variances
+                      F        Sig.
+Equal variances       0.029    .864
+assumed
+```
+
+**Decision rule:**
+
+* If Sig. (p-value) > .05: Assume equal variances (use "Equal variances assumed" row)
+* If Sig. (p-value) ≤ .05: Do not assume equal variances (use "Equal variances not assumed" row)
+
+**In this example:** p = .864 > .05, so we assume equal variances.
+
+::: callout-tip
+## Best practice: Use Welch's t-test by default
+
+Many statisticians recommend **always using Welch's t-test** ("Equal variances not assumed" row) because it is robust to unequal variances and performs well even when variances are equal. This is increasingly the default in modern statistical practice.
+:::
+
+#### Table 3: Independent Samples Test (t-test results)
+
+```
+Independent Samples Test
+t-test for Equality of Means
+
+                                t       df    Sig.      Mean       Std. Error   95% CI of the Difference
+                                              (2-tailed) Difference Difference   Lower    Upper
+Equal variances assumed         0.429   58    .669      .039       .091         -.145    .224
+Equal variances not assumed     0.429   57.5  .669      .039       .091         -.145    .224
+```
+
+**Key information:**
+
+* **t = 0.429**, **df = 58**, **p = .669**
+* **Mean Difference = 0.039 s** (negligible)
+* **95% CI**: [−0.145, 0.224] s (**includes zero** → not significant)
+
+### Decision and interpretation
+
+**Decision:** p = .669 > .05, so we **fail to reject H₀**
+
+**APA-style interpretation:**
+
+"Sprint time at baseline did not differ significantly between the control (M = 3.81 s, SD = 0.34, n = 30) and training groups (M = 3.77 s, SD = 0.37, n = 30), t(58) = 0.43, p = .669, mean difference = 0.04 s, 95% CI [−0.15, 0.22] s. This confirms that the two groups were equivalent at baseline."
+
+### Computing Cohen's d in SPSS
+
+Modern versions of SPSS (v27 and later) compute effect sizes automatically if you select the **Estimate effect sizes** option in the t-test dialog. It produces an "Independent Samples Effect Sizes" table.
+
+Look for the **Cohen's d** row and the **Point Estimate** column.
+
+**For this example:**
+The output will show a Point Estimate for Cohen's d of approximately 0.11.
+
+**Interpretation:** Cohen's d = 0.11 indicates a **negligible** effect size, consistent with the non-significant result and confirming the groups were well-matched at baseline.
+
+## Part 2: Paired-samples t-test
+
+The **paired-samples t-test** compares two related measurements on the same participants (e.g., pre-test vs. post-test, left vs. right limb).
+
+### Example scenario
+
+We compare **20-meter sprint time (s)** at **pre-training** vs. **post-training** across all participants with data at both time points (*N* = 55 pairs) to determine whether sprint performance changed over the study period.
+
+### Data structure
+
+For paired-samples t-tests, reshape the data to **wide format** so each participant has one row with `sprint_pre` and `sprint_post` columns. In SPSS, use **Data → Restructure** if your data are in long format.
+
+### Procedure
+
+1. **Analyze → Compare Means → Paired-Samples T Test...**
+2. Select both variables (e.g., `sprint_20m_s_pre` and `sprint_20m_s_post`)
+3. Click the arrow to move them to **Paired Variables** as a pair
+4. Ensure **Estimate effect sizes** is checked.
+5. **Options... → Continue**
+6. **OK**
+
+### Interpreting the output
+
+SPSS produces three main tables:
+
+#### Table 1: Paired Samples Statistics
+
+```
+Paired Samples Statistics
+                          Mean     N     Std. Deviation   Std. Error Mean
+Pair 1   sprint_pre       3.802   55     .365             .049
+         sprint_post      3.792   55     .402             .054
+```
+
+**Initial observation:** Mean sprint time changed minimally from pre (3.802 s) to post (3.792 s).
+
+#### Table 2: Paired Samples Correlations
+
+```
+Paired Samples Correlations
+                            N      Correlation   Sig.
+Pair 1   sprint_pre &       55     .920          <.001
+         sprint_post
+```
+
+* **Correlation = .920**: Very high positive correlation — individual sprint ability is stable across time
+* **Sig. < .001**: The correlation is statistically significant
+
+**Why this matters:** High pre-post correlations increase the statistical power of the paired t-test by reducing error variance.
+
+#### Table 3: Paired Samples Test
+
+```
+Paired Samples Test
+Paired Differences
+
+                        Mean    Std.      Std. Error   95% CI of the Difference   t       df    Sig.
+                                Deviation Mean         Lower      Upper                           (2-tailed)
+Pair 1  sprint_pre -    .010    .158      .021         -.033      .053            0.469   54    .641
+        sprint_post
+```
+
+**Key information:**
+
+* **Mean (of differences) = 0.010 s** (trivially small pre-post change)
+* **Std. Deviation = 0.158 s** (variability in individual changes)
+* **95% CI = [−0.033, 0.053]** (includes zero → not significant)
+* **t = 0.469**, **df = 54**, **p = .641**
+
+### Decision and interpretation
+
+**Decision:** p = .641 > .05, so we **fail to reject H₀**
+
+**APA-style interpretation:**
+
+"Sprint time did not change significantly from pre-training (M = 3.80 s, SD = 0.37) to post-training (M = 3.79 s, SD = 0.40), t(54) = 0.47, p = .641, mean difference = 0.01 s, 95% CI [−0.03, 0.05] s. The paired pre-post correlation was r = .92 (p < .001), confirming high individual consistency across time points."
+
+### Computing Cohen's d for paired samples
+
+Just like with the independent t-test, ensuring the **Estimate effect sizes** box is checked will generate a "Paired Samples Effect Sizes" table.
+
+Look for the **Cohen's d** row and the **Point Estimate** column.
+
+**For this example:**
+The output will show a Point Estimate for Cohen's d of approximately 0.06.
+
+**Interpretation:** Cohen's d = 0.06 indicates a **negligible** effect size, consistent with the non-significant result.
+
+## Part 3: Checking assumptions
+
+### Checking normality
+
+For **one-sample t-tests**, check normality of the single continuous variable.
+For **independent t-tests**, check normality separately for each group.
+For **paired t-tests**, check normality of the **difference scores** (Post − Pre).
+
+#### Visual inspection: Histograms and Q-Q plots
+
+**For one-sample and independent t-tests:**
+
+1. **Graphs → Legacy Dialogs → Histogram...**
+2. Select your dependent variable (e.g., `JumpHeight`)
+3. Check **Display normal curve**
+4. (For independent t-tests only) **Panels...**
+   - **Rows**: Select grouping variable (e.g., `Group`)
+   - **Continue**
+5. **OK**
+
+**For paired t-tests:**
+
+1. **Transform → Compute Variable...**
+2. Create a new variable: `Difference = GripPost - GripPre`
+3. **Graphs → Legacy Dialogs → Histogram...**
+4. Select `Difference`
+5. Check **Display normal curve**
+6. **OK**
+
+**Q-Q plots:**
+
+1. **Analyze → Descriptive Statistics → Q-Q Plots...**
+2. Move the variable to **Variables**
+3. **OK**
+
+**Interpretation:**
+
+* Histogram should be approximately bell-shaped
+* Q-Q plot: Points should fall roughly along the diagonal line
+* Minor deviations are acceptable, especially with n > 30
+
+#### Formal test: Shapiro-Wilk test
+
+**For one-sample and paired t-tests:**
+
+1. (For paired tests) First compute the difference score (see above)
+2. **Analyze → Descriptive Statistics → Explore...**
+3. Move variable (or `Difference`) to **Dependent List**
+4. Click **Plots...**
+   - Check **Normality plots with tests**
+   - **Continue**
+5. **OK**
+
+**For independent t-tests:**
+
+1. **Analyze → Descriptive Statistics → Explore...**
+2. Move dependent variable to **Dependent List**
+3. Move grouping variable to **Factor List**
+4. Click **Plots...**
+   - Check **Normality plots with tests**
+   - **Continue**
+5. **OK**
+
+**Interpreting Shapiro-Wilk output:**
+
+```
+Tests of Normality
+                Shapiro-Wilk
+                Statistic    df    Sig.
+sprint_20m_s   .986         60    .737
+```
+
+* **H₀**: Data are normally distributed
+* **H₁**: Data are not normally distributed
+
+**Decision rule:**
+
+* If Sig. > .05: Assume normality
+* If Sig. ≤ .05: Normality violated
+
+**In this example:** W = 0.986, p = .737 > .05, so sprint times are approximately normally distributed. Parametric t-test is appropriate.
+
+::: callout-warning
+## Robustness to violations
+
+T-tests are **robust to moderate violations of normality**, especially with larger samples (n > 30 per group). If normality is severely violated with small samples, consider:
+
+* **Transformations** (log, square root)
+* **Nonparametric alternatives** (Mann-Whitney U for independent, Wilcoxon signed-rank for paired)
+* **Bootstrap methods**
+:::
+
+## Part 4: Creating visualizations
+
+### Box plots and Histograms (One-sample)
+
+1. **Graphs → Legacy Dialogs → Boxplot...**
+2. Select **Simple** and **Summaries of separate variables**
+3. Move your variable to **Boxes Represent**
+4. **OK**
+
+### Box plots for independent groups
+
+1. **Graphs → Legacy Dialogs → Boxplot...**
+2. Select **Simple** and **Summaries of separate variables**
+3. **Define**
+4. Move dependent variable to **Boxes Represent**
+5. Move grouping variable to **Category Axis**
+6. **OK**
+
+### Error bar plots
+
+1. **Graphs → Legacy Dialogs → Error Bar...**
+2. Select **Simple** and **Summaries of separate variables**
+3. **Define**
+4. Move dependent variable to **Error Bars**
+5. Move grouping variable to **Category Axis**
+6. Under **Bars Represent**, select **Confidence interval for mean** (95%)
+7. **OK**
+
+### Pre-post line plots (paired designs)
+
+1. **Graphs → Legacy Dialogs → Line...**
+2. Select **Multiple** and **Summaries of separate variables**
+3. **Define**
+4. Move both variables (e.g., `GripPre` and `GripPost`) to **Lines Represent**
+5. **OK**
+
+::: callout-tip
+## Use Graph Board Template Chooser for modern graphics
+
+SPSS offers a newer graphing interface:
+
+* **Graphs → Chart Builder...**
+* Drag chart types to the canvas and customize
+
+However, legacy dialogs are often quicker for simple plots.
+:::
+
+## Part 5: Reporting guidelines
+
+### One-sample t-test report template
+
+"[Sample] (M = [mean], SD = [SD], n = [n]) [differed/did not differ] significantly from the [benchmark/population mean] of [value], t([df]) = [t-value], p = [p-value], d = [Cohen's d], 95% CI [lower, upper]."
+
+### Independent t-test report template
+
+"[Group 1] (M = [mean], SD = [SD], n = [n]) [differed/did not differ] significantly from [Group 2] (M = [mean], SD = [SD], n = [n]), t([df]) = [t-value], p = [p-value], [Cohen's d = ...], 95% CI [lower, upper]."
+
+**Example:**
+
+"Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34, n = 30) and training groups (M = 3.77 s, SD = 0.37, n = 30), t(58) = 0.43, p = .669, mean difference = 0.04 s, 95% CI [−0.15, 0.22] s, Cohen's d = 0.11."
+
+### Paired t-test report template
+
+"[Post-condition] (M = [mean], SD = [SD]) was significantly [higher/lower] than [pre-condition] (M = [mean], SD = [SD]), t([df]) = [t-value], p = [p-value], mean difference = [M_diff], 95% CI [lower, upper], [Cohen's d = ...]."
+
+**Example:**
+
+"Sprint time did not change significantly from pre-training (M = 3.80 s, SD = 0.37) to post-training (M = 3.79 s, SD = 0.40), t(54) = 0.47, p = .641, mean difference = 0.01 s, 95% CI [−0.03, 0.05] s, Cohen's d = 0.06."
+
+## Part 6: Common issues and troubleshooting
+
+### Issue 1: Levene's test is significant (p < .05)
+
+**Solution:** Use **Welch's t-test** (read the "Equal variances not assumed" row in the output). This is the default recommendation in modern practice.
+
+### Issue 2: Very small sample sizes (n < 15 per group)
+
+**Solution:**
+
+* Check normality carefully using Q-Q plots and Shapiro-Wilk test
+* If normality is violated, consider **nonparametric alternatives**:
+  - Mann-Whitney U test (for independent samples)
+  - Wilcoxon signed-rank test (for paired samples)
+
+**To run Mann-Whitney U in SPSS:**
+
+1. **Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples...**
+2. Move dependent variable to **Test Variable List**
+3. Move grouping variable to **Grouping Variable**
+4. **Define Groups...**
+5. Select **Mann-Whitney U**
+6. **OK**
+
+### Issue 3: Missing data in paired tests
+
+**Problem:** Paired t-tests require complete pairs. If one measurement is missing, SPSS excludes the entire pair.
+
+**Solution:**
+
+* Use **listwise deletion** (SPSS default) if missing data are minimal
+* Consider multiple imputation for systematic missing data
+* Report how many cases were excluded
+
+### Issue 4: One-tailed vs. two-tailed tests
+
+SPSS reports **two-tailed p-values** by default. If you have a strong directional hypothesis:
+
+* **One-tailed p-value = Two-tailed p-value / 2**
+
+**Example:** If SPSS reports p = .042 (two-tailed), the one-tailed p = .021.
+
+::: callout-warning
+## Use two-tailed tests by default
+
+Only use one-tailed tests if you have strong a priori theoretical reasons and would not interpret effects in the opposite direction.
+:::
+
+## Practice exercises
+
+### Exercise 0: One-sample t-test
+
+**Scenario:** Compare the average daily caloric intake of 25 soccer players (M = 2850 kcal, SD = 450) to a recommended target of 3000 kcal.
+
+1. Enter the data into SPSS
+2. Run a one-sample t-test with a Test Value of 3000
+3. Ensure "Estimate effect sizes" is checked
+4. Write an APA-style results statement
+
+### Exercise 1: Independent t-test
+
+**Scenario:** Compare **reaction time (ms)** between 20 young adults (M = 285, SD = 32) and 18 older adults (M = 340, SD = 45).
+
+1. Enter the data into SPSS
+2. Run an independent-samples t-test with "Estimate effect sizes" checked
+3. Check Levene's test and determine which row to report
+4. Locate Cohen's d in the Effect Sizes table
+5. Write an APA-style results statement
+
+### Exercise 2: Paired t-test
+
+**Scenario:** Measure **VO₂max (mL/kg/min)** before and after 10 weeks of interval training in 15 runners.
+
+* Pre: M = 52.3, SD = 6.1
+* Post: M = 58.7, SD = 6.5
+
+1. Enter the paired data
+2. Compute a difference score
+3. Check normality of the differences
+4. Run a paired-samples t-test with "Estimate effect sizes" checked
+5. Locate Cohen's d in the Effect Sizes table
+6. Write an APA-style results statement
+
+### Exercise 3: Assumption checking
+
+Use the **Training Study Dataset** and check:
+
+1. Normality for each group using histograms, Q-Q plots, and Shapiro-Wilk tests
+2. Homogeneity of variance using Levene's test
+3. Decide whether assumptions are met or if corrections/alternatives are needed
+
+## Summary
+
+This tutorial covered:
+
+* **One-sample t-tests**: Comparing one group to a benchmark
+* **Independent-samples t-tests**: Comparing two separate groups
+* **Paired-samples t-tests**: Comparing two related measurements
+* **Assumption checking**: Normality (Shapiro-Wilk, Q-Q plots) and equal variances (Levene's test)
+* **Effect sizes**: Computing and interpreting Cohen's d
+* **Visualizations**: Box plots, error bar plots, and line plots
+* **Reporting**: APA-style guidelines for presenting t-test results
+
+Mastering these procedures in SPSS enables you to conduct rigorous group comparisons, check assumptions, and communicate findings transparently in Movement Science research.
+
+::: callout-note
+## Additional resources
+
+For more on t-tests and mean comparisons, see:
+
+* Chapter 10: Hypothesis Testing and Statistical Inference
+* Chapter 13: Comparing Two Means
+* Field, A. (2018). *Discovering Statistics Using IBM SPSS Statistics* (5th ed.)
+* Pallant, J. (2020). *SPSS Survival Manual* (7th ed.)
+:::

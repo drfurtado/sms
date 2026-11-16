@@ -1,0 +1,207 @@
+---
+title: "SPSS Tutorial: Reliability Analysis"
+subtitle: "Computing ICC, SEM, MDC, and Bland-Altman limits of agreement in SPSS"
+---
+
+::: {.callout-note icon=false}
+## Learning objectives
+
+By the end of this tutorial, you will be able to:
+
+* Restructure long-format data to wide format for reliability analysis.
+* Run ICC using SPSS *Analyze → Scale → Reliability Analysis* and select the correct model.
+* Obtain SEM and MDC₉₅ using the Statistical Calculators appendix or SPSS 31+.
+* Conduct Bland-Altman analysis using SPSS paired t-test and Explore procedures.
+* Produce and interpret a Bland-Altman scatter plot in SPSS.
+* Write a complete APA-style reliability report.
+:::
+
+## Overview
+
+This tutorial demonstrates a complete reliability analysis for `strength_kg` using the control group's pre-test and mid-test measurements as a test-retest dataset (*n* = 30, no intervening intervention). The same workflow applies to any two-occasion, single-variable reliability study.
+
+**Variable**: `strength_kg`
+**Occasions**: Pre-test (occasion 1), mid-test (occasion 2)
+**Group**: Control only (*n* = 30)
+**Goal**: Compute ICC(2,1), SEM, MDC₉₅, and Bland-Altman limits of agreement
+
+---
+
+## Part 1: Data preparation
+
+### Step 1: Filter to the control group
+
+1. Click **Data → Select Cases**
+2. Select **If condition is satisfied → If...**
+3. Enter: `group = "control"` (or the coded value used in your file)
+4. Click **Continue → OK**
+
+### Step 2: Restructure to wide format
+
+The dataset must have one row per participant with separate columns for each test occasion. If your data are in long format:
+
+1. Click **Data → Restructure → Restructure selected cases into variables → Next**
+2. Move `id` to **Identifier Variable(s)**
+3. Move `time` to **Index Variable**
+4. Click through remaining dialogs → **Finish**
+
+After restructuring, rename the columns in **Variable View**:
+- The column corresponding to `pre` → `strength_pre`
+- The column corresponding to `mid` → `strength_mid`
+
+Verify the mapping by inspecting the first few rows.
+
+### Step 3: Compute the difference and mean scores
+
+These variables are needed for the Bland-Altman analysis in Part 3.
+
+1. Click **Transform → Compute Variable**
+2. **Target Variable**: `strength_diff` — **Numeric Expression**: `strength_mid - strength_pre`
+3. Click **OK**
+4. Repeat: **Target Variable**: `strength_mean` — **Numeric Expression**: `(strength_pre + strength_mid) / 2`
+5. Click **OK**
+
+---
+
+## Part 2: Intraclass Correlation Coefficient
+
+### Step 4: Run ICC in SPSS
+
+1. Click **Analyze → Scale → Reliability Analysis**
+2. Move `strength_pre` and `strength_mid` to the **Items** box
+3. Set **Model** to **Intraclass correlation coefficient**
+4. Click **Statistics**:
+   - Under *Intraclass Correlation Coefficient*, set:
+     - **Model**: Two-Way Mixed (for ICC(2,1) — same assessor on all participants, assessor treated as fixed)
+     - **Type**: Absolute Agreement
+     - **Confidence interval**: 95%
+     - **Test value**: 0
+   - Click **Continue**
+5. Check **Descriptives for: Item**, **Scale**, **Scale if item deleted**
+6. Click **OK**
+
+::: callout-tip
+## Choosing the ICC model in SPSS
+
+SPSS offers three model options that map to the Shrout & Fleiss (1979) taxonomy:
+
+| SPSS model | Shrout & Fleiss equivalent | When to use |
+|---|---|---|
+| One-Way Random | ICC(1,1) | Different raters for each participant |
+| Two-Way Random | ICC(2,1) | Same raters, raters = random sample |
+| Two-Way Mixed | ICC(3,1) | Same raters, raters = fixed (specific to this study) |
+
+For most test-retest reliability studies in movement science where the same assessor conducts both sessions and you want results to generalize, **Two-Way Mixed** with **Absolute Agreement** is most commonly reported as ICC(2,1). Check your study design against @koo2016 to confirm the appropriate selection.
+:::
+
+### Step 5: Interpret ICC output
+
+SPSS produces the following *Intraclass Correlation Coefficient* table:
+
+| | ICC | 95% CI Lower | 95% CI Upper | F | df1 | df2 | p |
+|---|---|---|---|---|---|---|---|
+| Single Measures | .996 | .993 | .998 | 276.54 | 29 | 29 | < .001 |
+| Average Measures | .998 | .996 | .999 | 276.54 | 29 | 29 | < .001 |
+
+**Key values to record**:
+- **Single Measures ICC** = .996 — this is the value to report; it reflects reliability of *one* measurement, which is what will be used in the study
+- **95% CI** = [.993, .998] — narrow interval confirming excellent precision of the ICC estimate
+- Classify using @koo2016 benchmarks: ICC > .90 = **Excellent**
+
+---
+
+## Part 3: Standard Error of Measurement and MDC₉₅
+
+SPSS does not compute SEM or MDC₉₅ directly from the Reliability Analysis output. Two options are available:
+
+1. **Statistical Calculators appendix** — The interactive reliability calculator in the [Statistical Calculators](appendix-statistical-calculators.qmd) appendix accepts the ICC and pooled SD and returns SEM and MDC₉₅ automatically.
+2. **SPSS 31 and later** — *Analyze → Power Analysis* includes a reliability module that reports SEM alongside ICC.
+
+For reference, the formulas are:
+
+$$\text{SEM} = SD_{\text{pooled}} \times \sqrt{1 - \text{ICC}}$$
+
+$$\text{MDC}_{95} = \text{SEM} \times 1.96 \times \sqrt{2}$$
+
+The pooled SD is obtained from the **Item Statistics** table in the SPSS output (average of the two SD values). For `strength_kg`: pooled SD ≈ 13.49 kg, ICC = .996, giving **SEM = 0.82 kg** and **MDC₉₅ = 2.26 kg**.
+
+---
+
+## Part 4: Bland-Altman analysis
+
+### Step 6: Test for systematic bias (paired t-test on difference scores)
+
+1. Click **Analyze → Compare Means → Paired-Samples T Test**
+2. Move `strength_mid` and `strength_pre` as a pair to the **Paired Variables** box
+3. Click **OK**
+
+**Output to read**:
+
+| | Mean | SD | SE | t | df | p (2-tailed) |
+|---|---|---|---|---|---|---|
+| strength_mid − strength_pre | 0.517 | 1.153 | 0.211 | 2.45 | 29 | .021 |
+
+The mean difference (bias) is +0.517 kg and is statistically significant (*p* = .021), indicating a small but real systematic tendency for mid-test scores to be slightly higher than pre-test scores. This likely reflects a minor familiarization effect.
+
+### Step 7: Obtain the limits of agreement
+
+The limits of agreement are computed from the mean difference and its SD (both visible in the paired t-test output):
+
+$$\text{LoA} = \bar{d} \pm 1.96 \times SD_d = 0.517 \pm 1.96 \times 1.153$$
+
+Use the [Statistical Calculators](appendix-statistical-calculators.qmd) appendix or SPSS 31+ to obtain these values without hand arithmetic. For reference, the result is **LoA = [−1.74, +2.78] kg**.
+
+You can also verify the SD of differences by running:
+
+1. Click **Analyze → Descriptive Statistics → Explore**
+2. Move `strength_diff` to **Dependent List**
+3. Click **OK** and read the SD from the *Descriptives* table
+
+### Step 8: Produce the Bland-Altman scatter plot
+
+1. Click **Graphs → Legacy Dialogs → Scatter/Dot → Simple Scatter → Define**
+2. Move `strength_mean` to **X Axis**
+3. Move `strength_diff` to **Y Axis**
+4. Click **OK**
+5. Double-click the chart to open the Chart Editor
+6. Add reference lines for the bias and limits of agreement:
+   - Click **Options → Y Axis Reference Line**
+   - Add three lines: one at Y = 0.517 (bias), one at Y = 2.777 (upper LoA), one at Y = −1.743 (lower LoA)
+   - Style the bias line as solid and the LoA lines as dashed
+7. Add axis labels and a title, then export via **File → Export**
+
+**What to look for in the plot**:
+- Are the points randomly scattered around the bias line (desirable), or do they show a pattern (e.g., larger differences at higher means — heteroscedasticity)?
+- Are any points outside the limits of agreement? Approximately 5% (1–2 out of 30) is expected by chance.
+
+---
+
+## Part 5: APA-style write-up
+
+> Test-retest reliability of the `strength_kg` assessment was evaluated in 30 control-group participants measured at two occasions separated by approximately six weeks. ICC(2,1) absolute agreement (single measures) was computed using the Two-Way Mixed model in SPSS following the guidelines of @koo2016. Reliability was excellent, ICC(2,1) = .996 (95% CI [.993, .998]). The SEM was 0.82 kg and the MDC₉₅ was 2.26 kg, indicating that an individual strength change must exceed 2.26 kg to be attributable to genuine change rather than measurement error with 95% confidence. Bland-Altman analysis revealed a small systematic bias of +0.52 kg (mid-test > pre-test), *t*(29) = 2.45, *p* = .021, with 95% limits of agreement of −1.74 to +2.78 kg. The limits of agreement were interpreted as acceptable for a study in which training-induced strength gains are expected to substantially exceed 2.78 kg.
+
+---
+
+## Troubleshooting
+
+**"The Reliability Analysis menu is greyed out"**: *Analyze → Scale → Reliability Analysis* requires at least two items (variables) to be in the Items box. Confirm that both `strength_pre` and `strength_mid` have been moved there before attempting to run the analysis.
+
+**"My ICC value is very different from what I expected"**: Double-check the model selection (One-Way Random, Two-Way Random, or Two-Way Mixed) and the type (Consistency vs. Absolute Agreement). Two-Way Mixed Absolute Agreement will always produce the most conservative (lowest) ICC; One-Way Random Consistency will produce the highest. For test-retest with a single assessor, Two-Way Mixed Absolute Agreement is the standard choice.
+
+**"The paired t-test shows a significant bias — should I still report ICC?"**: Yes — report both, and note the systematic bias. A significant bias is not a reason to abandon ICC; it is a separate finding that should be described alongside the ICC and addressed in your protocol (e.g., by adding a familiarization session). ICC and Bland-Altman analysis are complementary, not interchangeable.
+
+**"I have three test occasions, not two — how do I run ICC?"**: For three or more occasions, move all three variables into the Items box in *Analyze → Scale → Reliability Analysis* and select the same ICC model. SPSS computes the ICC across all occasions simultaneously, treating it as a multi-rater design. The interpretation is the same: the resulting ICC reflects the expected reliability of a single-occasion measurement.
+
+**"The difference scores appear to spread out more at higher means (heteroscedasticity)"**: This suggests that measurement error is proportional to score magnitude, which violates the assumption of constant variance underlying the standard Bland-Altman analysis. In this case, log-transform both `strength_pre` and `strength_mid` before computing the difference and mean variables, then rerun the Bland-Altman analysis on the log-transformed scores. Back-transform the limits of agreement to the original scale for reporting. See @blandaltman1986 for guidance.
+
+---
+
+## Practice exercises
+
+**Exercise 1**: Repeat the full reliability analysis (ICC, SEM, MDC₉₅, Bland-Altman) for `vo2_mlkgmin` using the control group's pre- and mid-test values. Compare your ICC and limits of agreement to those for `strength_kg`. What does the difference in reliability tell you about the relative measurement precision of the two instruments?
+
+**Exercise 2**: Using your MDC₉₅ values for `vo2_mlkgmin`, revisit the training group's mean VO₂max change from pre- to post-test (compute from the dataset). Does the group-level mean change exceed the MDC₉₅? What does this mean for interpreting individual responses to training?
+
+**Exercise 3**: Compute the ICC for `sprint_20m_s` (control group, pre vs. mid). Before running the analysis, inspect the Bland-Altman plot for this variable and determine whether heteroscedasticity might be present. Describe the pattern you observe and state whether log-transformation would be warranted.
+
+**Exercise 4**: A new graduate student in your lab suggests that since Pearson *r* between pre- and mid-test `strength_kg` scores is *r* = .997, there is no need to report ICC separately. Write 3–4 sentences explaining why this reasoning is incorrect, referencing the specific limitation of Pearson *r* in reliability assessment and at least one alternative finding (from the Bland-Altman analysis) that the Pearson *r* would have missed.

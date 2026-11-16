@@ -1,0 +1,151 @@
+---
+title: "Core Dataset Overview"
+subtitle: "Mixed Neuromuscular Training Study in Recreationally Active Adults"
+---
+
+## Purpose of this page
+
+This page is an orientation guide to the Core Dataset used throughout the book. It focuses on the *study story*, *file structure*, and *how to navigate repeated measures*. For precise variable definitions, units, allowed values, and missing-data conventions, use the **Core Dataset Codebook**.
+
+::: callout-tip
+## Where to look for variable details
+
+Use the **Core Dataset Codebook** whenever you need to confirm:
+- what a variable represents,
+- its units,
+- its type and measurement scale,
+- allowed values or plausible ranges,
+- missing value conventions.
+:::
+
+## Study story (high level)
+
+The Core Dataset represents a Movement Science study of recreationally active adults completing a 6-week mixed neuromuscular training program.
+
+### Design
+
+- **Between-subjects factor:** training vs control
+- **Within-subjects factor:** pre, mid, post
+- **Some outcomes are collected in repeated trials:** 3 trials per time point
+
+The dataset is intentionally designed to support most topics in an introductory statistics sequence, including repeated measures, relationships and prediction, and reliability concepts.
+
+::: callout-note
+## Important clarification
+
+This dataset is **synthetic**. It is created for teaching and demonstration. It is designed to behave like realistic Movement Science data, but it does not represent real people.
+:::
+
+## Files included and when to use each
+
+The Core Dataset is stored as three CSV files.
+
+::: callout-tip
+## Downloading CSV files
+Some Internet browsers may try to open CSV files as text. To avoid this, right-click the link and choose "Save link as..." or similar wording, depending on your browser.
+:::
+
+### 1) Participant table: `core_participants.csv`
+
+Click to download: [core_participants.csv](data/core_participants.csv)
+
+Use this file for describing the sample at baseline (participant characteristics).
+
+- **One row per participant**
+- **Key:** `id`
+
+### 2) Session table: `core_session.csv`
+
+Click to download: [core_session.csv](data/core_session.csv)
+
+Use this file for most analyses that treat each time point as a single observation per participant (for example pre vs post comparisons, repeated measures designs, or correlations using session-level measures).
+
+- **Up to three rows per participant** (pre, mid, post)
+- **Key:** `id + time`
+
+### 3) Trial table: `core_trials.csv`
+
+Click to download: [core_trials.csv](data/core_trials.csv)
+
+Use this file when you need to work with repeated attempts within each time point (for example reliability, within-session patterns, or comparing trial summaries like mean of 3 vs best of 3).
+
+- **Up to nine rows per participant** (3 time points × 3 trials)
+- **Key:** `id + time + trial`
+
+## Keys, identifiers, and repeated measures
+
+A **key** is the set of columns that uniquely identifies each row. Keys are essential because they prevent accidental duplication and help you correctly handle repeated measures.
+
+```{dot}
+//| eval: false
+//| echo: false
+digraph G {
+  rankdir=TD;
+  node [shape=box, style="rounded,filled", fillcolor=white];
+
+  A [label="id"];
+  B [label="Participants\n(one row per id)"];
+  C [label="Sessions\n(three rows per id:\npre, mid, post)"];
+  D [label="Trials\n(three rows per session:\ntrial 1, 2, 3)"];
+
+  A -> B;
+  A -> C;
+  C -> D;
+}
+```
+## Unit of analysis reminder
+Many statistical methods in this book assume the participant is the independent unit. Trials are repeated observations nested within participants. Treating trials as independent cases can exaggerate certainty and distort results.
+
+## Working with trial data: two common strategies
+You will see two defensible approaches in later chapters, depending on the research question.
+
+## Strategy A: Keep trial-level data
+Use trial-level data when you care about:
+
+- within-session patterns (fatigue, learning, adaptation across attempts)
+- measurement consistency and reliability concepts
+- variability across trials as part of performance
+- variability across trials as part of performance
+
+## Strategy B: Summarize trials into a session value
+Use trial summaries when you want one value per participant per time point.
+
+Common summaries:
+
+- mean of 3 trials (typical performance)
+- best of 3 trials (capacity)
+- median of 3 trials (robust typical performance)
+
+::: callout-tip
+## Book convention
+Unless a chapter is explicitly about trial-to-trial patterns or reliability, we will often summarize trial outcomes into one session value (usually mean of trials) so the analysis aligns with participant-level inference.
+:::
+
+## Minimal starting workflow (recommended)
+If you are new to datasets with repeated measures:
+
+1. Start with core_session.csv and practice describing and visualizing distributions.
+2. Practice pre vs post comparisons and relationships using session-level variables.
+3. Then bring in core_trials.csv to learn how trial summaries are created and how trial-level patterns can be visualized.
+
+## Suggested first activities (for students)
+1. Identify the key for each file and explain why each key is different.
+2. Write one sentence describing the study design (between-subjects factor and within-subjects factor).
+3. Explain why trial data are not automatically independent observations.
+4. Choose a trial-based outcome and argue for mean of trials vs best of trials, depending on a research question.
+
+## Where this dataset appears in the book
+
+- Chapters 2–3: dataset structure, tables, visualization, screening
+- Chapters 4–7: center, variability, normal curve, standard scores
+- Chapters 8–9: sampling error, confidence intervals
+- Chapter 11: correlation and bivariate regression (`strength_kg` and `jump_cm` at the pre-training time point; also used in the [SPSS Tutorial: Correlation and Bivariate Regression](appendix-spss-correlation-regression.qmd))
+- Chapters 10–16: t tests and ANOVA family, repeated measures, factorial designs, ANCOVA
+- Chapter 18: reliability using trial data
+- Chapter 19: nonparametric methods using ordinal and count outcomes
+
+::: callout-tip
+## Next step
+
+Keep this overview bookmarked. Use it when you feel unsure about which file to use or how repeated measures are structured. Use the Codebook when you need precise variable definitions and units.
+:::

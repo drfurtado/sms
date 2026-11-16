@@ -1,0 +1,553 @@
+---
+title: "Hypothesis Testing and Statistical Inference"
+subtitle: "Making principled decisions under uncertainty in Movement Science research"
+---
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to conduct hypothesis tests in SPSS! See the **[SPSS Tutorial: Hypothesis Testing](appendix-spss-hypothesis-testing.qmd)** in the appendix for step-by-step instructions on performing t-tests, interpreting p-values, and making statistical decisions.
+:::
+
+## Chapter roadmap
+
+Hypothesis testing provides a formal framework for making decisions about populations based on sample data [@moore_ips; @cohen1994]. While confidence intervals (Chapter 9) emphasize estimation and uncertainty, hypothesis testing focuses on yes/no decisions: Does a training intervention improve performance? Are two groups different? Is a correlation different from zero? [@field_discovering; @cumming2014]. The logic is straightforward: we propose two competing hypotheses (a **null hypothesis** claiming no effect and an **alternative hypothesis** claiming an effect exists), collect sample data, and use probability theory to determine which hypothesis the data support [@moore_ips; @fisher1925]. If the observed data would be very unlikely assuming the null hypothesis is true (typically less than 5% probability), we reject the null hypothesis in favor of the alternative [@neyman1933; @gigerenzer2004]. This procedure, called **null hypothesis significance testing (NHST)**, has dominated scientific inference for nearly a century, despite ongoing debates about its interpretation and misuse [@schmidt1996; @wasserstein2016].
+
+Understanding hypothesis testing requires distinguishing between two types of errors: **Type I errors** (false positives—concluding an effect exists when it doesn't) and **Type II errors** (false negatives—failing to detect a real effect) [@neyman1933; @cohen1988]. Researchers control Type I error rates by choosing a significance level (α, typically 0.05), which defines how rare an outcome must be before we reject the null hypothesis [@fisher1925; @moore_ips]. However, minimizing Type I errors increases Type II errors, creating a fundamental trade-off [@cohen1988; @maxwell2008]. In Movement Science, where sample sizes are often modest and effect sizes variable, understanding statistical power (the probability of detecting real effects) is critical for designing informative studies [@button2013; @batterham2006]. A well-powered study with n = 100 participants may reliably detect a meaningful training effect, while an underpowered pilot study with n = 10 may fail to detect the same effect—not because the effect doesn't exist, but because the sample is too small [@maxwell2008].
+
+This chapter explains the logic and mechanics of hypothesis testing, contrasts frequentist and Bayesian approaches, and demonstrates how to interpret **p-values** responsibly [@wasserstein2016; @wasserstein2019]. You will learn when to use one-tailed versus two-tailed tests, how degrees of freedom affect critical values, and why statistical significance does not equal practical importance [@cohen1994; @lakens2013]. The goal is not to apply hypothesis testing mechanically, but to understand what p-values do and do not tell us, recognize the limitations of dichotomous thinking, and integrate hypothesis testing with confidence intervals for more complete inference [@cumming2014; @kline2013]. By the end, you will be equipped to conduct, interpret, and critically evaluate hypothesis tests in Movement Science contexts, balancing statistical rigor with biological and practical significance [@batterham2006; @hopkins2009].
+
+By the end of this chapter, you will be able to:
+
+* Explain the logic of null hypothesis significance testing (NHST).
+* Distinguish between null and alternative hypotheses and formulate them correctly.
+* Define Type I and Type II errors and understand the trade-offs between them.
+* Compute and interpret p-values in the context of hypothesis tests.
+* Conduct one-sample, two-sample, and paired t-tests.
+* Understand when to use one-tailed versus two-tailed tests.
+* Explain the concept of statistical power and its importance in research design.
+* Distinguish between statistical significance and practical significance.
+
+## Workflow for hypothesis testing
+
+Use this sequence when conducting a hypothesis test:
+
+1. **State the research question** clearly (e.g., "Does plyometric training improve vertical jump height?").
+2. **Formulate hypotheses**: Write the null hypothesis (H₀) and alternative hypothesis (H₁).
+3. **Choose a significance level** (α, typically 0.05).
+4. **Select the appropriate test** (e.g., independent t-test, paired t-test).
+5. **Compute the test statistic** and corresponding p-value.
+6. **Make a decision**: Reject H₀ if p < α; otherwise, fail to reject H₀.
+7. **Interpret in context**: Consider effect size, confidence intervals, and practical significance.
+
+## The logic of hypothesis testing
+
+Hypothesis testing rests on **proof by contradiction** [@moore_ips; @fisher1925]. We assume the null hypothesis (no effect) is true, then ask: "How likely are our observed data if the null hypothesis were true?" If the data are very unlikely under the null hypothesis (e.g., p < 0.05), we reject the null hypothesis and conclude that an effect probably exists [@neyman1933].
+
+### Null and alternative hypotheses
+
+Every hypothesis test involves two competing hypotheses [@moore_ips]:
+
+1. **Null hypothesis (H₀)**: A statement of "no effect," "no difference," or "no relationship." It represents the status quo or the assumption that nothing unusual is happening.
+   - Example: "The mean vertical jump height is equal to 50 cm" (H₀: μ = 50)
+   - Example: "There is no difference in reaction time between young and older adults" (H₀: μ₁ = μ₂)
+
+2. **Alternative hypothesis (H₁ or Hₐ)**: A statement that contradicts the null hypothesis. It represents the effect, difference, or relationship we are testing for.
+   - Example: "The mean vertical jump height is not equal to 50 cm" (H₁: μ ≠ 50)
+   - Example: "There is a difference in reaction time between young and older adults" (H₁: μ₁ ≠ μ₂)
+
+The null hypothesis is the hypothesis **we test** by computing a p-value. The alternative hypothesis is what we conclude **if we reject the null** [@fisher1925; @neyman1933].
+
+::: callout-important
+## The null hypothesis is never "proven"
+
+We never "accept" or "prove" the null hypothesis [@fisher1925; @moore_ips]. We either **reject it** (sufficient evidence against it) or **fail to reject it** (insufficient evidence against it). Failing to reject H₀ does not mean H₀ is true—it means the data are compatible with H₀ [@altman1995; @goodman2008].
+:::
+
+### One-tailed versus two-tailed tests
+
+The **directionality** of the alternative hypothesis determines whether we use a **one-tailed** or **two-tailed** test [@moore_ips; @field_discovering].
+
+**Two-tailed test (default):**
+
+* H₀: μ = μ₀ (or μ₁ = μ₂)
+* H₁: μ ≠ μ₀ (or μ₁ ≠ μ₂)
+* Tests for **any difference** in either direction
+* Example: "Does training affect reaction time?" (could improve or worsen)
+
+**One-tailed test (directional):**
+
+* H₀: μ ≤ μ₀
+* H₁: μ > μ₀
+* Tests for a difference **in a specific direction**
+* Example: "Does training **decrease** reaction time?"
+
+::: callout-warning
+## Use two-tailed tests by default
+
+One-tailed tests are only appropriate when you have strong theoretical or practical reasons to test a directional hypothesis **and you would not care about effects in the opposite direction** [@moore_ips; @ruxton2006]. Two-tailed tests are more conservative and align with the typical goal of detecting any effect [@lakens2016].
+:::
+
+### The p-value: What it is and what it isn't
+
+The **p-value** is the probability of observing data as extreme as (or more extreme than) what we actually observed, **assuming the null hypothesis is true** [@wasserstein2016; @goodman2008].
+
+**What a p-value tells you:**
+
+* p = 0.03 means: "If the null hypothesis were true, there is a 3% chance we would observe data this extreme or more extreme by random sampling variability alone."
+* Small p-values (e.g., p < 0.05) suggest the data are **inconsistent** with the null hypothesis [@fisher1925].
+
+**What a p-value does NOT tell you:**
+
+* **NOT** the probability that the null hypothesis is true [@goodman2008; @wasserstein2016]
+* **NOT** the probability of a Type I error for this specific test [@gigerenzer2004]
+* **NOT** the size or importance of an effect [@cohen1994; @wasserstein2019]
+* **NOT** proof that a hypothesis is true or false [@fisher1925; @greenland2016]
+
+::: callout-important
+## The p-value is NOT the probability that H₀ is true
+
+A common misinterpretation: "p = 0.03 means there is a 3% chance the null hypothesis is true." **Wrong.** The null hypothesis is either true or false (we don't know which). The p-value is the probability of the **data**, not the probability of the **hypothesis** [@goodman2008; @wasserstein2016].
+:::
+
+## Type I and Type II errors
+
+Every hypothesis test can result in two types of errors [@neyman1933; @cohen1988]:
+
+| **Reality**         | **Decision: Fail to Reject H₀** | **Decision: Reject H₀**        |
+|---------------------|----------------------------------|--------------------------------|
+| H₀ is true          | ✅ Correct decision             | ❌ **Type I error** (α)        |
+| H₀ is false (H₁ true) | ❌ **Type II error** (β)        | ✅ Correct decision (Power)   |
+
+### Type I error (false positive)
+
+A **Type I error** occurs when we **reject the null hypothesis when it is actually true** [@neyman1933; @moore_ips]. In other words, we conclude an effect exists when it doesn't.
+
+* **Symbol**: α (alpha)
+* **Example**: Concluding a training program improves strength when it actually has no effect
+* **Controlled by**: The significance level (e.g., α = 0.05 means we accept a 5% risk of Type I error)
+
+### Type II error (false negative)
+
+A **Type II error** occurs when we **fail to reject the null hypothesis when the alternative hypothesis is actually true** [@cohen1988; @neyman1933]. In other words, we miss a real effect.
+
+* **Symbol**: β (beta)
+* **Example**: Concluding a training program has no effect when it actually does improve strength
+* **Related to**: Statistical power (Power = 1 − β)
+
+### Statistical power
+
+**Statistical power** is the probability of correctly rejecting the null hypothesis when the alternative hypothesis is true [@cohen1988; @maxwell2008]. It represents the ability of a study to detect a real effect.
+
+$$
+\text{Power} = 1 - \beta
+$$
+
+**Factors affecting power:**
+
+1. **Sample size (n)**: Larger samples → higher power [@cohen1988]
+2. **Effect size**: Larger effects → easier to detect → higher power [@lakens2013]
+3. **Significance level (α)**: Higher α → higher power (but more Type I errors) [@maxwell2008]
+4. **Variability**: Lower variability → higher power [@button2013]
+
+::: callout-tip
+## Recommended power levels
+
+Aim for **Power ≥ 0.80** (80% chance of detecting a real effect) when planning studies [@cohen1988]. Underpowered studies (Power < 0.50) are unlikely to detect real effects, wasting resources and producing unreliable findings [@button2013; @maxwell2008].
+:::
+
+### The trade-off between Type I and Type II errors
+
+Reducing the risk of Type I errors (by using a smaller α, e.g., 0.01 instead of 0.05) **increases** the risk of Type II errors [@neyman1933; @lakens2018]. Conversely, increasing power (reducing Type II errors) by increasing α makes Type I errors more likely [@maxwell2008].
+
+**Why α = 0.05?** The conventional significance level of 0.05 is a historical compromise, balancing the risks of false positives and false negatives [@fisher1925; @cowles1982]. However, some fields are moving toward more stringent thresholds (e.g., α = 0.005) to reduce false positive rates [@benjamin2018].
+
+## Conducting hypothesis tests: The t-test
+
+The **t-test** is one of the most common hypothesis tests, used to compare means [@student1908; @moore_ips]. There are three main types:
+
+1. **One-sample t-test**: Compares a sample mean to a known population value
+2. **Two-sample (independent) t-test**: Compares means between two independent groups
+3. **Paired (dependent) t-test**: Compares means for the same group measured twice
+
+### One-sample t-test
+
+Tests whether a sample mean differs from a hypothesized population mean [@moore_ips].
+
+**Hypotheses:**
+
+* H₀: μ = μ₀ (the population mean equals a specific value)
+* H₁: μ ≠ μ₀ (two-tailed)
+
+**Test statistic:**
+
+$$
+t = \frac{\bar{x} - \mu_0}{\text{SE}} = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}
+$$
+
+Where:
+* $\bar{x}$ = sample mean
+* $\mu_0$ = hypothesized population mean
+* $s$ = sample standard deviation
+* $n$ = sample size
+
+The test statistic follows a **t-distribution** with **df = n − 1** degrees of freedom [@student1908].
+
+**Decision rule:**
+
+* If |t| > t-critical (from t-table) or p < α, reject H₀
+* Otherwise, fail to reject H₀
+
+### Worked example: One-sample t-test
+
+A fitness test manual states that the population mean vertical jump height for college men is 50 cm. A researcher measures 20 college men and obtains:
+
+* $\bar{x} = 54.2$ cm
+* $s = 8.5$ cm
+* $n = 20$
+
+**Research question:** Is the sample mean significantly different from 50 cm?
+
+**Step 1: State hypotheses**
+
+* H₀: μ = 50 cm
+* H₁: μ ≠ 50 cm (two-tailed)
+* α = 0.05
+
+**Step 2: Compute the test statistic**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{8.5}{\sqrt{20}} = 1.90 \text{ cm}
+$$
+
+$$
+t = \frac{54.2 - 50}{1.90} = \frac{4.2}{1.90} = 2.21
+$$
+
+**Step 3: Determine degrees of freedom and critical value**
+
+* df = n − 1 = 19
+* For α = 0.05 (two-tailed), t-critical ≈ 2.093 (from t-table)
+
+**Step 4: Make a decision**
+
+* |t| = 2.21 > 2.093, so reject H₀
+* Alternatively, using software: p = 0.039 < 0.05, reject H₀
+
+**Step 5: Interpret**
+
+The sample mean (54.2 cm) is significantly different from the hypothesized population mean of 50 cm, t(19) = 2.21, p = .039. The mean jump height for this sample is higher than expected, with a 95% CI [50.3, 58.1] cm.
+
+::: callout-note
+## Real example: Testing VO₂max norms
+
+A study measures VO₂max in 30 collegiate soccer players and compares it to published norms (μ₀ = 52 mL/kg/min). The observed mean is 56.3 mL/kg/min (SD = 6.8). A one-sample t-test yields t(29) = 3.47, p = .002, indicating that this sample has significantly higher aerobic fitness than the normative population [@batterham2006].
+:::
+
+## Two-sample (independent) t-test
+
+Compares means between two independent groups [@moore_ips; @student1908].
+
+**Hypotheses:**
+
+* H₀: μ₁ = μ₂ (the two population means are equal)
+* H₁: μ₁ ≠ μ₂ (two-tailed)
+
+**Test statistic:**
+
+$$
+t = \frac{(\bar{x}_1 - \bar{x}_2) - 0}{\text{SE}_{\text{diff}}}
+$$
+
+Where:
+
+$$
+\text{SE}_{\text{diff}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+$$
+
+Degrees of freedom are computed using the **Welch-Satterthwaite approximation** (preferred, does not assume equal variances) [@welch1947; @delacre2021]:
+
+$$
+df \approx \frac{\left(\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}\right)^2}{\frac{(s_1^2/n_1)^2}{n_1-1} + \frac{(s_2^2/n_2)^2}{n_2-1}}
+$$
+
+### Worked example: Two-sample t-test
+
+A researcher compares sprint times (seconds) between two training groups:
+
+* **Group 1 (traditional training):** $\bar{x}_1 = 5.8$ s, $s_1 = 0.6$ s, $n_1 = 15$
+* **Group 2 (plyometric training):** $\bar{x}_2 = 5.3$ s, $s_2 = 0.5$ s, $n_2 = 15$
+
+**Research question:** Do the two groups differ in sprint performance?
+
+**Step 1: State hypotheses**
+
+* H₀: μ₁ = μ₂ (no difference in sprint times)
+* H₁: μ₁ ≠ μ₂ (sprint times differ)
+* α = 0.05
+
+**Step 2: Compute the test statistic**
+
+$$
+\text{SE}_{\text{diff}} = \sqrt{\frac{0.6^2}{15} + \frac{0.5^2}{15}} = \sqrt{0.024 + 0.0167} = \sqrt{0.0407} = 0.20 \text{ s}
+$$
+
+$$
+t = \frac{5.8 - 5.3}{0.20} = \frac{0.5}{0.20} = 2.50
+$$
+
+**Step 3: Determine degrees of freedom (Welch approximation)**
+
+Using software: df ≈ 27.3
+
+**Step 4: Compute p-value**
+
+Using software: p = 0.019
+
+**Step 5: Make a decision**
+
+* p = 0.019 < 0.05, so reject H₀
+
+**Interpretation**
+
+Plyometric training produced significantly faster sprint times (M = 5.3 s, SD = 0.5) than traditional training (M = 5.8 s, SD = 0.6), t(27.3) = 2.50, p = .019, mean difference = 0.5 s, 95% CI [0.09, 0.91] s. The effect size (Cohen's d ≈ 0.91) indicates a large practical difference [@cohen1988].
+
+## Paired (dependent) t-test
+
+Compares two related measurements (e.g., pre-test and post-test on the same participants) [@moore_ips].
+
+**Hypotheses:**
+
+* H₀: μd = 0 (mean difference is zero)
+* H₁: μd ≠ 0 (mean difference is not zero)
+
+**Test statistic:**
+
+$$
+t = \frac{\bar{d} - 0}{\text{SE}_d} = \frac{\bar{d}}{s_d / \sqrt{n}}
+$$
+
+Where:
+* $\bar{d}$ = mean of the difference scores (d = post − pre)
+* $s_d$ = standard deviation of the differences
+* $n$ = number of pairs
+
+Degrees of freedom: df = n − 1
+
+### Worked example: Paired t-test
+
+A study measures vertical jump height (cm) before and after 8 weeks of strength training in 12 athletes.
+
+**Data (difference scores: post − pre):**
+
+Mean difference: $\bar{d} = 3.8$ cm  
+SD of differences: $s_d = 2.5$ cm  
+n = 12
+
+**Research question:** Did training significantly improve jump height?
+
+**Step 1: State hypotheses**
+
+* H₀: μd = 0 (no change in jump height)
+* H₁: μd ≠ 0 (jump height changed)
+* α = 0.05
+
+**Step 2: Compute test statistic**
+
+$$
+\text{SE}_d = \frac{s_d}{\sqrt{n}} = \frac{2.5}{\sqrt{12}} = 0.72 \text{ cm}
+$$
+
+$$
+t = \frac{3.8}{0.72} = 5.28
+$$
+
+**Step 3: Degrees of freedom**
+
+df = n − 1 = 11
+
+**Step 4: Compute p-value**
+
+Using software: p < .001
+
+**Step 5: Decision**
+
+* p < .001, strongly reject H₀
+
+**Interpretation**
+
+Vertical jump height increased significantly following training, mean improvement = 3.8 cm, 95% CI [2.2, 5.4] cm, t(11) = 5.28, p < .001. This represents a meaningful improvement in explosive power [@batterham2006].
+
+## Degrees of freedom
+
+**Degrees of freedom (df)** represent the number of independent pieces of information available to estimate a parameter [@moore_ips; @field_discovering].
+
+* **One-sample t-test:** df = n − 1
+* **Paired t-test:** df = n − 1 (n = number of pairs)
+* **Two-sample t-test (equal variances):** df = n₁ + n₂ − 2
+* **Two-sample t-test (unequal variances, Welch):** df ≈ computed using Welch-Satterthwaite formula
+
+**Why df = n − 1?** When estimating the sample standard deviation (s), we first compute the sample mean, "using up" one degree of freedom [@moore_ips]. Only n − 1 deviations are independent (the last one is determined by the others).
+
+::: callout-tip
+## Effect of df on critical values
+
+Smaller df → larger critical t-values → harder to reject H₀ [@student1908]. With df = 5, t-critical (α = 0.05, two-tailed) = 2.571. With df = 100, t-critical ≈ 1.984. As df increases, the t-distribution approaches the standard normal (z) distribution [@moore_ips].
+:::
+
+## Statistical significance versus practical significance
+
+**Statistical significance** (p < α) tells us whether an effect is **detectable** and unlikely to be due to chance [@cohen1994]. **Practical significance** evaluates whether the effect is **large enough to matter** in real-world contexts [@batterham2006; @lakens2013].
+
+### When they diverge
+
+1. **Statistically significant but trivial effect:**
+   - Large sample (n = 500) detects a 0.2 cm improvement in jump height (p = .03)
+   - Conclusion: Real effect, but too small to care about [@cohen1994]
+
+2. **Large effect but not statistically significant:**
+   - Small sample (n = 8) shows a 5 cm improvement (p = .08)
+   - Conclusion: Promising effect, but study underpowered [@button2013; @maxwell2008]
+
+::: callout-important
+## Always report effect sizes alongside p-values
+
+A p-value alone is insufficient [@wilkinson1999; @cumming2014]. Report:
+
+* Mean difference with 95% CI
+* Standardized effect size (e.g., Cohen's d)
+* Practical interpretation in context
+
+Example: "Mean difference = 4.2 cm, 95% CI [2.1, 6.3], d = 0.67, p = .002. This represents a moderate-to-large improvement in performance."
+:::
+
+## Assumptions of t-tests
+
+T-tests assume [@moore_ips; @field_discovering]:
+
+1. **Independence:** Observations are independent (one participant does not influence another)
+2. **Normality:** Data are approximately normally distributed (especially important for small samples)
+3. **Equal variances (for independent t-test):** Population variances are equal (use Welch's t-test if violated) [@welch1947; @delacre2021]
+
+**Robustness:**
+
+* T-tests are **robust to moderate violations of normality**, especially with larger samples (n > 30) [@lumley2002; @blanca2013]
+* Use **Welch's t-test** (default in most software) to avoid assuming equal variances [@delacre2021]
+* For severe non-normality or small samples, consider **nonparametric tests** (Chapter 19)
+
+## Frequentist versus Bayesian approaches
+
+The hypothesis testing framework described in this chapter is **frequentist**, meaning it interprets probability as long-run relative frequency [@neyman1933; @fisher1925]. The p-value answers: "What proportion of samples would produce data this extreme if H₀ were true and we repeated the experiment infinitely?"
+
+**Bayesian hypothesis testing** offers an alternative [@wagenmakers2007; @kruschke2018]:
+
+* Computes the **probability that H₀ (or H₁) is true** given the data
+* Updates prior beliefs with new data to produce posterior probabilities
+* Does not rely on arbitrary α thresholds
+* More intuitive for many researchers but requires specifying prior distributions
+
+**Example comparison:**
+
+* **Frequentist:** p = 0.03 (data are unlikely if H₀ is true)
+* **Bayesian:** P(H₁|data) = 0.87 (87% probability that H₁ is true given the data)
+
+::: callout-note
+## Bayesian methods in Movement Science
+
+Bayesian statistics are gaining popularity in Movement Science for their ability to quantify evidence for or against hypotheses and incorporate prior knowledge [@kruschke2018; @vandeschoot2021]. Software like JASP and R packages (e.g., BayesFactor, brms) make Bayesian analysis accessible [@wagenmakers2018].
+:::
+
+## Common misinterpretations and pitfalls
+
+### Misinterpretation 1: "p = 0.05 is the cutoff for truth"
+
+**Wrong:** P-values are continuous measures of evidence, not binary truth detectors [@wasserstein2016; @amrhein2019]. An effect with p = 0.051 is not fundamentally different from one with p = 0.049 [@rosenthal1986].
+
+**Better:** Report exact p-values and interpret them as gradations of evidence [@wasserstein2019].
+
+### Misinterpretation 2: "Non-significant means no effect"
+
+**Wrong:** Failing to reject H₀ does not mean H₀ is true [@altman1995; @goodman2008]. The study may lack power to detect a real effect.
+
+**Better:** Report confidence intervals and effect sizes. "The difference was not statistically significant (p = .12), but the 95% CI [−1.2, 8.5] cm includes both trivial and meaningful effects, suggesting the study was underpowered" [@maxwell2008].
+
+### Misinterpretation 3: "p = 0.01 means a stronger effect than p = 0.05"
+
+**Wrong:** P-values measure evidence against H₀, not effect magnitude [@cohen1994; @wasserstein2019]. A tiny effect in a huge sample can yield p < .001, while a large effect in a small sample may yield p = .08.
+
+**Better:** Examine effect sizes (e.g., Cohen's d, mean differences) to assess magnitude [@lakens2013].
+
+### Misinterpretation 4: "Statistically significant = important"
+
+**Wrong:** Statistical significance only indicates detectability, not practical importance [@cohen1994; @batterham2006].
+
+**Better:** Evaluate practical significance using domain expertise, minimal clinically important differences (MCIDs), and confidence intervals [@hopkins2009].
+
+## Reporting hypothesis tests (APA style)
+
+**Template:**
+
+"[Group 1] (M = [mean], SD = [SD], n = [n]) [differed/did not differ] significantly from [Group 2] (M = [mean], SD = [SD], n = [n]), t([df]) = [t-value], p = [p-value], [effect size], 95% CI [lower, upper]."
+
+**Example:**
+
+"Trained athletes (M = 55.3 cm, SD = 6.2, n = 20) jumped significantly higher than untrained controls (M = 48.7 cm, SD = 7.1, n = 20), t(36.8) = 3.12, p = .003, d = 0.98, 95% CI [2.4, 10.8] cm."
+
+**Key elements:**
+
+* Descriptive statistics for each group
+* Test statistic with degrees of freedom
+* Exact p-value (unless p < .001)
+* Effect size
+* Confidence interval for the difference
+
+## Chapter summary
+
+Hypothesis testing provides a formal decision-making framework for evaluating claims about populations based on sample data [@moore_ips; @neyman1933]. By formulating null and alternative hypotheses, computing a test statistic, and comparing the resulting p-value to a significance level (α), researchers determine whether observed effects are unlikely to have occurred by chance alone [@fisher1925; @wasserstein2016]. However, hypothesis testing is not without limitations: p-values are often misinterpreted, the dichotomous reject/fail-to-reject framework obscures gradations of evidence, and statistical significance does not imply practical importance [@cohen1994; @wasserstein2019]. Understanding Type I and Type II errors, statistical power, and the assumptions underlying t-tests is critical for conducting and interpreting hypothesis tests responsibly [@cohen1988; @maxwell2008].
+
+The t-test, one of the most widely used hypothesis tests, enables comparisons of means in one-sample, two-sample, and paired designs [@student1908; @moore_ips]. Proper interpretation requires reporting not only p-values but also effect sizes and confidence intervals, which provide richer information about the magnitude and precision of effects [@cumming2014; @lakens2013]. As Movement Science increasingly embraces estimation-focused approaches alongside traditional significance testing, researchers must balance the yes/no decisions of hypothesis testing with the nuanced uncertainty quantified by confidence intervals [@batterham2006; @hopkins2009]. The p-value is a tool, not a truth—it tells us about the compatibility of data with the null hypothesis, not about the probability that hypotheses are true or the size of effects [@wasserstein2016; @greenland2016]. By integrating hypothesis testing with effect size reporting, confidence intervals, and substantive expertise, Movement Science researchers can make more informed, transparent, and reproducible inferences about human performance [@cumming2014; @kline2013].
+
+## Key terms
+
+hypothesis testing; null hypothesis; alternative hypothesis; p-value; significance level; Type I error; Type II error; statistical power; one-tailed test; two-tailed test; t-test; one-sample t-test; two-sample t-test; paired t-test; degrees of freedom; test statistic; critical value; statistical significance; practical significance; effect size
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### Question 1: What does it mean to "reject the null hypothesis"? {icon="1-square-fill"}
+
+Rejecting the null hypothesis means concluding that the data are sufficiently unlikely under the assumption that H₀ is true, so we infer that an effect probably exists [@fisher1925; @moore_ips]. It does not mean we have "proven" the alternative hypothesis or that the null hypothesis is definitely false—only that the evidence is inconsistent with H₀ at the chosen significance level [@wasserstein2016]. Conversely, "failing to reject H₀" does not mean H₀ is true; it means we lack sufficient evidence to conclude it is false [@altman1995]. This distinction is crucial: hypothesis testing operates on evidence, not proof, and conclusions are probabilistic rather than certain [@cohen1994].
+
+### Question 2: Why is it problematic to interpret a p-value as the probability that the null hypothesis is true? {icon="2-square-fill"}
+
+The p-value is P(data | H₀), not P(H₀ | data) [@goodman2008; @wasserstein2016]. In plain language, the p-value tells us "how likely these data are if H₀ were true," not "how likely H₀ is given these data." The null hypothesis is either true or false (we don't know which), so it doesn't have a probability in the frequentist framework [@gigerenzer2004]. Confusing these probabilities is called the **inverse probability fallacy** [@hoekstra2014]. To make probability statements about hypotheses, one must use Bayesian methods, which directly compute P(H₀ | data) using prior probabilities [@wagenmakers2007; @kruschke2018].
+
+### Question 3: What is the relationship between statistical power and Type II error? {icon="3-square-fill"}
+
+Statistical power is the probability of correctly rejecting the null hypothesis when it is false (i.e., detecting a true effect) [@cohen1988]. Type II error (β) is the probability of failing to reject the null hypothesis when it is false (i.e., missing a true effect) [@neyman1933]. They are complementary: **Power = 1 − β** [@maxwell2008]. High power (e.g., 0.80 or 80%) means low probability of Type II error (β = 0.20 or 20%). Power increases with larger sample sizes, larger effect sizes, higher significance levels, and lower variability [@cohen1988; @button2013]. Underpowered studies are problematic because they frequently miss real effects, producing false negatives and wasting resources [@maxwell2008].
+
+### Question 4: When should you use a one-tailed test instead of a two-tailed test? {icon="4-square-fill"}
+
+Use a one-tailed test only when you have strong **a priori** theoretical or practical reasons to test a directional hypothesis **and you genuinely do not care about effects in the opposite direction** [@ruxton2006; @lakens2016]. For example, testing whether a new rehabilitation protocol improves recovery time (and you would not interpret a worsening as meaningful). However, most research situations warrant two-tailed tests because researchers typically want to detect any difference, regardless of direction [@moore_ips; @field_discovering]. One-tailed tests are more controversial because they can be perceived as "p-hacking" if the direction is chosen post-hoc to achieve significance [@simmons2011]. When in doubt, use two-tailed tests [@lakens2016].
+
+### Question 5: Why doesn't "p > 0.05" mean "no effect"? {icon="5-square-fill"}
+
+A non-significant result (p > 0.05) means the data are **compatible with the null hypothesis**, but it does not prove the null hypothesis is true [@altman1995; @greenland2016]. The study may lack statistical power to detect a real but small effect, or the sample size may be insufficient [@maxwell2008]. The confidence interval provides critical context: a wide CI (e.g., [−5, 10] cm) suggests high uncertainty and includes both negative and positive effects, while a narrow CI near zero (e.g., [−0.5, 0.8] cm) provides stronger evidence for a truly negligible effect [@cumming2014]. "Absence of evidence is not evidence of absence" [@altman1995]—to claim no effect, you need precise estimates (narrow CIs) centered near zero, not just p > 0.05 [@lakens2017].
+
+### Question 6: How do you distinguish between statistical significance and practical significance? {icon="6-square-fill"}
+
+**Statistical significance** (p < α) indicates that an effect is unlikely due to chance and is probably real [@cohen1994]. **Practical significance** assesses whether the magnitude of the effect is large enough to matter in applied contexts [@batterham2006; @lakens2013]. A statistically significant effect may be trivial (e.g., 0.1 cm improvement in a large sample), while a large effect may fail to reach significance in a small, underpowered study [@maxwell2008]. To evaluate practical significance, examine effect sizes (e.g., Cohen's d), confidence intervals, and minimal clinically important differences (MCIDs) specific to the outcome [@hopkins2009]. Always ask: "Even if this effect is real, is it large enough to justify intervention, change practice, or inform theory?" [@batterham2006].
+
+:::
+
+::: callout-note
+## Read further
+
+For deeper exploration of hypothesis testing controversies and alternatives, see @wasserstein2016 (ASA Statement on P-Values), @wasserstein2019 (Moving to a World Beyond p < 0.05), @cumming2014 (The New Statistics), and @kruschke2018 (Bayesian data analysis). For power analysis and sample size planning, consult @cohen1988 and @maxwell2008.
+:::
+
+::: callout-tip
+## Next chapter
+
+In Chapter 11, you will learn about **correlation and bivariate regression**, methods for quantifying the strength and direction of relationships between two continuous variables. You will see how correlation complements hypothesis testing, understand the critical distinction between correlation and causation, and learn to build simple regression models for prediction.
+:::

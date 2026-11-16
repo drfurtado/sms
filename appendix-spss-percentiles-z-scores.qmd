@@ -1,0 +1,336 @@
+---
+title: "SPSS Tutorial: Percentiles and Z-Scores"
+subtitle: "Computing and interpreting percentiles, percentile ranks, and standard scores"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Compute percentiles and percentile ranks using SPSS Frequencies procedure
+* Calculate z-scores manually and using SPSS Descriptives
+* Create standardized variables (z-scores) for further analysis
+* Interpret SPSS output for percentile and z-score calculations
+* Export and report percentile and standard score results in APA format
+:::
+
+## Overview
+
+This tutorial demonstrates how to use SPSS to compute percentiles, percentile ranks, and z-scores for individual observations and entire datasets. These transformations are essential for:
+
+* Comparing individual performance to group norms
+* Creating standardized scores for cross-scale comparisons
+* Identifying outliers systematically
+* Building composite performance profiles
+
+We will use fitness testing data to illustrate realistic Movement Science applications.
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`) filtered to the pre-training time point (*N* = 60). Download it here: [core_session.csv](data/core_session.csv)
+
+For this tutorial, we will analyze two continuous variables:
+
+* `sprint_20m_s` — 20-meter sprint time in seconds (lower is better)
+* `vo2_mlkgmin` — Aerobic capacity (VO₂max) in mL·kg⁻¹·min⁻¹ (higher is better)
+
+Open the dataset in SPSS, then filter to pre-training only:
+
+1. **Data → Select Cases → If condition is satisfied**
+2. Enter: `time = 'pre'`
+3. Click **Continue → OK**
+
+## Part 1: Computing percentiles using Frequencies
+
+### Procedure
+
+The Frequencies procedure provides percentile values for any variable.
+
+1. **Analyze → Descriptive Statistics → Frequencies**
+2. Move the variable(s) of interest (e.g., `sprint_20m_s`) to the **Variable(s)** box
+3. Click **Statistics** button
+4. Under **Percentile Values**:
+   - Select **Quartiles** for 25th, 50th, 75th percentiles
+   - Or select **Cut points for X equal groups** (e.g., 10 for deciles)
+   - Or manually enter specific percentiles in **Percentiles** box
+5. **Continue** → **OK**
+
+### Example: Computing quartiles for sprint times
+
+**Request:**
+```
+FREQUENCIES VARIABLES=sprint_20m_s
+  /STATISTICS=QUARTILES
+  /ORDER=ANALYSIS.
+```
+
+### Interpreting the output
+
+The output includes a **Percentiles** table:
+
+| Percentile | Value |
+|-----------|-------|
+| 25 | 3.54 |
+| 50 (Median) | 3.80 |
+| 75 | 4.03 |
+
+**Interpretation:**
+* 25% of participants had sprint times ≤ 3.54 s (Q₁)
+* 50% had times ≤ 3.80 s (Median)
+* 75% had times ≤ 4.03 s (Q₃)
+* The IQR = 4.03 − 3.54 = **0.48 s** (middle 50% of participants span 0.48 s)
+
+::: {.callout-tip}
+## APA Reporting Example
+
+> Sprint times ranged from 2.90 to 4.45 seconds, with a median of 3.80 s (IQR = 0.48 s). The 25th and 75th percentiles were 3.54 and 4.03 seconds, respectively.
+:::
+
+## Part 2: Computing percentile ranks for individual scores
+
+SPSS does not directly compute percentile ranks for individual values, but you can estimate them using the cumulative percentage column in the Frequencies output.
+
+### Procedure
+
+1. **Analyze → Descriptive Statistics → Frequencies**
+2. Move the variable to **Variable(s)** box
+3. Ensure **Display frequency tables** is checked
+4. **OK**
+
+### Reading the cumulative percent column
+
+For a continuous variable like `sprint_20m_s`, the Frequencies table lists each unique value with its cumulative percent. A participant with a sprint time of **3.60 s** falls at approximately the **30th percentile** — meaning 30% of the sample had times at or below 3.60 s.
+
+::: {.callout-note}
+## Note on directionality
+
+For "lower is better" measures (sprint time, reaction time), a lower value ranks higher in performance despite a higher cumulative percentage. For "higher is better" measures (VO₂max, strength), the cumulative percentage directly represents the performance ranking.
+:::
+
+## Part 3: Computing z-scores using Descriptives
+
+### Procedure: Viewing z-scores in output
+
+1. **Analyze → Descriptive Statistics → Descriptives**
+2. Move variable(s) to **Variable(s)** box
+3. Click **Options** button
+4. Ensure **Mean** and **Std. deviation** are selected
+5. **Continue** → **OK**
+6. Use the formula: z = (X − Mean) / SD
+
+### Procedure: Creating standardized variables
+
+To create new z-score variables in your dataset:
+
+1. **Analyze → Descriptive Statistics → Descriptives**
+2. Move variable(s) to **Variable(s)** box
+3. ✓ Check **Save standardized values as variables**
+4. **OK**
+
+SPSS creates new variables with the prefix `Z` (e.g., `sprint_20m_s` → `Zsprint_20m_s`).
+
+### Example: Computing z-scores for sprint times
+
+**Descriptive Statistics (pre-training, *N* = 60):**
+
+| Variable | N | Mean | Std. Deviation |
+|---------|---|------|---------------|
+| sprint_20m_s | 60 | 3.79 | 0.354 |
+
+**For an athlete with sprint_20m_s = 2.90 s (fastest in sample):**
+
+$$
+z = \frac{2.90 - 3.79}{0.354} = \frac{-0.89}{0.354} = -2.51
+$$
+
+**Interpretation:** This athlete is 2.51 standard deviations **faster** than the mean (the most negative z-score = best sprint performance).
+
+**For an athlete with sprint_20m_s = 4.45 s (slowest in sample):**
+
+$$
+z = \frac{4.45 - 3.79}{0.354} = \frac{+0.66}{0.354} = +1.87
+$$
+
+**Interpretation:** This athlete is 1.87 standard deviations slower than the mean.
+
+### Viewing saved z-scores
+
+After creating standardized variables, you can view them in Data View:
+
+| ID | sprint_20m_s | Zsprint_20m_s |
+|-----|------------|---------------|
+| P_fast | 2.90 | −2.51 |
+| P_avg | 3.79 | 0.00 |
+| P_slow | 4.45 | +1.87 |
+
+## Part 4: Cross-scale comparisons using z-scores
+
+To compare performance across different tests (e.g., sprint time vs. VO₂max), standardize all variables and compare z-scores.
+
+### Procedure
+
+1. Standardize each variable using **Descriptives** with **Save standardized values**
+2. View z-scores for each participant across tests
+3. Create composite scores if needed using **Transform → Compute Variable**
+
+### Example: Dual-component fitness profile for Participant P001
+
+**Group Statistics (pre-training, *N* = 60):**
+
+| Variable | Mean | SD |
+|---------|------|-----|
+| sprint_20m_s | 3.79 | 0.354 |
+| vo2_mlkgmin | 41.34 | 6.82 |
+
+**Participant P001's raw scores:**
+
+| sprint_20m_s | vo2_mlkgmin |
+|-------------|-------------|
+| 3.44 s | 40.8 mL·kg⁻¹·min⁻¹ |
+
+**Computed Z-Scores:**
+
+| ID | ZSprint | ZVO2 |
+|----|---------|------|
+| P001 | **−0.98** | **−0.08** |
+
+**Interpretation:** Participant P001 shows:
+* Sprint performance slightly above average (z = −0.98; lower sprint time = faster)
+* Aerobic capacity essentially at the group mean (z = −0.08)
+
+### Creating composite scores
+
+To create an average z-score across multiple tests:
+
+1. **Transform → Compute Variable**
+2. **Target Variable:** `Z_Composite`
+3. **Numeric Expression:** `(-1 * Zsprint_20m_s + Zvo2_mlkgmin) / 2`
+   - Note: Sprint z-score is multiplied by −1 to make "higher = better" for all components
+4. **OK**
+
+::: {.callout-warning}
+## Important: Directionality
+
+When creating composite z-scores, ensure all variables are oriented the same way (higher = better or lower = better). For sprint times, multiply z-scores by −1 to flip the direction before averaging.
+:::
+
+## Part 5: Identifying outliers using z-scores
+
+### Procedure
+
+1. Create standardized variables (see Part 3)
+2. **Transform → Compute Variable**
+3. Create a flag variable for extreme values:
+   - **Target Variable:** `Outlier_Sprint`
+   - **Numeric Expression:** `ABS(ZSprint20m) > 3`
+4. **OK**
+
+This creates a flag (0 = not outlier, 1 = outlier) for values with |z| > 3.
+
+### Alternative: Visual inspection
+
+1. **Graphs → Legacy Dialogs → Scatter/Dot → Simple Scatter**
+2. **Y-Axis:** Standardized variable (e.g., `ZSprint20m`)
+3. **X-Axis:** ID or sequence variable
+4. **OK**
+
+Add a reference line at z = ±3 to identify extreme values:
+- Double-click the chart
+- **Options → Y-axis reference line**
+- Add lines at +3 and −3
+
+## Part 6: Percentiles by group (e.g., age, sex)
+
+To compute percentiles separately for males and females:
+
+1. **Data → Split File**
+2. Select **Organize output by groups**
+3. Move grouping variable (e.g., `Sex`) to **Groups Based on** box
+4. **OK**
+5. Run Frequencies procedure as in Part 1
+6. **Data → Split File → Reset** when done
+
+**Output:** SPSS produces separate percentile tables for each group, allowing age- and sex-specific norm comparisons.
+
+## Part 7: Exporting results
+
+### Exporting percentile and z-score tables
+
+1. Right-click on the output table
+2. **Export**
+3. Choose format (Excel, Word, PDF)
+4. **Export**
+
+### Copying tables to manuscripts
+
+1. Right-click on table → **Copy**
+2. Paste into Word document
+3. Format as APA table:
+   - Remove gridlines
+   - Add horizontal lines (top, below header, bottom)
+   - Ensure decimal alignment
+
+::: {.callout-tip}
+## APA Table Example
+
+**Table 1**
+
+*Descriptive Statistics and Quartiles for Fitness Variables at Pre-Training (N = 60)*
+
+| Variable | M | SD | Q1 | Mdn | Q3 | Min | Max |
+|---------|----|----|-----|-----|-----|-----|-----|
+| Sprint Time (s) | 3.79 | 0.35 | 3.54 | 3.80 | 4.03 | 2.90 | 4.45 |
+| VO₂max (mL·kg⁻¹·min⁻¹) | 41.34 | 6.82 | 36.03 | 41.55 | 45.82 | 26.90 | 56.50 |
+
+*Note.* M = mean; SD = standard deviation; Q1 = 25th percentile; Mdn = median; Q3 = 75th percentile. Negative z-scores for Sprint indicate faster times (better performance).
+:::
+
+## Practice exercises
+
+Use the Core Dataset (`core_session.csv`, pre-training, *N* = 60) to complete these tasks:
+
+1. **Compute quartiles** for `vo2_mlkgmin` and interpret the results.
+2. **Determine the percentile rank** for a participant with `sprint_20m_s` = 3.60 s (hint: approximately the 30th percentile).
+3. **Create z-score variables** for `sprint_20m_s` and `vo2_mlkgmin` using **Descriptives → Save standardized values**.
+4. **Identify participants** with z-scores > +2 or < −2 on either test (potential outliers).
+5. **Create a composite fitness score** by averaging z-scores across both tests (adjust Sprint direction first by multiplying by −1).
+6. **Compare percentiles by group**: Split the file by `group` (training vs. control) and compute quartiles for `sprint_20m_s`.
+
+## Common mistakes and troubleshooting
+
+| Problem | Solution |
+|---------|---------|
+| Z-scores not appearing in dataset | Ensure "Save standardized values" is checked |
+| Percentiles seem wrong | Check for outliers or data entry errors |
+| Composite z-scores favor one test | Ensure all tests are on the same directionality |
+| Percentile rank doesn't match z-score | Remember: connection only holds if distribution is normal |
+| Output tables are split unexpectedly | Reset Split File: Data → Split File → Reset |
+
+## Summary
+
+This tutorial covered:
+
+* Computing percentiles using the Frequencies procedure
+* Estimating percentile ranks from cumulative frequency tables
+* Creating z-score variables using Descriptives
+* Comparing performance across different scales using z-scores
+* Creating composite scores and identifying outliers
+* Generating age- and sex-specific norms using Split File
+
+::: {.callout-tip}
+## Next steps
+
+Practice these procedures with your own data. Remember:
+* Use percentiles for skewed data or ordinal scales
+* Use z-scores for symmetric data and cross-scale comparisons
+* Always visualize distributions before interpreting standardized scores
+* Report both raw scores and standardized scores for complete interpretation
+:::
+
+## Additional resources
+
+* SPSS Help: Frequencies Procedure
+* SPSS Help: Descriptives Procedure
+* SPSS Help: Split File
+* Textbook Chapter 6: Percentiles and Standard Scores

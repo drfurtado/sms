@@ -1,0 +1,333 @@
+---
+title: "Measurement"
+subtitle: "Research and Statistical Inference in Movement Science"
+---
+
+## Chapter roadmap
+
+This chapter builds the foundation for the rest of the book. You will learn what measurement means in Movement Science, why error is unavoidable, how research questions connect to design and analysis, and how statistical inference helps you make cautious, useful claims beyond the people you measured.
+
+By the end of this chapter, you will be able to:
+
+- Explain measurement and why it is never perfect.
+- Identify variables, constants, and sources of measurement error.
+- Connect research questions to study designs and statistical analyses.
+- Describe the logic of statistical inference, uncertainty, and decision errors.
+- Apply a repeatable workflow used throughout this book.
+
+::: callout-note
+## Movement Science mindset
+
+Human movement varies across people and within the same person across days, sessions, and trials. That variability is not a nuisance to be ignored. It is part of the phenomenon. Statistics helps you learn when patterns are likely to reflect real effects versus noise from measurement, sampling, and natural fluctuation.
+:::
+
+## What is measurement?
+
+Measurement is the process of assigning numbers or categories to a characteristic using consistent rules. Those rules determine what the values mean and what comparisons are logically valid.
+
+In Movement Science, measurement shows up in many domains. Performance is often measured with sprint time, agility time, or jump height. Balance can be represented by sway area, center-of-pressure metrics, error counts, or time to stabilization. Physiology includes VO₂ and heart rate. Neuromuscular outcomes include peak force and EMG amplitude. Clinical and self-report outcomes include pain ratings and function scores.
+
+Some outcomes are relatively straightforward to quantify, such as time in seconds or force in newtons. Other outcomes are constructs that require careful operational definitions, such as movement quality or readiness. In either case, what you observe is a representation of a true value shaped by the tool, protocol, tester, participant, and environment.
+
+::: callout-important
+## The big idea
+
+Every measurement contains error. Error does not mean your study is bad. It means you must estimate how large error is, reduce it when possible, and interpret results in light of it.
+:::
+
+### Example: timing sprint performance
+
+Imagine measuring 20 m sprint time. If timing gates are slightly misaligned, sprint times can be consistent but wrong. If the surface, footwear, warm-up, or fatigue status differs between sessions, sprint time can change for reasons unrelated to training adaptation. If instructions change slightly or the participant is distracted, the measurement can shift even when fitness has not.
+
+These issues are not solved by running more statistical tests. They are solved by careful measurement decisions, standardization, and documentation.
+
+## The process of measurement in Movement Science
+
+Strong measurement is a chain. When the chain is weak at any link, the numbers can look scientific while communicating little. A useful way to plan is to start with the construct and decide how to represent it with a variable you can record. This translation is called operationalization.
+
+For example, consider the construct “balance.” You could operationalize balance as sway area during quiet standing, number of errors during a standardized balance test, or time to stabilization after landing. Each choice reflects a different aspect of balance, so the “best” measure depends on the question you are asking.
+
+### The 6-step workflow used throughout this book
+
+1. Define the question  
+2. Define the construct  
+3. Operationalize (tool and protocol)  
+4. Collect data with quality control and documentation  
+5. Analyze (describe first, then infer)  
+6. Interpret and communicate (meaning and limitations)
+
+```{dot}
+//| eval: true
+//| echo: false
+digraph G {
+  rankdir=TD;
+  node [shape=box, style="rounded,filled", fillcolor=white];
+
+  A [label="Define the question"];
+  B [label="Define the construct"];
+  C [label="Operationalize\n(tool + protocol)"];
+  D [label="Collect data\n(QC + documentation)"];
+  E [label="Analyze\n(describe + infer)"];
+  F [label="Interpret and communicate"];
+  
+  A -> B;
+  B -> C;
+  C -> D;
+  D -> E;
+  E -> F;
+  F -> A;
+}
+```
+
+::: callout-tip
+## Why the arrow loops back
+
+Pilot data often reveals problems you cannot see at planning time, including ceiling effects, inconsistent instructions, fatigue effects, skewed distributions, and outcomes that do not behave as expected. Revisiting earlier steps is normal.
+:::
+
+## Variables, constants, and the structure of a dataset
+
+A dataset is a structured record of observations. In Movement Science, observations often include repeated sessions and repeated trials. This is powerful because it increases information. It is also easy to mis-handle if you forget that repeated measurements on the same person are related.
+
+A good dataset does two things at once. It records outcomes, and it records context. Context includes group membership, time point, condition, trial number, and any identifiers needed to track repeated measures.
+
+### Variables
+
+A variable is anything that can vary across people, time, conditions, or trials.
+
+Examples:
+
+- Sprint time (s)
+- VO₂ (mL·kg⁻¹·min⁻¹)
+- Sway area (cm²)
+- Peak force (N)
+- Pain rating (0–10)
+- Group (training vs control)
+- Time (pre, mid, post)
+
+Some variables are outcomes and some are explanatory. In the [Core Dataset](appendix-core-dataset-codebook.qmd) used in this book, sprint time and VO₂ are outcomes, while group and time are design variables that help you interpret change.
+
+### Constants
+
+A constant is something held fixed within the scope of the study to reduce alternative explanations.
+
+Examples:
+
+- Same warm-up routine
+- Same testing surface
+- Same instructions
+- Same device settings and calibration procedure
+
+Constants reduce noise, but they also define the boundaries of your conclusions. If all testing is done on one surface, you can confidently interpret changes under that surface condition, but you should be cautious about generalizing to other conditions.
+
+### Measurement scales matter because they constrain meaning
+
+| Scale | What values represent | Example | What is meaningful |
+|---|---|---|---|
+| Nominal | categories, no order | group, injury status | counts and proportions |
+| Ordinal | ordered categories | RPE, pain categories | order and ranks |
+| Interval | equal steps, no true zero | temperature °C | differences |
+| Ratio | equal steps with true zero | time, force, VO₂ | differences and ratios |
+
+::: callout-note
+## Practical rule
+
+If a variable has a meaningful zero and ratios make sense, it behaves like a ratio variable. Time, force, and VO₂ are typical examples. Many Movement Science outcomes fall into this category, which is why parametric statistics are common, but not automatically appropriate.
+:::
+
+## Measurement error and why variability is expected
+
+If you measure the same person multiple times, you rarely obtain identical values. This does not automatically mean the measurement is poor. Human performance fluctuates, and measurement systems introduce noise.
+
+A useful mental model is:
+
+$$
+\text{Observed value} = \text{True value} + \text{Error}
+$$
+
+Error can be random or systematic.
+
+### Random error
+
+Random error creates scatter. It can come from trial-to-trial performance variability, small timing differences, natural fluctuations in coordination, or minor environmental changes. Random error reduces precision. In practice, it makes confidence intervals wider and makes it harder to detect real effects.
+
+### Systematic error (bias)
+
+Systematic error shifts measurements consistently upward or downward. A device that is improperly calibrated or a protocol that consistently favors one condition introduces bias. Systematic error is dangerous because it can produce results that look consistent and convincing but are wrong.
+
+| Type of error | What it looks like | Movement Science example | Typical consequence |
+|---|---|---|---|
+| Random error | unpredictable scatter | trial-to-trial differences in jump height due to attention | reduced precision, wider uncertainty |
+| Systematic error | consistent shift | timing gate offset that adds 0.05 s to all sprints | biased estimates, misleading conclusions |
+
+::: callout-warning
+## Common trap
+
+Do not interpret a noisy outcome as “no effect” without considering whether measurement error is large relative to the expected change. A training program can be effective and still hard to detect with an imprecise measure.
+:::
+
+## Reliability and validity
+
+Reliability and validity determine how much trust your measurements deserve.
+
+### Reliability: consistency
+
+Reliability answers the question: if nothing truly changed, would you get a similar value again? Reliability can be examined across trials within a session, across days, or across testers.
+
+In Movement Science, repeated trials are a common way to evaluate consistency. If sway area varies dramatically across three trials under identical conditions, you may have a measurement challenge, a participant strategy issue, or a protocol issue. Later chapters on reliability will quantify this.
+
+### Validity: measuring what you intend
+
+Validity answers the question: does the measure reflect the construct? Sprint time is a valid measure of sprint performance, but it is not a direct measure of “overall athleticism.” A function score may reflect ability and pain, but also motivation and interpretation of items.
+
+Validity is not a single stamp. It is evidence. You support validity by aligning the measure with theory, using gold standards when available, and showing expected relationships with other variables.
+
+::: callout-important
+## Relationship between reliability and validity
+
+A measure can be reliable but not valid. A measure cannot be strongly valid if it is not reasonably reliable.
+:::
+
+## From research question to design to analysis
+
+Statistics is not chosen after the fact. Design choices shape what comparisons are meaningful and what conclusions you can defend.
+
+### Common design types in Movement Science
+
+Between-subjects designs compare different groups of people. Within-subjects designs compare the same people across time or conditions. Mixed designs include both. Observational designs focus on relationships and prediction without assigning interventions.
+
+The Core Dataset in this book is a mixed design: group is between-subjects, time is within-subjects, and some outcomes include repeated trials.
+
+```{dot}
+//| eval: true
+//| echo: false
+digraph G {
+  rankdir=TD;
+  node [shape=box, style="rounded,filled", fillcolor=white];
+  
+  Q [label="Research question"];
+  O [label="Outcome and scale"];
+  D [label="Design type", shape=diamond];
+  
+  B [label="Compare groups"];
+  W [label="Compare time or conditions"];
+  M [label="Group by time"];
+  R [label="Relationships and prediction"];
+  
+  A1 [label="t test or ANOVA"];
+  A2 [label="paired t test\nor repeated measures ANOVA"];
+  A3 [label="mixed ANOVA\nor regression models"];
+  A4 [label="correlation and regression"];
+  
+  Q -> O;
+  O -> D;
+  
+  D -> B [label="Between-subjects"];
+  D -> W [label="Within-subjects"];
+  D -> M [label="Mixed"];
+  D -> R [label="Observational"];
+  
+  B -> A1;
+  W -> A2;
+  M -> A3;
+  R -> A4;
+}
+```
+
+### Research question to analysis map
+
+| Research question | Typical design | Example using the Core Dataset | Typical analysis |
+|---|---|---|---|
+| Do two groups differ at baseline? | between-subjects | training vs control VO₂ at pre | independent t test |
+| Does performance change over time? | within-subjects | sprint time from pre to post | paired t test or repeated measures methods |
+| Do groups change differently over time? | mixed | group by time for agility time | mixed ANOVA or regression model |
+| Are two variables related? | observational | peak force vs sprint time | correlation and simple regression |
+| Can we predict an outcome from several factors? | observational or mixed | sprint time from VO₂, force, training age | multiple regression |
+
+## Statistical inference: generalizing beyond your sample
+
+Statistical inference is the logic of making cautious claims about a population using a sample. You rarely care only about the specific individuals you measured. You care about a broader group, such as recreationally active adults similar to your sample.
+
+Sampling variation is unavoidable. Even if two groups are identical in the population, samples can look different by chance. Statistical inference helps you quantify how much uncertainty remains.
+
+```{dot}
+//| eval: true
+//| echo: false
+digraph G {
+  rankdir=TD;
+  node [shape=box, style="rounded,filled", fillcolor=white];
+  
+  A [label="Population\nwhat you want to know"];
+  B [label="Sample\nwhat you measured"];
+  C [label="Statistic\nmean, difference, correlation"];
+  D [label="Inference\nCI, effect size, p-value"];
+  
+  A -> B;
+  B -> C;
+  C -> D;
+  D -> A;
+}
+```
+
+A practical habit in applied work is to separate magnitude from uncertainty. Magnitude answers how big the effect is. Uncertainty answers how sure you are about that estimate. This book emphasizes effect sizes and confidence intervals as central tools for that purpose.
+
+## Hypothesis testing and decision errors
+
+Hypothesis testing is a formal decision framework. It evaluates whether your data are compatible with a “no effect” model. It can be useful, but it should not replace thinking about measurement quality, effect size, and practical importance.
+
+Two types of mistakes are possible:
+
+| Error | What it means | Example |
+|---|---|---|
+| Type I | concluding there is an effect when there is not | claiming training improved sprint time when it did not |
+| Type II | missing a real effect | failing to detect a meaningful improvement because variability is large |
+
+Power is the probability of detecting an effect if it truly exists. Power improves when measurements are precise, effects are large, and samples are sufficiently large.
+
+::: callout-tip
+## How this book treats p-values
+
+We will not ignore p-values, but we will not treat them as the goal. We will emphasize effect sizes, confidence intervals, design logic, and practical meaning.
+:::
+
+## Worked example using the Core Dataset
+
+::: callout-note
+## Real example box: mixed neuromuscular training study
+
+Question: Does a 6-week mixed neuromuscular training program improve movement performance and balance compared to a control group?
+
+Design: training vs control measured at pre, mid, and post. Some outcomes are measured across three trials per session.
+
+Measurement decisions: sprint time and agility time are recorded once per session. Jump height, peak force, EMG amplitude, and sway area are recorded across trials.
+
+Analysis plan preview:
+- describe distributions and look for data quality issues
+- summarize center and variability at each time point
+- visualize change over time within each group
+- estimate effect sizes and uncertainty for key outcomes
+- test group by time differences when appropriate
+:::
+
+The key point is that the design already tells you which comparisons make sense. You can compare groups at each time point, compare within-person changes across time, and test whether changes differ across groups. Trial-level outcomes introduce an additional decision: summarize trials into a single session value or analyze trial-to-trial patterns directly.
+
+## Chapter summary
+
+Measurement assigns numbers or categories to constructs using rules, and it always includes error. Reliability describes consistency, validity describes whether you measured what you intended, and study design connects your research question to appropriate statistical methods. Statistical inference helps you generalize from samples to populations by emphasizing magnitude and uncertainty.
+
+## Key terms
+
+measurement; construct; operational definition; variable; constant; random error; systematic error; reliability; validity; population; sample; sampling variation; statistical inference; effect size; confidence interval; Type I error; Type II error; power
+
+## Practice: quick checks
+
+1. Give one example of random error and one example of systematic error when measuring sprint time.
+2. A measure is consistent across days but consistently off by a constant amount. Is that a reliability problem, a validity problem, or both? Explain.
+3. In one sentence, describe why repeated trials within a participant are not automatically independent observations.
+4. Choose one Core Dataset variable and describe its measurement scale (nominal, ordinal, interval, ratio) and what that implies about summaries you would use.
+
+::: callout-tip
+## Next chapter
+
+Chapter 2 explains how Movement Science datasets are structured, how to organize repeated measures and trials, and how to avoid common data organization mistakes.
+:::

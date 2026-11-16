@@ -1,0 +1,649 @@
+---
+title: "Calculating Measures of Central Tendency in SPSS"
+subtitle: "Mean, Median, and Mode Using SPSS 31"
+---
+
+## Purpose & Outcomes
+
+This tutorial teaches you how to calculate and interpret measures of central tendency using SPSS 31. By the end, you will be able to compute the mean, median, and mode for continuous and categorical variables using both the Frequencies and Descriptives procedures. You will learn when to use each procedure, how to interpret the output tables, and how to report these statistics in APA format. Additionally, you will understand which measure of central tendency is most appropriate for different types of data and distributions.
+
+## Why This Matters
+
+Measures of central tendency are fundamental descriptive statistics that summarize the typical or central value in a dataset. Understanding how to calculate and interpret the mean, median, and mode is essential for describing your data, identifying patterns, and making informed decisions about which statistical tests to use. These statistics form the foundation for more advanced analyses and are required components of nearly every research report and data analysis project.
+
+## Understanding Measures of Central Tendency
+
+Before diving into SPSS procedures, it's important to understand what each measure represents and when to use it.
+
+### The Mean
+The **mean** (arithmetic average) is calculated by summing all values and dividing by the number of observations. It's the most commonly used measure of central tendency for continuous data. The mean is sensitive to extreme values (outliers), which can pull it away from the center of the distribution. Use the mean when your data is approximately normally distributed and measured on an interval or ratio scale.
+
+**Formula**: $\bar{X} = \frac{\sum X}{N}$
+
+### The Median
+The **median** is the middle value when data is arranged in order. Half of the values fall above the median and half fall below it. The median is resistant to outliers and extreme values, making it a better choice than the mean for skewed distributions. Use the median for ordinal data or when your continuous data contains outliers or is substantially skewed.
+
+### The Mode
+The **mode** is the most frequently occurring value in a dataset. A distribution can have one mode (unimodal), two modes (bimodal), or more (multimodal). The mode is the only measure of central tendency appropriate for nominal (categorical) data, though it can be calculated for any type of data. For continuous variables with many unique values, the mode may not be particularly informative.
+
+## Two SPSS Procedures for Central Tendency
+
+SPSS offers two main procedures for calculating measures of central tendency: **Frequencies** and **Descriptives**. Understanding when to use each is important for efficient data analysis.
+
+### When to Use Frequencies
+Use the **Frequencies** procedure when you want:
+
+- All three measures of central tendency (mean, median, and mode)
+- Frequency tables showing how often each value occurs
+- Charts and graphs (histograms, bar charts)
+- Analysis of categorical or ordinal variables
+- Percentiles and quartiles
+
+The Frequencies procedure is more comprehensive but produces more output, which can be overwhelming for datasets with many unique values.
+
+### When to Use Descriptives
+Use the **Descriptives** procedure when you want:
+
+- Quick summary statistics for continuous variables
+- The mean and standard deviation (but not median or mode)
+- Compact output without frequency tables
+- To analyze multiple variables efficiently
+- Standardized (z-score) values
+
+The Descriptives procedure is streamlined and efficient for continuous data but does not provide the median or mode.
+
+## Method 1: Using Frequencies
+
+The Frequencies procedure provides the most comprehensive output for calculating measures of central tendency, including all three statistics plus frequency distributions.
+
+### Step-by-Step Instructions
+
+**Step 1: Open Your Dataset**
+
+Before beginning, ensure your data file is open in SPSS. If you need to open a file, go to **File > Open > Data** and navigate to your `.sav` file.
+
+**Step 2: Access the Frequencies Dialog**
+
+Navigate to the menu bar and select:
+
+**Analyze > Descriptive Statistics > Frequencies**
+
+This opens the Frequencies dialog box.
+
+![Frequencies Dialog Box](assets/images/ch04/ch04-01-frequencies-dialog.png){#fig-frequencies-dialog fig-alt="SPSS Frequencies main dialog box" style="text-align: center"}
+
+**Step 3: Select Your Variable(s)**
+
+In the Frequencies dialog:
+
+1. On the left side, you'll see a list of all variables in your dataset
+2. Click on the variable(s) you want to analyze (e.g., `test_score`, `age`, `reaction_time`)
+3. Click the arrow button to move selected variables to the **Variable(s):** box on the right
+4. You can select multiple variables to analyze them all at once
+
+::: {.callout-tip}
+## Tip: Display Frequency Tables
+By default, SPSS will display frequency tables showing every unique value and its count. For continuous variables with many unique values, these tables can be very long. If you only want the statistics (not the full frequency table), click the **Format** button and select "Suppress tables with more than N categories" or simply uncheck "Display frequency tables" at the bottom of the main dialog.
+:::
+
+**Step 4: Request Statistics**
+
+Click the **Statistics** button to open the Frequencies: Statistics subdialog.
+
+![Frequencies Statistics Dialog](assets/images/ch04/ch04-02-frequencies-statistics.png){#fig-frequencies-statistics fig-alt="Frequencies Statistics subdialog showing central tendency options" style="text-align: center"}
+
+In the **Central Tendency** section, check the boxes for:
+
+- ☑ **Mean** — arithmetic average
+- ☑ **Median** — middle value
+- ☑ **Mode** — most frequent value
+
+You can also select additional statistics in other sections:
+
+- **Percentile Values**: Quartiles, specific percentiles
+- **Dispersion**: Standard deviation, variance, range
+- **Distribution**: Skewness, kurtosis
+
+Once you've made your selections, click **Continue** to return to the main dialog.
+
+**Step 5: Run the Analysis**
+
+Click **OK** to execute the analysis. SPSS will generate output in the Output Viewer window.
+
+### Interpreting Frequencies Output
+
+The output will contain a Statistics table showing your requested measures of central tendency.
+
+![Frequencies Output Table](assets/images/ch04/ch04-06-frequencies-output.png){#fig-frequencies-output fig-alt="SPSS Frequencies output showing mean, median, and mode" style="text-align: center"}
+
+**Reading the Output Table:**
+
+- **N Valid**: Number of cases with non-missing values
+- **N Missing**: Number of cases with missing values
+- **Mean**: The arithmetic average (e.g., 78.40)
+- **Median**: The middle value (e.g., 80.00)
+- **Mode**: The most frequent value (e.g., 85)
+
+**Interpretation Example:**
+
+For a test score variable with Mean = 78.40, Median = 80.00, and Mode = 85:
+
+- The average test score is 78.40 points
+- Half of students scored below 80 and half scored above 80
+- The most common score was 85 (more students earned this score than any other)
+- The mean is lower than the median, suggesting a slight negative skew (some low scores pulling the mean down)
+
+### Syntax for Frequencies
+
+For reproducibility, you can use syntax to run the Frequencies procedure:
+
+```{.default}
+* Calculate measures of central tendency using Frequencies.
+FREQUENCIES VARIABLES=test_score
+  /STATISTICS=MEAN MEDIAN MODE
+  /ORDER=ANALYSIS.
+```
+
+To suppress the frequency table and show only statistics:
+
+```{.default}
+* Calculate statistics without frequency table.
+FREQUENCIES VARIABLES=test_score
+  /STATISTICS=MEAN MEDIAN MODE
+  /FORMAT=NOTABLE
+  /ORDER=ANALYSIS.
+```
+
+## Method 2: Using Descriptives
+
+The Descriptives procedure is faster and more efficient for continuous variables when you only need the mean and don't require the median or mode.
+
+### Step-by-Step Instructions
+
+**Step 1: Access the Descriptives Dialog**
+
+Navigate to the menu bar and select:
+
+**Analyze > Descriptive Statistics > Descriptives**
+
+![Descriptives Menu Path](assets/images/ch04/ch04-03-descriptives-menu.png){#fig-descriptives-menu fig-alt="SPSS menu showing path to Descriptives" style="text-align: center"}
+
+This opens the Descriptives dialog box.
+
+![Descriptives Dialog Box](assets/images/ch04/ch04-04-descriptives-dialog.png){#fig-descriptives-dialog fig-alt="SPSS Descriptives main dialog box" style="text-align: center"}
+
+**Step 2: Select Your Variable(s)**
+
+1. From the variable list on the left, select the variable(s) you want to analyze
+2. Click the arrow button to move them to the **Variable(s):** box
+3. You can analyze multiple variables simultaneously
+
+**Step 3: Configure Options**
+
+Click the **Options** button to specify which statistics to calculate.
+
+![Descriptives Options Dialog](assets/images/ch04/ch04-05-descriptives-options.png){#fig-descriptives-options fig-alt="Descriptives Options subdialog" style="text-align: center"}
+
+In the Options dialog:
+
+**Statistics Section:**
+
+- ☑ **Mean** — This is checked by default and is the primary measure from Descriptives
+- You can also select: Sum, Std. deviation, Variance, Range, Minimum, Maximum, S.E. mean
+
+**Distribution Section:**
+
+- Kurtosis and Skewness (useful for assessing normality)
+
+**Display Order:**
+
+- Choose how variables are ordered in the output table
+
+::: {.callout-important}
+## Important Limitation
+The Descriptives procedure **does not calculate the median or mode**. If you need these statistics, you must use the Frequencies procedure instead.
+:::
+
+Click **Continue** to return to the main dialog, then click **OK** to run the analysis.
+
+### Interpreting Descriptives Output
+
+The output displays a compact table with summary statistics for each variable.
+
+![Descriptives Output Table](assets/images/ch04/ch04-07-descriptives-output.png){#fig-descriptives-output fig-alt="Descriptives output table showing summary statistics" style="text-align: center"}
+
+**Reading the Output Table:**
+
+- **N**: Number of valid cases
+- **Minimum**: Lowest value in the dataset
+- **Maximum**: Highest value in the dataset
+- **Mean**: Arithmetic average
+- **Std. Deviation**: Measure of spread around the mean
+
+**Interpretation Example:**
+
+For a test score variable with N=25, Min=65, Max=95, Mean=78.40, SD=8.52:
+
+- 25 students completed the test
+- Scores ranged from 65 to 95 points
+- The average score was 78.40 points
+- Most scores fell within approximately 8.52 points of the mean
+
+### Syntax for Descriptives
+
+```{.default}
+* Calculate descriptive statistics including mean.
+DESCRIPTIVES VARIABLES=test_score
+  /STATISTICS=MEAN STDDEV MIN MAX.
+```
+
+## Comparing the Two Procedures
+
+| Feature | Frequencies | Descriptives |
+|---------|-------------|--------------|
+| **Mean** | ✓ Yes | ✓ Yes |
+| **Median** | ✓ Yes | ✗ No |
+| **Mode** | ✓ Yes | ✗ No |
+| **Frequency Tables** | ✓ Yes | ✗ No |
+| **Charts/Graphs** | ✓ Yes | ✗ No |
+| **Compact Output** | ✗ No | ✓ Yes |
+| **Best For** | Categorical/Ordinal data, complete analysis | Continuous data, quick summaries |
+| **Z-scores** | ✗ No | ✓ Yes (optional) |
+
+## Choosing the Right Measure
+
+The choice of which measure of central tendency to use depends on your data type and distribution:
+
+### Use the Mean When:
+- Data is measured on an interval or ratio scale
+- Distribution is approximately symmetric (not heavily skewed)
+- No extreme outliers are present
+- You need to perform further calculations (e.g., t-tests, ANOVA)
+
+### Use the Median When:
+- Data is ordinal (ranked)
+- Distribution is skewed
+- Outliers are present
+- You want a measure resistant to extreme values
+
+### Use the Mode When:
+- Data is nominal (categorical)
+- You want to identify the most common category
+- Data is bimodal or multimodal (multiple peaks)
+
+::: {.callout-tip}
+## Best Practice
+For continuous data, report both the mean and median. If they differ substantially, this indicates skewness and you should investigate further. For example, income data is typically right-skewed, so the median provides a better representation of the "typical" income than the mean.
+:::
+
+## Reporting Results in APA Format
+
+When reporting measures of central tendency in research papers or assignments, follow APA style guidelines:
+
+### Reporting the Mean
+"The mean 20-m sprint time was 3.79 s (*SD* = 0.35, *N* = 60)."
+
+or in a sentence:
+
+"Participants completed the 20-m sprint in an average of 3.79 seconds (*SD* = 0.35)."
+
+### Reporting the Median
+"The median sprint time was 3.80 s (IQR = 3.54–4.03 s)."
+
+Note: IQR = Interquartile Range (25th to 75th percentile), which is the appropriate measure of spread for the median.
+
+### Reporting the Mode
+"The modal response category was 'Agree' (*n* = 45, 45%)."
+
+Note: The mode is most useful for categorical data. For continuous variables like sprint time, the mode may not be informative.
+
+### Reporting All Three
+"Descriptive statistics for 20-m sprint time revealed a mean of 3.79 s (*SD* = 0.35), a median of 3.80 s, and a mode of 3.44 s. The similarity between the mean and median indicates an approximately symmetric distribution."
+
+### In a Table
+
+| Variable | *N* | *M* | *Mdn* | *SD* | Range |
+|----------|-----|-----|-------|------|-------|
+| Sprint Time (s) | 60 | 3.79 | 3.80 | 0.35 | 2.90–4.45 |
+| VO₂max (mL·kg⁻¹·min⁻¹) | 60 | 41.34 | 41.55 | 6.82 | 26.90–56.50 |
+
+*Note.* *M* = mean; *Mdn* = median; *SD* = standard deviation. Pre-training time point (*N* = 60).
+
+## Sample Dataset for This Tutorial
+
+We will use the **Core Dataset** from this book, specifically the `core_session.csv` file. This dataset comes from a mixed neuromuscular training study with recreationally active adults.
+
+::: {.callout-tip}
+## Download the dataset
+Click to download: [core_session.csv](data/core_session.csv)
+
+For complete information about this dataset, see the **Core Dataset Overview** and **Core Dataset Codebook** chapters.
+:::
+
+### Variables We'll Analyze
+
+For this tutorial, we'll focus on these continuous variables:
+
+- **sprint_20m_s**: 20-meter sprint time in seconds (lower is better)
+- **vo2_mlkgmin**: Aerobic capacity estimate in mL·kg⁻¹·min⁻¹ (higher is better)
+- **age_years**: Participant age in years
+
+We'll primarily use **sprint_20m_s** at the **pre** time point to demonstrate calculating measures of central tendency.
+
+## Practical Example: Complete Workflow
+
+Let's walk through a complete example using the 20-meter sprint times from the Core Dataset.
+
+### Scenario
+You have collected 20-meter sprint times from participants at baseline (pre-intervention) and want to describe the central tendency of sprint performance in your sample.
+
+### Step 1: Import and Prepare the Data
+
+1. Download `core_session.csv` from the link above
+2. Open SPSS and import the file using **File > Open > Data**
+3. Save it as `core_session.sav` in your data folder
+
+::: {.callout-important}
+## Filter for Pre-Intervention Data Only
+Since the dataset contains three time points (pre, mid, post), we need to filter to analyze only the baseline (pre) measurements.
+
+**Using Menus:**
+
+1. Go to **Data > Select Cases**
+2. Choose "If condition is satisfied" and click **If**
+3. Enter: `time = "pre"`
+4. Click **Continue**, then **OK**
+
+**Using Syntax:**
+
+```{.default}
+* Select only pre-intervention cases.
+SELECT IF (time = "pre").
+EXECUTE.
+```
+:::
+
+### Step 2: Examine the Data
+Look at the Data View to see the sprint times. Check for obvious errors or outliers. Sprint times should be in the range of approximately 2.5 to 5.0 seconds for recreationally active adults.
+
+### Step 3: Run Frequencies
+Since you want all three measures of central tendency:
+
+1. Go to **Analyze > Descriptive Statistics > Frequencies**
+2. Move `sprint_20m_s` to the Variable(s) box
+3. Click **Statistics** and check Mean, Median, and Mode
+4. Also check Standard deviation and Range under Dispersion
+5. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+* Calculate measures of central tendency for sprint time.
+FREQUENCIES VARIABLES=sprint_20m_s
+  /STATISTICS=MEAN MEDIAN MODE STDDEV RANGE MIN MAX
+  /FORMAT=NOTABLE
+  /ORDER=ANALYSIS.
+```
+
+### Step 4: Interpret the Output
+Examine the Statistics table. For `sprint_20m_s` at pre-training (*N* = 60), you should see:
+
+```
+Statistics
+                        sprint_20m_s
+N        Valid           60
+         Missing          0
+Mean                     3.79
+Median                   3.80
+Mode                     3.44
+Std. Deviation           .35
+Minimum                  2.90
+Maximum                  4.45
+Range                    1.55
+```
+
+- **N Valid** = 60: All 60 pre-training participants have complete data
+- **Mean** = 3.79 s: The average 20-m sprint time
+- **Median** = 3.80 s: Half of participants were faster than 3.80 s, half were slower
+- **Mode** = 3.44 s: The most common sprint time (for continuous data, mode is less informative)
+- **Std. Deviation** = 0.35 s: Typical deviation from the mean
+- **Range** = 1.55 s: Difference between fastest (2.90 s) and slowest (4.45 s)
+
+### Step 5: Assess the Distribution
+Since the mean (3.79 s) is virtually identical to the median (3.80 s), the distribution appears approximately symmetric with no substantial skewness. This suggests the data is roughly normally distributed.
+
+### Step 6: Create a Visualization
+To visualize the distribution:
+
+1. In the Frequencies dialog, click **Charts**
+2. Select **Histograms** and check "Show normal curve on histogram"
+3. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+* Create histogram with normal curve.
+FREQUENCIES VARIABLES=sprint_20m_s
+  /HISTOGRAM NORMAL
+  /FORMAT=NOTABLE.
+```
+
+The histogram will show the shape of the distribution and help you identify any outliers or unusual patterns.
+
+### Step 7: Report the Results
+"Twenty-meter sprint times at baseline (*N* = 60) ranged from 2.90 to 4.45 seconds, with a mean of 3.79 s (*SD* = 0.35) and a median of 3.80 s. The distribution was approximately symmetric, as evidenced by the close agreement between the mean and median, indicating that the mean provides an appropriate measure of central tendency for this variable."
+
+## Common Pitfalls and Troubleshooting
+
+### Pitfall 1: Using the Mean for Skewed Data
+**Problem**: Reporting only the mean when data is heavily skewed can be misleading.
+
+**Solution**: Always check the distribution. If the mean and median differ substantially, report both and note the skewness. Consider using the median as the primary measure for skewed data.
+
+### Pitfall 2: Missing Values
+**Problem**: SPSS excludes cases with missing values, which can affect your results.
+
+**Solution**: Always check the "N Valid" and "N Missing" in your output. Investigate why data is missing and consider whether it's missing at random or systematically.
+
+### Pitfall 3: Inappropriate Mode for Continuous Data
+**Problem**: For continuous variables with many unique values, the mode may not be meaningful.
+
+**Solution**: The mode is most useful for categorical data or discrete variables. For continuous data, focus on the mean and median.
+
+### Pitfall 4: Confusing Procedures
+**Problem**: Using Descriptives when you need the median or mode.
+
+**Solution**: Remember: Frequencies gives you all three measures; Descriptives only gives you the mean. Choose the procedure based on what statistics you need.
+
+### Pitfall 5: Not Checking for Outliers
+**Problem**: Extreme values can dramatically affect the mean.
+
+**Solution**: Always examine the minimum and maximum values. Create a boxplot to visually identify outliers. Consider whether outliers are data entry errors or legitimate extreme values.
+
+## Practice Exercise
+
+Use the Core Dataset to practice calculating measures of central tendency for a different variable.
+
+### Practice Data
+
+Use the same `core_session.csv` file you downloaded earlier. For this exercise, you'll analyze **aerobic capacity** (VO₂) at baseline.
+
+### Tasks
+
+1. **Filter the data** to include only pre-intervention measurements (`time = "pre"`)
+2. **Calculate all three measures** using the Frequencies procedure for the `vo2_mlkgmin` variable
+3. **Calculate descriptive statistics** using the Descriptives procedure for the same variable
+4. **Compare the mean and median**. What does the relationship between them tell you about the distribution?
+5. **Create a histogram** to visualize the distribution
+6. **Write a brief results paragraph** in APA format reporting your findings
+
+::: {#practice-solutions style="display:none;"}
+<h2 style="margin-top: 1em; font-size: 1.5em; font-weight: bold;">Practice Solutions</h2>
+
+**Task 1: Filter for Pre-Intervention**
+
+**Using Menus:**
+
+1. Go to **Data > Select Cases**
+2. Choose "If condition is satisfied" and click **If**
+3. Enter: `time = "pre"`
+4. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+* Select only baseline measurements.
+SELECT IF (time = "pre").
+EXECUTE.
+```
+
+**Task 2: Frequencies Procedure**
+
+1. Go to **Analyze > Descriptive Statistics > Frequencies**
+2. Move `vo2_mlkgmin` to the Variable(s) box
+3. Click **Statistics**
+4. Check: Mean, Median, Mode, Std. deviation, Range, Minimum, Maximum
+5. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+FREQUENCIES VARIABLES=vo2_mlkgmin
+  /STATISTICS=MEAN MEDIAN MODE STDDEV RANGE MIN MAX
+  /FORMAT=NOTABLE
+  /ORDER=ANALYSIS.
+```
+
+**Task 3: Descriptives Procedure**
+
+1. Go to **Analyze > Descriptive Statistics > Descriptives**
+2. Move `vo2_mlkgmin` to the Variable(s) box
+3. Click **Options**
+4. Ensure Mean, Std. deviation, Minimum, Maximum are checked
+5. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+DESCRIPTIVES VARIABLES=vo2_mlkgmin
+  /STATISTICS=MEAN STDDEV MIN MAX.
+```
+
+**Task 4: Interpretation**
+
+Based on the actual Core Dataset (pre-training, *N* = 60), you should find:
+
+```
+Statistics
+                        vo2_mlkgmin
+N        Valid           60
+         Missing          0
+Mean                     41.34
+Median                   41.55
+Mode                     29.40
+Std. Deviation           6.82
+Minimum                  26.90
+Maximum                  56.50
+Range                    29.60
+```
+
+Since the mean (41.34) and median (41.55) are very close, this indicates an approximately symmetric distribution with minimal skewness. The data appears roughly normally distributed.
+
+**Task 5: Histogram**
+
+1. In the Frequencies dialog, click **Charts**
+2. Select **Histograms**
+3. Check "Show normal curve on histogram"
+4. Click **Continue**, then **OK**
+
+**Syntax:**
+
+```{.default}
+FREQUENCIES VARIABLES=vo2_mlkgmin
+  /HISTOGRAM NORMAL
+  /FORMAT=NOTABLE.
+```
+
+**Task 6: APA Results Paragraph**
+
+"Aerobic capacity at baseline (*N* = 60) ranged from 26.9 to 56.5 mL·kg⁻¹·min⁻¹, with a mean of 41.34 mL·kg⁻¹·min⁻¹ (*SD* = 6.82) and a median of 41.55 mL·kg⁻¹·min⁻¹. The distribution was approximately symmetric, as evidenced by the close agreement between the mean and median. Visual inspection of the histogram confirmed an approximately normal distribution with no substantial outliers."
+
+::: {.callout-tip}
+## Extension Activity
+Try comparing VO₂ values between the training and control groups at baseline. Use **Data > Split File** to analyze each group separately, or use **Analyze > Compare Means > Means** to get descriptive statistics for each group.
+:::
+
+:::
+
+```{=html}
+<script>
+document.addEventListener('keydown', function(e) {
+  // Check for Ctrl+` (backtick)
+  if (e.ctrlKey && e.key === '`') {
+    e.preventDefault();
+    const solutions = document.getElementById('practice-solutions');
+    if (solutions) {
+      solutions.style.display = solutions.style.display === 'none' ? 'block' : 'none';
+    }
+  }
+});
+</script>
+```
+
+## Quick Reference: Syntax Templates
+
+### Frequencies (All Three Measures)
+```{.default}
+FREQUENCIES VARIABLES=variable_name
+  /STATISTICS=MEAN MEDIAN MODE STDDEV
+  /FORMAT=NOTABLE
+  /ORDER=ANALYSIS.
+```
+
+### Frequencies with Histogram
+```{.default}
+FREQUENCIES VARIABLES=variable_name
+  /STATISTICS=MEAN MEDIAN MODE
+  /HISTOGRAM NORMAL
+  /FORMAT=NOTABLE.
+```
+
+### Descriptives (Mean Only)
+```{.default}
+DESCRIPTIVES VARIABLES=variable_name
+  /STATISTICS=MEAN STDDEV MIN MAX.
+```
+
+### Multiple Variables
+```{.default}
+FREQUENCIES VARIABLES=var1 var2 var3
+  /STATISTICS=MEAN MEDIAN MODE
+  /FORMAT=NOTABLE.
+```
+
+## Readiness Checklist
+
+Before moving on, ensure you can:
+
+- [ ] Explain the difference between mean, median, and mode
+- [ ] Choose the appropriate measure of central tendency for different data types
+- [ ] Navigate to and use the Frequencies procedure
+- [ ] Navigate to and use the Descriptives procedure
+- [ ] Interpret output tables from both procedures
+- [ ] Identify when data is skewed based on mean vs. median
+- [ ] Report measures of central tendency in APA format
+- [ ] Write and run syntax for calculating central tendency
+- [ ] Recognize when outliers may be affecting the mean
+- [ ] Create and interpret histograms to visualize distributions
+
+## Additional Resources
+
+- **SPSS Help**: Press F1 within SPSS for context-sensitive help
+- **IBM SPSS Documentation**: Comprehensive guides available through IBM's website
+- **APA Publication Manual** (7th ed.): For detailed reporting guidelines
+- **Course Textbook**: Review the chapter on central tendency for conceptual understanding
+
+::: {.callout-note}
+## Next Steps
+Once you're comfortable calculating measures of central tendency, the next tutorial will cover **measures of variability** (range, variance, standard deviation), which describe how spread out your data is around the central value.
+:::

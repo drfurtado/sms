@@ -1,0 +1,537 @@
+---
+title: "Confidence Intervals and Estimation"
+subtitle: "Quantifying certainty and communicating statistical results responsibly"
+---
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to compute and interpret confidence intervals in SPSS! See the **[SPSS Tutorial: Confidence Intervals](appendix-spss-confidence-intervals.qmd)** in the appendix for step-by-step instructions on calculating confidence intervals for means, differences, and effect sizes.
+:::
+
+## Chapter roadmap
+
+Point estimates—single numerical summaries like a sample mean or a correlation coefficient—are essential for describing data, but they tell an incomplete story [@cumming2014; @gardner1986]. Every sample statistic carries uncertainty because it is based on incomplete information about the population [@moore_ips]. If we collected a different sample of 30 runners and measured their VO₂max values, we would obtain a different mean. If we tested 40 different participants for reaction time, the average would vary. **Confidence intervals** provide a principled way to quantify this uncertainty by constructing a range of plausible values for the population parameter, based on sample data and sampling variability [@cumming2012; @altman2000]. Rather than reporting "the mean vertical jump was 45 cm," we report "the mean vertical jump was 45 cm, 95% CI [42, 48]," acknowledging uncertainty and providing readers with information about precision [@wilkinson1999].
+
+Understanding confidence intervals is critical because they shift the focus from black-and-white thinking (significant vs. not significant) to nuanced interpretation of effect sizes and uncertainty [@cumming2014; @cohen1994]. The width of a confidence interval reveals how precisely we have estimated a population parameter: narrow intervals reflect high precision (large samples, low variability), while wide intervals indicate substantial uncertainty (small samples, high variability) [@gardner1986; @altman2000]. Confidence intervals also enable more honest communication of research findings, acknowledging that science deals in probabilities rather than certainties [@schmidt1996; @kline2013]. In Movement Science research, where samples are often modest and biological variability is inherent, confidence intervals are indispensable tools for responsible inference [@hopkins2009; @batterham2006].
+
+This chapter explains what confidence intervals are, how they are constructed, and how to interpret them correctly [@moore_ips; @cumming2012]. You will learn the relationship between confidence level (e.g., 95%, 99%) and interval width, why larger samples produce narrower intervals, and how to use confidence intervals to assess both statistical significance and practical importance [@field_discovering; @wilkinson1999]. The goal is not merely to calculate intervals mechanically, but to develop intuition for uncertainty, recognize the limitations of point estimates, and communicate findings transparently [@cumming2014; @kline2013]. You will see how confidence intervals apply to means, mean differences, proportions, and effect sizes—making this chapter foundational for all subsequent inferential procedures [@nakagawa2007; @lakens2013].
+
+By the end of this chapter, you will be able to:
+
+* Explain what a confidence interval represents and how it quantifies uncertainty.
+* Compute and interpret confidence intervals for population means.
+* Understand the relationship between confidence level, sample size, and interval width.
+* Distinguish between statistical significance and practical importance using confidence intervals.
+* Apply confidence intervals to mean differences and effect sizes in Movement Science contexts.
+* Recognize common misinterpretations of confidence intervals and avoid them.
+
+## Workflow for constructing and interpreting confidence intervals
+
+Use this sequence whenever you report estimates from sample data:
+
+1. **Compute the point estimate** (e.g., sample mean, difference between means).
+2. **Calculate the standard error** to quantify sampling variability.
+3. **Choose a confidence level** (typically 95%, but context-dependent).
+4. **Construct the confidence interval** using the appropriate critical value and standard error.
+5. **Interpret the interval** in terms of plausible population values and precision.
+6. **Report transparently** with both the point estimate and the confidence interval.
+
+## What is a confidence interval?
+
+A **confidence interval (CI)** is a range of values, constructed from sample data, that is likely to contain the true population parameter [@moore_ips; @cumming2012]. Rather than providing a single estimate, a confidence interval acknowledges uncertainty and gives a plausible range [@gardner1986]. For example, instead of saying "the population mean is 50," we might say "we are 95% confident that the population mean lies between 47 and 53" [@altman2000].
+
+### The logic behind confidence intervals
+
+The logic rests on sampling distributions [@moore_ips; @field_discovering]. Recall from Chapter 8 that if we repeatedly sampled from a population, the sample means would form a **sampling distribution** centered at the true population mean $\mu$, with standard deviation equal to the **standard error** $\text{SE} = \sigma / \sqrt{n}$ [@cumming2012]. The Central Limit Theorem ensures that this sampling distribution is approximately normal for sufficiently large samples [@moore_ips].
+
+Because the sampling distribution is normal, approximately 95% of all sample means fall within ±1.96 standard errors of the true population mean [@cumming2014]. Turning this logic around: if we take one sample and construct an interval extending ±1.96 standard errors from the observed sample mean, that interval has a 95% probability of capturing the true population mean [@moore_ips; @altman2000]. This is the essence of a **95% confidence interval**.
+
+::: callout-important
+## Understanding "95% confidence"
+
+A 95% confidence interval means: **If we repeated our study many times and computed a 95% CI each time, approximately 95% of those intervals would contain the true population parameter** [@cumming2012; @moore_ips]. 
+
+It does NOT mean "there is a 95% probability that the true parameter lies in this specific interval" (the parameter is fixed; the interval is random) [@hoekstra2014; @morey2016].
+:::
+
+### Confidence interval formula for a population mean
+
+For a population mean $\mu$, the confidence interval is:
+
+$$
+\text{CI} = \bar{x} \pm t^* \times \text{SE}
+$$
+
+Where [@moore_ips; @field_discovering]:
+
+* $\bar{x}$ = sample mean (point estimate)
+* $t^*$ = critical value from the $t$-distribution with $n - 1$ degrees of freedom
+* $\text{SE} = s / \sqrt{n}$ = standard error of the mean
+* $s$ = sample standard deviation
+* $n$ = sample size
+
+The critical value $t^*$ depends on the desired confidence level and degrees of freedom [@cumming2014]. For large samples, $t^*$ approaches the standard normal values (e.g., $t^* \approx 1.96$ for 95% CI), but for small samples $t^*$ is larger, reflecting greater uncertainty [@moore_ips].
+
+::: callout-note
+## Real example: Reporting VO₂max with confidence
+
+A study of 25 collegiate soccer players reports mean VO₂max = 52.3 mL/kg/min, 95% CI [49.8, 54.8]. This tells us:
+
+1. The best estimate of population mean VO₂max is 52.3 mL/kg/min.
+2. We are 95% confident the true population mean lies between 49.8 and 54.8 mL/kg/min.
+3. The interval width (5.0 mL/kg/min) reflects moderate precision.
+
+If the study had included 100 players instead of 25, the interval would be narrower, reflecting reduced sampling error [@batterham2006; @hopkins2009].
+:::
+
+### Worked example: Computing a 95% confidence interval for a mean
+
+A researcher measures vertical jump height (cm) in 16 high school basketball players and obtains:
+
+* Sample mean $\bar{x} = 58.2$ cm
+* Sample standard deviation $s = 7.5$ cm
+* Sample size $n = 16$
+
+**Step 1: Compute the standard error**
+
+$$
+\text{SE} = \frac{s}{\sqrt{n}} = \frac{7.5}{\sqrt{16}} = \frac{7.5}{4} = 1.875 \text{ cm}
+$$
+
+**Step 2: Determine the critical value $t^*$**
+
+For 95% confidence with $df = n - 1 = 15$, the critical value is $t^* = 2.131$ (from $t$-table or software).
+
+**Step 3: Compute the margin of error**
+
+$$
+\text{Margin of error} = t^* \times \text{SE} = 2.131 \times 1.875 = 3.996 \text{ cm}
+$$
+
+**Step 4: Construct the confidence interval**
+
+$$
+\text{95% CI} = \bar{x} \pm \text{margin of error} = 58.2 \pm 3.996 = [54.2, 62.2] \text{ cm}
+$$
+
+**Interpretation**
+
+We are 95% confident that the true population mean vertical jump height for high school basketball players lies between 54.2 cm and 62.2 cm. The interval width (8.0 cm) reflects the uncertainty inherent in estimating a population parameter from a sample of only 16 participants [@cumming2014; @altman2000].
+
+## Factors affecting confidence interval width
+
+Three factors determine how wide (or narrow) a confidence interval will be [@moore_ips; @cumming2012]:
+
+### 1. Sample size ($n$)
+
+**Larger samples produce narrower confidence intervals** because they reduce sampling error [@cumming2014]. The standard error decreases as $1/\sqrt{n}$, so doubling the sample size reduces the SE by a factor of $\sqrt{2} \approx 1.41$ [@moore_ips; @field_discovering].
+
+::: callout-tip
+## Practical implication
+
+To cut the width of a confidence interval in half, you need to **quadruple the sample size** [@cumming2014; @maxwell2008]. This is why large-scale studies provide more precise estimates than pilot studies.
+:::
+
+### 2. Variability ($s$)
+
+**Greater variability in the data produces wider confidence intervals** [@moore_ips]. Populations with high biological variability (e.g., reaction times across diverse age groups) yield less precise estimates than homogeneous populations (e.g., elite sprinters) [@hopkins2009].
+
+Researchers cannot directly control population variability, but they can:
+
+* Use more precise measurement tools [@atkinson1998]
+* Standardize testing conditions [@hopkins2000]
+* Employ within-subject designs to reduce between-subject variability [@cumming2012]
+
+### 3. Confidence level (e.g., 95% vs. 99%)
+
+**Higher confidence levels produce wider intervals** because we demand greater certainty [@moore_ips; @cumming2014]. A 99% CI is wider than a 95% CI because we require the interval to capture the true parameter in 99% of hypothetical repeated samples instead of 95% [@altman2000].
+
+Common confidence levels and approximate critical values (large samples):
+
+* 90% CI: $t^* \approx 1.645$
+* 95% CI: $t^* \approx 1.96$
+* 99% CI: $t^* \approx 2.576$
+
+::: callout-warning
+## Common mistake: Ignoring the confidence level
+
+Researchers often default to 95% confidence intervals without considering context [@cumming2014]. In exploratory research, 90% CIs may be more appropriate; in safety-critical applications (e.g., prosthetic design), 99% CIs may be warranted [@batterham2006]. Always justify your choice of confidence level.
+:::
+
+### Visualizing the effect of sample size on confidence intervals
+
+```{r}
+#| label: fig-ci-sample-size
+#| fig-cap: "Effect of sample size on 95% confidence interval width. Larger samples produce narrower intervals, reflecting reduced sampling error. All samples drawn from a population with mean = 100 and SD = 15."
+#| code-fold: true
+
+library(ggplot2)
+
+# Simulate sampling distributions for different sample sizes
+set.seed(123)
+pop_mean <- 100
+pop_sd <- 15
+sample_sizes <- c(10, 25, 50, 100)
+n_simulations <- 1000
+
+results <- data.frame()
+
+for (n in sample_sizes) {
+  cis <- replicate(n_simulations, {
+    sample_data <- rnorm(n, mean = pop_mean, sd = pop_sd)
+    sample_mean <- mean(sample_data)
+    sample_se <- sd(sample_data) / sqrt(n)
+    t_crit <- qt(0.975, df = n - 1)
+    margin <- t_crit * sample_se
+    c(lower = sample_mean - margin, upper = sample_mean + margin, mean = sample_mean)
+  })
+  
+  temp_df <- data.frame(
+    n = n,
+    lower = cis[1, ],
+    upper = cis[2, ],
+    mean = cis[3, ],
+    contains_true = cis[1, ] <= pop_mean & cis[2, ] >= pop_mean
+  )
+  
+  results <- rbind(results, temp_df)
+}
+
+# Plot first 50 CIs for each sample size
+results_subset <- results[results$n %in% sample_sizes, ]
+results_subset <- do.call(rbind, lapply(split(results_subset, results_subset$n), head, 50))
+results_subset$sim_id <- ave(rep(1, nrow(results_subset)), results_subset$n, FUN = seq_along)
+
+ggplot(results_subset, aes(x = sim_id, y = mean, ymin = lower, ymax = upper, color = contains_true)) +
+  geom_pointrange(size = 0.3, alpha = 0.6) +
+  geom_hline(yintercept = pop_mean, linetype = "dashed", color = "black", size = 0.8) +
+  facet_wrap(~ factor(n, labels = paste("n =", sample_sizes)), ncol = 2, scales = "free_x") +
+  scale_color_manual(values = c("red", "steelblue"), 
+                     labels = c("Misses true mean", "Captures true mean")) +
+  labs(x = "Simulation number", y = "Vertical jump height (cm)", color = "95% CI") +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+Figure @fig-ci-sample-size illustrates how confidence interval width decreases as sample size increases. Each line represents one 95% confidence interval from a simulated sample. Notice that nearly 95% of intervals (blue) capture the true population mean (dashed line), while approximately 5% (red) miss it—exactly as expected [@cumming2012; @moore_ips]. Larger samples yield narrower intervals, providing more precise estimates of the population parameter [@cumming2014].
+
+## Confidence intervals for mean differences
+
+In Movement Science research, we often compare two groups or conditions (e.g., intervention vs. control, pre-test vs. post-test) [@batterham2006; @hopkins2009]. Confidence intervals for **mean differences** quantify the uncertainty in the magnitude of the effect [@cumming2012; @lakens2013].
+
+### Independent samples (two-group comparison)
+
+For independent groups (e.g., experimental group vs. control group), the 95% CI for the difference in means ($\mu_1 - \mu_2$) is:
+
+$$
+\text{CI} = (\bar{x}_1 - \bar{x}_2) \pm t^* \times \text{SE}_{\text{diff}}
+$$
+
+Where [@field_discovering; @cumming2014]:
+
+$$
+\text{SE}_{\text{diff}} = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}
+$$
+
+If the confidence interval **does not include zero**, the difference is statistically significant at the chosen confidence level [@cumming2012; @gardner1986]. More importantly, the interval reveals the range of plausible effect sizes [@lakens2013].
+
+### Paired samples (within-subject comparison)
+
+For paired data (e.g., pre-post measurements on the same participants), compute the difference score for each participant ($d_i = x_{i,\text{post}} - x_{i,\text{pre}}$), then construct a CI for the mean difference [@cumming2014]:
+
+$$
+\text{CI} = \bar{d} \pm t^* \times \frac{s_d}{\sqrt{n}}
+$$
+
+Where $\bar{d}$ is the mean difference and $s_d$ is the standard deviation of the differences [@moore_ips; @field_discovering].
+
+::: callout-note
+## Real example: Assessing training effects
+
+A plyometric training study (n = 20) reports that vertical jump height increased by 4.3 cm, 95% CI [2.1, 6.5]. Interpretation [@batterham2006; @hopkins2009]:
+
+1. The best estimate of the training effect is 4.3 cm.
+2. We are 95% confident the true population effect is between 2.1 and 6.5 cm.
+3. Because zero is not in the interval, we conclude the training effect is statistically significant.
+4. The interval tells us the effect is **at least 2.1 cm** (useful for practical significance).
+:::
+
+### Worked example: Confidence interval for a mean difference
+
+A researcher compares reaction time (ms) between two groups: 15 young adults (Group 1) and 15 older adults (Group 2).
+
+**Data:**
+
+* Group 1: $\bar{x}_1 = 320$ ms, $s_1 = 35$ ms, $n_1 = 15$
+* Group 2: $\bar{x}_2 = 380$ ms, $s_2 = 42$ ms, $n_2 = 15$
+
+**Step 1: Compute the difference in means**
+
+$$
+\bar{x}_1 - \bar{x}_2 = 320 - 380 = -60 \text{ ms}
+$$
+
+(Negative because Group 1 is faster.)
+
+**Step 2: Compute the standard error of the difference**
+
+$$
+\text{SE}_{\text{diff}} = \sqrt{\frac{35^2}{15} + \frac{42^2}{15}} = \sqrt{\frac{1225}{15} + \frac{1764}{15}} = \sqrt{81.67 + 117.60} = \sqrt{199.27} = 14.12 \text{ ms}
+$$
+
+**Step 3: Determine the critical value**
+
+For 95% confidence, using $df = \min(n_1 - 1, n_2 - 1) = 14$ (conservative approach), $t^* \approx 2.145$.
+
+**Step 4: Construct the confidence interval**
+
+$$
+\text{95% CI} = -60 \pm 2.145 \times 14.12 = -60 \pm 30.29 = [-90.3, -29.7] \text{ ms}
+$$
+
+**Interpretation**
+
+We are 95% confident that young adults have reaction times between 29.7 and 90.3 ms faster than older adults. Because zero is not in the interval, the difference is statistically significant [@cumming2012]. The interval also indicates the **minimum plausible effect size** (29.7 ms), which may be important for assessing practical significance [@batterham2006; @lakens2013].
+
+## Confidence intervals and statistical significance
+
+Confidence intervals provide an elegant way to assess **statistical significance** without relying solely on *p*-values [@cumming2014; @gardner1986].
+
+### The relationship between CIs and *p*-values
+
+**Key principle:** If a 95% confidence interval for a difference **does not include zero**, the difference is statistically significant at $\alpha = 0.05$ (two-tailed) [@moore_ips; @cumming2012].
+
+**Why?** A 95% CI excludes values that are implausible at the 5% significance level. If zero (no effect) is outside the interval, we reject the null hypothesis of no difference [@altman2000; @gardner1986].
+
+::: callout-tip
+## Advantages of confidence intervals over *p*-values
+
+Confidence intervals offer [@cumming2014; @wilkinson1999]:
+
+1. **Effect size information**: The interval reveals plausible magnitudes, not just "significant" vs. "not significant."
+2. **Precision information**: Narrow intervals indicate high precision; wide intervals indicate high uncertainty.
+3. **Clinical/practical relevance**: Researchers can judge whether the entire interval falls within a range of practical importance.
+4. **Transparency**: Intervals communicate uncertainty honestly rather than reducing findings to binary decisions.
+:::
+
+### Interpreting overlapping vs. non-overlapping confidence intervals
+
+A common question: "If two 95% CIs overlap, does that mean there is no significant difference?" [@cumming2012; @schenker2001].
+
+**Answer:** Not necessarily. Two groups can have overlapping 95% CIs yet still show a statistically significant difference when formally tested [@cumming2009; @schenker2001]. The correct comparison is to examine the **confidence interval for the difference**, not the overlap of individual group CIs [@altman2000].
+
+::: callout-warning
+## Common mistake: Misinterpreting overlapping CIs
+
+Do not conclude "no significant difference" simply because two 95% CIs overlap. Instead, compute the 95% CI for the mean difference and check whether it includes zero [@cumming2009; @schenker2001].
+:::
+
+## Confidence intervals for proportions
+
+Confidence intervals also apply to **proportions** (e.g., success rates, injury rates, adherence rates) [@altman2000; @newcombe1998].
+
+For a sample proportion $\hat{p} = x/n$ (where $x$ is the number of successes), the **approximate 95% CI** is:
+
+$$
+\text{CI} = \hat{p} \pm 1.96 \times \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}
+$$
+
+This approximation works well when $n\hat{p} \geq 5$ and $n(1 - \hat{p}) \geq 5$ [@moore_ips; @agresti1998].
+
+### Worked example: Confidence interval for injury rate
+
+A study tracks 120 recreational runners over one season and finds that 18 suffer a running-related injury.
+
+**Step 1: Compute the sample proportion**
+
+$$
+\hat{p} = \frac{18}{120} = 0.15
+$$
+
+**Step 2: Compute the standard error**
+
+$$
+\text{SE} = \sqrt{\frac{0.15 \times 0.85}{120}} = \sqrt{\frac{0.1275}{120}} = \sqrt{0.0010625} = 0.0326
+$$
+
+**Step 3: Construct the 95% CI**
+
+$$
+\text{95% CI} = 0.15 \pm 1.96 \times 0.0326 = 0.15 \pm 0.064 = [0.086, 0.214]
+$$
+
+Converting to percentages: [8.6%, 21.4%]
+
+**Interpretation**
+
+We are 95% confident that the true injury rate among recreational runners lies between 8.6% and 21.4%. The wide interval reflects the relatively small sample size and the inherent variability in injury occurrence [@newcombe1998; @altman2000].
+
+## Confidence intervals for effect sizes
+
+Effect sizes (e.g., Cohen's *d*, correlation coefficients) quantify the magnitude of effects in standardized units [@cumming2014; @lakens2013]. Like means and proportions, effect sizes carry uncertainty and should be reported with confidence intervals [@nakagawa2007; @wilkinson1999].
+
+### Cohen's *d* with confidence intervals
+
+Cohen's *d* is defined as:
+
+$$
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{\text{pooled}}}
+$$
+
+Where $s_{\text{pooled}}$ is the pooled standard deviation [@cohen1988; @lakens2013].
+
+Computing exact confidence intervals for *d* requires specialized formulas or software (e.g., ESCI, R packages) [@cumming2014; @kelley2012]. The key insight: **a confidence interval for *d* reveals the range of plausible standardized effect sizes**, helping researchers assess both statistical and practical significance [@nakagawa2007].
+
+::: callout-note
+## Real example: Effect size with confidence
+
+A meta-analysis reports that resistance training improves muscle strength with *d* = 0.67, 95% CI [0.52, 0.82]. Interpretation:
+
+1. The best estimate of the standardized effect is moderate-to-large (*d* = 0.67) [@cohen1988].
+2. We are 95% confident the true effect is at least 0.52 (moderate) and at most 0.82 (large).
+3. The narrow interval indicates high precision, likely due to a large meta-analytic sample [@nakagawa2007; @borenstein2009].
+:::
+
+## Common misinterpretations of confidence intervals
+
+Despite their utility, confidence intervals are frequently misinterpreted [@hoekstra2014; @morey2016]. Avoid these errors:
+
+### Misinterpretation 1: "There is a 95% probability the true parameter is in this interval"
+
+**Correct interpretation:** If we repeated the study infinitely many times and constructed a 95% CI each time, approximately 95% of those intervals would contain the true parameter [@moore_ips; @cumming2012]. The true parameter is fixed; the interval is random.
+
+### Misinterpretation 2: "Values outside the CI have been rejected"
+
+**Correct interpretation:** Values outside the 95% CI are less plausible but not impossible [@cumming2014]. The CI provides a range of values compatible with the data, not an absolute boundary [@morey2016].
+
+### Misinterpretation 3: "A 95% CI contains 95% of the sample data"
+
+**Correct interpretation:** A confidence interval estimates the population parameter (e.g., the mean), not the distribution of individual observations [@hoekstra2014]. To describe where most data fall, use **prediction intervals** or **reference ranges** [@altman2000].
+
+::: callout-important
+## Understanding what confidence intervals do and don't tell you
+
+Confidence intervals quantify **uncertainty about a population parameter**, not variability in individual observations [@cumming2012; @altman2000]. A narrow CI means we have precisely estimated the population mean, but individuals may still vary widely around that mean.
+:::
+
+## Reporting confidence intervals
+
+Best practices for reporting confidence intervals [@wilkinson1999; @apa2020; @cumming2014]:
+
+1. **Always report point estimates with CIs**: "Mean VO₂max was 52.3 mL/kg/min, 95% CI [49.8, 54.8]."
+2. **Specify the confidence level**: Make it clear whether you used 90%, 95%, or 99%.
+3. **Provide CIs for effect sizes**: Report *d* = 0.67, 95% CI [0.52, 0.82], not just *d* = 0.67.
+4. **Interpret intervals in context**: Discuss whether the interval width is acceptable for your research question [@batterham2006].
+5. **Avoid overreliance on significance**: Use CIs to assess practical importance, not just statistical significance [@cumming2014; @kline2013].
+
+## Visualizing confidence intervals
+
+Confidence intervals are often displayed graphically to facilitate interpretation [@cumming2012; @wilkinson1999].
+
+### Error bar plots
+
+Error bars show means ± confidence intervals (or standard errors) for groups or conditions [@cumming2014].
+
+```{r}
+#| label: fig-ci-error-bars
+#| fig-cap: "Mean reaction time (ms) with 95% confidence intervals for three training groups. Error bars that do not overlap suggest a significant difference, though formal testing is required."
+#| code-fold: true
+
+library(ggplot2)
+
+# Simulated data
+set.seed(456)
+groups <- c("Control", "Moderate Training", "Intensive Training")
+means <- c(380, 350, 320)
+se <- c(12, 10, 11)
+n <- c(20, 20, 20)
+
+# Compute 95% CI
+t_crit <- qt(0.975, df = n - 1)
+ci_lower <- means - t_crit * se
+ci_upper <- means + t_crit * se
+
+df <- data.frame(
+  Group = factor(groups, levels = groups),
+  Mean = means,
+  CI_lower = ci_lower,
+  CI_upper = ci_upper
+)
+
+ggplot(df, aes(x = Group, y = Mean)) +
+  geom_point(size = 4, color = "steelblue") +
+  geom_errorbar(aes(ymin = CI_lower, ymax = CI_upper), width = 0.2, size = 1, color = "steelblue") +
+  labs(x = "Training Group", y = "Reaction Time (ms)", title = "Reaction Time by Training Group") +
+  theme_minimal() +
+  ylim(280, 420)
+```
+
+Figure @fig-ci-error-bars displays mean reaction times with 95% confidence intervals. The non-overlapping error bars suggest statistically significant differences between groups, particularly between Control and Intensive Training [@cumming2012]. However, formal hypothesis testing or examination of the CI for the difference is required to confirm significance [@schenker2001; @cumming2009].
+
+### Forest plots for meta-analysis
+
+In meta-analyses, **forest plots** display effect sizes and confidence intervals from multiple studies, along with the overall pooled estimate [@borenstein2009; @nakagawa2007].
+
+## Sample size planning using confidence intervals
+
+Confidence intervals are useful for **sample size planning** [@maxwell2008; @cumming2014]. Researchers can determine the sample size needed to achieve a desired CI width, ensuring adequate precision [@kelley2003].
+
+**General principle:** To achieve narrower confidence intervals, increase sample size [@moore_ips]. Software tools (e.g., G*Power, R packages) can compute required sample sizes for target CI widths [@faul2007; @kelley2012].
+
+::: callout-tip
+## Planning for precision
+
+Rather than focusing solely on "enough power to detect significance," consider planning studies to achieve **sufficiently narrow confidence intervals** that provide informative estimates of effect magnitude [@maxwell2008; @cumming2014]. This approach, called **precision-based sample size planning**, aligns with the goals of estimation and effect size reporting [@kelley2003].
+:::
+
+## Chapter summary
+
+Confidence intervals are indispensable tools for quantifying uncertainty and communicating research findings responsibly [@cumming2014; @wilkinson1999]. Unlike point estimates, which offer single numerical summaries, confidence intervals provide a range of plausible values for population parameters, acknowledging the inherent variability of sample-based estimates [@altman2000; @gardner1986]. A 95% confidence interval means that if we repeated our study many times, approximately 95% of the intervals would capture the true population value—a property rooted in the logic of sampling distributions and the Central Limit Theorem [@moore_ips; @cumming2012]. Interval width is determined by sample size, data variability, and the chosen confidence level: larger samples, lower variability, and lower confidence levels produce narrower intervals [@cumming2014].
+
+Confidence intervals apply not only to means but also to mean differences, proportions, and effect sizes, making them versatile across diverse research contexts [@lakens2013; @nakagawa2007]. When a confidence interval for a difference does not include zero, the effect is statistically significant at the corresponding alpha level [@cumming2012; @altman2000]. More importantly, confidence intervals reveal the magnitude and precision of effects, enabling researchers to assess practical significance alongside statistical significance [@batterham2006; @hopkins2009]. By reporting "mean difference = 4.3 cm, 95% CI [2.1, 6.5]," researchers communicate both the best estimate and the range of uncertainty, fostering transparent and nuanced interpretation [@wilkinson1999; @apa2020]. As Movement Science increasingly emphasizes effect sizes and open science, confidence intervals represent a shift from black-and-white dichotomous thinking to thoughtful, probabilistic reasoning about human performance data [@cumming2014; @kline2013].
+
+## Key terms
+
+confidence interval; point estimate; margin of error; critical value; standard error; confidence level; precision; mean difference; paired samples; independent samples; effect size; Cohen's *d*; sampling error; statistical significance; practical significance
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### Question 1: Why are confidence intervals preferred over point estimates alone? {icon="1-square-fill"}
+
+Point estimates (e.g., sample mean) provide a single best guess of a population parameter but ignore uncertainty inherent in sampling [@cumming2014]. Confidence intervals quantify that uncertainty by providing a range of plausible values, reflecting sampling variability [@altman2000]. For example, knowing that mean reaction time is 350 ms is useful, but knowing it is 350 ms, 95% CI [330, 370] tells us how precisely we have estimated it. Confidence intervals enable readers to judge both statistical and practical significance, fostering more honest and transparent communication of findings [@wilkinson1999; @cumming2012].
+
+### Question 2: What does it mean if a 95% confidence interval for a mean difference includes zero? {icon="2-square-fill"}
+
+If a 95% confidence interval for a mean difference includes zero, it means zero is a plausible value for the true population difference [@cumming2012]. In other words, the observed difference could be due to sampling variability alone, and we cannot confidently conclude that a true effect exists [@gardner1986]. This corresponds to the difference being **not statistically significant** at $\alpha = 0.05$ (two-tailed) [@altman2000]. However, including zero does not prove "no effect"; it simply means the data are consistent with no effect as well as with small positive or negative effects [@cumming2014].
+
+### Question 3: How does increasing sample size affect confidence interval width? {icon="3-square-fill"}
+
+Increasing sample size **narrows the confidence interval** because it reduces sampling error [@moore_ips]. The standard error decreases as $1/\sqrt{n}$, so larger samples yield more precise estimates [@cumming2014]. For instance, doubling the sample size reduces the standard error by approximately 30% ($1/\sqrt{2} \approx 0.71$). To cut the confidence interval width in half, you need to quadruple the sample size [@maxwell2008]. This principle is crucial for study planning: adequately powered studies with sufficient sample sizes provide narrower, more informative confidence intervals that better inform practice and policy [@kelley2003].
+
+### Question 4: Why might two groups have overlapping 95% confidence intervals but still differ significantly? {icon="4-square-fill"}
+
+Overlapping confidence intervals for individual group means do not directly test the difference between groups [@cumming2009; @schenker2001]. A formal comparison requires constructing a confidence interval **for the difference** ($\bar{x}_1 - \bar{x}_2$), which accounts for the correlation or pooled variability between groups [@altman2000]. Two groups can have overlapping 95% CIs yet produce a 95% CI for the difference that excludes zero, indicating statistical significance [@cumming2012]. The correct approach is to compute the CI for the difference, not rely on visual overlap of group CIs [@schenker2001]. This highlights the importance of appropriate statistical comparisons rather than informal "eyeball" tests.
+
+### Question 5: What is the difference between statistical significance and practical significance when interpreting confidence intervals? {icon="5-square-fill"}
+
+**Statistical significance** refers to whether an effect is distinguishable from zero at a given alpha level (e.g., if the 95% CI excludes zero) [@cumming2012]. **Practical significance** refers to whether the magnitude of the effect is large enough to matter in real-world contexts [@batterham2006; @lakens2013]. A confidence interval can exclude zero (statistically significant) but contain only trivially small effect sizes (not practically significant). Conversely, a wide interval might include zero (not statistically significant) yet also include large, practically important effects, warranting further research [@cumming2014]. Researchers should evaluate both the **location** of the interval (does it exclude zero?) and its **range** (are plausible values practically meaningful?) [@hopkins2009].
+
+### Question 6: What is a common misinterpretation of "95% confidence"? {icon="6-square-fill"}
+
+A common misinterpretation is believing "there is a 95% probability that the true parameter lies within this specific interval" [@hoekstra2014; @morey2016]. In frequentist statistics, the true parameter is fixed (though unknown), and the interval is random (varies across samples). The correct interpretation is: **if we repeated the study infinitely and computed 95% CIs each time, approximately 95% of those intervals would capture the true parameter** [@moore_ips; @cumming2012]. This is a statement about the long-run behavior of the method, not about the probability that any one interval contains the parameter [@altman2000]. Understanding this subtlety prevents overconfidence in individual intervals and promotes appropriate probabilistic reasoning.
+
+:::
+
+::: callout-note
+## Read further
+
+For deeper exploration of confidence intervals and their application to Movement Science research, see @cumming2014 (Understanding the New Statistics) and @altman2000 (Statistics Notes series in BMJ). For effect size estimation and reporting, consult @lakens2013 and @nakagawa2007.
+:::
+
+::: callout-tip
+## Next chapter
+
+In Chapter 10, you will learn about **hypothesis testing**, the traditional framework for making yes/no decisions about research hypotheses. You will see how hypothesis tests relate to confidence intervals, understand Type I and Type II errors, and learn to interpret *p*-values responsibly in Movement Science research.
+:::

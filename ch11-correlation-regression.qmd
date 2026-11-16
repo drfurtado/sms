@@ -1,0 +1,546 @@
+---
+title: "Correlation and Bivariate Regression"
+subtitle: "Quantifying relationships and making predictions from movement data"
+---
+
+## Statistical symbols used in this chapter
+
+| Symbol | Name | Description |
+|--------|------|-------------|
+| $r$ | Pearson's correlation coefficient | Measures the strength and direction of the linear relationship between two variables; ranges from $-1$ to $+1$ |
+| $r^2$ | Coefficient of determination (bivariate) | Proportion of variance in $Y$ explained by $X$; square of $r$ |
+| $R^2$ | Coefficient of determination (regression) | Proportion of variance in $Y$ explained by the regression model |
+| $\bar{x}$ | Sample mean of $X$ | Average value of the predictor variable |
+| $\bar{y}$ | Sample mean of $Y$ | Average value of the outcome variable |
+| $b_0$ | Intercept | Predicted value of $Y$ when $X = 0$ |
+| $b_1$ | Slope | Change in $\hat{Y}$ for each one-unit increase in $X$ |
+| $\hat{Y}$ | Predicted value of $Y$ | Value of $Y$ estimated by the regression equation |
+| $e_i$ | Residual | Difference between observed and predicted $Y$: $Y_i - \hat{Y}_i$ |
+| $z_x, z_y$ | Standardized scores (z-scores) | Values of $X$ and $Y$ expressed in standard deviation units |
+| $n$ | Sample size | Number of observations |
+| $SS$ | Sum of squares | Sum of squared deviations; used in regression decomposition |
+| $p$ | $p$-value | Probability of observing the result if the null hypothesis ($\rho = 0$) is true |
+| $\rho$ | Rho (population correlation) | True (population) correlation coefficient; estimated by $r$ |
+
+: {tbl-colwidths="[12,28,60]"}
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to perform correlation and bivariate regression in SPSS! See the **[SPSS Tutorial: Correlation and Bivariate Regression](appendix-spss-correlation-regression.qmd)** in the appendix for step-by-step instructions on computing Pearson's *r*, fitting regression models, and interpreting SPSS output.
+:::
+
+## Chapter roadmap
+
+Many questions in Movement Science involve relationships between variables [@moore_ips; @vincent1999]. Does greater muscular strength predict higher vertical jump performance? Is there a relationship between limb length and stride frequency? Can we predict oxygen consumption from heart rate during exercise? **Correlation** quantifies the strength and direction of linear relationships between two variables, while **bivariate regression** enables us to model these relationships mathematically and make predictions [@cumming2012; @hopkins2000]. Understanding these methods is essential because movement scientists regularly examine how physical, physiological, and biomechanical variables relate to one another, and whether one variable can be used to predict another [@wilcox_robust; @batterham2006].
+
+Correlation and regression are foundational to both descriptive and inferential statistics in Movement Science [@moore_ips; @field_discovering]. Correlation coefficients summarize the degree to which two variables co-vary—whether they tend to increase together (positive correlation), move in opposite directions (negative correlation), or show no systematic relationship (zero correlation) [@cumming2014]. Regression extends this by fitting a linear model to the data, producing an equation that predicts one variable (the **dependent variable** or **outcome**) from another (the **independent variable** or **predictor**) [@vincent1999; @hopkins2009]. However, both methods come with critical assumptions and limitations: **correlation does not imply causation** [@moore_ips], outliers can distort relationships [@wilcox_robust], and violations of assumptions (especially homoscedasticity and linearity) can produce misleading results [@field_discovering; @cumming2012].
+
+This chapter introduces Pearson's correlation coefficient, explains how to compute and interpret it, and demonstrates bivariate linear regression [@moore_ips; @hopkins2000]. You will learn to construct scatterplots to visualize relationships, fit regression lines to data, interpret regression coefficients and $R^2$ values, and recognize when these methods are appropriate [@field_discovering; @batterham2006]. Importantly, you will also learn about common pitfalls: confusing correlation with causation, ignoring outliers and influential points, and failing to check assumptions like linearity and homoscedasticity [@wilcox_robust; @cumming2014]. By mastering these concepts, you will be equipped to quantify relationships in Movement Science data and use them responsibly to generate predictions and test hypotheses.
+
+By the end of this chapter, you will be able to:
+
+-   Explain what correlation measures and how it quantifies linear relationships between variables.
+-   Compute and interpret Pearson's correlation coefficient ($r$) and its squared value ($r^2$).
+-   Distinguish between correlation and causation, recognizing that association does not imply a causal relationship.
+-   Construct and interpret scatterplots to visualize bivariate relationships.
+-   Fit a bivariate linear regression model and interpret the slope, intercept, and $R^2$.
+-   Assess assumptions of correlation and regression, including linearity, homoscedasticity, and normality of residuals.
+-   Recognize the influence of outliers and leverage points on correlation and regression results.
+-   Apply correlation and regression appropriately to Movement Science data and report results clearly.
+
+## Workflow for examining relationships between two variables
+
+Use this sequence whenever you examine the relationship between two continuous variables:
+
+1.  **Create a scatterplot** to visualize the relationship and check for linearity, outliers, and heteroscedasticity.
+2.  **Compute the correlation coefficient** ($r$) to quantify the strength and direction of the linear relationship.
+3.  **Test for statistical significance** of the correlation (if inference is needed).
+4.  **Fit a regression model** (if prediction is the goal) and assess $R^2$ and residual plots.
+5.  **Check assumptions**: linearity, homoscedasticity, independence, and normality of residuals.
+6.  **Interpret cautiously**: remember that correlation does not imply causation, and outliers can distort results.
+
+## What is correlation?
+
+**Correlation** measures the strength and direction of the linear relationship between two continuous variables [@moore_ips; @cumming2012]. It quantifies the degree to which two variables tend to change together in a systematic way—that is, whether knowing the value of one variable helps predict the value of the other [@field_discovering]. When two variables are positively correlated, higher values of one variable tend to occur with higher values of the other; for example, taller individuals often have longer stride lengths, and greater muscular strength is typically associated with higher vertical jump height [@batterham2006]. Conversely, when negatively correlated, higher values of one variable tend to occur with lower values of the other; for instance, body mass often correlates negatively with endurance running performance [@field_discovering; @hopkins2000]. A correlation of zero indicates no systematic linear relationship—knowing one variable provides no information about the other [@vincent1999]. Importantly, correlation coefficients are **dimensionless** and **standardized**, meaning they have no units and are unaffected by the scales of measurement used for the variables [@moore_ips; @cumming2014].
+
+### Pearson's correlation coefficient ($r$)
+
+The most common measure of correlation is **Pearson's correlation coefficient** (also called the **Pearson product-moment correlation**), denoted $r$ [@moore_ips]. It ranges from $-1$ to $+1$:
+
+-   $r = +1$: Perfect positive linear relationship
+-   $r = -1$: Perfect negative linear relationship
+-   $r = 0$: No linear relationship
+-   $|r| > 0.7$: Strong correlation
+-   $0.4 < |r| < 0.7$: Moderate correlation
+-   $|r| < 0.4$: Weak correlation
+
+These thresholds are approximate and highly context-dependent [@hopkins2000; @batterham2006]. What constitutes a "strong" or "weak" correlation depends on the nature of the variables, measurement precision, and research domain [@field_discovering]. In controlled laboratory settings measuring biomechanical variables (e.g., joint angle and muscle force), correlations above 0.90 may be expected because both variables are tightly coupled and measured with high precision [@batterham2006]. Conversely, in studies of training interventions or field-based performance testing, correlations of 0.30–0.50 may be meaningful because human performance is influenced by many factors beyond the single variable being examined [@hopkins2009; @cumming2012]. Hopkins and colleagues [-@hopkins2000] argue that even small correlations ($r \approx 0.10$–$0.30$) can be practically significant in elite sport contexts where tiny performance improvements matter. Always interpret the magnitude of $r$ relative to what is theoretically expected and practically meaningful in your specific research context [@batterham2006; @wilcox_robust].
+
+### Critical limitations: What correlation does and does not tell you
+
+Understanding the limitations of correlation is as important as knowing how to calculate it. Two critical limitations can lead to serious misinterpretations if ignored: the restriction to linear relationships and the inability of correlation to establish causation [@moore_ips; @cumming2012].
+
+#### Pearson's correlation measures only linear relationships
+
+Pearson's $r$ quantifies **only linear** associations between variables [@moore_ips; @field_discovering]. Two variables may have a strong, systematic relationship but show a weak or even zero correlation if that relationship is nonlinear [@wilcox_robust]. For example, the relationship between exercise intensity and lactate concentration is exponential—lactate rises slowly at low intensities but increases dramatically at high intensities [@batterham2006]. If you computed Pearson's $r$ across a wide range of intensities, you might obtain a moderate correlation (e.g., $r = 0.60$) even though the relationship is strong and highly predictable when modeled correctly (e.g., with an exponential function) [@hopkins2009]. Similarly, the relationship between arousal and performance often follows an inverted-U shape (the Yerkes-Dodson law): performance is poor at very low and very high arousal but optimal at moderate arousal [@vincent1999]. In this case, Pearson's $r$ could be close to zero despite a clear and meaningful relationship.
+
+This is why **always plotting your data before computing $r$** is essential [@field_discovering; @cumming2014]. A scatterplot reveals the shape of the relationship and alerts you to nonlinearity, which Pearson's $r$ cannot detect [@moore_ips]. If you observe a curved pattern, consider transformation (e.g., logarithmic), fitting a nonlinear model, or using alternative measures of association [@wilcox_robust; @batterham2006].
+
+#### Correlation does not imply causation
+
+Perhaps the most important limitation: **correlation does not imply causation** [@moore_ips; @vincent1999; @cumming2012]. A strong correlation between two variables does not mean that changes in one variable **cause** changes in the other. There are several reasons why two variables might be correlated without a causal relationship [@field_discovering]:
+
+1. **Confounding variables**: Both variables may be influenced by a third variable (a **confounding variable** or **lurking variable**) that is not measured [@moore_ips; @cumming2012]. For example, ice cream sales and drowning deaths are positively correlated, but ice cream consumption does not cause drowning. Both are influenced by a confounding variable: hot weather [@vincent1999]. In Movement Science, body mass and maximal oxygen uptake ($\dot{V}O_2\text{max}$) are often correlated simply because larger individuals tend to have larger hearts and lungs—not because body mass per se causes higher $\dot{V}O_2\text{max}$ [@batterham2006].
+
+2. **Reverse causation**: The direction of causation may be opposite to what you assume [@field_discovering]. For instance, reaction time and balance ability may be correlated, but does faster reaction time improve balance, or does better balance allow faster responding? Without experimental manipulation, correlation alone cannot answer this question [@hopkins2000].
+
+3. **Spurious correlations**: Sometimes correlations occur by chance or reflect coincidental co-variation with no meaningful connection [@cumming2012; @wilcox_robust]. For example, the number of letters in winning word in a national spelling bee and number of people killed by venomous spiders in a given year may show a correlation purely by coincidence.
+
+**Establishing causation requires experimental evidence**: random assignment to treatment conditions, manipulation of the independent variable, and control of confounding factors [@moore_ips; @vincent1999]. Correlation is a useful descriptive tool and a starting point for generating hypotheses, but it cannot, by itself, prove that one variable causes another [@cumming2012; @field_discovering]. When reporting correlations, always use cautious language: "X is **associated with** Y" or "X and Y are **related**," not "X **causes** Y" [@batterham2006].
+
+### The formula for Pearson's $r$
+
+Pearson's correlation coefficient is computed as:
+
+$$
+r = \frac{\sum (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum (x_i - \bar{x})^2 \sum (y_i - \bar{y})^2}}
+$$
+
+Where:
+
+-   $x_i$ and $y_i$ are individual data points for variables $X$ and $Y$
+-   $\bar{x}$ and $\bar{y}$ are the sample means of $X$ and $Y$
+-   The numerator measures **covariation** (how much $X$ and $Y$ vary together)
+-   The denominator standardizes the result by the variability in each variable
+
+Equivalently, $r$ can be thought of as the average of the products of the standardized values (z-scores) of $X$ and $Y$ [@moore_ips; @field_discovering]:
+
+$$
+r = \frac{1}{n-1} \sum z_x z_y
+$$
+
+This formula shows that $r$ is **unitless** and symmetric: $r_{XY} = r_{YX}$ [@vincent1999].
+
+### Worked example: Computing Pearson's $r$
+
+A researcher measures leg strength (kg) and vertical jump height (cm) in 8 athletes:
+
+| Athlete | Leg Strength ($X$) | Jump Height ($Y$) |
+|---------|--------------------|-------------------|
+| 1       | 80                 | 45                |
+| 2       | 90                 | 50                |
+| 3       | 70                 | 40                |
+| 4       | 100                | 55                |
+| 5       | 85                 | 48                |
+| 6       | 95                 | 52                |
+| 7       | 75                 | 42                |
+| 8       | 88                 | 49                |
+
+**Step 1: Compute the means**
+
+$$
+\bar{x} = \frac{80 + 90 + 70 + 100 + 85 + 95 + 75 + 88}{8} = \frac{683}{8} = 85.375 \text{ kg}
+$$
+
+$$
+\bar{y} = \frac{45 + 50 + 40 + 55 + 48 + 52 + 42 + 49}{8} = \frac{381}{8} = 47.625 \text{ cm}
+$$
+
+**Step 2: Compute deviations and products**
+
+| $x_i$ | $y_i$ | $x_i - \bar{x}$ | $y_i - \bar{y}$ | $(x_i - \bar{x})(y_i - \bar{y})$ | $(x_i - \bar{x})^2$ | $(y_i - \bar{y})^2$ |
+|----------|----------|----------|----------|------------|----------|----------|
+| 80 | 45 | -5.375 | -2.625 | 14.109 | 28.891 | 6.891 |
+| 90 | 50 | 4.625 | 2.375 | 10.984 | 21.391 | 5.641 |
+| 70 | 40 | -15.375 | -7.625 | 117.234 | 236.391 | 58.141 |
+| 100 | 55 | 14.625 | 7.375 | 107.859 | 213.891 | 54.391 |
+| 85 | 48 | -0.375 | 0.375 | -0.141 | 0.141 | 0.141 |
+| 95 | 52 | 9.625 | 4.375 | 42.109 | 92.641 | 19.141 |
+| 75 | 42 | -10.375 | -5.625 | 58.359 | 107.641 | 31.641 |
+| 88 | 49 | 2.625 | 1.375 | 3.609 | 6.891 | 1.891 |
+
+**Step 3: Sum the columns**
+
+$$
+\sum (x_i - \bar{x})(y_i - \bar{y}) = 354.122
+$$
+
+$$
+\sum (x_i - \bar{x})^2 = 707.878
+$$
+
+$$
+\sum (y_i - \bar{y})^2 = 177.878
+$$
+
+**Step 4: Compute** $r$
+
+$$
+r = \frac{354.122}{\sqrt{707.878 \times 177.878}} = \frac{354.122}{\sqrt{125,941.6}} = \frac{354.122}{354.899} = 0.998
+$$
+
+**Interpretation**
+
+The correlation coefficient $r = 0.998$ indicates an extremely strong positive linear relationship between leg strength and vertical jump height in this sample [@moore_ips; @hopkins2000]. As leg strength increases, vertical jump height tends to increase proportionally. However, this does not necessarily mean that strength causes jump height—other factors like technique, power, and muscle fiber type may also contribute [@batterham2006].
+
+::: callout-note
+## Real example: Correlation in Movement Science research
+
+@atkinsonneville1998 examined the relationship between repeated measures of vertical jump performance and found test-retest correlations exceeding $r = 0.95$, indicating high reliability. In contrast, correlations between strength and endurance measures are often moderate ($r \approx 0.3-0.5$), reflecting that these are partially independent fitness qualities [@vincent1999].
+:::
+
+## Visualizing relationships with scatterplots
+
+**Scatterplots** are essential for visualizing bivariate relationships before computing correlation or fitting regression models [@moore_ips; @field_discovering]. They reveal:
+
+-   The overall pattern (linear, nonlinear, or no relationship)
+-   The strength and direction of the relationship
+-   Outliers or influential points
+-   Heteroscedasticity (unequal variance across the range of $X$)
+
+::: callout-warning
+## Common mistake
+
+Never compute a correlation coefficient without first examining a scatterplot [@field_discovering; @cumming2014]. Correlation coefficients can be identical for datasets with vastly different patterns—a phenomenon famously illustrated by **Anscombe's Quartet** and the **Datasaurus Dozen** [@matejka2017]. Always visualize your data.
+:::
+
+### The scatterplot
+
+Here is an example of a scatterplot for the leg strength and jump height data:
+
+```{r}
+#| label: fig-strength-jump-scatter
+#| fig-cap: "Scatterplot showing the strong positive linear relationship between leg strength and vertical jump height in 8 athletes."
+#| code-fold: true
+
+# Data
+strength <- c(80, 90, 70, 100, 85, 95, 75, 88)
+jump <- c(45, 50, 40, 55, 48, 52, 42, 49)
+
+# Create scatterplot
+plot(strength, jump,
+     main = "Relationship Between Leg Strength and Jump Height",
+     xlab = "Leg Strength (kg)",
+     ylab = "Vertical Jump Height (cm)",
+     pch = 19,
+     col = "steelblue",
+     cex = 1.5,
+     las = 1)
+
+# Add a reference line (regression line)
+abline(lm(jump ~ strength), col = "red", lwd = 2)
+```
+
+The scatterplot in @fig-strength-jump-scatter shows a clear positive linear trend, with points clustered tightly around the red regression line. This confirms the strong correlation we computed ($r = 0.998$).
+
+## Interpreting correlation coefficients
+
+### Coefficient of determination: $r^2$
+
+The **coefficient of determination**, denoted $r^2$, represents the proportion of variance in one variable that is explained by the other [@moore_ips; @field_discovering]. It is computed by squaring the correlation coefficient:
+
+$$
+r^2 = (0.998)^2 = 0.996
+$$
+
+This means that 99.6% of the variability in vertical jump height can be explained by differences in leg strength (in this sample) [@hopkins2000]. The remaining 0.4% is due to measurement error, individual differences in technique, or other unmeasured factors [@batterham2006].
+
+::: callout-tip
+## Practical interpretation of $r^2$
+
+-   $r^2 < 0.10$: Weak relationship (less than 10% shared variance)
+-   $0.10 \leq r^2 < 0.30$: Moderate relationship
+-   $r^2 \geq 0.30$: Strong relationship (substantial shared variance)
+
+These thresholds vary by context [@hopkins2000; @vincent1999].
+:::
+
+### Statistical significance of correlation
+
+To determine whether an observed correlation is statistically distinguishable from zero, we test:
+
+$$
+H_0: \rho = 0 \quad \text{(no correlation in the population)}
+$$ $$
+H_A: \rho \neq 0 \quad \text{(correlation exists in the population)}
+$$
+
+Where $\rho$ (rho) is the population correlation parameter [@moore_ips].
+
+The test statistic is:
+
+$$
+t = \frac{r \sqrt{n - 2}}{\sqrt{1 - r^2}}
+$$
+
+With $df = n - 2$ [@field_discovering].
+
+For our example:
+
+$$
+t = \frac{0.998 \sqrt{8 - 2}}{\sqrt{1 - 0.996}} = \frac{0.998 \times 2.449}{0.063} = 38.8
+$$
+
+With $df = 6$, this $t$-value far exceeds any critical value, so $p < 0.001$. We reject $H_0$ and conclude that there is a statistically significant positive correlation between leg strength and vertical jump height [@moore_ips].
+
+::: callout-important
+## Statistical significance ≠ practical importance
+
+A correlation can be statistically significant but practically trivial if the sample size is very large [@cumming2014; @batterham2006]. Always report $r$ and $r^2$ along with confidence intervals, not just $p$-values [@wilkinson1999; @cumming2012].
+:::
+
+## Bivariate linear regression
+
+While correlation quantifies the strength of a relationship, **regression** models the relationship mathematically and enables prediction [@moore_ips; @field_discovering]. **Bivariate linear regression** (also called **simple linear regression**) fits a straight line to data:
+
+$$
+\hat{y} = a + bx
+$$
+
+Where [@moore_ips; @vincent1999]:
+
+-   $\hat{y}$ = predicted value of the dependent variable $Y$
+-   $a$ = intercept (value of $\hat{y}$ when $x = 0$)
+-   $b$ = slope (change in $\hat{y}$ for a one-unit increase in $x$)
+-   $x$ = value of the independent variable $X$
+
+The **slope** ($b$) is computed as:
+
+$$
+b = r \frac{s_y}{s_x}
+$$
+
+Where $r$ is the correlation coefficient, $s_y$ is the standard deviation of $Y$, and $s_x$ is the standard deviation of $X$ [@moore_ips].
+
+The **intercept** ($a$) is computed as:
+
+$$
+a = \bar{y} - b\bar{x}
+$$
+
+This ensures that the regression line passes through the point $(\bar{x}, \bar{y})$ [@field_discovering].
+
+### Worked example: Fitting a regression line
+
+Using the same leg strength and jump height data, let's fit a regression model to predict jump height from leg strength.
+
+**Step 1: Compute the slope**
+
+First, compute the standard deviations:
+
+$$
+s_x = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}} = \sqrt{\frac{707.878}{7}} = \sqrt{101.125} = 10.056 \text{ kg}
+$$
+
+$$
+s_y = \sqrt{\frac{\sum (y_i - \bar{y})^2}{n - 1}} = \sqrt{\frac{177.878}{7}} = \sqrt{25.411} = 5.041 \text{ cm}
+$$
+
+Now compute the slope:
+
+$$
+b = r \frac{s_y}{s_x} = 0.998 \times \frac{5.041}{10.056} = 0.998 \times 0.501 = 0.500 \text{ cm/kg}
+$$
+
+**Step 2: Compute the intercept**
+
+$$
+a = \bar{y} - b\bar{x} = 47.625 - (0.500 \times 85.375) = 47.625 - 42.688 = 4.938 \text{ cm}
+$$
+
+**Step 3: Write the regression equation**
+
+$$
+\hat{y} = 4.938 + 0.500x
+$$
+
+**Interpretation**
+
+-   The **slope** ($b = 0.500$) means that for every 1 kg increase in leg strength, vertical jump height increases by 0.5 cm on average [@moore_ips].
+-   The **intercept** ($a = 4.938$) is the predicted jump height when leg strength is zero—this value is not meaningful in this context (no one has zero leg strength), so the intercept should not be over-interpreted [@field_discovering; @vincent1999].
+
+**Making predictions**
+
+Using the regression equation, we can predict jump height for a new athlete:
+
+If leg strength = 92 kg:
+
+$$
+\hat{y} = 4.938 + 0.500(92) = 4.938 + 46 = 50.938 \text{ cm}
+$$
+
+The predicted vertical jump height is approximately 51 cm [@moore_ips].
+
+::: callout-warning
+## Common mistake: Extrapolation
+
+Do not use the regression equation to predict values outside the range of the observed data [@field_discovering; @wilcox_robust]. For example, if the observed leg strength ranged from 70 to 100 kg, predictions for athletes with 120 kg or 50 kg leg strength would be **extrapolation** and may be inaccurate [@moore_ips].
+:::
+
+## Assessing the fit of the regression model: $R^2$
+
+In bivariate regression, the **coefficient of determination** ($R^2$) is identical to $r^2$ (the squared correlation) [@moore_ips; @field_discovering]. It represents the proportion of variance in $Y$ explained by $X$:
+
+$$
+R^2 = r^2 = 0.996
+$$
+
+This means that 99.6% of the variability in vertical jump height is explained by the regression model using leg strength as a predictor [@hopkins2000; @batterham2006]. The remaining 0.4% is **residual variance** (unexplained variability) [@field_discovering].
+
+### Residuals and residual plots
+
+A **residual** is the difference between the observed value and the predicted value:
+
+$$
+\text{residual} = y_i - \hat{y}_i
+$$
+
+Residuals reveal how well the model fits the data [@moore_ips]. **Residual plots** (residuals vs. predicted values) are used to check assumptions:
+
+-   **Linearity**: Residuals should be randomly scattered around zero (no pattern)
+-   **Homoscedasticity**: Residual variance should be constant across all predicted values
+-   **Normality**: Residuals should be approximately normally distributed (for inference)
+
+::: callout-tip
+## Checking assumptions with residual plots
+
+A **good residual plot** looks like a random scatter of points with no pattern, no funnel shape (heteroscedasticity), and no outliers [@field_discovering; @wilcox_robust]. If you see patterns in the residuals, the linear model may be inappropriate [@moore_ips].
+:::
+
+```{r}
+#| label: fig-residual-plot
+#| fig-cap: "Residual plot showing residuals versus predicted values. The random scatter with no obvious pattern suggests that the linear model is appropriate."
+#| code-fold: true
+
+# Fit regression model
+model <- lm(jump ~ strength)
+predicted <- fitted(model)
+residuals <- resid(model)
+
+# Create residual plot
+plot(predicted, residuals,
+     main = "Residual Plot",
+     xlab = "Predicted Jump Height (cm)",
+     ylab = "Residuals (cm)",
+     pch = 19,
+     col = "darkred",
+     cex = 1.2,
+     las = 1)
+abline(h = 0, col = "black", lwd = 2, lty = 2)
+```
+
+The residual plot in @fig-residual-plot shows a random scatter around zero with no obvious pattern, suggesting that the linear model is appropriate and assumptions are reasonably met [@field_discovering; @moore_ips].
+
+## Assumptions of correlation and regression
+
+Both correlation and regression rely on several key assumptions [@moore_ips; @field_discovering]:
+
+### 1. Linearity
+
+The relationship between $X$ and $Y$ must be approximately linear [@moore_ips]. Pearson's $r$ only measures linear relationships; nonlinear relationships (e.g., quadratic, exponential) will produce misleading correlations [@wilcox_robust].
+
+**Check**: Examine a scatterplot and residual plot [@field_discovering].
+
+### 2. Homoscedasticity
+
+The variability in $Y$ should be roughly constant across all values of $X$ [@moore_ips; @field_discovering]. If the spread of data increases or decreases as $X$ changes (a "funnel" pattern), this is **heteroscedasticity** and can distort regression results [@wilcox_robust].
+
+**Check**: Examine a scatterplot or residual plot for funnel shapes [@field_discovering].
+
+::: callout-note
+## Real example: Heteroscedasticity in Movement Science
+
+@hopkins2000 noted that measurement error in performance tests often increases with the magnitude of the measured value. For example, vertical jump variability may be greater in high-performers than low-performers, violating the homoscedasticity assumption. Transformations (e.g., log transformation) may help [@blandaltman1996_transformations].
+:::
+
+### 3. Independence
+
+Observations must be independent [@moore_ips]. In Movement Science, this means each participant should contribute one data point (or, if repeated measures are used, appropriate statistical methods must be applied) [@field_discovering; @vincent1999].
+
+### 4. Normality (for inference)
+
+For hypothesis testing and confidence intervals, the **residuals** (not the raw data) should be approximately normally distributed [@moore_ips; @field_discovering]. This assumption is less critical for large samples due to the Central Limit Theorem [@cumming2012].
+
+**Check**: Create a histogram or Q-Q plot of residuals [@field_discovering].
+
+### 5. No extreme outliers
+
+Outliers can have disproportionate influence on correlation and regression [@wilcox_robust; @moore_ips]. Points with extreme $X$ values (high **leverage**) and large residuals (high **influence**) can distort results [@field_discovering].
+
+**Check**: Examine scatterplots and residual plots for outliers; compute leverage and Cook's distance [@field_discovering; @wilcox_robust].
+
+## Correlation does not imply causation
+
+This is perhaps the most important principle in interpreting correlation and regression [@moore_ips; @cumming2012]. A strong correlation between $X$ and $Y$ does not mean that $X$ causes $Y$—there are several alternative explanations:
+
+### 1. Reverse causation
+
+Perhaps $Y$ causes $X$, not the other way around [@moore_ips; @vincent1999].
+
+### 2. Confounding variables
+
+A third variable $Z$ may cause both $X$ and $Y$, creating a **spurious correlation** [@moore_ips; @field_discovering].
+
+**Example**: Ice cream sales and drowning deaths are positively correlated—but this does not mean ice cream causes drowning. Both are caused by warm weather (a confounding variable) [@moore_ips].
+
+### 3. Coincidence
+
+In large datasets with many variables, some correlations will appear by chance [@cumming2014; @wilkinson1999].
+
+::: callout-important
+## Establishing causation
+
+To establish causation, you need more than correlation [@moore_ips; @field_discovering]:
+
+1.  **Temporal precedence**: The cause must precede the effect.
+2.  **Covariation**: The variables must be correlated.
+3.  **Elimination of alternative explanations**: Confounds must be ruled out through experimental control or statistical adjustment.
+
+**Randomized controlled trials** (RCTs) are the gold standard for establishing causation because they control for confounding variables [@cumming2012; @hopkins2009].
+:::
+
+::: callout-note
+## Real example: Correlation vs. causation in exercise science
+
+Observational studies show a strong negative correlation between physical activity and cardiovascular disease [@vincent1999]. However, this does not necessarily mean physical activity prevents heart disease—healthier individuals may simply be more likely to exercise (reverse causation), or genetic factors may influence both activity levels and disease risk (confounding) [@batterham2006]. Only randomized controlled trials can definitively establish causation [@hopkins2009].
+:::
+
+## Chapter summary
+
+Correlation and regression are powerful tools for quantifying relationships between continuous variables in Movement Science [@moore_ips; @field_discovering]. Pearson's correlation coefficient ($r$) measures the strength and direction of linear relationships, ranging from $-1$ (perfect negative) to $+1$ (perfect positive), with $r^2$ representing the proportion of shared variance [@cumming2012; @hopkins2000]. Bivariate linear regression extends correlation by fitting a mathematical model ($\hat{y} = a + bx$) that enables prediction, with the slope ($b$) indicating the change in $Y$ per unit change in $X$ and $R^2$ quantifying model fit [@moore_ips; @batterham2006].
+
+However, both methods require careful application and interpretation [@field_discovering; @wilcox_robust]. Always visualize data with scatterplots before computing correlations, check assumptions (linearity, homoscedasticity, independence, normality of residuals), and watch for outliers that can distort results [@cumming2014; @moore_ips]. Most importantly, remember that **correlation does not imply causation**—a strong association between two variables does not mean one causes the other, as confounding variables, reverse causation, or coincidence may explain the relationship [@moore_ips; @hopkins2009]. Only well-designed experiments with random assignment can establish causal relationships [@cumming2012; @batterham2006].
+
+Mastering correlation and regression equips you to explore relationships in Movement Science data responsibly, make predictions when appropriate, and communicate findings with appropriate caution [@wilkinson1999; @cumming2014]. These skills are foundational for understanding more advanced methods like multiple regression, ANOVA, and multivariate statistics covered in later chapters.
+
+## Key terms
+
+Pearson's correlation coefficient; coefficient of determination; scatterplot; bivariate regression; slope; intercept; residual; homoscedasticity; heteroscedasticity; linearity; outlier; leverage; influence; causation; confounding variable; spurious correlation; extrapolation
+
+## Practice: quick checks
+
+::: panel-accordion
+### Question 1: When would a correlation coefficient be close to zero even if two variables are strongly related? {icon="1-square-fill"}
+
+A correlation coefficient close to zero does not always mean there is no relationship—it means there is no **linear** relationship [@moore_ips; @wilcox_robust]. Two variables can have a strong nonlinear relationship (e.g., quadratic, exponential, or U-shaped) but still produce $r \approx 0$ because Pearson's $r$ only measures linear associations [@field_discovering]. This is why it is critical to visualize data with a scatterplot before relying on correlation coefficients [@cumming2014]. For example, the relationship between exercise intensity and heart rate may be exponential rather than linear, producing a misleadingly low $r$ if not modeled appropriately [@vincent1999].
+
+### Question 2: Why is it problematic to use a regression equation to predict values far outside the range of the observed data? {icon="2-square-fill"}
+
+Using a regression equation to predict values outside the observed range of $X$ is called **extrapolation**, and it is risky because the relationship between $X$ and $Y$ may not remain linear beyond the range of the data [@moore_ips; @field_discovering]. The regression line is only valid within the range where it was estimated—outside that range, the relationship may change direction, flatten, or become nonlinear [@wilcox_robust]. For example, predicting oxygen consumption from heart rate might work well for moderate-intensity exercise, but at very high or very low intensities, the relationship may break down [@hopkins2000]. Always restrict predictions to the range of observed $X$ values unless you have strong theoretical reasons to believe the relationship holds beyond that range [@vincent1999].
+
+### Question 3: What is the difference between $r^2$ and $R^2$, and what do they tell you about model fit? {icon="3-square-fill"}
+
+In bivariate regression, $r^2$ (the squared correlation coefficient) and $R^2$ (the coefficient of determination) are identical—they both represent the proportion of variance in $Y$ explained by $X$ [@moore_ips; @field_discovering]. An $R^2$ of 0.80 means that 80% of the variability in the dependent variable is accounted for by the regression model, with the remaining 20% being residual (unexplained) variance [@hopkins2000]. While $r^2$ and $R^2$ are the same in simple regression, in multiple regression (Chapter 12) $R^2$ represents the combined explanatory power of multiple predictors [@field_discovering]. A high $R^2$ indicates a good fit, but it does not guarantee that the model is appropriate—always check residual plots to ensure assumptions are met [@wilcox_robust; @cumming2014].
+
+### Question 4: How can an outlier affect correlation and regression results, and what should you do about it? {icon="4-square-fill"}
+
+Outliers—data points that are far from the general pattern—can have a disproportionate influence on correlation and regression [@wilcox_robust; @moore_ips]. A single outlier can inflate or deflate $r$, distort the slope and intercept of the regression line, and produce misleading conclusions [@field_discovering]. Points with extreme $X$ values (high **leverage**) are especially influential because they pull the regression line toward themselves [@wilcox_robust]. To address outliers, first determine whether they are legitimate data points or errors (e.g., data entry mistakes) [@moore_ips]. If legitimate, consider reporting results both with and without the outlier, using robust methods (e.g., Spearman's rank correlation), or transforming the data to reduce the outlier's influence [@wilcox_robust; @field_discovering]. Never automatically delete outliers—they may represent important biological variability or rare but meaningful cases [@hopkins2000].
+
+### Question 5: A researcher finds a strong positive correlation ($r = 0.85$) between hours of practice per week and skill performance in gymnasts. Can they conclude that practice causes improved performance? {icon="5-square-fill"}
+
+No—correlation does not imply causation [@moore_ips; @cumming2012]. While the strong positive correlation suggests that practice and performance are associated, it does not prove that practice causes improved performance [@field_discovering]. Alternative explanations include: (1) reverse causation—perhaps athletes who perform better are more motivated to practice; (2) confounding variables—innate talent, coaching quality, or physical fitness may influence both practice time and performance; or (3) coincidence [@moore_ips; @vincent1999]. To establish causation, the researcher would need to conduct a randomized controlled trial where participants are randomly assigned to different practice schedules, thereby controlling for confounds [@hopkins2009; @batterham2006]. Observational correlations can generate hypotheses and suggest relationships, but only experimental designs with random assignment can establish causal effects [@cumming2012].
+
+### Question 6: What does it mean if a residual plot shows a clear funnel shape (spread increasing with predicted values)? {icon="6-square-fill"}
+
+A funnel shape in a residual plot indicates **heteroscedasticity**—the variance of the residuals is not constant across the range of predicted values [@moore_ips; @field_discovering]. This violates the homoscedasticity assumption of regression, meaning that prediction accuracy varies depending on the value of $X$ [@wilcox_robust]. Heteroscedasticity can distort standard errors, confidence intervals, and hypothesis tests, making results unreliable [@field_discovering]. Common solutions include transforming the dependent variable (e.g., using a log transformation), using weighted least squares regression, or employing robust regression methods that are less sensitive to heteroscedasticity [@wilcox_robust; @blandaltman1996_transformations]. In Movement Science, heteroscedasticity often occurs when measurement variability increases with the magnitude of the measured quantity [@hopkins2000].
+:::

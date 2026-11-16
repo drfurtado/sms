@@ -1,0 +1,3 @@
+# Part IV: Relationships and Prediction {.unnumbered}
+
+This part explores how variables relate to one another and how we can use those relationships to make predictions. You'll learn about correlation, regression, and the distinction between association and causation—essential tools for understanding movement science data and building predictive models.

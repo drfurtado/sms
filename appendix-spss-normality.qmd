@@ -1,0 +1,637 @@
+---
+title: "SPSS Tutorial: Testing Normality and Working with Distributions"
+subtitle: "Assessing distributional shape, running normality tests, and interpreting diagnostics"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Create histograms with normal curve overlays in SPSS
+* Generate and interpret Q-Q plots (normal probability plots)
+* Compute skewness and kurtosis statistics
+* Run and interpret Shapiro-Wilk and Kolmogorov-Smirnov normality tests
+* Make informed decisions about whether departures from normality are consequential
+* Report normality assessments in APA format
+:::
+
+## Overview
+
+Assessing normality is a critical step before conducting parametric statistical analyses (t-tests, ANOVA, regression). This tutorial demonstrates how to use SPSS to:
+
+* Visualize distributions and compare them to theoretical normal curves
+* Quantify distributional shape using skewness and kurtosis
+* Conduct formal normality tests
+* Interpret results in the context of Movement Science research
+
+We emphasize that normality assessment should prioritize visual methods (Q-Q plots, histograms) over mechanical reliance on p-values, as the latter can be misleading with very small or very large samples.
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`) filtered to the pre-training time point (*N* = 60). Download it here: [core_session.csv](data/core_session.csv)
+
+Open the dataset in SPSS, then filter to pre-training only:
+
+1. **Data → Select Cases → If condition is satisfied**
+2. Enter: `time = 'pre'`
+3. Click **Continue → OK**
+
+For this tutorial, we will assess normality for:
+
+* `sprint_20m_s` — 20-meter sprint time in seconds
+* `vo2_mlkgmin` — Aerobic capacity (VO₂max) in mL·kg⁻¹·min⁻¹
+* `agility_ttest_s` — Agility T-test time in seconds
+* `balance_errors_count` — Number of balance errors (discrete count variable)
+
+## Part 1: Visual assessment with histograms
+
+Histograms provide the first visual check of distributional shape.
+
+### Procedure: Histogram with normal curve overlay
+
+1. **Graphs → Legacy Dialogs → Histogram**
+2. Move the variable (e.g., `SprintTime`) to the **Variable** box
+3. ✓ Check **Display normal curve**
+4. **OK**
+
+### Example output interpretation
+
+The histogram shows the frequency distribution of sprint times with a superimposed normal curve (red line). **Visual inspection checklist:**
+
+* **Symmetry**: Does the distribution appear roughly symmetric, or is it skewed left or right?
+* **Unimodality**: Is there a single peak, or are there multiple modes suggesting subgroups?
+* **Outliers**: Are there isolated bars far from the main cluster?
+* **Alignment**: Do the bars roughly follow the normal curve, or do they deviate systematically?
+
+::: {.callout-tip}
+## Interpretation example
+
+> The histogram of `sprint_20m_s` shows a roughly symmetric distribution centered near 3.79 seconds. Most values cluster around the mean, and the bars align reasonably well with the superimposed normal curve. No extreme outliers are evident, and the distribution appears approximately unimodal. Visual inspection supports approximate normality for sprint times in this sample.
+
+> The histogram of `balance_errors_count` shows a more irregular, right-leaning pattern with values ranging from 0 to 9, reflecting the discrete count nature of the variable. This warrants closer formal testing.
+:::
+
+### Using Chart Editor for customization
+
+To improve figure quality:
+
+1. Double-click the histogram to open Chart Editor
+2. **Elements → Show Distribution Curve → Normal**
+3. Adjust bin width: **Elements → Show Grid Lines → X Axis → Category Axis**
+4. Export: **File → Export** (PNG, JPEG for manuscripts)
+
+## Part 2: Q-Q plots (Normal Probability Plots)
+
+Q-Q plots are the most informative visual tool for assessing normality. They plot observed quantiles against expected normal quantiles.
+
+### Procedure: Creating Q-Q plots
+
+1. **Analyze → Descriptive Statistics → Q-Q Plots** (or Explore procedure, see below)
+2. Move the variable to **Variables** box
+3. **Test Distribution**: Select **Normal**
+4. **OK**
+
+**Alternative (recommended): Using Explore procedure**
+
+1. **Analyze → Descriptive Statistics → Explore**
+2. Move the variable (e.g., `SprintTime`) to **Dependent List**
+3. Click **Plots** button
+4. ✓ Check **Normality plots with tests**
+5. **Continue** → **OK**
+
+### Interpreting Q-Q plots
+
+The Q-Q plot shows:
+
+* **X-axis**: Expected normal values (theoretical quantiles)
+* **Y-axis**: Observed values (sample quantiles)
+* **Diagonal reference line**: Where points would fall if data were perfectly normal
+
+**Key patterns:**
+
+| Pattern | Interpretation |
+|---------|---------------|
+| Points close to line | Approximately normal |
+| Points curve upward at right end | Right-skewed (long right tail) |
+| Points curve downward at right end | Left-skewed (long left tail) |
+| Points curve upward at both ends | Heavy-tailed (leptokurtic) |
+| S-shaped pattern | Moderately skewed |
+| Few isolated points off line | Possible outliers (may not invalidate normality) |
+
+```
+Example Q-Q Plot Interpretation:
+
+Sprint Time: Points fall close to the diagonal line with minor waviness at the ends. 
+             This pattern is consistent with approximate normality.
+
+Reaction Time: Points curve upward sharply at the right end, indicating right skew.
+               This is expected for reaction time data and suggests median summaries 
+               or log transformation may be more appropriate than mean-based methods.
+```
+
+::: {.callout-warning}
+## Common mistake
+
+Expecting perfect alignment on Q-Q plots. Real data never perfectly match theoretical distributions. Look for *substantial, systematic* departures (strong curvature, S-shapes) rather than minor wiggles.
+:::
+
+## Part 3: Computing skewness and kurtosis
+
+Skewness and kurtosis quantify distributional shape numerically.
+
+### Procedure: Descriptive statistics with shape measures
+
+1. **Analyze → Descriptive Statistics → Descriptives**
+2. Move variables to **Variable(s)** box
+3. Click **Options** button
+4. ✓ Check **Skewness** and **Kurtosis**
+5. **Continue** → **OK**
+
+### Example output
+
+| Variable | N | Skewness | Std. Error | Kurtosis | Std. Error |
+|----------|---|---------|-----------|---------|-----------|
+| sprint_20m_s | 60 | −0.25 | 0.32 | −0.31 | 0.63 |
+| vo2_mlkgmin | 60 | −0.04 | 0.32 | −0.56 | 0.63 |
+| agility_ttest_s | 60 | −0.10 | 0.32 | 0.03 | 0.63 |
+| balance_errors_count | 60 | 0.25 | 0.32 | −0.49 | 0.63 |
+
+### Interpreting skewness
+
+**Rule of thumb (approximate):**
+
+* **|Skewness| < 0.5**: Approximately symmetric
+* **0.5 ≤ |Skewness| < 1.0**: Moderate skew
+* **|Skewness| ≥ 1.0**: High skew
+
+**Interpretation (Core Dataset, pre-training):**
+
+* **sprint_20m_s**: Skewness = −0.25 (negligible, approximately symmetric)
+* **vo2_mlkgmin**: Skewness = −0.04 (negligible, essentially symmetric)
+* **agility_ttest_s**: Skewness = −0.10 (negligible, approximately symmetric)
+* **balance_errors_count**: Skewness = 0.25 (negligible, approximately symmetric)
+
+### Statistical significance of skewness: z-skew
+
+Rather than relying solely on magnitude rules of thumb, compute the **z-score for skewness** (z-skew) to test statistical significance:
+
+**Formula:**
+
+$$
+z_{\text{skew}} = \frac{\text{Skewness}}{\text{Std. Error of Skewness}}
+$$
+
+**Decision rules:**
+
+* If $|z_{\text{skew}}| < 1.96$: Skewness is **not significant** at α = 0.05
+* If $|z_{\text{skew}}| \geq 1.96$: Skewness is **significant** at α = 0.05
+* If $|z_{\text{skew}}| \geq 2.58$: Skewness is **highly significant** at α = 0.01
+
+**Examples (pre-training, N = 60):**
+
+1. **sprint_20m_s**: z-skew = −0.25 / 0.32 = **−0.78**
+   - Since |−0.78| < 1.96, skewness is **not significant** → Approximately symmetric
+
+2. **balance_errors_count**: z-skew = 0.25 / 0.32 = **0.78**
+   - Since |0.78| < 1.96, skewness is **not significant** → Approximately symmetric
+
+::: {.callout-note}
+## Note on interpretation
+
+Statistical significance depends on sample size. With large samples (n > 200), even trivial skewness (e.g., 0.15) can become "significant." With small samples (n < 30), substantial skewness may not reach significance. **Always interpret z-skew alongside the magnitude of skewness and visual assessment (Q-Q plots, histograms).**
+:::
+
+### Interpreting kurtosis
+
+SPSS reports **excess kurtosis** (kurtosis − 3), where 0 = normal.
+
+**Rule of thumb:**
+
+* **|Kurtosis| < 1.0**: Approximately normal tail behavior
+* **|Kurtosis| ≥ 1.0**: Notable departure (heavy or light tails)
+
+**Interpretation (Core Dataset, pre-training):**
+
+* **sprint_20m_s**: Kurtosis = −0.31 (close to normal, slightly platykurtic)
+* **vo2_mlkgmin**: Kurtosis = −0.56 (close to normal, slightly platykurtic)
+* **agility_ttest_s**: Kurtosis = 0.03 (essentially normal)
+* **balance_errors_count**: Kurtosis = −0.49 (close to normal)
+
+### Statistical significance of kurtosis: z-kurtosis
+
+Similar to skewness, compute the **z-score for kurtosis** (z-kurtosis or z-kurt):
+
+**Formula:**
+
+$$
+z_{\text{kurt}} = \frac{\text{Kurtosis}}{\text{Std. Error of Kurtosis}}
+$$
+
+**Decision rules:**
+
+* If $|z_{\text{kurt}}| < 1.96$: Kurtosis is **not significant** at α = 0.05
+* If $|z_{\text{kurt}}| \geq 1.96$: Kurtosis is **significant** at α = 0.05
+* If $|z_{\text{kurt}}| \geq 2.58$: Kurtosis is **highly significant** at α = 0.01
+
+**Examples (N = 60):**
+
+1. **sprint_20m_s**: z-kurt = −0.31 / 0.63 = **−0.49**
+   - Since |−0.49| < 1.96, kurtosis is **not significant** → Normal tail behavior
+
+2. **agility_ttest_s**: z-kurt = 0.03 / 0.63 = **0.04**
+   - Since |0.04| < 1.96, kurtosis is **not significant** → Normal tail behavior
+
+**Combined interpretation:**
+
+| Variable | z-skew | z-kurt | Conclusion |
+|----------|--------|--------|------------|
+| sprint_20m_s | −0.78 (NS) | −0.49 (NS) | Approximately normal |
+| vo2_mlkgmin | −0.13 (NS) | −0.89 (NS) | Approximately normal |
+| agility_ttest_s | −0.30 (NS) | 0.04 (NS) | Approximately normal |
+| balance_errors_count | 0.78 (NS) | −0.78 (NS) | Approximately symmetric |
+
+*NS = not significant*
+
+## Part 4: Formal normality tests
+
+SPSS provides two common tests: **Shapiro-Wilk** and **Kolmogorov-Smirnov**.
+
+### Procedure: Running normality tests
+
+**Option 1: Explore procedure (recommended)**
+
+1. **Analyze → Descriptive Statistics → Explore**
+2. Move variable to **Dependent List**
+3. Click **Plots** button
+4. ✓ Check **Normality plots with tests**
+5. **Continue** → **OK**
+
+**Option 2: Descriptive Statistics → Explore**
+
+Same as above. The Explore procedure automatically provides both Shapiro-Wilk and Kolmogorov-Smirnov tests along with Q-Q plots.
+
+### Example output: Tests of Normality
+
+| Variable | Kolmogorov-Smirnov | | | Shapiro-Wilk | | |
+|----------|---------|-------|-------|---------|-------|-------|
+| | Statistic | df | Sig. | Statistic | df | Sig. |
+| sprint_20m_s | 0.057 | 60 | .200* | 0.986 | 60 | .737 |
+| vo2_mlkgmin | 0.057 | 60 | .200* | 0.988 | 60 | .811 |
+| agility_ttest_s | 0.041 | 60 | .200* | 0.995 | 60 | .998 |
+| balance_errors_count | 0.107 | 60 | .082 | 0.959 | 60 | .041 |
+
+*This is a lower bound of the true significance.
+
+### Interpreting normality tests
+
+**Null hypothesis ($H_0$)**: The data are normally distributed.
+
+**Decision rule:**
+
+* If p < 0.05: Reject $H_0$ → Evidence that data are **not** normally distributed
+* If p ≥ 0.05: Fail to reject $H_0$ → Insufficient evidence to conclude non-normality
+
+**Which test to use?**
+
+* **Shapiro-Wilk**: More powerful for small to moderate samples (n < 50). **Recommended.**
+* **Kolmogorov-Smirnov**: Less powerful, especially without Lilliefors correction. Use Shapiro-Wilk when available.
+
+### Example interpretation
+
+**sprint_20m_s:**
+
+* Shapiro-Wilk: W = 0.986, p = .737
+* **Conclusion**: p > .05, so we fail to reject normality. Combined with the Q-Q plot showing points close to the line and z-skew = −0.78 (NS), sprint times appear approximately normally distributed.
+
+**vo2_mlkgmin:**
+
+* Shapiro-Wilk: W = 0.988, p = .811
+* **Conclusion**: p > .05, so we fail to reject normality. VO₂max appears approximately normally distributed.
+
+**balance_errors_count:**
+
+* Shapiro-Wilk: W = 0.959, p = .041
+* **Conclusion**: p < .05, so we reject normality at α = .05. However, z-skew = 0.78 (NS) suggests the skewness is not dramatic. This is a discrete count variable (0–9) and the departure may reflect the discrete, bounded nature of the variable. Examine the Q-Q plot and histogram carefully, and consider whether a nonparametric method is warranted.
+
+::: {.callout-important}
+## Critical point: Do not rely solely on p-values
+
+**Sample size matters:**
+
+* **Small samples (n < 30)**: Tests have low power and may fail to detect clear departures.
+* **Large samples (n > 100)**: Tests become very sensitive and may reject normality for trivial departures that don't affect inferential validity.
+
+**Always combine formal tests with visual assessment (Q-Q plots, histograms).**
+:::
+
+### Integrating visual and formal evidence: A practical guide
+
+SPSS provides multiple outputs for normality assessment—Shapiro-Wilk tests, skewness/kurtosis statistics, Q-Q plots, and histograms. These tools often provide conflicting signals. Here's how to make principled decisions:
+
+#### Common conflict scenarios
+
+**Scenario 1: Q-Q plot looks good, but p < 0.05**
+
+This typically occurs with **large samples (n > 100)**. The test is detecting trivially small departures that have no practical impact.
+
+**SPSS Example:**
+
+* n = 150 sprint times
+* Shapiro-Wilk: W = 0.968, p = .003 ← **Rejects normality**
+* Q-Q plot: Points closely follow the line with minor random scatter
+* Skewness: 0.35, z-skew: 1.82 ← Not significant (|z| < 1.96)
+
+**Decision:** Trust the visual and z-skew evidence. The data are approximately normal enough for parametric analyses. Proceed with t-tests or ANOVA.
+
+**Rationale:** With large samples, formal tests are hypersensitive. Visual assessment and z-skew show practically trivial departure. The Central Limit Theorem makes parametric methods robust here.
+
+---
+
+**Scenario 2: Q-Q plot shows clear departure, but p > 0.05**
+
+This typically occurs with **small samples (n < 30)**. The test lacks power to detect real departures.
+
+**SPSS Example:**
+
+* n = 22 reaction times
+* Shapiro-Wilk: W = 0.913, p = .063 ← **Does not reject normality**
+* Q-Q plot: Clear upward curvature at the right end
+* Histogram: Visible right skew with long tail
+* Skewness: 1.42, z-skew: 2.15 ← Significant (|z| > 1.96)
+
+**Decision:** Trust the visual evidence and z-skew. The data are right-skewed and non-normal. Use log transformation, report median/IQR, or use nonparametric tests.
+
+**Rationale:** Small samples give formal tests low power. Visual methods and z-skew reveal real departure that matters for parametric assumptions.
+
+---
+
+**Scenario 3: All evidence agrees**
+
+**SPSS Example (Normal):**
+
+* n = 60 vertical jump heights
+* Shapiro-Wilk: W = 0.981, p = .448 ← Does not reject
+* Q-Q plot: Points closely follow the line
+* Skewness: -0.18, z-skew: -0.70 ← Not significant
+* Histogram: Symmetric, bell-shaped
+
+**Decision:** Clear conclusion—data are approximately normal. Proceed with parametric methods confidently.
+
+---
+
+**SPSS Example (Non-normal):**
+
+* n = 60 postural sway areas
+* Shapiro-Wilk: W = 0.882, p < .001 ← Rejects normality
+* Q-Q plot: Severe upward curvature
+* Skewness: 2.14, z-skew: 8.18 ← Highly significant
+* Histogram: Extreme right skew with outliers
+
+**Decision:** Clear conclusion—data are severely non-normal. Use log transformation, report median/IQR, or use nonparametric analyses.
+
+---
+
+#### Decision workflow for SPSS users
+
+Follow this sequence when interpreting SPSS normality output:
+
+1. **Check sample size** (from Descriptive Statistics table)
+   
+2. **Examine Q-Q plot first** (visual primary evidence)
+   - Points closely follow line → Suggests normality
+   - Systematic curvature or deviation → Suggests departure
+
+3. **Check z-skew and z-kurtosis** (magnitude assessment)
+   - |z| < 1.96 → Not significantly different from normal
+   - |z| ≥ 1.96 → Significant departure
+
+4. **Consult Shapiro-Wilk p-value** (supplementary evidence)
+   - But interpret in context of sample size and visual evidence
+
+5. **Apply integration rules:**
+
+| **Q-Q Plot** | **z-skew/z-kurt** | **Shapiro-Wilk** | **n** | **Decision** |
+|-------------|------------------|-----------------|-------|-------------|
+| Normal | \|z\| < 1.96 | p < .05 | >100 | **Proceed parametric** (trivial departure) |
+| Normal | \|z\| < 1.96 | p > .05 | Any | **Proceed parametric** (all agree) |
+| Departure | \|z\| > 1.96 | p > .05 | <30 | **Transform or nonparametric** (low power) |
+| Departure | \|z\| > 1.96 | p < .05 | Any | **Transform or nonparametric** (all agree) |
+| Mild departure | 1.96 < \|z\| < 3 | p < .05 | 30-100 | **Use robust methods** (Welch's t-test) |
+| Severe departure | \|z\| > 3 | Any | Any | **Transform or nonparametric** (clear violation) |
+
+::: {.callout-tip}
+## Practical tip: Create an interpretation checklist
+
+When reviewing SPSS normality output, systematically check:
+
+✓ **Sample size** (from Descriptives table): n = ___
+
+✓ **Visual assessment** (Q-Q plot + histogram): Approximately normal? ☐ Yes ☐ No
+
+✓ **Magnitude indicators** (Descriptives table):
+  - Skewness: ___, z-skew: ___
+  - Kurtosis: ___, z-kurtosis: ___
+
+✓ **Formal test** (Tests of Normality table):
+  - Shapiro-Wilk: W = ___, p = ___
+
+✓ **Integrated decision**: Proceed with ☐ Parametric ☐ Transform ☐ Nonparametric
+
+This checklist prevents over-reliance on p-values alone and ensures consideration of all evidence.
+:::
+
+::: {.callout-warning}
+## Common SPSS user mistake
+
+**Do NOT** use this decision rule: "If Shapiro-Wilk p < .05, use Mann-Whitney U instead of t-test."
+
+This mechanical approach ignores:
+- Sample size effects on test sensitivity
+- Practical vs. statistical significance of departures
+- Visual evidence that may contradict the test
+- Magnitude of departure (mild vs. severe skew)
+
+Always integrate multiple lines of evidence rather than relying on a single p-value threshold.
+:::
+
+## Part 5: Assessing normality by groups
+
+When comparing groups (e.g., males vs. females), assess normality separately for each group.
+
+### Procedure: Split File by grouping variable
+
+1. **Data → Split File**
+2. Select **Organize output by groups**
+3. Move grouping variable (e.g., `Sex`) to **Groups Based on** box
+4. **OK**
+5. Run Explore procedure as in Part 4
+6. **Data → Split File → Reset** when done
+
+### Example output
+
+SPSS produces separate normality test tables and Q-Q plots for each group:
+
+**Males:**
+
+* Shapiro-Wilk: W = 0.974, p = .523 (normal)
+
+**Females:**
+
+* Shapiro-Wilk: W = 0.968, p = .392 (normal)
+
+**Interpretation:**
+
+Both groups show approximate normality, supporting the use of parametric methods (e.g., independent t-test) for group comparisons.
+
+## Part 6: Detrended Q-Q plots
+
+The Explore procedure also produces **detrended Q-Q plots**, which show deviations from the expected line more clearly.
+
+### Interpreting detrended Q-Q plots
+
+* **Y-axis**: Difference between observed and expected values
+* **Horizontal line at zero**: Where points would fall if data were perfectly normal
+
+**Patterns:**
+
+* Points randomly scattered around zero → Approximately normal
+* Systematic upward or downward trend → Departure from normality
+* U-shaped or inverted-U pattern → Skewness or heavy/light tails
+
+## Part 7: What to do when data are not normal
+
+When normality tests reject $H_0$ or visual assessment reveals substantial departures, consider these options:
+
+### Option 1: Transformation
+
+SPSS can transform variables to reduce skewness:
+
+**For right-skewed data (reaction time, sway area, EMG):**
+
+1. **Transform → Compute Variable**
+2. **Target Variable**: `LogReactionTime`
+3. **Numeric Expression**: `LN(ReactionTime)` or `LG10(ReactionTime)`
+4. **OK**
+5. Reassess normality of the transformed variable
+
+**Common transformations:**
+
+| Data Pattern | Transformation | SPSS Function |
+|-------------|---------------|--------------|
+| Right-skewed (moderate) | Square root | `SQRT(variable)` |
+| Right-skewed (strong) | Log (natural) | `LN(variable)` |
+| Right-skewed (strong) | Log (base 10) | `LG10(variable)` |
+| Left-skewed | Square | `variable**2` |
+| Left-skewed | Reflect then log | `LN(max - variable)` |
+
+::: {.callout-warning}
+## Important: Cannot log zero or negative values
+
+If your variable contains zeros (e.g., error counts), add a small constant before logging: `LN(variable + 1)`. Always report the transformation used.
+:::
+
+### Option 2: Nonparametric tests
+
+Use rank-based methods that do not assume normality:
+
+* **Mann-Whitney U test** (instead of independent t-test)
+  - **Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples**
+* **Kruskal-Wallis test** (instead of one-way ANOVA)
+  - **Analyze → Nonparametric Tests → Legacy Dialogs → K Independent Samples**
+* **Wilcoxon signed-rank test** (instead of paired t-test)
+  - **Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples**
+
+See SPSS Tutorial: Nonparametric Methods for detailed instructions.
+
+### Option 3: Robust methods
+
+* **Welch's t-test**: More robust to unequal variances and mild non-normality
+  - Available in independent t-test dialog (uncheck "Assume equal variances")
+* **Bootstrapping**: Available in many SPSS procedures
+  - Click **Bootstrap** button and configure settings
+
+### Option 4: Proceed with caution
+
+If departures are minor and sample size is adequate (n > 30 per group), parametric methods are often robust. Report the normality assessment and justify your decision:
+
+> "Sprint times showed slight positive skewness (0.42) and the Shapiro-Wilk test was non-significant (p = .18). Visual inspection of Q-Q plots revealed minor deviations at the extremes but overall approximate normality. Given the moderate sample size (n = 40 per group) and the robustness of t-tests to minor departures, we proceeded with independent samples t-tests."
+
+## Part 8: Reporting normality assessments in APA format
+
+### Text reporting example
+
+> **Method: Normality Assessment**
+> 
+> Normality of distributions was assessed using Shapiro-Wilk tests and visual inspection of Q-Q plots and histograms. Sprint times were approximately normally distributed (Shapiro-Wilk W = 0.981, p = .45, skewness = 0.15, kurtosis = −0.22). Reaction times showed substantial right skew (skewness = 1.85) and the Shapiro-Wilk test rejected normality (W = 0.905, p = .001). Consequently, sprint times were analyzed using parametric methods (independent t-test), while reaction times were log-transformed prior to analysis. Normality was confirmed for log-transformed reaction times (W = 0.976, p = .31).
+
+### Table reporting example
+
+**Table 1**
+
+*Normality Assessment for Core Dataset Variables (Pre-Training, N = 60)*
+
+| Variable | n | Skewness | z-skew | Kurtosis | z-kurt | Shapiro-Wilk W | p | Decision |
+|----------|---|----------|--------|---------|--------|---------------|---|----------|
+| Sprint Time (s) | 60 | −0.25 | −0.78 | −0.31 | −0.49 | 0.986 | .737 | Normal |
+| VO₂max (mL·kg⁻¹·min⁻¹) | 60 | −0.04 | −0.13 | −0.56 | −0.89 | 0.988 | .811 | Normal |
+| Agility T-test (s) | 60 | −0.10 | −0.30 | 0.03 | 0.04 | 0.995 | .998 | Normal |
+| Balance Errors | 60 | 0.25 | 0.78 | −0.49 | −0.78 | 0.959 | .041 | Borderline* |
+
+*Note.* z-skew and z-kurt test whether skewness and kurtosis differ significantly from zero. *Balance errors is a discrete count variable; the Shapiro-Wilk result (p = .041) reflects the discrete distribution structure rather than a severe departure. Examine Q-Q plot and histogram for practical significance.
+
+### Figures
+
+Include Q-Q plots in appendices or supplemental materials if requested by reviewers. Ensure axes are labeled and include a caption:
+
+> **Figure S1.** Normal Q-Q plot for sprint times. Points fall close to the diagonal reference line, indicating approximate normality.
+
+## Practice exercises
+
+Use the Core Dataset (`core_session.csv`, pre-training, *N* = 60) to complete these tasks:
+
+1. **Create histograms** with normal overlays for all four variables (`sprint_20m_s`, `vo2_mlkgmin`, `agility_ttest_s`, `balance_errors_count`).
+2. **Generate Q-Q plots** for each variable using the Explore procedure.
+3. **Compute skewness and kurtosis** and interpret the values for each variable.
+4. **Run Shapiro-Wilk tests** for all variables and interpret the results.
+5. **Identify which variables** appear approximately normal and which do not based on integrated evidence.
+6. **Assess normality by group**: Split by `group` (training vs. control) and run Shapiro-Wilk for `sprint_20m_s`.
+7. **Create a summary table** reporting skewness, kurtosis, and Shapiro-Wilk results for all four variables.
+
+## Common mistakes and troubleshooting
+
+| Problem | Solution |
+|---------|---------|
+| Q-Q plots not appearing | Ensure "Normality plots with tests" is checked in Plots dialog |
+| Kolmogorov-Smirnov shows ".200*" | This indicates p > .200 (non-significant); use Shapiro-Wilk instead |
+| All variables rejected as non-normal | Check sample size (large n makes tests very sensitive); prioritize visual assessment |
+| Cannot log-transform variable | Check for zeros or negative values; add constant if needed |
+| Tests give conflicting results | Prioritize visual methods (Q-Q plots) over p-values alone |
+| Skewness/kurtosis not displaying | Ensure "Skewness" and "Kurtosis" are selected in Descriptives Options |
+
+## Summary
+
+This tutorial covered:
+
+* Creating histograms with normal curve overlays
+* Generating and interpreting Q-Q plots
+* Computing and interpreting skewness and kurtosis
+* Running Shapiro-Wilk and Kolmogorov-Smirnov normality tests
+* Assessing normality by groups using Split File
+* Deciding when departures from normality are consequential
+* Transforming non-normal data
+* Reporting normality assessments in APA format
+
+::: {.callout-tip}
+## Key takeaway
+
+**Visual assessment (Q-Q plots, histograms) should always take priority over formal test p-values.** Normality is a continuum, not a binary state. The practical question is whether departures are consequential for your planned analysis, which depends on sample size, magnitude of departure, and robustness of methods.
+:::
+
+## Additional resources
+
+* SPSS Help: Explore Procedure
+* SPSS Help: Descriptive Statistics
+* SPSS Help: Q-Q Plots
+* Textbook Chapter 7: The Normal Distribution
+* Shapiro, S. S., & Wilk, M. B. (1965). An analysis of variance test for normality. *Biometrika*, 52(3-4), 591-611.

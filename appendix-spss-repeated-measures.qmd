@@ -1,0 +1,277 @@
+---
+title: "SPSS Tutorial: Repeated Measures ANOVA"
+subtitle: "Conducting one-way repeated measures ANOVA in SPSS"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+- Set up a one-way repeated measures ANOVA in SPSS using the General Linear Model procedure
+- Interpret Mauchly's test of sphericity and select the appropriate F-row
+- Read and report the within-subjects effects table, including corrected degrees of freedom
+- Run and interpret Bonferroni-corrected pairwise comparisons
+- Compute partial eta-squared and partial omega-squared effect sizes
+- Produce a means plot from SPSS output
+- Check the normality of difference scores
+- Write up the results in APA format
+:::
+
+## Overview
+
+This tutorial walks through a one-way repeated measures ANOVA using the `core_session_wide_training.csv` dataset. Download it here: [core_session_wide_training.csv](data/core_session_wide_training.csv). The research question is: **Did muscular strength change significantly across three time points (pre-, mid-, and post-training) in participants enrolled in a 12-week resistance training program?**
+
+The dataset is already in **wide format** (one row per participant, separate columns for each time point) and filtered to the training group only — no restructuring is needed.
+
+**Prerequisites:** You should have completed the SPSS tutorials for independent samples t-test and one-way ANOVA before working through this tutorial.
+
+## Part 1: Opening the dataset
+
+**Step 1: Open `core_session_wide_training.csv` in SPSS**
+
+Go to *File → Open → Data*, locate `core_session_wide_training.csv`, and open it. The dataset contains 30 participants (training group only) in wide format, with variables `strength_kg_pre`, `strength_kg_mid`, and `strength_kg_post` ready for analysis.
+
+## Part 2: Running the repeated measures ANOVA
+
+**Step 1: Open the General Linear Model dialog**
+
+Go to *Analyze → General Linear Model → Repeated Measures*
+
+**Step 2: Define the within-subject factor**
+
+In the *Repeated Measures Define Factor(s)* dialog:
+
+1. In the **Within-Subject Factor Name** field, type: `Time`
+2. In the **Number of Levels** field, type: `3`
+3. Click *Add*
+4. Click *Define*
+
+**Step 3: Assign variables to the factor levels**
+
+In the *Repeated Measures* dialog:
+
+1. Move `strength_kg_pre` to the box next to `Time(1)`
+2. Move `strength_kg_mid` to the box next to `Time(2)`
+3. Move `strength_kg_post` to the box next to `Time(3)`
+
+**Step 4: Request options**
+
+Click *Options*:
+
+- Check **Descriptive statistics**
+- Check **Estimates of effect size**
+- Check **Homogeneity tests** (produces Mauchly's test)
+
+**Step 5: Request estimated marginal means**
+
+Click *EM Means*:
+
+- Click *Continue* and then on EM Means...
+- Under *Display Means for*, move `Time` to the right panel
+- Check **Compare main effects**
+- Under *Confidence interval adjustment*, select **Bonferroni**
+- Click *Continue*
+
+**Step 6: Request a means plot**
+
+Click *Plots*:
+
+- Move `Time` to the **Horizontal Axis** box
+- Click *Add*
+- Check **Error bars** and select **95% CI** or **Standard Error**
+- Click *Continue*
+
+**Step 7: Run the analysis**
+
+Click *OK*. SPSS will produce several output tables.
+
+## Part 3: Interpreting the output
+
+### Table 1: Descriptive statistics
+
+The first table shows the mean, standard deviation, and n for each time point:
+
+| Time Point | M (kg) | SD | n |
+|---|---|---|---|
+| Pre-training | 79.67 | 12.26 | 30 |
+| Mid-training (6-week) | 81.69 | 12.26 | 30 |
+| Post-training (12-week) | 85.06 | 12.48 | 30 |
+
+Strength increased progressively at each time point, with a total gain of approximately 5.4 kg from pre to post.
+
+### Table 2: Mauchly's test of sphericity
+
+| | Mauchly's W | χ² | df | p | ε (GG) | ε (HF) | ε (LB) |
+|---|---|---|---|---|---|---|---|
+| Time | .623 | 13.234 | 2 | .001 | .726 | .755 | .500 |
+
+**Interpreting this table:**
+
+Mauchly's W = .623, χ²(2) = 13.234, p = .001. Because p < .05, the sphericity assumption is **violated**. We therefore do **not** use the Sphericity Assumed row. Because ε_GG = .726, which is below .75, we will report the **Greenhouse-Geisser** corrected row in the within-subjects effects table.
+
+When Mauchly's test is significant and sphericity is violated, inspect the GG epsilon:
+
+- ε_GG ≥ .75 → use **Huynh-Feldt** corrected row
+- ε_GG < .75 → use **Greenhouse-Geisser** corrected row
+
+::: {.callout-warning}
+## Always read Mauchly's test before reading the F-ratio
+
+The within-subjects effects table will contain four rows for the Time effect: Sphericity Assumed, Greenhouse-Geisser, Huynh-Feldt, and Lower-bound. You must determine which row to report **based on Mauchly's test result** — not by choosing the row with the most favorable p-value. Selecting a row post hoc based on significance constitutes p-hacking [@greenhouse1959; @girden1992].
+:::
+
+### Table 3: Tests of within-subjects effects
+
+| Source | Correction | SS | df | MS | F | p | η²_p |
+|---|---|---|---|---|---|---|---|
+| Time | Sphericity Assumed | 443.73 | 2 | 221.87 | 116.0 | < .001 | .800 |
+| | Greenhouse-Geisser | 443.73 | 1.452 | 305.60 | 116.0 | < .001 | .800 |
+| | Huynh-Feldt | 443.73 | 1.510 | 293.86 | 116.0 | < .001 | .800 |
+| Error (Time) | Sphericity Assumed | 110.94 | 58 | 1.91 | | | |
+| | Greenhouse-Geisser | 110.94 | 42.11 | 2.63 | | | |
+| | Huynh-Feldt | 110.94 | 43.79 | 2.53 | | | |
+
+**Interpreting this table:**
+
+Because Mauchly's test was significant and ε_GG < .75, we read the **Greenhouse-Geisser** row: F(1.45, 42.11) = 116.0, p < .001, η²_p = .80.
+
+The F-ratio is the same across all rows — only the degrees of freedom (and therefore the exact p-value) change with the corrections. Here, the correction meaningfully reduces the degrees of freedom, so the correct reporting choice is the **Greenhouse-Geisser** row rather than the uncorrected sphericity-assumed row.
+
+::: {.callout-note}
+## What does η²_p = .80 mean?
+
+Partial eta-squared of .80 means that 80% of the variance in strength that is attributable to within-person sources (time + error, excluding between-person baseline differences) is explained by the time effect. This is a very large effect by Cohen's (1988) benchmarks (.01 small, .06 medium, .14 large). The within-subjects design is so efficient here because individual strength levels are highly stable across participants — removing this between-subjects variability makes the time effect stand out very clearly.
+:::
+
+### Table 4: Pairwise comparisons (Bonferroni-corrected)
+
+| Comparison | Mean Difference (kg) | SE | p (adjusted) | 95% CI |
+|---|---|---|---|---|
+| Pre → Mid | −2.02 | 0.27 | < .001 | [−2.70, −1.34] |
+| Pre → Post | −5.38 | 0.33 | < .001 | [−6.22, −4.54] |
+| Mid → Post | −3.36 | 0.45 | < .001 | [−4.50, −2.22] |
+
+**Interpreting this table:**
+
+All three pairwise comparisons are statistically significant after Bonferroni correction. Strength increased significantly from pre to mid (2.02 kg gain), from mid to post (3.36 kg gain), and from pre to post (5.38 kg total gain). The confidence intervals are narrow, indicating high precision in the estimates of change. Negative signs in the mean difference column reflect the direction of subtraction (earlier time − later time); reverse the sign for reporting (mid − pre = +2.02 kg).
+
+## Part 4: Computing effect sizes
+
+### Partial eta-squared (η²_p)
+
+SPSS reports η²_p directly in the within-subjects effects table when you check **Estimates of effect size** in the Options dialog. Read the value straight from the *Partial Eta Squared* column — no additional calculation is needed. From our output: **η²_p = .800**.
+
+The underlying formula, shown here for conceptual understanding only, is:
+
+$$\eta^2_p = \frac{SS_{\text{time}}}{SS_{\text{time}} + SS_{\text{error}}}$$
+
+where $SS_{\text{error}}$ is the time × subjects error term from the Within-Subjects Effects table.
+
+### Partial omega-squared (ω²_p)
+
+SPSS does not report ω²_p directly, but you do not need to compute it by hand. Two convenient options are available:
+
+1. **Statistical Calculators appendix** — Use the interactive effect size calculator in the [Statistical Calculators](appendix-statistical-calculators.qmd#sec-omega-p-calc) appendix. Enter the SS and MS values from the SPSS output table and it returns ω²_p instantly.
+2. **SPSS 31 and later** — The built-in power analysis module (*Analyze → Power Analysis → General Linear Model*) reports ω²_p alongside η²_p for repeated measures designs.
+
+For reference, one convenient way to compute partial omega-squared for this repeated-measures effect uses $df_{\text{time}}$, $MS_{\text{time}}$, $MS_{\text{error}}$, and the number of participants $n$:
+
+$$\omega^2_p = \frac{df_{\text{time}}\left(MS_{\text{time}} - MS_{\text{error}}\right)}{df_{\text{time}}MS_{\text{time}} + \left(n - df_{\text{time}}\right)MS_{\text{error}}}$$
+
+For our example, this yields **ω²_p = .88** — a very large effect. Report ω²_p as the primary effect size in publications; include η²_p for comparability with other studies.
+
+### Cohen's d for pairwise comparisons
+
+For each significant pairwise comparison, compute Cohen's d from the Bonferroni output or from the difference scores directly:
+
+| Comparison | Mean Diff | SD of Diff | Cohen's d | Interpretation |
+|---|---|---|---|---|
+| Mid − Pre | 2.02 | 1.46 | 1.38 | Large |
+| Post − Pre | 5.38 | 1.81 | 2.97 | Very large |
+| Post − Mid | 3.36 | 2.47 | 1.36 | Large |
+
+The SD of the difference scores is not shown in the Bonferroni output. To obtain it in SPSS, create the difference variable using *Transform → Compute Variable* (e.g., `diff_mid_pre = strength_kg_mid - strength_kg_pre`) and then run *Analyze → Descriptive Statistics → Descriptives* on that new variable. SPSS will report the SD directly in the output — no hand arithmetic needed. Repeat for each pairwise comparison, then divide the mean difference by the SD to obtain Cohen's *d*.
+
+## Part 5: Creating a visualization
+
+SPSS produces a basic estimated marginal means plot automatically when you request it in the *Plots* dialog. To improve it:
+
+1. Double-click the chart in the output to open it in the Chart Editor
+2. Add error bars: *Elements → Error Bars → 95% CI* or *Standard Error*
+3. Adjust axis labels and titles as needed
+4. Right-click → *Export* to save as PNG or PDF
+
+For a more polished visualization, use the R code provided in Chapter 15 (the line plot and spaghetti plot figures).
+
+## Part 6: APA-style write-up
+
+Using the output from this tutorial, a complete APA-style report reads:
+
+> "A one-way repeated measures ANOVA was conducted to examine the effect of training time on muscular strength (kg) in 30 participants enrolled in a 12-week resistance training program. Mauchly's test indicated that the sphericity assumption was violated, W = .623, χ²(2) = 13.234, p = .001. Because ε_GG = .726, the Greenhouse-Geisser correction was applied. The within-subjects effect of time was statistically significant, F(1.45, 42.11) = 116.0, p < .001, η²_p = .80, ω²_p = .88. Descriptive statistics indicated progressive strength gains from pre-training (M = 79.7, SD = 12.3 kg) to mid-training at six weeks (M = 81.7, SD = 12.3 kg) and post-training at twelve weeks (M = 85.1, SD = 12.5 kg). Bonferroni-corrected pairwise comparisons confirmed that all three time points differed significantly: pre vs. mid, mean difference = 2.02 kg, p < .001, 95% CI [1.34, 2.70]; mid vs. post, mean difference = 3.36 kg, p < .001, 95% CI [2.22, 4.50]; and pre vs. post, mean difference = 5.38 kg, p < .001, 95% CI [4.54, 6.22]."
+
+## Part 7: Checking the normality assumption
+
+Repeated measures ANOVA requires normality of the **difference scores** between each pair of time points, not of the raw scores.
+
+**Step 1: Create difference score variables**
+
+Go to *Transform → Compute Variable*:
+
+- `diff_mid_pre = strength_kg_mid - strength_kg_pre`
+- `diff_post_pre = strength_kg_post - strength_kg_pre`
+- `diff_post_mid = strength_kg_post - strength_kg_mid`
+
+**Step 2: Run Shapiro-Wilk tests on each difference variable**
+
+Go to *Analyze → Descriptive Statistics → Explore*:
+
+1. Move all three difference variables to the *Dependent List*
+2. Click *Plots*, check *Normality plots with tests*
+3. Click *Continue → OK*
+
+SPSS will produce Shapiro-Wilk W statistics, Q-Q plots, and histograms for each difference variable.
+
+**Interpreting the output:**
+
+For this dataset, the Shapiro-Wilk tests are:
+
+- `diff_mid_pre`: $W = 0.972$, $p = .599$
+- `diff_post_pre`: $W = 0.924$, $p = .034$
+- `diff_post_mid`: $W = 0.963$, $p = .375$
+
+This means that two of the three difference scores do not show evidence of non-normality, but the `post - pre` difference score does fall below $p < .05$. With $n = 30$, that single significant Shapiro-Wilk test should prompt a visual inspection of the Q-Q plot rather than an automatic abandonment of repeated measures ANOVA. In this example, the ANOVA result is still typically treated as reasonably robust, but you should note the mild normality concern when interpreting the findings.
+
+## Troubleshooting common issues
+
+**"SPSS won't let me define the within-subject factor"**
+
+Make sure you clicked *Add* after typing the factor name and number of levels, before clicking *Define*. Both steps are required.
+
+**"I get an error about unequal group sizes"**
+
+The repeated measures GLM requires complete data for every participant across all time points. Check for missing values using *Analyze → Descriptive Statistics → Frequencies* with the *Display frequency tables* option. Participants with any missing time point will be excluded from the analysis by SPSS (listwise deletion). Address missing data using imputation or alternative software if the exclusions are substantial.
+
+**"Mauchly's test cannot be computed"**
+
+If you have only two levels in your within-subjects factor, SPSS does not compute Mauchly's test because a two-level factor automatically satisfies sphericity. This is expected — proceed with the sphericity-assumed F-row.
+
+**"The within-subjects effects table shows 'Greenhouse-Geisser' but I'm not sure which row to report"**
+
+You must base your choice on Mauchly's p-value and ε_GG *before* inspecting the F-rows. If p > .05 → Sphericity Assumed. If p < .05 and ε_GG ≥ .75 → Huynh-Feldt. If p < .05 and ε_GG < .75 → Greenhouse-Geisser. Never choose based on which row gives the smallest p-value.
+
+**"The pairwise comparisons show different signs than I expected"**
+
+SPSS computes differences in the order the time points were defined (e.g., Time 1 − Time 2 = Pre − Mid). If the training group improves over time, these differences will be negative (later time minus earlier time is positive; earlier minus later is negative). Reverse the sign when describing gains in your write-up.
+
+## Practice exercises
+
+Use the `core_session_wide_training.csv` dataset to complete the following exercises.
+
+1. **Training group, VO₂max:** Test whether VO₂max (mL·kg⁻¹·min⁻¹) changed significantly from pre to mid to post in the training group (n = 25 with complete data). Report Mauchly's test, the appropriate F-row, Bonferroni comparisons, and η²_p.
+
+2. **Control group, strength:** Run the same repeated measures ANOVA for muscular strength in the control group. Compare the pattern of results to the training group. What does the F-ratio and η²_p tell you about change in the control condition?
+
+3. **Training group, agility:** Conduct a repeated measures ANOVA for agility T-test time (s) in the training group across pre, mid, and post. Note that lower scores indicate better agility. Report the direction of change (i.e., are times getting faster?) and compute Cohen's d for each pairwise comparison.
+
+4. **Write-up practice:** Using the results from Exercise 1 (VO₂max, training group), write a complete APA-style results paragraph including Mauchly's test, the omnibus F with effect size, and all three pairwise comparisons with confidence intervals.

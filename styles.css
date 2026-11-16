@@ -1,0 +1,75 @@
+/* Custom styles for Statistics for Movement Science book */
+
+/* Reduce overall font size */
+html {
+  font-size: 14px !important;
+}
+
+/* Adjust heading sizes proportionally */
+h1 { font-size: 2rem !important; }
+h2 { font-size: 1.75rem !important; }
+h3 { font-size: 1.5rem !important; }
+h4 { font-size: 1.25rem !important; }
+h5 { font-size: 1.1rem !important; }
+h6 { font-size: 1rem !important; }
+
+/* Ensure code blocks and inline code maintain readability */
+code {
+  font-size: 0.9em !important;
+}
+
+pre {
+  font-size: 0.9em !important;
+}
+
+/* Adjust table font size */
+table {
+  font-size: 0.9em !important;
+}
+
+/* Make accordion icons twice as big */
+.accordion-button .bi {
+  font-size: 2em !important;
+}
+
+/* Enable word wrapping in code blocks to prevent horizontal scrolling */
+pre code {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* Tooltip term styling — dotted underline + help cursor (click to open popover) */
+span[title],
+span[data-bs-toggle="popover"] {
+  border-bottom: 1.5px dotted #6c757d;
+  cursor: help;
+  text-decoration: none;
+}
+
+span[data-bs-toggle="popover"]:hover {
+  border-bottom-color: #0d6efd;
+  color: #0d6efd;
+}
+/* Definition popover styling */
+.definition-popover .popover-header {
+  display: none;
+}
+
+.definition-popover .popover-body {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  max-width: 280px;
+  color: #212529;
+}
+/* "Support this book" buttons on the homepage */
+.support-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.support-buttons .btn .bi {
+  margin-right: 0.35em;
+}

@@ -1,0 +1,421 @@
+---
+title: "SPSS Tutorial: Confidence Intervals"
+subtitle: "Computing and interpreting confidence intervals for means, differences, and proportions"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Compute confidence intervals for a single mean using SPSS
+* Interpret confidence interval output in the context of Movement Science research
+* Calculate confidence intervals for the difference between two independent means
+* Compute confidence intervals for paired (dependent) samples
+* Understand how sample size affects confidence interval width
+* Visualize confidence intervals using error bar plots
+* Report confidence intervals following APA guidelines
+:::
+
+## Overview
+
+Confidence intervals (CIs) are essential for quantifying uncertainty and communicating the precision of estimates. While point estimates (e.g., sample means) provide single "best guess" values, confidence intervals acknowledge that sample-based estimates vary due to sampling error. A 95% confidence interval provides a range of plausible values for the population parameter, constructed such that if we repeated the study many times, approximately 95% of the intervals would contain the true population value.
+
+SPSS provides confidence intervals automatically in many statistical procedures, but understanding how to access, interpret, and visualize them is critical for responsible statistical practice. This tutorial demonstrates:
+
+* How to obtain 95% and 99% confidence intervals
+* How to interpret CI width as a measure of precision
+* How to use CIs for assessing statistical and practical significance
+* How to create publication-ready error bar plots
+
+**Prerequisites:** Familiarity with SPSS data entry, descriptive statistics, and basic data management.
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`), filtered to pre-training (*N* = 60) unless otherwise noted. Download it here: [core_session.csv](data/core_session.csv)
+
+Key variables used in this tutorial:
+
+* `sprint_20m_s` — 20-meter sprint time in seconds
+* `vo2_mlkgmin` — VO₂max (mL·kg⁻¹·min⁻¹)
+* `group` — training vs. control
+
+## Part 1: Confidence interval for a single mean
+
+Let's start with the most basic scenario: computing a 95% confidence interval for a population mean based on a single sample.
+
+### Example: Mean VO₂max at baseline
+
+We measure aerobic capacity (`vo2_mlkgmin`) in 60 participants at baseline and want to estimate the population mean with a confidence interval.
+
+### Procedure: Using Explore
+
+The simplest way to obtain a confidence interval for a mean is through the **Explore** procedure.
+
+1. **Analyze → Descriptive Statistics → Explore...**
+2. Move your variable (e.g., `vo2_mlkgmin`) to **Dependent List**
+3. Click **Statistics...**
+   - ✓ Check **Descriptives** (if not already selected)
+   - Confidence Interval for Mean: **95%** (default)
+4. **Continue**
+5. **Display**: Select **Statistics**
+6. **OK**
+
+### Interpreting the output
+
+SPSS will produce a table labeled **Descriptives** that includes:
+
+```
+Descriptives
+                               Statistic    Std. Error
+vo2_mlkgmin  Mean              41.340       0.880
+             95% Confidence    Lower Bound  39.579
+             Interval for Mean Upper Bound  43.101
+             Median            41.550
+             Variance          46.477
+             Std. Deviation    6.817
+             Minimum           26.9
+             Maximum           56.5
+             Range             29.6
+             Interquartile Range 9.8
+             Skewness          -0.040       0.309
+             Kurtosis          -0.563       0.608
+```
+
+**Key information:**
+
+* **Mean = 41.34 mL·kg⁻¹·min⁻¹**: Point estimate of population mean
+* **95% CI [39.58, 43.10]**: We are 95% confident that the true population mean VO₂max lies between 39.58 and 43.10 mL·kg⁻¹·min⁻¹
+* **Std. Error = 0.880**: Standard error of the mean (SE = SD / √n = 6.817 / √60)
+
+::: {.callout-tip}
+## Interpretation in context
+
+Report: "Mean VO₂max was 41.34 mL·kg⁻¹·min⁻¹, 95% CI [39.58, 43.10], based on 60 participants at pre-training."
+
+The interval width (3.52 mL·kg⁻¹·min⁻¹) reflects moderate precision given the relatively high variability (SD = 6.82).
+:::
+
+### Changing the confidence level
+
+To compute a 99% confidence interval (wider, more conservative):
+
+1. **Analyze → Descriptive Statistics → Explore...**
+2. **Statistics** button
+3. Change **Confidence Interval for Mean** to **99**
+4. **Continue → OK**
+
+The 99% CI will be wider than the 95% CI because we are demanding greater certainty.
+
+**Example output (approximate):**
+
+* **95% CI: [39.58, 43.10]** (width = 3.52)
+* **99% CI: [38.99, 43.69]** (width = 4.70)
+
+Notice the interval is wider with 99% confidence, reflecting the trade-off between confidence level and precision.
+
+::: {.callout-note}
+## Why use 99% vs 95%?
+
+* **95% CI** is standard in most research.
+* **99% CI** is appropriate when greater certainty is required (e.g., safety-critical applications, exploratory research with high false-positive risk).
+* **90% CI** may be used in exploratory or preliminary studies where narrower intervals are acceptable.
+:::
+
+## Part 2: Confidence intervals for independent samples (two groups)
+
+When comparing two independent groups (e.g., training vs. control), we want a confidence interval for the **difference in means**.
+
+### Example: Comparing sprint time between training and control groups
+
+We compare 20-m sprint time (`sprint_20m_s`) between the training (n = 30) and control (n = 30) groups at pre-training.
+
+### Procedure: Independent-Samples T Test
+
+SPSS produces confidence intervals for mean differences through the **Independent-Samples T Test** procedure.
+
+1. **Analyze → Compare Means → Independent-Samples T Test...**
+2. Move `sprint_20m_s` to **Test Variable(s)**
+3. Move `group` to **Grouping Variable**
+4. Click **Define Groups...** and enter `control` and `training`
+5. **Continue → OK**
+
+### Interpreting the output
+
+SPSS will produce two tables:
+
+**Group Statistics:**
+
+```
+Group Statistics
+              group      N    Mean   Std. Deviation   Std. Error Mean
+sprint_20m_s  control   30   3.811  .340             .062
+              training  30   3.772  .373             .068
+```
+
+**Independent Samples Test:**
+
+```
+Independent Samples Test
+                                        t       df    Sig.     Mean        95% CI of the Difference
+                                                             Difference    Lower      Upper
+sprint_20m_s   Equal variances assumed  0.429   58    .669     .039        -.145      .224
+```
+
+**Key information:**
+
+* **Mean difference = 0.039 s**: Groups differ by less than 1/25 of a second on average
+* **95% CI [−0.145, 0.224]**: The CI **includes zero**, indicating **no significant difference** at α = 0.05
+* **p = .669**: Consistent with the CI conclusion
+
+::: {.callout-tip}
+## Practical interpretation
+
+The confidence interval tells us:
+
+1. **Statistical significance**: Because zero is in the interval, we conclude the two groups did not differ significantly at baseline.
+2. **Effect magnitude**: The true difference is plausibly anywhere from −0.145 s to +0.224 s — both very small.
+3. **Precision**: The interval width (0.369 s) is moderate; larger samples would narrow it further.
+:::
+
+### Reporting
+
+"Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34) and training groups (M = 3.77 s, SD = 0.37), mean difference = 0.04 s, 95% CI [−0.15, 0.22], t(58) = 0.43, p = .669."
+
+## Part 3: Confidence intervals for paired samples (within-subjects)
+
+For paired or repeated-measures designs (e.g., pre-test vs. post-test), we use **Paired-Samples T Test**.
+
+### Example: Pre-post sprint time comparison
+
+We compare sprint time at pre-training vs. post-training across all 55 participants with complete data.
+
+### Procedure: Paired-Samples T Test
+
+1. **Analyze → Compare Means → Paired-Samples T Test...**
+2. Select the two variables (e.g., `sprint_pre` and `sprint_post`) and move them to **Paired Variables**
+3. Click **Options... → Continue**
+4. **OK**
+
+### Interpreting the output
+
+**Paired Samples Statistics:**
+
+```
+Paired Samples Statistics
+                 Mean     N     Std. Deviation   Std. Error Mean
+Pair 1  sprint_pre  3.802   55    .365             .049
+        sprint_post 3.792   55    .402             .054
+```
+
+**Paired Samples Test:**
+
+```
+Paired Samples Test
+                                 Mean      Std.        95% CI of the Difference      t       df    Sig.
+                                 Difference Deviation  Lower       Upper
+Pair 1  sprint_pre - sprint_post  .010      .158       -.033       .053             0.469   54    .641
+```
+
+**Key information:**
+
+* **Mean difference = 0.010 s**: Sprint time barely changed from pre to post
+* **95% CI [−0.033, +0.053]**: CI includes zero; change is non-significant
+* The CI excludes practically meaningful change, confirming minimal intervention effect on sprint time across the full sample
+
+::: {.callout-tip}
+## Reporting paired comparisons
+
+"Sprint time did not change significantly from pre-training (M = 3.80 s, SD = 0.37) to post-training (M = 3.79 s, SD = 0.40), mean change = 0.01 s, 95% CI [−0.03, 0.05], t(54) = 0.47, p = .641."
+
+The confidence interval shows the true population change is plausibly between −0.033 and +0.053 seconds — practically negligible in either direction.
+:::
+
+## Part 4: Visualizing confidence intervals with error bars
+
+Error bar plots are effective for displaying means with confidence intervals across groups or conditions.
+
+### Procedure: Creating error bar plots
+
+1. **Graphs → Legacy Dialogs → Error Bar...**
+2. Select **Simple** and **Define**
+3. **Bars Represent**: Select **Confidence interval for mean**
+   - **Level (%)**: 95 (or desired confidence level)
+4. Move your continuous variable (e.g., `JumpHeight`) to **Variable**
+5. Move your grouping variable (e.g., `TrainingGroup`) to **Category Axis**
+6. **OK**
+
+### Example output
+
+SPSS will produce a plot with:
+
+* Group means displayed as points or bars
+* Error bars extending ±95% CI from each mean
+* Y-axis labeled with the variable name and units
+
+::: {.callout-note}
+## Interpreting error bar plots
+
+* **Non-overlapping error bars** suggest a statistically significant difference (though formal testing is required).
+* **Wide error bars** indicate high uncertainty/low precision.
+* **Narrow error bars** indicate high precision (large sample, low variability).
+
+**Caution:** Overlapping CIs do not necessarily mean "no difference." Always examine the confidence interval for the **difference**, not just overlap of individual group CIs.
+:::
+
+### Enhancing plots for publication
+
+To improve error bar plots:
+
+1. Double-click the chart to enter **Chart Editor**
+2. **Elements → Show Data Labels** (optional, for displaying exact means)
+3. **Edit → Properties** to customize colors, fonts, and axis labels
+4. Export as high-resolution image (**File → Export**)
+
+## Part 5: Confidence intervals for proportions
+
+While SPSS does not provide confidence intervals for proportions through standard menus, you can compute them manually or use syntax.
+
+### Manual calculation example
+
+Suppose 18 out of 50 recreational runners report an injury during a season.
+
+**Sample proportion:** $\hat{p} = 18/50 = 0.36$
+
+**95% CI:** $\hat{p} \pm 1.96 \times \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$
+
+$$
+0.36 \pm 1.96 \times \sqrt{\frac{0.36 \times 0.64}{50}} = 0.36 \pm 0.133 = [0.227, 0.493]
+$$
+
+**Interpretation:** We are 95% confident that the true injury rate among recreational runners is between 22.7% and 49.3%.
+
+### Using SPSS syntax for proportions
+
+```spss
+COMPUTE p = 18/50.
+COMPUTE n = 50.
+COMPUTE SE = SQRT((p * (1 - p)) / n).
+COMPUTE CI_lower = p - 1.96 * SE.
+COMPUTE CI_upper = p + 1.96 * SE.
+EXECUTE.
+```
+
+Add these commands to a syntax file and run to obtain CI bounds.
+
+## Part 6: Understanding factors affecting confidence interval width
+
+### Effect of sample size
+
+To see how sample size affects CI width:
+
+1. **Split your dataset** into subsets of different sizes (e.g., n = 10, n = 30, n = 100)
+2. Compute 95% CIs for each subset using **Explore**
+3. Compare interval widths
+
+**Expected result:** Larger samples produce narrower CIs.
+
+### Effect of confidence level
+
+Compute CIs at different confidence levels (90%, 95%, 99%) for the same dataset:
+
+* **90% CI**: Narrowest
+* **95% CI**: Moderate width
+* **99% CI**: Widest
+
+**Trade-off:** Higher confidence requires wider intervals.
+
+### Effect of variability
+
+Compare CIs for variables with different standard deviations:
+
+* Higher SD → wider CI (more sampling error)
+* Lower SD → narrower CI (less sampling error)
+
+::: {.callout-important}
+## Key takeaways
+
+1. **Sample size** has the greatest practical impact on precision. Larger samples always improve precision.
+2. **Confidence level** is a choice reflecting desired certainty. 95% is standard but not mandatory.
+3. **Variability** is inherent in the population and cannot be controlled, but precise measurement tools can reduce it.
+:::
+
+## Part 7: Common mistakes and troubleshooting
+
+### Mistake 1: Interpreting CIs as "95% of data fall in this range"
+
+**Incorrect:** "95% of participants have jump heights between 55 and 61 cm."
+
+**Correct:** "We are 95% confident that the population mean jump height is between 55 and 61 cm."
+
+The CI estimates the **population parameter** (mean), not the distribution of individual observations.
+
+### Mistake 2: Concluding "no difference" from overlapping CIs
+
+Two groups with overlapping 95% CIs may still differ significantly. Always compute the **CI for the difference** using Independent-Samples T Test.
+
+### Mistake 3: Reporting only "significant" without the CI
+
+Report: "Mean difference = 4.3 cm, 95% CI [2.5, 6.1], p < .001"
+
+Not: "p < .001" alone.
+
+### Mistake 4: Using z-values instead of t-values for small samples
+
+For small samples (n < 30), use the **t-distribution** (automatic in SPSS procedures). Using z-values (1.96) underestimates uncertainty.
+
+## Part 8: Exporting and reporting confidence intervals
+
+### APA-style reporting template
+
+"[Group 1 description] (M = [mean], SD = [SD], n = [n]) [verb] [Group 2 description] (M = [mean], SD = [SD], n = [n]), mean difference = [diff], 95% CI [lower, upper], t([df]) = [t-value], p = [p-value]."
+
+**Example:**
+
+"Sprint time at baseline did not differ significantly between control (M = 3.81 s, SD = 0.34, n = 30) and training groups (M = 3.77 s, SD = 0.37, n = 30), mean difference = 0.04 s, 95% CI [−0.15, 0.22], t(58) = 0.43, p = .669."
+
+### Creating a summary table
+
+You can copy-paste SPSS output into Word or Excel, or create a custom table:
+
+| Variable | n | Mean (SD) | 95% CI |
+|---------|---|-----------|--------|
+| VO₂max (mL·kg⁻¹·min⁻¹) | 60 | 41.34 (6.82) | [39.58, 43.10] |
+| Sprint Time (s) — Control | 30 | 3.81 (0.34) | [3.68, 3.94] |
+| Sprint Time (s) — Training | 30 | 3.77 (0.37) | [3.63, 3.91] |
+| **Sprint Difference** | — | **0.04** | **[−0.15, 0.22]** |
+
+*Note.* Pre-training time point.
+
+## Summary
+
+This tutorial covered:
+
+* Computing 95% and 99% CIs for single means using **Explore**
+* Obtaining CIs for independent-samples comparisons using **Independent-Samples T Test**
+* Computing CIs for paired-samples comparisons using **Paired-Samples T Test**
+* Visualizing CIs using **Error Bar** plots
+* Understanding how sample size, confidence level, and variability affect CI width
+* Avoiding common misinterpretations of confidence intervals
+
+Confidence intervals are indispensable for responsible statistical reporting. Always report CIs alongside point estimates to communicate uncertainty and precision honestly.
+
+::: {.callout-tip}
+## Next steps
+
+* Practice computing CIs on your own datasets
+* Experiment with different confidence levels to see the trade-off between width and certainty
+* Use error bar plots in presentations and manuscripts to visualize uncertainty
+* Consult Chapter 9 of the textbook for deeper conceptual understanding of confidence intervals
+:::
+
+## Additional resources
+
+* **SPSS manuals**: IBM SPSS Statistics Base documentation
+* **APA Style (7th ed.)**: Guidelines for reporting confidence intervals
+* **Cumming, G. (2014). Understanding the New Statistics**: Comprehensive guide to confidence intervals and effect sizes
+* **Textbook website**: Download practice datasets and syntax files
+
+---
+
+**Questions or issues?** Refer to the textbook's online support forum or consult your instructor.

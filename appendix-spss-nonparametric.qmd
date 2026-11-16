@@ -1,0 +1,583 @@
+---
+title: "SPSS Tutorial: Nonparametric Tests"
+---
+
+This tutorial walks through each nonparametric procedure covered in @sec-nonparam-overview–@sec-friedman using SPSS. Each section maps directly to the corresponding chapter section, follows the same dataset (`core_session.csv`), and uses the same examples and statistics reported in the chapter.
+
+::: {.callout-tip}
+## Before you start
+
+Open `core_session.csv` in SPSS. Verify that the following variables are present and correctly coded:
+
+| Variable | Type | Values |
+|:---------|:----:|:-------|
+| `sex_category` | Nominal | "female" / "male" |
+| `group` | Nominal | "control" / "training" |
+| `time` | Ordinal | "pre" / "mid" / "post" |
+| `rpe_6_20` | Scale | 6–20 |
+| `strength_kg` | Scale | kg |
+| `sprint_20m_s` | Scale | seconds |
+| `function_0_100` | Scale | 0–100 |
+| `balance_errors_count` | Scale | count |
+:::
+
+::: {.callout-warning}
+## String variables and Legacy Dialogs
+
+`group` and `time` are imported as **string (text) variables**. SPSS Legacy Dialogs (2 Independent Samples, K Independent Samples, 2 Related Samples) require the **Grouping Variable** to be **numeric**. String variables will not appear in the grouping variable box.
+
+**Recode before running any test that uses `group` or `time` as a grouping variable:**
+
+*Transform → Recode into Different Variables…*
+
+For **`group`** → Output variable: `group_num`
+: Old value `"control"` → New value `1`; Old value `"training"` → New value `2`
+
+For **`time`** → Output variable: `time_num`
+: Old value `"pre"` → New value `1`; Old value `"mid"` → New value `2`; Old value `"post"` → New value `3`
+
+Click **Old and New Values…**, add each pair, click **Add** after each, then **Continue → OK**. Use `group_num` and `time_num` wherever this appendix refers to `group` and `time` as grouping variables.
+:::
+
+---
+
+## Part A: Chi-Square Tests {#sec-spss-chisq}
+
+### A1 — Goodness-of-Fit Test
+
+Use this when you have one categorical variable and want to test whether the observed frequencies match a theoretical distribution (e.g., equal proportions).
+
+**Step 1: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → Chi-square…*
+
+**Step 2: Specify the variable**
+
+Move `sex_category` into the **Test Variable List** box.
+
+**Step 3: Set expected values**
+
+Under **Expected Values**, leave **All categories equal** selected (this tests for a 50/50 split between females and males).
+
+- If you had a non-equal expected distribution (e.g., 60% female), select **Values** and enter each expected frequency one at a time using the **Add** button.
+
+**Step 4: Run**
+
+Click **OK**.
+
+**Step 5: Read the output**
+
+SPSS produces two tables:
+
+*Expected and Observed Frequencies* — shows the observed (*N*) and expected counts for each category. Verify that no expected count is below 5.
+
+*Test Statistics* — reports **Chi-Square**, **df**, and **Asymptotic Sig. (2-tailed)**. Record these for your APA write-up.
+
+| Output value | Meaning |
+|:-------------|:--------|
+| Chi-Square | The χ² test statistic |
+| df | Degrees of freedom (*k* − 1) |
+| Asymptotic Sig. (2-tailed) | The *p*-value |
+
+For the sex distribution example, SPSS should report χ²(1) = 0.60, *p* = .439.
+
+**Step 6: Effect size**
+
+Cramér's *V* for a goodness-of-fit test with two categories equals:
+
+$$V = \sqrt{\frac{\chi^2}{n}}$$
+
+SPSS does not report *V* for the goodness-of-fit test. Use the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix to compute it from the χ² and *N* values in the output.
+
+---
+
+### A2 — Test of Independence (Two Categorical Variables)
+
+Use this when you have two categorical variables and want to test whether they are associated (e.g., sex × group).
+
+**Step 1: Open the dialog**
+
+> *Analyze → Descriptive Statistics → Crosstabs…*
+
+**Step 2: Assign variables**
+
+- Move `sex_category` to the **Row(s)** box.
+- Move `group` to the **Column(s)** box.
+
+**Step 3: Request statistics**
+
+Click **Statistics…**, check **Chi-square** and **Phi and Cramer's V**, then click **Continue**.
+
+**Step 4: Request expected counts**
+
+Click **Cells…**, check **Expected** under *Counts*, then click **Continue**.
+
+**Step 5: Run**
+
+Click **OK**.
+
+**Step 6: Read the output**
+
+*Crosstabulation table* — examine the expected counts column. **All cells must have expected counts ≥ 5** for the chi-square approximation to be valid. If any cell is below 5, SPSS will warn you with a footnote; use Fisher's exact test instead (available in the same output under "Fisher's Exact Test" when the table is 2 × 2).
+
+*Chi-Square Tests table* — use the **Pearson Chi-Square** row. Record:
+
+| Output row | What to report |
+|:-----------|:---------------|
+| Pearson Chi-Square | χ²(*df*, *N* = ...) = [Value], *p* = [Asymp. Sig.] |
+| df | Degrees of freedom |
+| Asymp. Sig. (2-tailed) | *p*-value |
+
+*Symmetric Measures table* — record **Phi** (for 2 × 2 tables) or **Cramer's V** (for larger tables) as the effect size.
+
+For the sex × group example: χ²(1, *N* = 60) = 5.45, *p* = .020, φ = .302.
+
+::: {.callout-warning}
+## Fisher's exact test
+
+When any expected cell count is below 5, SPSS automatically prints Fisher's exact test *p*-value in the Chi-Square Tests table (for 2 × 2 tables only). Report Fisher's exact *p* instead of Pearson chi-square in those cases, and note in your write-up that Fisher's exact test was used due to small expected frequencies.
+:::
+
+---
+
+## Part B: Spearman Rank-Order Correlation {#sec-spss-spearman}
+
+**Step 1: Open the dialog**
+
+> *Analyze → Correlate → Bivariate…*
+
+**Step 2: Select variables**
+
+Move `strength_kg` and `sprint_20m_s` (post-test values only — filter or select cases first if needed) to the **Variables** box.
+
+**Step 3: Select Spearman**
+
+Under **Correlation Coefficients**, uncheck **Pearson** and check **Spearman**. (You may keep Pearson checked if you wish to compare both.)
+
+**Step 4: Run**
+
+Click **OK**.
+
+**Step 5: Read the output**
+
+The *Correlations* table reports:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Correlation Coefficient | *ρ* |
+| Sig. (2-tailed) | *p*-value |
+| N | Sample size |
+
+For the strength vs. sprint example: *ρ*(53) = −.71, *p* < .001 (*N* = 55; 5 participants missing post-test sprint data).
+
+::: {.callout-note}
+## Filtering to a single time point
+
+To analyze post-test data only, use *Data → Select Cases → If condition is satisfied*, enter `time = 'post'`, click **Continue**, then **OK**. Run the correlation. When finished, return to Select Cases and choose **All cases** to restore the full dataset.
+:::
+
+**Step 6: Effect size**
+
+Spearman *ρ* is itself the effect size. Report it alongside the *p*-value using the benchmarks: |ρ| = .10 (small), .30 (medium), .50 (large).
+
+---
+
+## Part C: Mann-Whitney U Test {#sec-spss-mwu}
+
+**Step 1: Recode `group` to numeric**
+
+The `group` variable is a text string and will not appear in the Grouping Variable box. You must create a numeric version first.
+
+> *Transform → Recode into Different Variables…*
+
+- Move `group` into the **Input Variable → Output Variable** box.
+- Type `group_num` in the **Output Variable Name** field and click **Change**.
+- Click **Old and New Values…**
+  - Old Value: `"control"` → New Value: `1` → click **Add**
+  - Old Value: `"training"` → New Value: `2` → click **Add**
+- Click **Continue → OK**.
+
+**Step 2: Filter to post-test only** (if comparing groups at one time point)
+
+> *Data → Select Cases → If condition is satisfied* → enter `time = 'post'` → **Continue** → **OK**
+
+**Step 3: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples…*
+
+**Step 4: Assign variables**
+
+- Move `rpe_6_20` to the **Test Variable List** box.
+- Move `group_num` to the **Grouping Variable** box.
+- Click **Define Groups…**, enter **1** for Group 1 (control) and **2** for Group 2 (training), then click **Continue**.
+
+**Step 4: Select the test**
+
+Under **Test Type**, ensure **Mann-Whitney U** is checked.
+
+**Step 6: Run**
+
+Click **OK**.
+
+**Step 7: Read the output**
+
+*Ranks table* — shows the mean rank and sum of ranks for each group. Higher mean rank = higher scores on the outcome variable.
+
+*Test Statistics table* — record:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Mann-Whitney U | *U* |
+| Wilcoxon W | The larger sum of ranks (not needed for APA) |
+| Z | Standardized test statistic |
+| Asymp. Sig. (2-tailed) | *p*-value |
+
+For the RPE × group example: *U* = 249, *p* = .030. (SPSS reports the smaller of the two U statistics — here the training group's U.)
+
+**Step 8: Effect size — rank-biserial *r***
+
+SPSS does not directly report rank-biserial *r* in Legacy Dialogs. Use the formula:
+
+$$r = \frac{U_1 - U_2}{n_1 \times n_2}$$
+
+where $U_1$ and $U_2$ are obtained from the Ranks table (Mean Rank × *n* for each group gives the U values). Use the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix to compute *r* from the *U* and group sizes.
+
+Alternatively, use *Analyze → Nonparametric Tests → Independent Samples* (the newer dialog) and request **Effect Size** in the Settings tab — SPSS will report *r* directly.
+
+For the RPE example: *r* = −.34 (medium effect).
+
+::: {.callout-tip}
+## Median reporting for Mann-Whitney
+
+APA style recommends reporting the median (not the mean) alongside Mann-Whitney U. Run *Analyze → Descriptive Statistics → Explore*, add `rpe_6_20` as a Dependent List and `group` as a Factor, to get medians and IQRs for each group.
+:::
+
+---
+
+## Part D: Wilcoxon Signed-Rank Test {#sec-spss-wilcoxon}
+
+**Step 1: Restructure data (if in long format)**
+
+If your dataset is in long format (one row per participant per time point), you need wide format for the Wilcoxon test (one row per participant, with separate columns for pre and post). Use:
+
+> *Data → Restructure…* → **Restructure selected variables into cases or vice versa** → follow the wizard to pivot `function_0_100` from long to wide, creating `function_pre` and `function_post` columns.
+
+**Step 2: Filter to training group only**
+
+> *Data → Select Cases → If condition is satisfied* → enter `group = 'training'` → **Continue** → **OK**
+
+**Step 3: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples…*
+
+**Step 4: Assign variables**
+
+- In the **Test Pairs** area, click `function_pre` then `function_post` and move them as a pair into the pair list using the arrow button.
+
+**Step 5: Select the test**
+
+Under **Test Type**, ensure **Wilcoxon** is checked.
+
+**Step 6: Run**
+
+Click **OK**.
+
+**Step 7: Read the output**
+
+*Ranks table* — shows the number and mean rank of negative ranks (scores that decreased), positive ranks (scores that increased), and ties.
+
+| Row | Meaning |
+|:----|:--------|
+| Negative Ranks | Participants whose post-score was *lower* than pre-score |
+| Positive Ranks | Participants whose post-score was *higher* than pre-score |
+| Ties | No change |
+
+*Test Statistics table* — record:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Z | Standardized test statistic |
+| Asymp. Sig. (2-tailed) | *p*-value |
+| Exact Sig. (2-tailed) | Use for *n* < 25 |
+
+SPSS reports the Wilcoxon *W* statistic in the background, but the *Z* and *p* are what you report. The *W* = 69 in the chapter was obtained directly from the smaller rank sum (*n* = 25 complete pairs; 5 participants missing post-test data).
+
+**Step 8: Effect size — rank-biserial *r***
+
+$$r = \frac{Z}{\sqrt{n}}$$
+
+where *Z* is from the Test Statistics table and *n* is the number of non-tied pairs. Use the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix or compute directly. For *Z* = −3.56, *n* = 25: *r* = −3.56/√25 = −.71.
+
+---
+
+## Part E: Kruskal-Wallis Test {#sec-spss-kruskal}
+
+**Step 1: Recode `time` to numeric**
+
+The `time` variable is a text string and will not appear in the Grouping Variable box. You must create a numeric version first.
+
+> *Transform → Recode into Different Variables…*
+
+- Move `time` into the **Input Variable → Output Variable** box.
+- Type `time_num` in the **Output Variable Name** field and click **Change**.
+- Click **Old and New Values…**
+  - Old Value: `"pre"` → New Value: `1` → click **Add**
+  - Old Value: `"mid"` → New Value: `2` → click **Add**
+  - Old Value: `"post"` → New Value: `3` → click **Add**
+- Click **Continue → OK**.
+
+**Step 2: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → K Independent Samples…*
+
+**Step 3: Assign variables**
+
+- Move `balance_errors_count` to the **Test Variable List** box.
+- Move `time_num` to the **Grouping Variable** box.
+- Click **Define Range…**, enter **Minimum: 1** and **Maximum: 3**, then click **Continue**.
+
+**Step 4: Select the test**
+
+Under **Test Type**, ensure **Kruskal-Wallis H** is checked.
+
+**Step 5: Run**
+
+Click **OK**.
+
+**Step 6: Read the output**
+
+*Ranks table* — shows mean rank for each time point (group).
+
+*Test Statistics table* — record:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Kruskal-Wallis H | *H*(*df*) |
+| df | Degrees of freedom (*k* − 1) |
+| Asymp. Sig. | *p*-value |
+
+For the balance errors example: *H*(2) = 1.03, *p* = .597 (non-significant).
+
+**Step 7: Post-hoc tests (if H is significant)**
+
+If Kruskal-Wallis is significant, run pairwise Mann-Whitney U tests for all group combinations. Apply **Bonferroni correction**: divide α (.05) by the number of pairwise comparisons [*k(k−1)/2*] to get the corrected threshold.
+
+For *k* = 3: corrected α = .05/3 = .017. Report only pairs with *p* < .017 as significantly different.
+
+Alternatively, use *Analyze → Nonparametric Tests → Independent Samples* (new dialog) → Settings tab → **Multiple Comparisons** to request Dunn's test automatically.
+
+**Step 8: Effect size**
+
+SPSS does not report a Kruskal-Wallis effect size in Legacy Dialogs. Use the rank-based η²:
+
+$$\eta^2_H = \frac{H - k + 1}{n - k}$$
+
+where *H* is the test statistic, *k* is the number of groups, and *n* is the total sample size. This value can be computed from the output in the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix.
+
+---
+
+## Part F: Friedman's Test {#sec-spss-friedman}
+
+Friedman's test requires **wide format** data — one row per participant, with one column for each repeated condition.
+
+**Step 1: Restructure to wide format (if needed)**
+
+Follow the same restructuring approach described in Part D to create `rpe_pre`, `rpe_mid`, and `rpe_post` columns. Filter to the training group (`group = 2`).
+
+**Step 2: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → K Related Samples…*
+
+**Step 3: Assign variables**
+
+Move `rpe_pre`, `rpe_mid`, and `rpe_post` into the **Test Variables** box.
+
+**Step 4: Select the test**
+
+Under **Test Type**, ensure **Friedman** is checked. Optionally also check **Kendall's W** — SPSS will compute it automatically.
+
+**Step 5: Run**
+
+Click **OK**.
+
+**Step 6: Read the output**
+
+*Ranks table* — shows mean rank for each condition (time point).
+
+*Test Statistics table* — record:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| N | Sample size |
+| Chi-Square | χ²(*df*) |
+| df | Degrees of freedom (*k* − 1) |
+| Asymp. Sig. | *p*-value |
+| Kendall's W | Effect size (if requested) |
+
+For the training group RPE example: χ²(2) = 4.46, *p* = .107, *W* = .05 (non-significant).
+
+**Step 7: Post-hoc tests (if Friedman is significant)**
+
+Run pairwise Wilcoxon signed-rank tests for all condition pairs with Bonferroni correction. For three conditions, corrected α = .05/3 = .017.
+
+::: {.callout-note}
+## Kendall's W interpretation
+
+*W* ranges from 0 (no concordance — ranks are essentially random across participants) to 1 (perfect concordance — all participants rank conditions in the same order). Benchmarks: .10 = weak, .30 = moderate, .50 = strong concordance. Report *W* alongside χ² whenever Friedman's test is used.
+:::
+
+---
+
+## Part G: Sign Test (One-Sample Nonparametric) {#sec-spss-sign}
+
+The sign test is available in SPSS via the Legacy Dialogs menu. Use it when comparing a single set of scores against a hypothesised median, or as a more conservative alternative to the Wilcoxon signed-rank test when the distribution of differences is severely asymmetric.
+
+**Step 1: Open the dialog**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → 2 Related Samples…*
+
+**Step 2: Assign variables**
+
+Create a constant column in your dataset equal to the hypothesised median (e.g., add a variable `benchmark` with the value 75 for every participant). Then pair your outcome variable (e.g., `function_post`) with `benchmark` in the Test Pairs list.
+
+**Step 3: Select the test**
+
+Under **Test Type**, uncheck Wilcoxon and check **Sign**.
+
+**Step 4: Run**
+
+Click **OK**.
+
+**Step 5: Read the output**
+
+*Frequencies table* — shows the count of negative differences (score below benchmark), positive differences (score above), and ties (exactly equal to benchmark). Ties are excluded from the test.
+
+*Test Statistics table* — records:
+
+| Output value | What to report |
+|:-------------|:---------------|
+| Exact Sig. (2-tailed) | *p*-value (use Exact for small *n*; Asymptotic for large *n*) |
+
+Report the *p*-value alongside the count and proportion of positive signs and a 95% binomial confidence interval for the proportion (compute using the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix).
+
+::: {.callout-tip}
+## When to use Exact vs. Asymptotic significance
+
+For samples smaller than *n* = 25, use the **Exact Sig.** row, which is based on the binomial distribution. For larger samples, the **Asymp. Sig.** row (normal approximation) is appropriate. SPSS computes both automatically.
+:::
+
+---
+
+## Part H: Scheirer-Ray-Hare Test (Nonparametric Factorial ANOVA) {#sec-spss-srh}
+
+SPSS does not have a dedicated Scheirer-Ray-Hare procedure. The test is performed by: (1) manually ranking the outcome variable, (2) running a standard factorial ANOVA on those ranks, and (3) converting each sum of squares to an *H* statistic.
+
+**Step 1: Rank the outcome variable**
+
+> *Transform → Rank Cases…*
+
+- Move your outcome variable (e.g., `strength_kg`) into the **Variable(s)** box.
+- Under **Assign Ranks to**, select **All cases together** (not within groups).
+- Leave the ranking method as **Ranks** (1 = smallest).
+- Click **OK**. SPSS creates a new variable (e.g., `Rstrength_kg`) containing the ranks.
+
+**Step 2: Run a standard two-way ANOVA on the ranks**
+
+> *Analyze → General Linear Model → Univariate…*
+
+- Set the ranked variable (`Rstrength_kg`) as the **Dependent Variable**.
+- Add both factors (e.g., `sex_category` and `group`) to the **Fixed Factor(s)** box.
+- Click **Options…**, check **Descriptive statistics** and **Estimates of effect size**, then click **Continue**.
+- Click **OK**.
+
+**Step 3: Record the sums of squares**
+
+From the *Tests of Between-Subjects Effects* table, record:
+
+| Value needed | Where to find it |
+|:-------------|:-----------------|
+| SS for Factor A | Type III SS row for Factor A |
+| SS for Factor B | Type III SS row for Factor B |
+| SS for A × B interaction | Type III SS row for the interaction |
+| SS total | Sum of all SS rows (or compute as SS_corrected_model + SS_error + SS_corrected_total) |
+| *N* | From Descriptive Statistics table |
+
+**Step 4: Compute the H statistics**
+
+$$MS_{total} = \frac{SS_{total}}{N}, \quad H_A = \frac{SS_A}{MS_{total}}, \quad H_B = \frac{SS_B}{MS_{total}}, \quad H_{AB} = \frac{SS_{AB}}{MS_{total}}$$
+
+Each *H* statistic follows a chi-square distribution with df equal to the number of levels of that factor minus one (or the product of the two factors' df for the interaction). Obtain the *p*-value from the **[Statistical Calculators](appendix-statistical-calculators.qmd)** appendix chi-square table, or use the SPSS chi-square probability function:
+
+> *Transform → Compute Variable…* → set `p_value = 1 - CDF.CHISQ(H_value, df)`
+
+::: {.callout-note}
+## ART-ANOVA as a more powerful alternative
+
+The **Aligned Rank Transform ANOVA** (ART-ANOVA) is a more powerful and better-validated nonparametric factorial procedure, especially for detecting interaction effects. It is available in R via the `ARTool` package (function `art()`). If SPSS is your only option, the Scheirer-Ray-Hare procedure described here is an acceptable approximation for main effects; interpret interaction effects with caution given the test's limited power.
+:::
+
+---
+
+## Part I: Quade's Rank ANCOVA (Nonparametric ANCOVA) {#sec-spss-quade}
+
+SPSS does not have a dedicated Quade's test procedure. The most practical SPSS-based approach for nonparametric ANCOVA is to residualise the outcome variable against the covariate using regression, then compare the residuals between groups using Mann-Whitney U.
+
+**Step 1: Regress the outcome on the covariate (ignoring group)**
+
+> *Analyze → Regression → Linear…*
+
+- Set the post-test outcome (e.g., `strength_post`) as the **Dependent** variable.
+- Set the covariate (e.g., `strength_pre`) as the **Independent(s)** variable. Do **not** include group here.
+- Click **Save…**, check **Unstandardized Residuals**, then click **Continue** → **OK**.
+
+SPSS saves a new variable (`RES_1`) containing each participant's residual — the portion of their post-test score not explained by pre-test.
+
+**Step 2: Compare residuals between groups using Mann-Whitney U**
+
+> *Analyze → Nonparametric Tests → Legacy Dialogs → 2 Independent Samples…*
+
+- Move `RES_1` into the **Test Variable List**.
+- Move `group_num` into the **Grouping Variable** box and define groups (1 = control, 2 = training).
+- Ensure **Mann-Whitney U** is checked.
+- Click **OK**.
+
+**Step 3: Read and report the output**
+
+Interpret the Mann-Whitney U test on the residuals exactly as described in Part C. A significant result indicates that, after removing the covariate's influence, the groups differ on the outcome. Report *U*, *p*, and rank-biserial *r* as the effect size.
+
+::: {.callout-warning}
+## Limitations of this approach
+
+The residual-then-Mann-Whitney approach is an approximation of Quade's rank ANCOVA — it gives similar results but is not identical. For a fully rigorous nonparametric ANCOVA, use R (`coin::kruskal_test()` with a covariate, or the `Rfit` package). If your ANCOVA assumptions are only mildly violated, a data transformation (e.g., log of the outcome) followed by standard ANCOVA is often a more defensible and interpretable solution. Always report which approach was used and why.
+:::
+
+---
+
+## Troubleshooting {#sec-spss-nonparam-trouble}
+
+**"Warning: X cells have expected count less than 5."**
+For a 2 × 2 table, use **Fisher's Exact Test** *p*-value (shown in the same output row). For larger tables, consider collapsing categories that have few observations.
+
+**The Wilcoxon dialog only shows Z, not W.**
+SPSS Legacy Dialogs report the *Z* approximation. The exact *W* statistic can be obtained from *Analyze → Nonparametric Tests → Related Samples* (new dialog), which also reports exact *p*-values for small samples.
+
+**Kruskal-Wallis shows significant overall, but none of the Bonferroni-corrected pairwise comparisons are significant.**
+This can happen due to the difference in sensitivity between the omnibus test and the stricter pairwise threshold. It is not a contradiction. Report the omnibus result, note that no individual pairwise comparisons survived Bonferroni correction, and interpret cautiously.
+
+**Friedman test and repeated-measures ANOVA give different conclusions.**
+This can occur with non-normal data. The Friedman test is more appropriate when normality is violated. If in doubt, report both and note the discrepancy with a brief explanation of why you selected Friedman as the primary analysis.
+
+**Mann-Whitney U gives U = 0 or U = n₁ × n₂.**
+This indicates perfect separation: all scores in one group are above (or below) all scores in the other group. This is a valid result but warrants inspection for data entry errors and should be described as complete stochastic ordering of one group over the other.
+
+---
+
+## Practice Exercises {#sec-spss-nonparam-practice}
+
+1. **Chi-square independence.** Using `core_session.sav`, run a chi-square test of independence to determine whether `sex_category` is associated with `time` (i.e., is the sex distribution stable across measurement occasions?). Report χ², df, *p*, and Cramér's *V*. Verify that all expected cell counts meet the minimum threshold.
+
+2. **Spearman correlation.** Compute the Spearman correlation between `pain_0_10` and `function_0_100` using all observations at pre-test. Interpret the sign, magnitude, and statistical significance. How does *ρ* compare with Pearson *r* for the same variables?
+
+3. **Mann-Whitney U.** Compare `balance_errors_count` at mid-test between the control and training groups. Report *U*, *p*, median (IQR) for each group, and rank-biserial *r*. Is the difference statistically significant? Practically meaningful?
+
+4. **Wilcoxon signed-rank.** Within the control group, test whether `pain_0_10` changed from pre- to post-test. Report *Z*, *p*, and rank-biserial *r*. Does pain change significantly in participants who received no intervention?

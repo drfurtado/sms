@@ -1,0 +1,809 @@
+---
+title: "Multiple Correlation and Multiple Regression"
+subtitle: "Modeling complex relationships with multiple predictors in Movement Science"
+---
+
+::: {.callout-tip}
+## 💻 SPSS Tutorial Available
+Learn how to perform multiple regression in SPSS! See the **[SPSS Tutorial: Multiple Regression](appendix-spss-multiple-regression.qmd)** in the appendix for step-by-step instructions on running a multiple regression model, interpreting SPSS output, checking multicollinearity with VIF, and reporting results in APA style.
+:::
+
+## Statistical symbols used in this chapter
+
+| Symbol | Name | Description |
+|--------|------|-------------|
+| $\hat{Y}$ | Predicted value of $Y$ | Value of the outcome variable estimated by the regression model |
+| $b_0$ | Intercept | Predicted $Y$ when all predictors equal zero |
+| $b_1, b_2, \ldots, b_k$ | Regression coefficients (slopes) | Change in $\hat{Y}$ for a one-unit increase in the corresponding predictor, holding all others constant |
+| $X_1, X_2, \ldots, X_k$ | Predictor variables | Independent variables included in the model |
+| $k$ | Number of predictors | Count of independent variables in the model |
+| $n$ | Sample size | Number of observations |
+| $R$ | Multiple correlation coefficient | Correlation between observed $Y$ and predicted $\hat{Y}$; ranges from 0 to 1 |
+| $R^2$ | Coefficient of determination | Proportion of variance in $Y$ explained by the set of predictors |
+| $R^2_{\text{adj}}$ | Adjusted $R^2$ | $R^2$ corrected for the number of predictors; penalizes for adding uninformative variables |
+| $\Delta R^2$ | Change in $R^2$ | Increase in $R^2$ when a predictor is added to the model |
+| $F$ | F-statistic | Tests whether the overall model explains significantly more variance than the null model |
+| $t$ | t-statistic | Tests whether an individual regression coefficient differs significantly from zero |
+| $\beta$ | Standardized regression coefficient | Regression coefficient expressed in standard deviation units; allows comparison across predictors |
+| $r_{\text{partial}}$ | Partial correlation | Correlation between $Y$ and $X_i$ after removing the influence of all other predictors from both |
+| $r_{\text{semi}}$ | Semipartial (part) correlation | Correlation between $Y$ and the part of $X_i$ independent of all other predictors |
+| $VIF$ | Variance Inflation Factor | Quantifies multicollinearity; values > 10 indicate problematic collinearity |
+| $SS$ | Sum of squares | Sum of squared deviations; decomposed into regression and residual components |
+| $e_i$ | Residual | Difference between observed and predicted $Y$: $Y_i - \hat{Y}_i$ |
+
+: {tbl-colwidths="[15,28,57]"}
+
+## Chapter roadmap
+
+Simple correlation and bivariate regression (Chapter 11) provide powerful tools for understanding relationships between two variables, but human movement rarely depends on a single factor [@tabachnick2019; @field_discovering]. Athletic performance, injury risk, motor learning outcomes, and physiological responses typically involve multiple interacting variables. For example, vertical jump height depends not only on lower-body strength but also on body mass, muscle power, technique, and flexibility [@bobbert2000; @cormie2011]. Predicting VO₂max from a single variable (e.g., body mass) yields modest accuracy, but adding variables like resting heart rate, age, and physical activity level dramatically improves prediction [@jackson1990; @jurca2005]. **Multiple regression** extends bivariate regression by modeling the relationship between an outcome variable and **two or more predictor variables**, enabling researchers to predict outcomes more accurately, control for confounding variables, and disentangle the unique contributions of multiple factors [@cohen2003].
+
+Understanding multiple regression is essential because it mirrors the complexity of real-world Movement Science questions. Researchers use multiple regression to identify which biomechanical variables best predict injury risk, to determine whether training adaptations persist after controlling for baseline fitness, and to build predictive models for clinical decision-making [@bahr2005; @willy2019]. **Multiple correlation** quantifies how well a set of predictors collectively explains variance in an outcome, while **partial correlation** reveals relationships between two variables after statistically removing the influence of others. These techniques are foundational for understanding multifactorial phenomena, but they also introduce complexities: predictors may be intercorrelated (**multicollinearity**), leading to unstable coefficient estimates; adding too many predictors can lead to **overfitting**, where models fit sample noise rather than true patterns [@james2013; @babyak2004]. Responsible use of multiple regression requires careful model building, rigorous assumption checking, and transparent reporting of both statistical significance and practical importance.
+
+This chapter explains how to build, interpret, and evaluate multiple regression models in Movement Science contexts [@field_discovering; @cohen2003]. You will learn to compute and interpret multiple correlation (R), assess individual predictor contributions using partial correlations and regression coefficients, and diagnose multicollinearity [@tabachnick2019; @dormann2013]. The goal is not to apply regression mechanically, but to develop intuition for multivariate relationships, recognize when simpler models suffice, and communicate findings transparently. By the end, you will understand how multiple regression enables richer, more realistic modeling of Movement Science phenomena, while appreciating the risks of complexity and the importance of thoughtful variable selection.
+
+By the end of this chapter, you will be able to:
+
+* Explain the rationale for multiple regression and when it is appropriate.
+* Compute and interpret multiple correlation (R) and adjusted R².
+* Understand partial and semipartial correlations and their role in regression.
+* Build multiple regression models and interpret regression coefficients.
+* Assess model fit using R², F-tests, and residual diagnostics.
+* Detect and address multicollinearity among predictors.
+* Apply multiple regression to predict outcomes and control for confounding variables.
+* Recognize the limitations of multiple regression and avoid overfitting.
+
+## Workflow for multiple regression analysis
+
+Use this sequence when building and evaluating a multiple regression model:
+
+1. **State the research question** clearly (e.g., "Which biomechanical variables predict vertical jump height?").
+2. **Identify predictors and outcome** based on theory and prior research.
+3. **Screen data** for outliers, missing values, and linearity.
+4. **Check assumptions** (linearity, independence, homoscedasticity, normality of residuals, no multicollinearity).
+5. **Build the model** using appropriate variable selection methods.
+6. **Evaluate model fit** (R², adjusted R², F-test).
+7. **Interpret coefficients** in context, considering both significance and practical importance.
+8. **Validate the model** using cross-validation or an independent sample if possible.
+9. **Report transparently** with model diagnostics, effect sizes, and confidence intervals.
+
+This workflow provides a bird's-eye view of the full analysis pipeline. **Step 1 — stating hypotheses — deserves special attention** and is covered in the next section before we examine the mechanics of the model.
+
+### Stating hypotheses in multiple regression
+
+Multiple regression involves **two levels of hypothesis testing**, each answering a different question [@cohen2003; @field_discovering]:
+
+#### Level 1: The omnibus F-test (overall model)
+
+The omnibus test asks: *Does the full set of predictors explain a significant amount of variance in Y, above and beyond simply predicting the mean?*
+
+$$H_0: \beta_1 = \beta_2 = \cdots = \beta_k = 0$$
+
+$$H_1: \text{At least one } \beta_i \neq 0$$
+
+In plain language:
+
+* **H₀**: None of the predictors contribute to explaining Y — the model is no better than predicting $\bar{Y}$ for everyone.
+* **H₁**: At least one predictor has a non-zero unique relationship with Y.
+
+This is tested with the **F-statistic** in the ANOVA table of the SPSS output. A significant F-test ($p < .05$) tells you the model as a whole works — but not *which* predictors are responsible.
+
+#### Level 2: Individual predictor t-tests
+
+After establishing overall model significance, individual t-tests ask: *Does each predictor make a significant unique contribution, controlling for all others?*
+
+For each predictor $X_i$:
+
+$$H_0: \beta_i = 0 \quad \text{(this predictor has no unique effect on Y)}$$
+
+$$H_1: \beta_i \neq 0 \quad \text{(this predictor has a significant unique effect on Y)}$$
+
+These are tested with the **t-statistics** in the Coefficients table.
+
+::: callout-important
+## Always state both levels before running the analysis
+In APA-style research reports, hypotheses are stated *before* collecting or analyzing data. For a two-predictor model predicting sprint time (Y) from VO₂max (X₁) and strength (X₂), you would state:
+
+**Omnibus:** $H_0: \beta_1 = \beta_2 = 0$; $H_1:$ at least one $\beta_i \neq 0$.
+
+**Individual (VO₂max):** $H_0: \beta_1 = 0$; $H_1: \beta_1 \neq 0$, controlling for strength.
+
+**Individual (Strength):** $H_0: \beta_2 = 0$; $H_1: \beta_2 \neq 0$, controlling for VO₂max.
+:::
+
+## What is multiple regression?
+
+**Multiple regression** models the relationship between a single **continuous outcome variable** (dependent variable, Y) and **two or more predictor variables** (independent variables, X₁, X₂, ..., Xₖ) [@cohen2003; @field_discovering]. The model takes the form:
+
+$$
+\hat{Y} = b_0 + b_1 X_1 + b_2 X_2 + \cdots + b_k X_k
+$$
+
+Where:
+
+* $\hat{Y}$ = predicted value of the outcome variable
+* $b_0$ = intercept (predicted Y when all predictors = 0)
+* $b_1, b_2, \ldots, b_k$ = **regression coefficients** (slopes for each predictor)
+* $X_1, X_2, \ldots, X_k$ = predictor variables
+
+Each coefficient ($b_i$) represents the **unique effect** of predictor $X_i$ on Y, **holding all other predictors constant**. This "holding constant" property enables researchers to distinguish the independent contribution of each variable from confounded or shared effects. In practice, predictors are rarely independent of each other — stronger athletes tend to be heavier, fitter individuals tend to be younger — so a bivariate coefficient absorbs both the predictor's direct effect and the effects of correlated variables. Multiple regression removes this confounding by estimating each coefficient from only the variance unique to that predictor, after the other predictors have already been accounted for [@tabachnick2019; @cohen2003].
+
+::: callout-important
+## Multiple regression coefficients are "unique" contributions
+
+In multiple regression, each coefficient represents the effect of that predictor **after accounting for all other predictors in the model** [@cohen2003]. This contrasts with bivariate regression, where the coefficient reflects the total (confounded) relationship. For example, if body mass and leg strength both predict jump height, $b_{\text{mass}}$ in multiple regression shows the effect of mass **independent of strength**, while the bivariate coefficient includes both direct and indirect (via strength) effects [@tabachnick2019].
+:::
+
+### Why use multiple regression?
+
+Understanding the mechanics of the model is one thing; knowing *when* to reach for it is another. Multiple regression serves three main purposes in Movement Science research [@field_discovering; @miles2014]:
+
+1. **Prediction**: Build models to predict outcomes (e.g., predicting injury risk from biomechanical measures)
+2. **Explanation**: Identify which variables uniquely contribute to an outcome (e.g., which factors explain sprint performance)
+3. **Control**: Adjust for confounding variables to isolate causal effects (e.g., examining training effects after controlling for baseline fitness)
+
+### Worked example: Conceptual preview
+
+A researcher wants to predict vertical jump height (Y) from two variables: lower-body strength (X₁) and body mass (X₂). The multiple regression model is:
+
+$$
+\hat{Y} = b_0 + b_1 \times \text{Strength} + b_2 \times \text{Body Mass}
+$$
+
+Suppose the fitted model is:
+
+$$
+\hat{Y} = 10 + 0.15 \times \text{Strength} - 0.08 \times \text{Body Mass}
+$$
+
+**Interpretation:**
+
+* **Intercept ($b_0 = 10$)**: Predicted jump height when strength and body mass are both zero (often not interpretable in practice)
+* **Strength coefficient ($b_1 = 0.15$)**: For each 1 kg increase in strength, jump height increases by 0.15 cm, **holding body mass constant** [@cormie2011]
+* **Body mass coefficient ($b_2 = -0.08$)**: For each 1 kg increase in body mass, jump height decreases by 0.08 cm, **holding strength constant** [@bobbert2000]
+
+This model reveals that strength positively predicts jump height while mass negatively predicts it, after accounting for the correlation between strength and mass [@tabachnick2019].
+
+## Multiple correlation (R)
+
+Once a multiple regression model is built, the natural question is: *how well does the full set of predictors, taken together, explain the outcome?* That is what multiple correlation addresses.
+
+**Multiple correlation (R)** quantifies the strength of the relationship between the set of predictors (X₁, X₂, ..., Xₖ) and the outcome (Y) — specifically, it is the correlation between observed Y values and predicted $\hat{Y}$ values from the regression model [@cohen2003; @tabachnick2019].
+
+$$
+R = r_{Y, \hat{Y}}
+$$
+
+**Properties of R:**
+
+* Range: 0 ≤ R ≤ 1 (always positive, unlike bivariate r)
+* R = 0: No relationship between predictors and outcome
+* R = 1: Perfect prediction
+* R increases (never decreases) as predictors are added, even if they contribute nothing meaningful [@babyak2004; @miles2014]
+
+### R² (coefficient of determination)
+
+**R²** represents the **proportion of variance in Y explained by the set of predictors** [@cohen2003; @tabachnick2019]. Intuitively, it answers the question: *out of all the variability in the outcome, how much of it can the model account for?* The remaining variance (1 − R²) is left unexplained — attributable to unmeasured variables, random error, or processes the model does not capture.
+
+$$
+R^2 = \frac{\text{SS}_{\text{regression}}}{\text{SS}_{\text{total}}} = 1 - \frac{\text{SS}_{\text{residual}}}{\text{SS}_{\text{total}}}
+$$
+
+The formula decomposes the total variability in Y (SS~total~) into two parts: the portion explained by the regression model (SS~regression~) and the portion that remains in the residuals (SS~residual~). R² is simply the explained share of the total.
+
+**Interpretation:**
+
+* R² = 0.40: The predictors explain 40% of the variance in Y; the remaining 60% is unexplained
+* R² = 0.75: The predictors explain 75% of the variance in Y; the model accounts for most of the variability
+
+**Guidelines for interpreting R² [@cohen1988]:**
+
+* Small: R² ≈ 0.02
+* Medium: R² ≈ 0.13
+* Large: R² ≈ 0.26
+
+However, these benchmarks are context-dependent; in complex biological systems, R² = 0.30 may represent substantial predictive power [@james2013].
+
+::: callout-warning
+## Common mistake: R² inflation with added predictors
+
+Adding predictors **always increases R²**, even if the new predictors are entirely random [@babyak2004]. This creates **overfitting**: models fit sample-specific noise rather than generalizable patterns [@james2013]. Use **adjusted R²** to penalize models for unnecessary predictors [@tabachnick2019].
+:::
+
+### Adjusted R²
+
+Because R² never decreases when predictors are added, it is a biased measure of model quality when comparing models with different numbers of predictors — a model with ten predictors will always show a higher R² than one with two, even if the extra eight add nothing meaningful. **Adjusted R²** corrects for this by penalizing the model for each predictor that does not contribute proportionately to the explained variance [@tabachnick2019; @miles2014]:
+
+$$
+R^2_{\text{adj}} = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}
+$$
+
+Where:
+
+* $n$ = sample size
+* $k$ = number of predictors
+
+The penalty grows as $k$ increases relative to $n$: adding a weak predictor to a small sample shrinks adjusted R² noticeably, signaling that the predictor is not earning its place in the model. In large samples the penalty is small, so R² and adjusted R² converge. The gap between the two values is itself informative — a large gap suggests the model has too many predictors relative to what the data can support.
+
+**Properties:**
+
+* Adjusted R² ≤ R² (equality only when all predictors contribute meaningfully)
+* Adjusted R² can decrease when a weak predictor is added, even though R² cannot
+* Use adjusted R² — not R² — when comparing models with different numbers of predictors [@field_discovering]
+
+::: callout-note
+## Real example: Predicting VO₂max
+
+A study predicts VO₂max from age, sex, body mass, and physical activity level (n = 120). The model yields R² = 0.62, adjusted R² = 0.60. Interpretation:
+
+* The four predictors collectively explain 62% of variance in VO₂max
+* After adjusting for the number of predictors, 60% of variance is explained
+* The small difference between R² and adjusted R² suggests the predictors contribute meaningfully, not merely inflating R² [@jackson1990; @jurca2005]
+:::
+
+## Partial and semipartial correlation
+
+R² and adjusted R² tell us how well the predictors *collectively* explain the outcome, but they do not tell us about the contribution of any *individual* predictor. That is where partial and semipartial correlations come in. Because predictors in a multiple regression model are typically intercorrelated, the raw bivariate correlation between a predictor and the outcome conflates that predictor's unique contribution with variance it shares with the other predictors. Partial and semipartial correlations disentangle these overlapping influences, giving a cleaner picture of each predictor's role [@cohen2003; @tabachnick2019].
+
+```{r}
+#| label: fig-venn-variance-partitioning
+#| fig-cap: "Venn diagram illustrating variance partitioning in multiple regression with two predictors ($X_1$ and $X_2$). Each circle represents the total variance in one variable. The regions inside the $Y$ circle decompose its variance: **A** = uniquely shared with $X_1$, **B** = shared with both $X_1$ and $X_2$, **C** = uniquely shared with $X_2$, **D** = not explained by either predictor."
+#| fig-width: 6.5
+#| fig-height: 6
+#| code-fold: true
+
+par(mar = c(0.5, 0.5, 0.5, 0.5))
+plot(NULL,
+    xlim = c(-4.5, 4.5), ylim = c(-4, 4.5),
+    asp = 1, axes = FALSE, xlab = "", ylab = ""
+)
+
+# Circle parameters
+r <- 2.2
+theta <- seq(0, 2 * pi, length.out = 500)
+
+# Centers: Y top-center, X1 bottom-left, X2 bottom-right
+y_cx <- 0
+y_cy <- 1.2
+x1_cx <- -1.2
+x1_cy <- -0.7
+x2_cx <- 1.2
+x2_cy <- -0.7
+
+# Draw circles with semi-transparent fills (overlaps become darker)
+polygon(y_cx + r * cos(theta), y_cy + r * sin(theta),
+    col = rgb(0.6, 0.6, 0.6, 0.18), border = "gray35", lwd = 2.5
+)
+polygon(x1_cx + r * cos(theta), x1_cy + r * sin(theta),
+    col = rgb(0.6, 0.6, 0.6, 0.18), border = "gray35", lwd = 2.5
+)
+polygon(x2_cx + r * cos(theta), x2_cy + r * sin(theta),
+    col = rgb(0.6, 0.6, 0.6, 0.18), border = "gray35", lwd = 2.5
+)
+
+# Circle labels (outside each circle)
+text(0, 3.7, expression(italic(Y)), cex = 1.8, col = "gray20")
+text(-3.3, -2.3, expression(italic(X)[1]), cex = 1.8, col = "gray20")
+text(3.3, -2.3, expression(italic(X)[2]), cex = 1.8, col = "gray20")
+
+# Region labels inside the Y circle
+text(0, 2.4, expression(bold(D)), cex = 1.6, col = "gray20")
+text(-0.85, 0.55, expression(bold(A)), cex = 1.6, col = "gray20")
+text(0.85, 0.55, expression(bold(C)), cex = 1.6, col = "gray20")
+text(0, -0.1, expression(bold(B)), cex = 1.6, col = "gray20")
+```
+
+::: callout-note
+## Understanding the variance regions
+
+In @fig-venn-variance-partitioning, the three circles represent the total variance in $Y$, $X_1$, and $X_2$. The regions inside the $Y$ circle decompose its variance:
+
+*   **Region A:** Variance in $Y$ uniquely explained by $X_1$ — the part of $X_1$'s predictive power that does not overlap with $X_2$.
+*   **Region B:** Variance in $Y$ shared by both $X_1$ and $X_2$ — the confounded portion that cannot be uniquely attributed to either predictor.
+*   **Region C:** Variance in $Y$ uniquely explained by $X_2$ — the part of $X_2$'s predictive power that does not overlap with $X_1$.
+*   **Region D:** Variance in $Y$ not explained by either predictor (residual variance).
+
+Using these regions:
+
+| Statistic | Question it answers | Regions |
+|---|---|---|
+| $R^2$ | How much of $Y$ do **all predictors together** explain? | A + B + C |
+| Semipartial $r^2$ | If I add $X_1$ **last**, how much does $R^2$ go up? ($= \Delta R^2$) | A |
+| Partial $r^2$ | After removing $X_2$'s influence, how strongly are $X_1$ and $Y$ **still** related? | A ÷ (A + D) |
+:::
+
+**Partial correlation** and **semipartial (part) correlation** both quantify relationships after removing the influence of other variables, but they differ in *what* they remove the other variables from — a distinction that matters for interpretation.
+
+### Partial correlation
+
+**Partial correlation** between Y and X₁, **controlling for X₂**, is the correlation between Y and X₁ after the linear effects of X₂ have been removed from **both Y and X₁** [@field_discovering]. The key word is *both*: X₂ is first regressed on Y, and the residuals of that regression (the part of Y not explained by X₂) are retained. Then X₂ is regressed on X₁, and those residuals (the part of X₁ not explained by X₂) are retained. The partial correlation is simply the correlation between these two sets of residuals — what Y and X₁ have in common *after* both have been purged of X₂'s influence [@cohen2003].
+
+Because both variables are cleaned of X₂, the partial correlation answers the question: *if everyone in the sample had the same value of X₂, how strongly would X₁ and Y still be related?* It is therefore expressed as a proportion of the variance that remains in Y after X₂ is removed — which means it can be larger in magnitude than the original bivariate correlation if X₂ was suppressing the relationship [@tabachnick2019].
+
+**Interpretation:**
+
+* Measures the unique relationship between Y and X₁, independent of X₂
+* Its square ($r^2_{\text{partial}}$) is the proportion of the *residual* variance in Y (after removing X₂) that X₁ explains
+* In @fig-venn-variance-partitioning, this corresponds to region **A** as a proportion of regions **A + D**
+
+**Example:** 
+
+If body mass correlates with both jump height and leg strength, the partial correlation between jump height and strength (controlling for mass) reveals whether strength predicts jump height **beyond** what mass already explains — that is, among athletes matched on body mass, do stronger athletes still jump higher? [@cormie2011]
+
+### Semipartial (part) correlation
+
+**Semipartial correlation** between Y and X₁, **controlling for X₂**, is the correlation between Y and the part of X₁ that is **independent of X₂**, but — unlike partial correlation — X₂ is *not* removed from Y [@cohen2003]. Only X₁ is cleaned up; Y is left as-is.
+
+The practical consequence of this asymmetry is important: because Y still contains all its original variance (including the part shared with X₂), the semipartial correlation is expressed as a proportion of the *total* variance in Y, not just the residual variance. This makes it directly comparable to R² and makes its square represent something concrete and useful.
+
+Specifically, squaring the semipartial correlation gives $\Delta R^2$ — the *increase* in R² when X₁ is added to a model that already contains X₂ [@tabachnick2019]:
+
+$$
+\Delta R^2 = r^2_{\text{semipartial}}
+$$
+
+In other words, the squared semipartial correlation tells you: *how much additional variance in the outcome does this predictor explain, above and beyond what the other predictors already account for?* This is why semipartial correlations are the preferred measure for comparing predictor importance and for reporting incremental model contributions — they speak directly to R², the statistic most researchers are already focused on [@cohen2003; @field_discovering].
+
+**Example using the jump height model:** If strength and body mass together explain R² = 0.56, and the semipartial correlation for strength (controlling for body mass) is $r_{\text{semi}} = 0.62$, then $\Delta R^2 = 0.62^2 = 0.38$ — meaning strength uniquely explains 38% of the total variance in jump height, above and beyond what body mass already accounts for.
+
+**Interpretation summary:**
+
+* Its square ($r^2_{\text{semi}}$) directly equals $\Delta R^2$: the unique variance in Y explained by X₁ as a proportion of *total* Y variance
+* In @fig-venn-variance-partitioning, this corresponds to region **A** as a proportion of the entire $Y$ circle (**A + B + C + D**)
+* Smaller than or equal to the partial correlation in absolute value, because it uses total Y variance in the denominator rather than residual Y variance
+
+::: callout-tip
+## When to use partial vs. semipartial correlation
+
+* **Partial correlation:** Understand the "pure" relationship between two variables after removing confounding influences [@cohen2003]
+* **Semipartial correlation:** Determine how much adding a predictor improves model fit (ΔR²) [@tabachnick2019]
+:::
+
+## Building a multiple regression model
+
+### Step 1: Choosing predictors
+
+Select predictors based on [@babyak2004; @harrell2015]:
+
+1. **Theory:** Prior research and domain knowledge
+2. **Parsimony:** Fewer predictors reduce overfitting and improve interpretability
+3. **Sample size:** Rule of thumb: *n* ≥ 10–20 per predictor 
+
+::: callout-warning
+## Avoid "kitchen sink" models
+
+Including every available variable leads to overfitting, multicollinearity, and uninterpretable results [@babyak2004]. Focus on theoretically motivated predictors, and use variable selection methods (e.g., stepwise regression) cautiously, as they capitalize on sample-specific variance [@james2013; @whittingham2006].
+:::
+
+### Step 2: Assessing assumptions
+
+Multiple regression assumes [@tabachnick2019; @field_discovering]:
+
+1. **Linearity:** The relationship between Y and each predictor Xᵢ must be linear — that is, the effect of each predictor on the outcome should follow a straight-line pattern. If the true relationship is curved or exponential, a linear model will systematically misfit the data and produce biased coefficients. For example, if strength increases jump height quickly at low strength levels but levels off at high levels, a straight-line assumption will underestimate the effect at the extremes.
+
+2. **Independence:** Each observation must be independent of the others — what one participant does should not influence another. This assumption is violated when data come from repeated measures on the same person, teammates in the same group, or multiple sessions from the same athlete. Violations inflate the apparent precision of your estimates and can produce misleadingly small *p*-values.
+
+3. **Homoscedasticity:** The spread (variance) of the residuals should be roughly the same across all levels of the predicted values. If the residuals fan out as predicted values increase — wider spread for high jump heights than low, for example — the standard errors will be inaccurate and significance tests unreliable. This unequal spread is called *heteroscedasticity*.
+
+4. **Normality of residuals:** The residuals (the differences between observed and predicted values) should be approximately normally distributed. This assumption matters mainly for small samples; with larger samples (roughly *n* > 30), the central limit theorem makes OLS regression relatively robust to moderate departures from normality. Note: normality of the *outcome* is not required — only normality of the *residuals*.
+
+5. **No multicollinearity:** Predictors should not be so strongly intercorrelated that the model cannot distinguish their separate effects. When two predictors are nearly redundant (e.g., lean body mass and fat-free mass in the same model), the model cannot reliably estimate which one is doing the work, leading to large standard errors and unstable coefficients. Moderate correlations among predictors are normal and acceptable; extreme correlations (|r| > .85–.90) are the concern.
+
+**Diagnostics:**
+
+* **Scatterplots of Y vs. each X:** Plot the outcome on the y-axis against each predictor on the x-axis. If the points cluster around a straight line, the linearity assumption is met. A curved or U-shaped pattern signals that a linear term is insufficient and a transformation or polynomial term may be needed.
+
+* **Residual plots:** Plot the residuals (observed − predicted) on the y-axis against the predicted values on the x-axis [@fox2015]. A well-behaved plot shows a random, horizontal band of points with no systematic pattern. If the spread of residuals fans out or contracts as predicted values increase, this indicates heteroscedasticity — a violation of the equal-variance assumption.
+
+* **P-P plots:** A normal probability (P-P) plot compares the cumulative probability of your observed residuals against the cumulative probability of a theoretical normal distribution. If the points fall approximately along the diagonal reference line, the normality assumption is satisfied. Pronounced S-curves or bowing away from the line in the P-P plot indicate non-normality that may affect inference in small samples.
+
+* **Variance Inflation Factor (VIF):** VIF quantifies how much the variance of each regression coefficient is inflated due to its correlation with other predictors. A VIF of 1 means no inflation; values above 5–10 indicate problematic multicollinearity. SPSS and R report VIF automatically in the regression output (discussed in detail below).
+
+::: callout-note
+## Assumption violations
+
+* **Nonlinearity:** Consider transformations (log, square root) or polynomial terms [@fox2015]
+* **Heteroscedasticity:** Use robust standard errors or weighted least squares [@white1980]
+* **Non-normal residuals:** OLS regression is robust to moderate violations with large samples [@lumley2002]
+* **Multicollinearity:** Remove redundant predictors or use regularization (ridge, lasso regression) [@dormann2013; @james2013]
+:::
+
+### Step 3: Fitting the model
+
+Once predictors are chosen and assumptions checked, the model is estimated using **Ordinary Least Squares (OLS)** — the default method in SPSS, R, and most statistical software [@field_discovering; @tabachnick2019].
+
+The core idea is simple: OLS finds the set of regression coefficients ($b_0, b_1, \ldots, b_k$) that makes the model's predictions as accurate as possible. "Accurate" is defined by minimizing the sum of squared residuals — the squared differences between each observed value ($Y_i$) and the model's predicted value ($\hat{Y}_i$):
+
+$$
+\text{Minimize: } \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2
+$$
+
+Squaring the residuals serves two purposes: it makes all errors positive (so positive and negative errors do not cancel out), and it penalizes large errors more heavily than small ones, pushing the model to avoid big misses. The coefficients that minimize this total are the OLS estimates.
+
+In practice, you do not compute these by hand — statistical software solves the minimization analytically using matrix algebra and returns the coefficients, their standard errors, *t*-statistics, *p*-values, and model fit statistics (R², adjusted R², F) in a single output table.
+
+### Worked example: Building a multiple regression model
+
+A researcher measures 50 athletes and collects:
+
+* **Y (Outcome):** Vertical jump height (cm)
+* **X₁ (Predictor):** Lower-body strength (kg)
+* **X₂ (Predictor):** Body mass (kg)
+
+**Research question:** Do strength and body mass predict vertical jump height?
+
+**Step 1: Fit the model**
+
+Using software, the fitted model is:
+
+$$
+\hat{Y} = 12.5 + 0.20 \times \text{Strength} - 0.10 \times \text{Body Mass}
+$$
+
+**Model summary:**
+
+* R² = 0.56, adjusted R² = 0.54
+* F(2, 47) = 30.2, p < .001 — where 2 is the number of predictors ($k$) and 47 is the residual degrees of freedom ($n - k - 1 = 50 - 2 - 1$). If a third predictor were added, this would become F(3, 46), as each new predictor adds one degree of freedom to the regression and subtracts one from the residuals.
+
+**Step 2: Interpret coefficients**
+
+* **Intercept (12.5 cm):** Predicted jump height when strength and mass are zero (not interpretable)
+* **Strength (b₁ = 0.20):** Each 1 kg increase in strength increases jump height by 0.20 cm, **holding body mass constant**, t(47) = 5.8, p < .001, 95% CI [0.13, 0.27] 
+* **Body mass (b₂ = −0.10):** Each 1 kg increase in body mass decreases jump height by 0.10 cm, **holding strength constant**, t(47) = −2.5, p = .016, 95% CI [−0.18, −0.02] 
+
+**Step 3: Assess model fit** [@cohen1988; @tabachnick2019]
+
+* **R² = 0.56:** Strength and body mass collectively explain 56% of variance in jump height 
+* **F-test significant (p < .001):** The model predicts jump height significantly better than the null model (intercept only) 
+* **Adjusted R² = 0.54:** Minimal shrinkage suggests predictors contribute meaningfully
+
+**Interpretation:**
+
+Both strength and body mass are significant unique predictors of vertical jump height. Strength has a positive effect (stronger athletes jump higher), while body mass has a negative effect (heavier athletes, at the same strength level, jump lower). The model explains substantial variance (56%), indicating that these two variables capture much of the variability in jump performance [@bobbert2000; @cormie2011].
+
+The worked example shows how a model is fitted and evaluated at a high level. Now we examine the individual building blocks — the regression coefficients — and what each one tells us in detail.
+
+## Interpreting regression coefficients
+
+Each regression coefficient ($b_i$) has several interpretations [@tabachnick2019; @cohen2003]:
+
+### 1. Unstandardized coefficient (b)
+
+* **Units:** Same units as Y per unit of X
+* **Interpretation:** "A one-unit increase in X is associated with a b-unit change in Y, holding other predictors constant"
+* **Example:** b = 0.20 means each 1 kg increase in strength increases jump height by 0.20 cm
+
+**Advantages:**
+
+* Directly interpretable in original units
+* Useful for practical prediction
+
+**Disadvantages:**
+
+* Cannot compare magnitudes across predictors with different scales
+
+### 2. Standardized coefficient (β, beta)
+
+**Standardized coefficients** express effects in **standard deviation units**, enabling comparison of predictor importance [@cohen2003]:
+
+$$
+\beta_i = b_i \times \frac{\text{SD}_{X_i}}{\text{SD}_Y}
+$$
+
+**Interpretation:** "A one-standard-deviation increase in X is associated with a β-standard-deviation change in Y"
+
+**Example:** 
+
+If β₁ = 0.50 for strength and β₂ = −0.30 for body mass, strength is a stronger predictor (larger absolute magnitude) [@tabachnick2019].
+
+::: callout-tip
+## When to use standardized vs. unstandardized coefficients
+
+* **Unstandardized (b):** For practical interpretation and prediction in original units [@miles2014]
+* **Standardized (β):** For comparing relative importance of predictors with different scales [@field_discovering]
+
+**Always report both** when describing models [@apa2020; @wilkinson1999].
+:::
+
+### 3. Statistical significance of coefficients
+
+Each coefficient is tested using a **t-test**:
+
+* **H₀:** $b_i = 0$ (predictor has no unique effect)
+* **H₁:** $b_i \neq 0$ (predictor has a unique effect)
+
+**p-value interpretation:**
+
+* p < 0.05: Reject H₀; predictor contributes significantly to the model
+* p ≥ 0.05: Fail to reject H₀; predictor does not add significant unique variance
+
+::: callout-warning
+## Common mistake: Confusing significance with importance
+
+A predictor can be **statistically significant** (p < 0.05) yet **practically trivial** (small coefficient, narrow CI near zero) [@cohen1994; @wasserstein2019]. Always examine:
+
+* **Confidence intervals:** Do they include only trivial effects?
+* **Effect size (β):** Is the standardized coefficient large enough to matter?
+* **Context:** Would a change of this magnitude influence outcomes meaningfully? [@batterham2006; @lakens2013]
+:::
+
+Interpreting individual coefficients answers the question of *which* predictors matter and by *how much*. The complementary question is whether the model as a whole provides a meaningful, statistically defensible explanation of the outcome — and that is what formal model evaluation addresses.
+
+## Model evaluation: F-test and R²
+
+### Omnibus F-test
+
+The **F-test** evaluates whether the model **as a whole** predicts Y significantly better than the null model (intercept only) [@tabachnick2019]:
+
+* **H₀:** R² = 0 (all regression coefficients = 0)
+* **H₁:** R² > 0 (at least one predictor is significant)
+
+**F-statistic:**
+
+$$
+F = \frac{R^2 / k}{(1 - R^2) / (n - k - 1)}
+$$
+
+Where:
+
+* $k$ = number of predictors
+* $n$ = sample size
+
+**Decision:**
+
+* If p < α (typically 0.05), reject H₀ and conclude the model predicts Y significantly [@field_discovering]
+
+::: callout-note
+## Real example: F-test interpretation
+
+A model predicting sprint time from strength, power, and flexibility yields F(3, 46) = 12.5, p < .001. This indicates the model predicts sprint time significantly better than simply using the mean sprint time as the prediction for all participants [@winter2009].
+:::
+
+Knowing that a model fits well overall and that individual predictors are significant is an important start. But a critical threat can undermine those results even when they look promising: when predictors are too strongly related to each other, the model struggles to disentangle their individual contributions.
+
+## Multicollinearity
+
+**Multicollinearity** occurs when predictors are highly intercorrelated, causing problems for regression models [@dormann2013; @tabachnick2019]:
+
+### Problems caused by multicollinearity:
+
+1. **Unstable coefficients:** Small changes in data produce large changes in coefficients
+2. **Large standard errors:** Coefficients become imprecise (wide confidence intervals)
+3. **Nonsignificant predictors:** Truly important predictors may appear nonsignificant due to shared variance
+4. **Difficult interpretation:** Overlapping predictors obscure unique contributions
+
+### Detecting multicollinearity
+
+**1. Variance Inflation Factor (VIF)**
+
+VIF quantifies how much the variance of a coefficient is inflated due to multicollinearity [@tabachnick2019; @james2013]:
+
+$$
+\text{VIF}_i = \frac{1}{1 - R^2_i}
+$$
+
+Where $R^2_i$ is the R² from regressing $X_i$ on all other predictors.
+
+**Guidelines [@dormann2013; @james2013]:**
+
+* VIF < 5: No concern
+* VIF = 5–10: Moderate multicollinearity (investigate)
+* VIF > 10: Severe multicollinearity (action required)
+
+**2. Tolerance**
+
+Tolerance = $1 / \text{VIF}$. Values < 0.10 indicate problematic multicollinearity [@tabachnick2019].
+
+**3. Correlation matrix**
+
+Examine bivariate correlations among predictors. Correlations **> 0.80 suggest multicollinearity risk** [@field_discovering].
+
+### Addressing multicollinearity
+
+**Solutions [@dormann2013; @james2013]:**
+
+1. **Remove redundant predictors:** If two predictors are highly correlated (r > 0.80), retain only one
+2. **Combine predictors:** Create composite variables (e.g., factor scores from principal components analysis)
+3. **Increase sample size:** More data can stabilize estimates
+4. **Use regularization:** Ridge or lasso regression shrink coefficients, reducing instability [@hastie2009]
+
+::: callout-note
+## Real example: Multicollinearity in biomechanics
+
+A researcher predicts gait speed from step length, stride length, and step frequency. However, step length and stride length are nearly perfectly correlated (r = 0.98), causing VIF > 20. Solution: Remove stride length (redundant with step length) or combine them into a single measure [@winter2009].
+:::
+
+### Worked example: Detecting multicollinearity
+
+A regression model predicts injury risk from three biomechanical variables: knee flexion angle (X₁), hip flexion angle (X₂), and ankle dorsiflexion (X₃).
+
+**VIF values:**
+
+* VIF₁ = 2.3 (knee flexion)
+* VIF₂ = 12.8 (hip flexion)
+* VIF₃ = 11.5 (ankle dorsiflexion)
+
+**Interpretation:**
+
+* Knee flexion: No multicollinearity concern (VIF < 5)
+* Hip flexion and ankle dorsiflexion: Severe multicollinearity (VIF > 10) [@dormann2013]
+
+**Action:**
+
+Examine the correlation between hip and ankle angles. If r > 0.85, consider removing one or creating a composite "lower-limb flexion" variable [@tabachnick2019].
+
+Understanding how multicollinearity can compromise a model's integrity naturally raises a prior question: which predictors should be included in the first place? That decision — variable selection — shapes every aspect of the model that follows.
+
+## Variable selection methods
+
+**Variable selection** involves choosing which predictors to include in a model [@miles2014]. Common approaches:
+
+### 1. Theory-driven (recommended)
+
+Select predictors based on prior research, domain expertise, and theoretical frameworks [@harrell2015; @babyak2004].
+
+**Advantages:**
+
+* Interpretable, replicable models
+* Protects against overfitting
+* Aligns with scientific reasoning
+
+### 2. Stepwise regression
+
+**Forward selection:** Start with no predictors, add predictors one at a time (based on significance)  
+**Backward elimination:** Start with all predictors, remove nonsignificant predictors one at a time  
+**Stepwise (mixed):** Combination of forward and backward
+
+::: callout-warning
+## Stepwise regression is controversial
+
+Stepwise methods capitalize on sample-specific variance, leading to [@whittingham2006; @babyak2004]:
+
+* Overfitting and poor generalizability
+* Inflated Type I error rates
+* Unstable models (different results across samples)
+
+**Use stepwise methods only for exploratory analysis**, and always validate findings in independent samples [@james2013; @harrell2015].
+:::
+
+### 3. All-subsets regression
+
+Evaluate all possible combinations of predictors and select the best model based on criteria like **Akaike Information Criterion (AIC)** or **Bayesian Information Criterion (BIC)** [@tabachnick2019; @james2013].
+
+**Advantages:**
+
+* Comprehensive evaluation of models
+
+**Disadvantages:**
+
+* Computationally intensive with many predictors
+* Still susceptible to overfitting without validation [@babyak2004]
+
+Choosing predictors wisely and fitting a well-specified model is not the end of the process. A model that performs well in the sample it was built on may fail when applied to new data. Validation tests whether the results generalize beyond the original sample.
+
+## Model validation
+
+**Model validation** assesses whether a regression model generalizes to new data [@james2013; @shmueli2010].
+
+### Cross-validation
+
+**k-fold cross-validation:** Split data into k subsets, train model on k−1 subsets, test on the remaining subset, repeat k times [@hastie2009; @james2013].
+
+**Result:** Average prediction accuracy across folds estimates how well the model generalizes [@field_discovering].
+
+### Independent validation sample
+
+**Gold standard:** Fit the model on one sample, test it on a completely independent sample [@babyak2004; @harrell2015].
+
+**Shrinkage:** Reduction in R² from training to test sample indicates overfitting [@tabachnick2019].
+
+::: callout-tip
+## Planning for validation
+
+When planning studies, **reserve a portion of data (e.g., 20–30%) for validation** rather than using the entire sample for model building [@james2013]. This ensures honest estimates of predictive accuracy [@shmueli2010].
+:::
+
+Once a model has been built, checked for assumption violations, and validated, the final step is communicating what was found. Clear, complete reporting allows readers to evaluate the evidence, reproduce the analysis, and judge whether the effects are practically meaningful.
+
+## Reporting multiple regression results
+
+**APA-style reporting** should include [@apa2020; @field_discovering]:
+
+1. **Model summary:** R², adjusted R², F-statistic, p-value
+2. **Coefficients table:** For each predictor, report b, SE, β, t, p, 95% CI
+3. **Diagnostics:** Multicollinearity (VIF), residual plots
+4. **Sample size and missing data handling**
+5. **Effect sizes and practical interpretation**
+
+**Example:**
+
+"A multiple regression model predicting vertical jump height from lower-body strength and body mass was significant, F(2, 47) = 30.2, p < .001, R² = 0.56, adjusted R² = 0.54. Both predictors contributed significantly: strength (b = 0.20, SE = 0.03, β = 0.58, t = 5.8, p < .001, 95% CI [0.13, 0.27]) and body mass (b = −0.10, SE = 0.04, β = −0.25, t = −2.5, p = .016, 95% CI [−0.18, −0.02]). VIF values were < 2.5, indicating no multicollinearity concerns. The model explained 56% of variance in jump height, with strength emerging as the stronger predictor."
+
+::: callout-note
+## Visualizing regression results
+
+Use **coefficient plots** to display unstandardized coefficients with 95% CIs, showing which predictors are significant and their effect directions [@gelman2020]. Include a reference line at zero to highlight significance.
+:::
+
+Multiple regression is a powerful and flexible tool, but no analytical method is without limitations. Awareness of these limitations is not a reason to avoid regression — it is a reason to use it carefully and interpret results with appropriate humility.
+
+## Limitations and cautions
+
+### 1. Correlation ≠ causation
+
+Multiple regression identifies **associations**, not causal relationships [@pearl2009]. Even after controlling for confounders, omitted variables, reverse causation, and unmeasured confounding can bias interpretations [@rohrer2018].
+
+### 2. Overfitting
+
+Models with many predictors fit sample noise, producing inflated R² and poor generalization [@babyak2004; @james2013]. Use adjusted R², cross-validation, and theory-driven selection to mitigate overfitting [@harrell2015].
+
+### 3. Extrapolation
+
+Predictions outside the range of observed predictors are unreliable [@fox2015]. For example, a model built on athletes aged 18–25 should not be used to predict performance in 60-year-olds.
+
+### 4. Sample size
+
+**Rule of thumb:** *n* ≥ 10–20 per predictor [@tabachnick2019; @austin2015]. Smaller samples yield unstable, untrustworthy models.
+
+::: callout-important
+## Responsible use of multiple regression
+
+Multiple regression is powerful but easily misused [@babyak2004; @shmueli2010]. Ensure:
+
+* Adequate sample size
+* Theory-driven predictor selection
+* Rigorous assumption checking
+* Transparent reporting of diagnostics and limitations
+* Validation in independent samples when possible
+:::
+
+## Chapter summary
+
+Multiple regression extends bivariate regression by modeling relationships between an outcome and multiple predictors, enabling researchers to predict outcomes more accurately, control for confounding variables, and identify unique contributions of individual factors [@cohen2003; @tabachnick2019]. Multiple correlation (R) quantifies the collective predictive power of a set of variables, while R² represents the proportion of variance explained [@field_discovering]. However, R² inflates with added predictors, necessitating adjusted R² and thoughtful variable selection to avoid overfitting [@babyak2004; @james2013]. Regression coefficients (b) reveal the unique effect of each predictor after accounting for others, but interpretation requires careful attention to units, standardization, and statistical vs. practical significance [@cohen1988; @lakens2013]. Multicollinearity—high intercorrelations among predictors—destabilizes coefficient estimates, inflates standard errors, and obscures interpretation, requiring detection via VIF and remediation through variable removal or regularization [@dormann2013; @tabachnick2019].
+
+Building robust multiple regression models demands more than mechanical application of software: researchers must select predictors based on theory, rigorously check assumptions (linearity, independence, homoscedasticity, normality, no multicollinearity), and validate models in independent samples or via cross-validation [@harrell2015; @shmueli2010]. Stepwise regression methods—though convenient—capitalize on sample-specific variance and rarely generalize, making theory-driven selection preferable [@whittingham2006; @babyak2004]. Transparent reporting of model summaries, regression coefficients, confidence intervals, diagnostics, and limitations enables readers to judge both the statistical rigor and practical utility of findings [@apa2020; @gelman2020]. Multiple regression is indispensable for understanding multifactorial Movement Science phenomena, but it requires discipline, domain knowledge, and humility about what statistical models can and cannot reveal about causation and generalizability [@pearl2009; @james2013].
+
+## Key terms
+
+multiple regression; multiple correlation (R); R²; adjusted R²; regression coefficient; unstandardized coefficient; standardized coefficient (β); partial correlation; semipartial correlation; multicollinearity; Variance Inflation Factor (VIF); tolerance; overfitting; cross-validation; F-test; stepwise regression; homoscedasticity; residuals; predictor variable; outcome variable; control variable
+
+## Practice: quick checks
+
+::: {.panel-accordion}
+
+### Question 1: How does multiple regression differ from simple bivariate regression? {icon="1-square-fill"}
+
+Multiple regression models the relationship between an outcome and **two or more predictors simultaneously**, whereas bivariate regression uses only **one predictor** [@cohen2003; @field_discovering]. The key advantage of multiple regression is that it estimates the **unique effect of each predictor after accounting for all others**, enabling researchers to disentangle shared and independent contributions [@tabachnick2019]. For example, if both strength and body mass predict jump height, bivariate regression conflates their effects, while multiple regression reveals that strength has a positive unique effect and mass has a negative unique effect (after controlling for strength) [@bobbert2000; @cormie2011]. This "holding other predictors constant" property makes multiple regression essential for understanding complex, multifactorial phenomena in Movement Science [@winter2009].
+
+### Question 2: Why does R² always increase when adding predictors, even if they are irrelevant? {icon="2-square-fill"}
+
+R² quantifies the proportion of variance in Y explained by the set of predictors, and adding any predictor—even a random one—will capture some sample-specific noise, slightly improving fit [@babyak2004; @james2013]. This creates **overfitting**, where the model fits the particular sample better but generalizes poorly to new data [@tabachnick2019]. For example, adding 10 random variables to a model will increase R², even though none have true predictive value [@miles2014]. To counteract this, use **adjusted R²**, which penalizes models for including additional predictors and can decrease when uninformative variables are added [@tabachnick2019]. Always validate models in independent samples or via cross-validation to assess true generalizability [@harrell2015; @shmueli2010].
+
+### Question 3: What does a regression coefficient represent in a multiple regression model? {icon="3-square-fill"}
+
+A regression coefficient ($b_i$) represents the **expected change in Y for a one-unit increase in predictor $X_i$, holding all other predictors constant** [@cohen2003; @tabachnick2019]. This "holding constant" property means the coefficient reflects the **unique, independent contribution** of that predictor, after accounting for correlations with other predictors [@field_discovering]. For example, if $b_{\text{strength}} = 0.20$ in a model predicting jump height from strength and body mass, it means each 1 kg increase in strength increases jump height by 0.20 cm, **at the same body mass** [@cormie2011]. This differs from bivariate regression, where the coefficient includes both direct and indirect (via other variables) effects [@miles2014]. Unstandardized coefficients are in original units; standardized coefficients (β) are in SD units, enabling comparison across predictors with different scales [@tabachnick2019].
+
+### Question 4: What is multicollinearity, and why is it problematic? {icon="4-square-fill"}
+
+**Multicollinearity** occurs when predictors are highly intercorrelated, making it difficult to disentangle their unique effects [@dormann2013; @tabachnick2019]. When two predictors share substantial variance (e.g., r > 0.80), the regression model struggles to attribute variance uniquely to each, resulting in **unstable coefficients** (small data changes produce large coefficient changes), **large standard errors** (wide CIs), and **nonsignificant results** for truly important predictors [@miles2014; @field_discovering]. For example, if stride length and step length are nearly perfectly correlated (r = 0.98), a regression model predicting gait speed cannot determine which contributes independently [@winter2009]. **Detection:** Use Variance Inflation Factor (VIF > 10 indicates severe multicollinearity) [@james2013]. **Solutions:** Remove redundant predictors, combine correlated variables, or use regularization methods [@dormann2013; @hastie2009].
+
+### Question 5: Why is stepwise regression controversial? {icon="5-square-fill"}
+
+Stepwise regression (forward, backward, or mixed) **capitalizes on sample-specific variance**, selecting predictors that fit noise rather than true patterns [@whittingham2006; @babyak2004]. This leads to **overfitting** (models that don't generalize), **inflated Type I error rates** (spurious significant predictors), and **unstable models** (different results across samples) [@james2013; @harrell2015]. For example, in a sample of 50 athletes, stepwise regression might select leg length as the best predictor of sprint time, but in a new sample, it might select arm length—neither replicable nor interpretable [@miles2014]. **Better approach:** Use **theory-driven selection** based on prior research and domain knowledge, and validate models in independent samples or via cross-validation [@babyak2004; @shmueli2010]. Stepwise methods can be used exploratively but should never be the sole basis for final models [@tabachnick2019].
+
+### Question 6: What is the difference between R² and adjusted R²? {icon="6-square-fill"}
+
+**R²** quantifies the proportion of variance in Y explained by the predictors, but it always increases (never decreases) as predictors are added, even if they are irrelevant [@babyak2004; @tabachnick2019]. **Adjusted R²** corrects for this by **penalizing models for including additional predictors**, adjusting based on sample size (*n*) and number of predictors (*k*) [@miles2014; @field_discovering]. If a new predictor adds little explanatory value, adjusted R² may decrease, signaling that the predictor is not worthwhile [@tabachnick2019]. For example, R² = 0.50 with 5 predictors might yield adjusted R² = 0.45 if the sample is small or predictors are weak. **Usage:** Use adjusted R² to compare models with different numbers of predictors, and report both R² and adjusted R² for transparency [@apa2020; @james2013]. Adjusted R² provides a more honest estimate of model generalizability.
+
+:::
+
+::: callout-note
+## Read further
+
+For comprehensive treatment of multiple regression, see @cohen2003 (Applied Multiple Regression/Correlation Analysis), @tabachnick2019 (Using Multivariate Statistics), and @james2013 (Introduction to Statistical Learning). For overfitting and model validation, consult @babyak2004 and @harrell2015.
+:::
+
+::: callout-tip
+## Next chapter
+
+In Chapter 13, you will learn about **comparing two means** using independent and paired t-tests. You will see how hypothesis testing and confidence intervals combine to evaluate mean differences, compute effect sizes, and assess both statistical and practical significance in Movement Science research.
+:::

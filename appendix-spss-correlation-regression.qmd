@@ -1,0 +1,406 @@
+---
+title: "SPSS Tutorial: Correlation and Bivariate Regression"
+subtitle: "Computing Pearson's r, fitting regression models, and interpreting output in SPSS"
+---
+
+::: {.callout-note icon=false}
+## Learning Objectives
+
+By the end of this tutorial, you will be able to:
+
+* Compute Pearson's correlation coefficient and create a correlation matrix in SPSS
+* Produce and interpret a scatterplot with a regression line
+* Conduct a bivariate linear regression and read the full SPSS output
+* Interpret the slope, intercept, $R^2$, and unstandardized/standardized coefficients
+* Check assumptions: linearity, homoscedasticity, normality of residuals, and outliers
+* Report correlation and regression results following APA guidelines
+
+:::
+
+## Overview
+
+Correlation and bivariate regression are foundational tools for examining relationships between two continuous variables in Movement Science. SPSS provides a straightforward interface for computing Pearson's $r$, testing its significance, fitting a regression model, and producing diagnostic plots. This tutorial demonstrates:
+
+* How to produce scatterplots and correlation coefficients in SPSS
+* How to set up and run a bivariate (simple) linear regression
+* How to read and interpret SPSS regression output (Coefficients, Model Summary, ANOVA tables)
+* How to request and evaluate residual diagnostics
+* How to report results in APA style
+
+**Prerequisites:** Familiarity with SPSS data entry and basic descriptive statistics.
+
+## Dataset for this tutorial
+
+We will use the **Core Dataset** (`core_session.csv`) introduced in the [Core Dataset Overview](appendix-core-dataset-overview.qmd). This is the same dataset used throughout the book.
+
+Download it here: [core_session.csv](data/core_session.csv)
+
+For this tutorial, we examine the relationship between two continuous variables measured at the **pre-training time point** (`time = "pre"`, *N* = 60):
+
+* `vo2_mlkgmin` — Aerobic capacity (VO₂max) in mL·kg⁻¹·min⁻¹ — predictor/independent variable ($X$)
+* `sprint_20m_s` — 20-meter sprint time in seconds (s) — outcome/dependent variable ($Y$)
+
+This pairing has clear theoretical grounding: athletes with higher aerobic capacity tend to have faster sprint times, making it a natural candidate for correlation and regression analysis.
+
+**Opening the dataset in SPSS:**
+
+1. **File → Open → Data...**
+2. Change the file type to **CSV (\*.csv)**, browse to `core_session.csv`, and click **Open**
+3. Follow the Text Import Wizard: choose **Delimited**, check **Variable names included at top of file**, set delimiter to **Comma**, and click **Finish**
+4. To restrict analyses to the pre-training time point, use **Data → Select Cases → If condition is satisfied** and enter: `time = 'pre'`
+
+::: callout-tip
+## Which variables to use
+See the **Core Dataset Codebook** for exact variable names, units, and coding. For this tutorial, use `vo2_mlkgmin` as the predictor and `sprint_20m_s` as the outcome.
+:::
+
+---
+
+## Part 1: Creating a scatterplot
+
+Always visualize your data **before** computing any statistics. A scatterplot reveals the shape, direction, and strength of the relationship—and whether any outliers or nonlinearity exist.
+
+### Procedure
+
+1. **Graphs → Chart Builder...**
+2. In the gallery at the bottom, click **Scatter/Dot**, then double-click the top-left (simple scatter) icon.
+3. Drag `vo2_mlkgmin` to the **X-Axis** zone and `sprint_20m_s` to the **Y-Axis** zone.
+4. Click **OK**.
+
+To add a regression line to the existing chart:
+
+5. Double-click the chart in the output viewer to open the **Chart Editor**.
+6. From the menu, choose **Elements → Fit Line at Total**.
+7. Select **Linear** in the Properties dialog → **Apply → Close**.
+8. Close the Chart Editor.
+
+### Interpreting the scatterplot
+
+Examine the scatterplot for:
+
+* **Direction**: Do points move upward (positive) or downward (negative) from left to right?
+* **Linearity**: Do points roughly follow a straight-line trend, or is there a curved pattern?
+* **Spread**: Is the vertical spread of points roughly constant (homoscedastic), or does it fan out?
+* **Outliers**: Are any points far away from the overall pattern?
+
+::: callout-tip
+## Always plot first
+
+Never skip the scatterplot. Identical correlation coefficients can arise from completely different data patterns (Anscombe's Quartet). Visual inspection protects against misleading interpretations.
+:::
+
+---
+
+## Part 2: Computing Pearson's correlation
+
+### Procedure
+
+1. **Analyze → Correlate → Bivariate...**
+2. Move both `vo2_mlkgmin` and `sprint_20m_s` to the **Variables** box.
+3. Under **Correlation Coefficients**, ensure **Pearson** is checked.
+4. Under **Test of Significance**, select **Two-tailed** (default).
+5. Leave **Flag significant correlations** checked.
+6. Click **OK**.
+
+### Interpreting the output
+
+SPSS produces a **Correlations** table:
+
+```
+Correlations
+                          vo2_mlkgmin   sprint_20m_s
+vo2_mlkgmin Pearson Corr.  1              -.643**
+            Sig. (2-tailed)               .000
+            N               60             60
+sprint_20m_s Pearson Corr. -.643**         1
+            Sig. (2-tailed) .000
+            N               60             60
+
+** Correlation is significant at the 0.01 level (2-tailed).
+```
+
+**Key elements:**
+
+* **Pearson Correlation = −.643**: Moderate-to-strong **negative** linear relationship — athletes with higher VO₂max tend to have **faster** (lower) sprint times.
+* **Sig. (2-tailed) = .000**: *p* < .001 — the correlation is statistically significant (SPSS displays ".000" for very small *p*-values; report as *p* < .001).
+* **N = 60**: Sample size (pre-training time point).
+* The table is symmetric: $r_{XY}$ = $r_{YX}$.
+
+::: callout-note
+## Coefficient of determination
+
+Square the correlation to get $r^2$:
+
+$$r^2 = (-.643)^2 = .414$$
+
+This means **41.4% of the variance** in sprint time is explained by VO₂max in this sample.
+:::
+
+---
+
+## Part 3: Bivariate linear regression
+
+Correlation quantifies the relationship; **regression** models it with an equation that enables prediction.
+
+### Procedure
+
+1. **Analyze → Regression → Linear...**
+2. Move `sprint_20m_s` to the **Dependent** box.
+3. Move `vo2_mlkgmin` to the **Independent(s)** box.
+4. Click **Statistics...**
+   - ✓ Estimates (regression coefficients) — checked by default
+   - ✓ Confidence intervals (at 95%)
+   - ✓ Model fit
+   - ✓ Descriptives *(optional)*
+   - **Continue**
+5. Click **Plots...**
+   - Move `*ZRESID` (standardized residuals) to the **Y** axis.
+   - Move `*ZPRED` (standardized predicted values) to the **X** axis.
+   - ✓ Check **Normal probability plot**
+   - **Continue**
+6. Click **Save...**
+   - ✓ Unstandardized Residuals *(optional, useful for residual plots)*
+   - **Continue**
+7. **OK**
+
+### Interpreting the output
+
+SPSS produces four main output blocks for bivariate regression:
+
+#### Table 1: Model Summary
+
+```
+Model Summary
+Model   R       R Square   Adjusted R Square   Std. Error of the Estimate
+1       .643a   .414       .404                .274
+
+a. Predictors: (Constant), vo2_mlkgmin
+```
+
+* **R = .643**: The multiple correlation coefficient (= |Pearson's $r$| in bivariate regression).
+* **R Square = .414**: 41.4% of the variance in sprint time is explained by VO₂max.
+* **Adjusted R Square = .404**: R² adjusted for sample size and number of predictors (more relevant in multiple regression).
+* **Std. Error of the Estimate = .274 s**: Average distance between observed and predicted sprint times.
+
+#### Table 2: ANOVA
+
+```
+ANOVAa
+Model              Sum of Squares   df   Mean Square   F        Sig.
+1  Regression      3.067            1    3.067          40.97    .000b
+   Residual        4.341            58   .075
+   Total           7.408            59
+
+a. Dependent Variable: sprint_20m_s
+b. Predictors: (Constant), vo2_mlkgmin
+```
+
+* **F(1, 58) = 40.97, p < .001**: The regression model is statistically significant — VO₂max significantly predicts 20-meter sprint time.
+* **Sum of Squares Regression**: Variance in sprint time explained by the model.
+* **Sum of Squares Residual**: Unexplained (residual) variance.
+
+#### Table 3: Coefficients
+
+```
+Coefficientsa
+Model                 Unstandardized Coefficients    Standardized    t        Sig.   95% CI for B
+                      B           Std. Error         Coefficients
+                                                     Beta                           Lower    Upper
+1  (Constant)         5.174       .219                               23.641   .000    4.736    5.612
+   vo2_mlkgmin       -.033       .005               -.643            -6.401   .000   -.044    -.023
+
+a. Dependent Variable: sprint_20m_s
+```
+
+**Key values:**
+
+| Element | Value | Meaning |
+|---------|-------|---------|
+| **B (Constant)** | 5.174 | Intercept ($a$): predicted sprint time when VO₂max = 0 (not meaningful here) |
+| **B (vo2_mlkgmin)** | −.033 | Slope ($b$): for every 1 mL·kg⁻¹·min⁻¹ increase in VO₂max, sprint time **decreases** by 0.033 s |
+| **Beta (vo2_mlkgmin)** | −.643 | Standardized slope (equal to $r$ in bivariate regression) |
+| **t (vo2_mlkgmin)** | −6.401 | t-statistic for the slope |
+| **Sig. (vo2_mlkgmin)** | .000 | *p* < .001 — slope is significantly different from zero |
+| **95% CI for B** | [−.044, −.023] | Plausible range for the true slope |
+
+**The regression equation:**
+
+$$\hat{y} = 5.174 + (-0.033) \times \text{VO}_2\text{max}$$
+
+or equivalently:
+
+$$\hat{y} = 5.174 - 0.033 \times \text{VO}_2\text{max}$$
+
+**Interpretation:**
+
+* **Slope (−0.033)**: For every additional 1 mL·kg⁻¹·min⁻¹ of VO₂max, predicted 20-m sprint time **decreases** by **0.033 seconds** on average. The negative slope reflects the expected inverse relationship — fitter athletes sprint faster (lower time).
+* **Intercept (5.174)**: The predicted sprint time for an athlete with a VO₂max of 0 is 5.174 s. This value is **not meaningful** in this context (no athlete has zero aerobic capacity) — do not over-interpret the intercept outside the data range.
+
+::: callout-warning
+## Extrapolation
+
+Do not use the regression equation to predict sprint times outside the observed range of VO₂max in this sample (approximately 27–57 mL·kg⁻¹·min⁻¹). Predictions beyond the observed data are unreliable.
+:::
+
+---
+
+## Part 4: Checking assumptions
+
+Regression requires several assumptions to be met for results to be valid and generalizable.
+
+### Assumption 1: Linearity
+
+**Check:** Examine the scatterplot (Part 1) and the standardized residuals vs. standardized predicted values plot (ZRESID vs. ZPRED).
+
+**What to look for:** Points should scatter randomly around zero in the residual plot — no curved pattern.
+
+### Assumption 2: Homoscedasticity
+
+**Check:** Same ZRESID vs. ZPRED plot.
+
+**What to look for:** The vertical spread of points should be consistent across all values of ZPRED. A funnel shape indicates heteroscedasticity (variance changes with predicted values).
+
+### Assumption 3: Normality of residuals
+
+**Check:** The Normal Probability Plot (P-P plot) produced by SPSS.
+
+**What to look for:** Points should fall approximately on the diagonal line. Systematic departures suggest non-normality.
+
+### Assumption 4: Independence
+
+**Check:** Study design. When using `core_session.csv` filtered to pre-training, each participant contributes one row — observations are independent. If participants appear in multiple time points, use appropriate repeated-measures methods.
+
+### Assumption 5: No extreme outliers or influential points
+
+**Check:** Inspect the scatterplot and the ZRESID vs. ZPRED plot for points far from the general pattern. In SPSS, you can save Cook's Distance values (**Save → Cook's Distance**) and examine them in the data file.
+
+::: callout-tip
+## Interpreting the residual plot
+
+A good residual plot shows **random scatter around zero** with no pattern, no funnel shape, and no extreme outliers. Any systematic pattern suggests an assumption violation.
+:::
+
+---
+
+## Part 5: Making predictions
+
+Using the regression equation from SPSS:
+
+$$\hat{y} = 5.174 - 0.033 \times \text{VO}_2\text{max}$$
+
+**Example:** Predict 20-m sprint time for an athlete with a VO₂max of 45 mL·kg⁻¹·min⁻¹:
+
+$$\hat{y} = 5.174 - 0.033 \times 45 = 5.174 - 1.485 = 3.689 \approx 3.69 \text{ s}$$
+
+This prediction falls within the observed range of VO₂max in the dataset (~27–57 mL·kg⁻¹·min⁻¹), so it is a valid application of the model.
+
+In SPSS, you can also save predicted values directly:
+
+1. **Analyze → Regression → Linear → Save...**
+2. ✓ Check **Unstandardized Predicted Values**
+3. **Continue → OK**
+
+SPSS adds a new column (`PRE_1`) to your data file with the predicted value for each case.
+
+---
+
+## Part 6: Reporting results in APA style
+
+### Correlation
+
+Report $r$, degrees of freedom, $p$-value, and $r^2$:
+
+> "Aerobic capacity (VO₂max) was significantly and negatively correlated with 20-meter sprint time, $r(58) = -.643$, $p < .001$, $r^2 = .414$, indicating that VO₂max accounted for 41.4% of the variance in sprint time."
+
+Note: Degrees of freedom for Pearson's $r$ = $n - 2 = 58$.
+
+### Regression
+
+Report the regression equation, unstandardized slope with confidence interval, $R^2$, and the model F-test:
+
+> "A bivariate linear regression was conducted to examine whether aerobic capacity (VO₂max) predicted 20-meter sprint time. The model was statistically significant, $F(1, 58) = 40.97$, $p < .001$, $R^2 = .414$. VO₂max was a significant predictor of sprint time ($b = -0.033$, 95% CI $[-0.044, -0.023]$, $\beta = -.643$, $p < .001$), indicating that each additional mL·kg⁻¹·min⁻¹ of aerobic capacity was associated with a decrease of 0.033 seconds in 20-meter sprint time, on average."
+
+### APA formatting rules
+
+* Report $r$ in lowercase italics: *r*
+* Report degrees of freedom in parentheses: *r*(6)
+* Use *p* < .001 when the p-value is very small (SPSS shows .000)
+* Report unstandardized ($b$) and standardized ($\beta$) coefficients
+* Include 95% confidence intervals for the slope
+* Always include $R^2$ to convey practical (not just statistical) significance
+
+---
+
+## Part 7: Common mistakes and troubleshooting
+
+### Mistake 1: Not examining the scatterplot first
+
+**Problem:** Computing $r$ without visualizing the data can miss nonlinear relationships, outliers, or heteroscedasticity.
+
+**Solution:** Always produce a scatterplot before computing any statistics.
+
+### Mistake 2: Reporting only the p-value
+
+**Problem:** "The correlation was significant, $p < .05$" tells the reader almost nothing about the magnitude or practical importance of the relationship.
+
+**Solution:** Always report $r$, $r^2$, and confidence intervals alongside significance tests.
+
+### Mistake 3: Concluding causation from correlation
+
+**Problem:** "Higher VO₂max *causes* faster sprint times because $r = -.643$."
+
+**Solution:** Correlation only establishes association. Use cautious language: "VO₂max was *associated with* sprint time." Causation requires experimental manipulation and control.
+
+### Mistake 4: Extrapolating predictions
+
+**Problem:** Using the regression equation to predict sprint times for participants with VO₂max values far outside the observed range (~27–57 mL·kg⁻¹·min⁻¹) in the dataset.
+
+**Solution:** Restrict predictions to within the observed range of $X$ in your sample.
+
+### Mistake 5: Over-interpreting the intercept
+
+**Problem:** Reporting the intercept as a meaningful finding ("the baseline sprint time is 5.17 s").
+
+**Solution:** The intercept is only meaningful when $X = 0$ is within the observed data range and theoretically sensible. In most Movement Science contexts, it is just a mathematical anchor.
+
+---
+
+## Summary
+
+This tutorial demonstrated how to:
+
+* Produce scatterplots to visualize bivariate relationships in SPSS
+* Compute Pearson's $r$ and test its significance using **Analyze → Correlate → Bivariate**
+* Conduct a bivariate regression using **Analyze → Regression → Linear** and interpret the Model Summary, ANOVA table, and Coefficients table
+* Check regression assumptions using residual plots and the Normal P-P plot
+* Make predictions using the regression equation
+* Report correlation and regression results following APA guidelines
+
+**Key takeaways from this example** (VO₂max predicting 20-m sprint time, *N* = 60, pre-training):
+
+* $r(58) = -.643$, *p* < .001 — a significant, moderate-to-strong **negative** relationship
+* $R^2 = .414$ — VO₂max explained 41.4% of the variance in sprint time
+* Slope $b = -0.033$ — each 1 mL·kg⁻¹·min⁻¹ increase in VO₂max predicts a 0.033-s decrease in sprint time
+* Always visualize before computing — scatterplots reveal what statistics cannot
+* $r$ measures only linear relationships; nonlinearity yields misleading coefficients
+* Correlation does not imply causation — use cautious language
+* Check all five assumptions before trusting regression results
+
+::: callout-tip
+## Next steps
+
+* Practice with your own Movement Science datasets: flexibility and balance scores, heart rate and RPE, or body composition and agility
+* Explore multiple regression (Chapter 12) to model outcomes from more than one predictor
+* Compare Spearman's rank correlation when data are ordinal or assumptions are violated
+* Review Chapter 11 of the textbook for deeper conceptual coverage
+:::
+
+## Additional resources
+
+* **SPSS manuals**: IBM SPSS Statistics Base documentation
+* **APA Style (7th ed.)**: Guidelines for reporting statistical tests
+* **Textbook website**: Download practice datasets and syntax files
+
+---
+
+**Questions or issues?** Refer to the textbook's online support forum or consult your instructor.

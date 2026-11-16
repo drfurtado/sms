@@ -1,0 +1,103 @@
+---
+title: "Core Dataset Codebook"
+subtitle: "Variable Dictionary for the Mixed Neuromuscular Training Study"
+---
+
+## Purpose of this page
+
+This codebook is the variable dictionary for the Core Dataset used throughout the book. It provides precise definitions, units, measurement scales, and missing-data conventions. It intentionally avoids repeating the study story and file navigation details, which are covered in the **Core Dataset Overview**.
+
+## Missing data conventions
+
+This book treats missing data as meaningful and expects missingness to be documented when possible.
+
+- **System missing:** value truly absent (not collected, device failure, dropout)
+- **User-coded missing (optional):** a coded reason category, if used consistently
+
+If user-coded missing values are used, a simple set is recommended:
+
+| Code | Meaning |
+|---:|---|
+| -9 | not assessed (planned missing or not applicable) |
+| -8 | participant unable to perform |
+| -7 | equipment or recording failure |
+| -6 | protocol deviation (invalid trial) |
+
+Use user-coded missing values only if you can keep them consistent across variables and files. Otherwise, prefer system missing with notes in a separate log.
+
+## Identifiers and design variables
+
+| Variable | Description | Units | Type | Scale | Allowed values |
+|---|---|---|---|---|---|
+| id | participant identifier | none | categorical | nominal | unique |
+| group | intervention assignment | none | categorical | nominal | training, control |
+| time | measurement time point | none | categorical | nominal | pre, mid, post |
+| trial | trial number | none | discrete | ordinal | 1, 2, 3 |
+
+## Participant descriptors
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| age_years | age at baseline | years | continuous | ratio | plausible adult range |
+| sex_category | self-identified sex category | none | categorical | nominal | categories as collected |
+| height_cm | standing height | cm | continuous | ratio | plausible adult range |
+| mass_kg | body mass | kg | continuous | ratio | plausible adult range |
+| training_age_years | training history | years | continuous | ratio | 0 and up |
+
+## Session-level outcomes
+
+### Performance
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| sprint_20m_s | 20 m sprint time | s | continuous | ratio | plausible range |
+| strength_kg | lower-body strength (e.g., leg press 1RM) | kg | continuous | ratio | plausible range |
+| agility_ttest_s | T-test agility time | s | continuous | ratio | plausible range |
+
+### Physiology
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| vo2_mlkgmin | aerobic capacity estimate | mL·kg⁻¹·min⁻¹ | continuous | ratio | plausible range |
+| hr_rest_bpm | resting heart rate | bpm | continuous | ratio | plausible range |
+| rpe_6_20 | perceived exertion | none | ordinal | ordinal | integers 6–20 |
+
+### Clinical and self-report
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| pain_0_10 | pain intensity rating | none | ordinal | ordinal | integers 0–10 |
+| function_0_100 | function score | none | bounded | interval_like | 0–100 |
+
+### Balance (count outcome)
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| balance_errors_count | number of balance errors | count | discrete | ratio_like | 0 and up |
+
+## Trial-level outcomes
+
+| Variable | Description | Units | Type | Scale | Allowed values / range |
+|---|---|---|---|---|---|
+| jump_height_cm | countermovement jump height | cm | continuous | ratio | plausible range |
+| peak_force_n | peak force during task | N | continuous | ratio | plausible range |
+| emg_rms_uv | EMG RMS amplitude | µV | continuous | ratio | plausible range |
+| sway_area_cm2 | sway area during balance task | cm² | continuous | ratio | plausible range |
+
+::: callout-note
+## Expected distribution shapes
+
+Some trial-level variables (for example EMG amplitude and sway area) are often right-skewed in real datasets. Always visualize before assuming symmetry.
+:::
+
+## Derived variables (created during analysis)
+
+These variables are typically created in later chapters rather than stored in the raw dataset.
+
+| Derived variable | Definition | Typical use |
+|---|---|---|
+| change_post_pre | post − pre for an outcome | change scores and effect sizes |
+| percent_change | 100 × (post − pre) / pre | practical interpretation |
+| mean_of_trials | mean within id and time across trials | session summaries |
+| best_of_trials | maximum within id and time across trials | capacity summaries |
+| z_score | standardized value within a reference group | standard scores and percentiles |

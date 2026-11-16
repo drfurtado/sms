@@ -1,0 +1,153 @@
+---
+title: "APA Style Results Reporting"
+---
+
+# Introduction
+
+Presenting statistical results clearly and adhering to standard formatting conventions is crucial for effective scientific communication. In the health, fitness, and movement sciences, the guidelines set by the American Psychological Association (APA) are the most widely adopted standard.
+
+This appendix provides examples of how to report the results of major statistical analyses following the APA style. Each section includes a general template outlining the required components, followed by an example drawn from the movement sciences context.
+
+# Descriptive Statistics
+
+When reporting descriptive statistics, the focus is typically on the mean ($M$) and standard deviation ($SD$) for continuous variables, and frequencies ($n$) or percentages (%) for categorical variables.
+
+### Template
+
+> “The sample consisted of [total n] participants, with a mean [Variable name] of [M] ($SD$ = [SD]). Categories were distributed as follows: [Category 1] ($n$ = [n]), [Category 2] ($n$ = [n]).”
+
+### Example
+
+> “The sample consisted of 60 collegiate athletes, with a mean age of 20.4 years ($SD$ = 1.2). The participants were divided equally into a control group ($n$ = 30) and an intervention group ($n$ = 30).”
+
+# Independent Samples t-Test
+
+The independent samples $t$-test is used to compare the means of two independent groups on a continuous dependent variable.
+
+### Template
+
+> “[Group 1] ($M$ = [mean], $SD$ = [SD], $n$ = [n]) [differed/did not differ] significantly from [Group 2] ($M$ = [mean], $SD$ = [SD], $n$ = [n]), $t$([df]) = [t-value], $p$ = [p-value], mean difference = [mean diff], 95% CI [lower, upper], Cohen’s $d$ = [d-value].”
+
+### Example
+
+> “Sprint time at baseline did not differ significantly between control ($M$ = 3.81 s, $SD$ = 0.34, $n$ = 30) and training groups ($M$ = 3.77 s, $SD$ = 0.37, $n$ = 30), $t$(58) = 0.43, $p$ = .669, mean difference = 0.04 s, 95% CI [−0.15, 0.22] s, Cohen’s $d$ = 0.11.”
+
+# Dependent (Paired) Samples t-Test
+
+The dependent (paired) samples $t$-test is used to compare the means of two related groups (e.g., pre-test and post-test scores) on a continuous dependent variable.
+
+### Template
+
+> “There was a significant [increase/decrease/difference] in [Variable] from condition 1 ($M$ = [mean], $SD$ = [SD]) to condition 2 ($M$ = [mean], $SD$ = [SD]), $t$([df]) = [t-value], $p$ = [p-value], 95% CI [lower, upper], Cohen’s $d$ = [d-value].”
+
+### Example
+
+> “There was a significant decrease in body fat percentage from pre-test ($M$ = 22.4%, $SD$ = 3.1) to post-test ($M$ = 19.8%, $SD$ = 2.8) following the 12-week high-intensity interval training protocol, $t$(24) = 4.52, $p$ < .001, 95% CI [1.4, 3.8], Cohen’s $d$ = 0.90.”
+
+# One-Way Analysis of Variance (ANOVA)
+
+The one-way ANOVA is used to compare the means of three or more independent groups on a continuous dependent variable.
+
+### Template
+
+> “A one-way ANOVA revealed that there was a [significant/non-significant] difference in [Dependent Variable] between at least two groups, $F$([df_between], [df_within]) = [F-value], $p$ = [p-value], $\eta^2$ = [eta-squared value]. Tukey’s HSD post hoc tests indicated that [Group 1] ($M$ = [mean], $SD$ = [SD]) was significantly different from [Group 2] ($M$ = [mean], $SD$ = [SD]), $p$ = [p-value], but not from [Group 3] ($M$ = [mean], $SD$ = [SD]), $p$ = [p-value].”
+
+### Example
+
+> “A one-way ANOVA revealed a statistically significant difference in vertical jump height between the three different training groups (plyometric, resistance, and control), $F$(2, 42) = 6.84, $p$ = .003, $\eta^2$ = 0.24. Tukey’s HSD post hoc tests indicated that the plyometric training group ($M$ = 65.2 cm, $SD$ = 4.5) had significantly higher vertical jump scores than the control group ($M$ = 58.4 cm, $SD$ = 5.1), $p$ = .002, but did not differ significantly from the resistance training group ($M$ = 62.1 cm, $SD$ = 4.8), $p$ = .154.”
+
+# Repeated-Measures ANOVA
+
+The repeated-measures ANOVA compares means across one or more variables based on repeated observations, tracking changes over time.
+
+### Template
+
+> “A repeated measures ANOVA determined that mean [Dependent Variable] [differed/did not differ] statistically significantly between time points, $F$([df_time], [df_error]) = [F-value], $p$ = [p-value], partial $\eta^2$ = [eta-squared value]. Post hoc tests using the Bonferroni correction revealed that [Variable] significantly [increased/decreased] from [Time 1] to [Time 2] ($p$ = [p-value]), [but/and] from [Time 2] to [Time 3] ($p$ = [p-value]).”
+
+### Example
+
+> “A repeated-measures ANOVA determined that mean resting heart rate differed statistically significantly between time points (baseline, 4 weeks, and 8 weeks), $F$(2, 58) = 15.24, $p$ < .001, partial $\eta^2$ = 0.34. Pairwise comparisons with a Bonferroni adjustment revealed that resting heart rate was significantly lower at 8 weeks ($M$ = 64.2 bpm, $SD$ = 4.1) compared to baseline ($M$ = 70.5 bpm, $SD$ = 5.3), $p$ < .001, and 4 weeks ($M$ = 68.1 bpm, $SD$ = 4.6), $p$ = .012.”
+
+# Pearson Correlation
+
+The Pearson correlation coefficient assesses the strength and direction of the linear relationship between two continuous variables.
+
+### Template
+
+> “A Pearson correlation coefficient was computed to assess the linear relationship between [Variable 1] and [Variable 2]. There was a [positive/negative], [weak/moderate/strong] correlation between the two variables, $r$([df]) = [r-value], $p$ = [p-value].”
+
+### Example
+
+> “A Pearson correlation coefficient was computed to assess the linear relationship between grip strength and overall upper-body strength. There was a strong positive correlation between the two variables, $r$(48) = .76, $p$ < .001.”
+
+# Simple Linear Regression
+
+Simple linear regression predicts the value of a continuous dependent variable based on the value of one independent variable.
+
+### Template
+
+> “A simple linear regression was calculated to predict [Dependent Variable] based on [Independent Variable]. A significant regression equation was found, $F$(1, [df_residual]) = [F-value], $p$ = [p-value], with an $R^2$ of [R-squared]. Participants’ predicted [Dependent Variable] is equal to [Intercept] + [Slope] * ([Independent Variable]). [Independent variable] was a significant predictor of [Dependent Variable] ($p$ = [p-value]).”
+
+### Example
+
+> “A simple linear regression was calculated to predict $VO_2$ max based on a 1.5-mile run test time. A significant regression equation was found, $F$(1, 38) = 45.62, $p$ < .001, with an $R^2$ of .54. Participants’ predicted $VO_2$ max is equal to 85.4 - 3.2 * (run time in minutes). Run time was a significant negative predictor of $VO_2$ max ($p$ < .001).”
+
+# Multiple Linear Regression
+
+Multiple linear regression explains the relationship between one continuous dependent variable and two or more independent variables.
+
+### Template
+
+> “A multiple linear regression was calculated to predict [Dependent Variable] based on [Predictor 1], [Predictor 2], and [Predictor 3]. A significant regression equation was found, $F$([df_regression], [df_residual]) = [F-value], $p$ = [p-value], with an $R^2$ of [R-squared]. The individual predictors were examined further and indicated that [Predictor 1] ($t$ = [t-value], $p$ = [p-value]) and [Predictor 2] ($t$ = [t-value], $p$ = [p-value]) were significant predictors in the model, but [Predictor 3] was not ($t$ = [t-value], $p$ = [p-value]).”
+
+### Example
+
+> “A multiple linear regression was calculated to predict flexibility score based on age, weekly hours of stretching, and previous yoga experience. A significant regression equation was found, $F$(3, 96) = 14.30, $p$ < .001, with an $R^2$ of .30. The individual predictors were examined further and indicated that weekly hours of stretching ($t$ = 4.21, $p$ < .001) and previous yoga experience ($t$ = 2.85, $p$ = .005) were significant predictors in the model, but age was not a significant predictor of flexibility ($t$ = -1.12, $p$ = .265).”
+
+# Chi-Square Test of Independence
+
+The Chi-Square Test of Independence determines whether there is a significant association between two categorical variables.
+
+### Template
+
+> “A Chi-square test of independence was performed to examine the relation between [Categorical Variable 1] and [Categorical Variable 2]. The relation between these variables was [significant/not significant], $\chi^2$([df], $N$ = [Sample Size]) = [Chi-square value], $p$ = [p-value], Cramer's $V$ = [Effect size].”
+
+### Example
+
+> “A Chi-square test of independence was performed to examine the relation between gender and the preferred type of physical activity (endurance exercise vs. resistance training). The relation between these variables was significant, $\chi^2$(1, $N$ = 120) = 8.45, $p$ = .004, Cramer's $V$ = 0.26.”
+
+# Mann-Whitney U Test (Wilcoxon Rank Sum Test)
+
+The Mann-Whitney U test is the non-parametric alternative to the independent t-test.
+
+### Template
+
+> “A Mann-Whitney $U$ test was conducted to determine if there were differences in [Dependent Variable] between [Group 1] and [Group 2]. Median [Dependent Variable] scores were [statistically significantly/not statistically significantly] different between [Group 1] ($Mdn$ = [Median]) and [Group 2] ($Mdn$ = [Median]), $U$ = [U-value], $z$ = [z-value], $p$ = [p-value], $r$ = [effect size].”
+
+### Example
+
+> “A Mann-Whitney $U$ test was conducted to determine if there were differences in perceived exertion ratings between novice and experienced lifters. Median perceived exertion scores were statistically significantly lower in experienced lifters ($Mdn$ = 4) compared to novice lifters ($Mdn$ = 7), $U$ = 312.50, $z$ = -3.24, $p$ = .001, $r$ = 0.43.”
+
+# Wilcoxon Signed-Rank Test
+
+The Wilcoxon signed-rank test is the non-parametric alternative to the dependent samples t-test.
+
+### Template
+
+> “A Wilcoxon signed-rank test was conducted to determine whether there was a statistically significant difference in [Dependent Variable] when comparing [Condition 1] and [Condition 2]. There was a statistically significant [increase/decrease/difference] from [Condition 1] ($Mdn$ = [Median]) to [Condition 2] ($Mdn$ = [Median]), $z$ = [z-value], $p$ = [p-value], $r$ = [effect size].”
+
+### Example
+
+> “A Wilcoxon signed-rank test was conducted to determine whether there was a statistically significant difference in subjective pain scores before and after a foam rolling intervention. There was a statistically significant decrease in pain scores from pre-intervention ($Mdn$ = 6.0) to post-intervention ($Mdn$ = 3.5), $z$ = -4.12, $p$ < .001, $r$ = 0.58.”
+
+# Kruskal-Wallis H Test
+
+The Kruskal-Wallis H test is the non-parametric alternative to the one-way ANOVA.
+
+### Template
+
+> “A Kruskal-Wallis $H$ test was conducted to determine if there were differences in [Dependent Variable] scores between [Independent Variable] groups. Median [Dependent Variable] scores were statistically significantly different between the different [Independent Variable] groups, $H$([df]) = [Chi-square value], $p$ = [p-value], $\eta^2$ = [eta-squared value].”
+
+### Example
+
+> “A Kruskal-Wallis $H$ test was conducted to determine if there were differences in agility test scores among soccer players of three different field positions. Median agility scores were statistically significantly different between the different positions, $H$(2) = 11.34, $p$ = .003, $\eta^2$ = 0.23.”
