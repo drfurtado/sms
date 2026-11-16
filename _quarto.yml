@@ -61,6 +61,7 @@ book:
         - ch23-ethics.qmd
     
     - references.qmd
+    - about-the-author.qmd
   
   appendices:
     - part: "Datasets"
